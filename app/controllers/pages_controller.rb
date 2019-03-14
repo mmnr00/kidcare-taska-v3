@@ -10,6 +10,13 @@ class PagesController < ApplicationController
 
 	def gmap
 		@taska = Taska.find(54)
+		@location = [
+      ['Bondi Beach', -33.890542, 151.274856],
+      ['Coogee Beach', -33.923036, 151.259052],
+      ['Cronulla Beach', -34.028249, 151.157507],
+      ['Mustakhim', -33.80010128657071, 151.28747820854187],
+      ['Maroubra Beach', -33.950198, 151.259302]
+    ]
 	end
 
 	def sendgrid
