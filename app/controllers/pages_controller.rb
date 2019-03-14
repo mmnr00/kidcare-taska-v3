@@ -8,6 +8,10 @@ class PagesController < ApplicationController
 	def index
 	end
 
+	def gmap
+		@taska = Taska.find(54)
+	end
+
 	def sendgrid
 		mail = SendGrid::Mail.new
 		mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
