@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_115912) do
+ActiveRecord::Schema.define(version: 2019_12_24_214423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 2019_12_12_115912) do
     t.integer "course_id"
     t.time "start"
     t.time "end"
+  end
+
+  create_table "ansies", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "ph"
+    t.string "owr"
+    t.string "rep"
+    t.string "phr"
+    t.string "att"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "applvs", force: :cascade do |t|
@@ -414,6 +426,13 @@ ActiveRecord::Schema.define(version: 2019_12_12_115912) do
     t.datetime "updated_at", null: false
     t.index ["beradik_id"], name: "index_siblings_on_beradik_id"
     t.index ["kid_id"], name: "index_siblings_on_kid_id"
+  end
+
+  create_table "symas", force: :cascade do |t|
+    t.string "name"
+    t.string "ph"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taska_admins", force: :cascade do |t|

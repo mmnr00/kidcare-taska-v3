@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :ptnssps, only:[:update, :edit]
   resources :extras, only:[:new, :create, :destroy, :update, :edit]
   resources :tsklvs, only:[:new, :create, :destroy, :update, :edit]
+  resources :ansys, only:[:new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
@@ -32,6 +33,9 @@ Rails.application.routes.draw do
   get 'sb_dashboard', to: 'welcomes#sb_dashboard'
   get 'sb_table', to: 'welcomes#sb_table'
   get 'star_rating', to: 'welcomes#star_rating'
+
+  #~ansy
+  get 'rsvp_list', to: 'ansys#rsvp_list'
 
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
