@@ -31,6 +31,13 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  ## START ANISSYM
+
+  ## END ANIS SYM
+
+
+
+  # START MBR
   def regmbr19
     @taska = Taska.new
     @taska.fotos.build
@@ -75,6 +82,7 @@ class TaskasController < ApplicationController
       }
     end
   end
+  #END MBR19
 
 
   def index
