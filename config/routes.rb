@@ -34,6 +34,12 @@ Rails.application.routes.draw do
   get 'star_rating', to: 'welcomes#star_rating'
   get 'cikgu_anis', to: 'welcomes#cikgu_anis'
 
+  #~OKIDS
+  get 'new_okid', to: 'okids#new_okid'
+  post 'crt_okid', to: 'okids#crt_okid'
+  get 'edit_okid', to: 'okids#edit_okid'
+  get 'upd_okid', to: 'okids#upd_okid'
+
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   #get '/daftarkprm', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'

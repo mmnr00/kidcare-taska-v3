@@ -1,0 +1,22 @@
+
+
+<%= form_for(:okid, :url => {:controller=>'okids', :action=>actn}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+  
+  <% cntn= cnt.to_i %>
+  <% cnt.to_i.times do  %>
+    
+    <%= f.fields_for :"#{cntn}" do |h| %>
+
+      <%= h.text_field :name, value: "MUS" %>&nbsp<%= h.text_field :ic, value: "MUS" %>
+      <%= h.hidden_field :tcid, value: tcid%>
+
+      <br><br>
+
+    <% end %>
+
+    <% cntn = cntn - 1 %> 
+
+  <% end %>
+
+  <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+<% end %>

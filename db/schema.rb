@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_02_025933) do
+ActiveRecord::Schema.define(version: 2020_02_03_003856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,15 @@ ActiveRecord::Schema.define(version: 2020_02_02_025933) do
   create_table "kidtsks", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "okids", force: :cascade do |t|
+    t.string "name"
+    t.string "ic"
+    t.integer "college_id"
+    t.boolean "stat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -468,6 +477,13 @@ ActiveRecord::Schema.define(version: 2020_02_02_025933) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "tp"
+  end
+
+  create_table "tchdetail_okids", force: :cascade do |t|
+    t.integer "tchdetail_id"
+    t.integer "okid_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tchdetails", force: :cascade do |t|

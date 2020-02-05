@@ -3,6 +3,8 @@ class Tchdetail < ApplicationRecord
 	has_many :fotos
 	has_many :tchdetail_colleges
 	has_many :colleges, through: :tchdetail_colleges
+	has_many :tchdetail_okids, :dependent => :destroy
+	has_many :okids, through: :tchdetail_okids
 	has_many :anisatts
 	has_many :courses, through: :anisatts
 	has_many :anisfeeds

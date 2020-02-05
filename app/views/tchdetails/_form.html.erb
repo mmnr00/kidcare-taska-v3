@@ -481,6 +481,10 @@
               <%= f.number_field :biloku, class: "form-control", autofocus: true, value: @tchdetail.biloku %>
             </div>
           </div>
+          <a href="<%= "#{new_okid_url}?tchdetail_id=#{@tchdetail.id}&cnt=#{@tchdetail.biloku}"%>">
+            <font color="blue">Senarai Anak OKU</font>
+          </a>
+          
         </div>
 
         <div class="form-group"> <!-- DUN -->

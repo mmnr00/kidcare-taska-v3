@@ -6,4 +6,5 @@ class College < ApplicationRecord
 	has_many :teachers, through: :teacher_colleges
 	has_many :tchdetail_colleges
 	has_many :tchdetails, through: :tchdetail_colleges
+	has_many :okids
 end
