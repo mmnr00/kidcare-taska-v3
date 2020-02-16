@@ -197,6 +197,7 @@ class CollegesController < ApplicationController
 
 	def chsreport
 		@colleges = College.where(id: $anisf | $anis2f)
+		@mus = Taska.all
 		render action: "chsreport", layout: "dsb-owner-college"
 	end
 
