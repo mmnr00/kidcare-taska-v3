@@ -5,7 +5,7 @@
         <div class="form-group"> <!-- name -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>NAME</strong>
+              <strong>NAMA PESERTA</strong>
             </div>
           </div>
           <div class="row">
@@ -18,7 +18,7 @@
         <div class="form-group"> <!-- IC -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>I/C NO</strong>
+              <strong>NO K/P</strong>
             </div>
           </div>
           <div class="row">
@@ -38,7 +38,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-caret-down"></i><strong> GENDER</strong>
+              <i class="fas fa-caret-down"></i><strong> JANTINA</strong>
             </div>
           </div>
           <div class="row">
@@ -55,7 +55,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>DATE OF BIRTH</strong>
+              <strong>TARIKH LAHIR</strong>
             </div>
           </div>
           <div class="row">
@@ -73,7 +73,7 @@
         <div class="form-group"> <!-- PHONE-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>PHONE NUMBER</strong>
+              <strong>NO TELEFON</strong>
             </div>
           </div>
           <div class="row">
@@ -90,14 +90,14 @@
         <div class="form-group"> <!-- MARITAL-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MARITAL STATUS</strong>
+              <strong>STATUS PERKAHWINAN</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :marital, options_for_select(["Married", 
-                                                        "Single",
-                                                        "Others"],
+              <%= f.select :marital, options_for_select(["Berkahwin", 
+                                                        "Bujang",
+                                                        "Lain-lain"],
                                                         selected: @tchdetail.marital),
               {include_blank: "Please Select"}, {required: true} %>          
             </div>
@@ -107,12 +107,13 @@
         <div class="form-group"> <!-- CATEGORY-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>CATEGORY</strong>
+              <strong>KATEGORI PESERTA</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :category, options_for_select(["Childcare Provider", 
+              <%= f.select :category, options_for_select(["Parents",
+                                                        "Childcare Provider", 
                                                         "Owner", 
                                                         "Supervisor",
                                                         "Principal",
@@ -126,7 +127,7 @@
         <div class="form-group"> <!-- ADDRESS-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>CORRESPONDENCE ADDRESS</strong>
+              <strong>ALAMAT</strong>
             </div>
           </div>
           <div class="row">
@@ -139,13 +140,13 @@
           </div>
           <div class="row">
             <div class="col-sm-3 col-6">
-             <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> City </font>
+             <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> Bandar </font>
             </div>
             <div class="col-sm-3 col-5">
-             <%= f.text_field :states, class: "form-control", autofocus: true, required: true %> <font size="2"> States </font>
+             <%= f.text_field :states, class: "form-control", autofocus: true, required: true %> <font size="2"> Negeri </font>
             </div>
             <div class="col-sm-2 col-4">
-             <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Postcode </font>
+             <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Poskod </font>
             </div>
           </div>
         </div>
@@ -153,7 +154,7 @@
         <div class="form-group"> <!-- HIGHEST EDUCATION-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>EDUCATION LEVEL</strong>
+              <strong>TAHAP PENDIDIKAN</strong>
             </div>
           </div>
           <div class="row">
@@ -168,148 +169,14 @@
                                                         "Others"
                                                         ], 
                                                         selected: @tchdetail.education), 
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Sila Pilih"}, {required: true} %>
               <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
             </div>
           </div>
         </div>
 
-        <!-- START PHOTO UPLOAD -->
-        <!-- DEPOSIT PAYMENT RECEIPT -->
-        <% m = 0 %> <!-- Stop loop at 1 -->
-        <% if (@college.present? && @college.owners.where(id: 8).present?) || @tchdetail.fotos.where(foto_name: "DEPOSIT PAYMENT RECEIPT").present? %>
-        <div class="form-group"> 
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>DEPOSIT PAYMENT RECEIPT</strong>
-            </div>
-          </div>
-          <div class="row">
-          <div class="col-sm-8 col-5">
-          <% image = @tchdetail.fotos.where(foto_name: "DEPOSIT PAYMENT RECEIPT").first %>
-          <% if image.present? %>
-            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-              <div class="row">
-              <div class="col-sm-8 col-5">
-                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-              </div>
-              </div>  
-          <% else %>
-            <%= f.fields_for :fotos do |h| %>
-              <% break if m==1 %>
-                <div class="row">
-                  <div class="col-sm-8 col-8">
-                    <%= h.hidden_field :foto_name, value: "DEPOSIT PAYMENT RECEIPT" %>
-                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-                  </div>
-                </div>
-                <% m = 1 %>
-              <% end %>
-          <% end %>
-          </div>
-          </div>
-        </div><% end %>
-        <!-- IC FRONT -->
-      <% m = 0 %> <!-- Stop loop at 1 -->
-      <div class="form-group"> 
-        <div class="row">
-          <div class="control-label col-sm-8">
-            <strong>IC FRONT</strong>
-          </div>
-        </div>
-        <div class="row">
-        <div class="col-sm-8 col-5">
-        <% image = @tchdetail.fotos.where(foto_name: "IC FRONT").first %>
-        <% if image.present? %>
-          <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-            <div class="row">
-            <div class="col-sm-8 col-5">
-              <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-            </div>
-            </div>  
-        <% else %>
-          <%= f.fields_for :fotos do |h| %>
-            <% break if m==1 %>
-              <div class="row">
-                <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "IC FRONT" %>
-                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-                </div>
-              </div>
-              <% m = 1 %>
-            <% end %>
-        <% end %>
-        </div>
-        </div>
-      </div>
-
-       <!-- IC BACK -->
-      <% m = 0 %> <!-- Stop loop at 1 -->
-      <div class="form-group"> 
-        <div class="row">
-          <div class="control-label col-sm-8">
-            <strong>IC BACK</strong>
-          </div>
-        </div>
-        <div class="row">
-        <div class="col-sm-8 col-5">
-        <% image = @tchdetail.fotos.where(foto_name: "IC BACK").first %>
-        <% if image.present? %>
-          <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-            <div class="row">
-            <div class="col-sm-8 col-5">
-              <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-            </div>
-            </div>  
-        <% else %>
-          <%= f.fields_for :fotos do |h| %>
-            <% break if m==1 %>
-              <div class="row">
-                <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "IC BACK" %>
-                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-                </div>
-              </div>
-              <% m = 1 %>
-            <% end %>
-        <% end %>
-        </div>
-        </div>
-      </div>
-
-      <!-- PROFILE PIC -->
-      <% m = 0 %> <!-- Stop loop at 1 -->
-      <div class="form-group"> 
-        <div class="row">
-          <div class="control-label col-sm-8">
-            <strong>PROFILE PIC</strong>
-          </div>
-        </div>
-        <div class="row">
-        <div class="col-sm-8 col-5">
-        <% image = @tchdetail.fotos.where(foto_name: "PROFILE PIC").first %>
-        <% if image.present? %>
-          <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-            <div class="row">
-            <div class="col-sm-8 col-5">
-              <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-            </div>
-            </div>  
-        <% else %>
-          <%= f.fields_for :fotos do |h| %>
-            <% break if m==1 %>
-              <div class="row">
-                <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "PROFILE PIC" %>
-                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-                </div>
-              </div>
-              <% m = 1 %>
-            <% end %>
-          <% end %>
-        </div>
-        </div>
-      </div>
+        
+        
 
 
       <% if params[:anis] == "true" %> <!-- START ANIS -->
@@ -317,7 +184,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-caret-down"></i><strong> MONTHLY HOUSEHOLD INCOME</strong>
+              <i class="fas fa-caret-down"></i><strong> PENDAPATAN ISI RUMAH (BULANAN)</strong>
             </div>
           </div>
           <div class="row">
@@ -343,97 +210,19 @@
             </div>
           </div>
         </div>
-        <!-- TASKA DETAILS -->
-        <div class="form-group"> <!-- taska name -->
+        
+
+        
+
+        <div class="form-group">
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>INSTITUTION NAME</strong>
+              <strong>MAKLUMAT ANAK OKU (Jika Ada)</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :ts_name, class: "form-control",required: true, autofocus: true %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- taska owner name -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>INSTITUTION OWNER'S NAME</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.text_field :ts_owner_name, class: "form-control", autofocus: true %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- Taska Owner PHONE-->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>INSTITUTION OWNER'S NAME PHONE NO</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-2 col-3">
-             <%= f.text_field  :ts_phone_1, maxlength: 3, class: "form-control", autofocus: true %><font size="2"> Area </font> 
-            </div>
-            -
-            <div class="col-sm-3 col-5">
-              <%= f.text_field  :ts_phone_2, maxlength: 8, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- TASKA ADDRESS-->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>INSTITUTION ADDRESS</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-             <%= f.text_field :ts_address_1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
-            </div>
-            <div class="col-sm-8 col-12">
-             <%= f.text_field :ts_address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-3 col-6">
-             <%= f.text_field :ts_city, class: "form-control", autofocus: true %> <font size="2"> City </font>
-            </div>
-            <div class="col-sm-3 col-5">
-             <%= f.text_field :ts_states, class: "form-control", autofocus: true %> <font size="2"> States </font>
-            </div>
-            <div class="col-sm-2 col-4">
-             <%= f.number_field :ts_postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- POST -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>INSTITUTION TYPE</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-8">
-              <%= f.select :ts_tp, options_for_select(["TASKA",
-                                                      "TADIKA",
-                                                      "KEMAS",
-                                                      "PPDK",
-                                                      "PPKI",
-                                                      "PERPADUAN",
-                                                      "NGO",
-                                                      "COLLEGE",
-                                                      "OTHERS"
-                                                        ], 
-                                                        selected: @tchdetail.ts_tp), 
-              {include_blank: "Please Select"}, {required: true} %>              
+              <%= f.text_area :biloku, class: "form-control", autofocus: true, value: @tchdetail.biloku %>
             </div>
           </div>
         </div>
@@ -442,7 +231,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>SSM/SURAT AKUAN KERJA</strong>
+              <strong>KAD OKU</strong>
             </div>
           </div>
           <div class="row">
@@ -470,19 +259,6 @@
           <font size="2"> Sijil SSM untuk pemilik institusi atau surat tawaran bekerja untuk pekerja  </font>
         </div>
 
-        <div class="form-group">
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>NO OF OKU CHILDREN AT INSTITUTION</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.number_field :biloku, class: "form-control", autofocus: true, value: @tchdetail.biloku %>
-            </div>
-          </div>
-        </div>
-
         <div class="form-group"> <!-- DUN -->
           <div class="row">
             <div class="control-label col-sm-8">
@@ -500,163 +276,6 @@
         </div>
 
         
-        <div class="form-group"> <!-- JKM -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>NO PERAKUAN JKM/JPN</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.text_field :jkm, class: "form-control", placeholder: "", autofocus: true, required: true %>
-            </div>
-          </div>
-        </div>
-
-        <!-- DOB -->
-        <div class="form-group"> 
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>JKM/JPN EXPIRY DATE</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.date_select :expjkm, 
-                                {order:[:day, :month, :year],
-                                prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
-                                start_year: (Time.now - 2.year).year,
-                                selected: @tchdetail.expjkm}, 
-                                {required: true} %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- POST -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>POST IN TASKA</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-8">
-              <%= f.select :post, options_for_select(["OWNER",
-                                                      "SUPERVISOR/MANAGER",
-                                                      "CHILDCARE PROVIDER"
-                                                        ], 
-                                                        selected: @tchdetail.post), 
-              {include_blank: "Please Select"}, {required: true} %>              
-            </div>
-          </div>
-        </div>
-
-        <!-- OPEN LEARNING CERT (ASAS AUTISME) -->
-        <div class="form-group"> 
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>OPEN LEARNING CERT (ASAS AUTISME)</strong>
-            </div>
-          </div>
-          <div class="row">
-          <div class="col-sm-8 col-5">
-          <% image = @tchdetail.fotos.where(foto_name: "OPLN").first %>
-          <% if image.present? %>
-            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-              <div class="row">
-              <div class="col-sm-8 col-5">
-                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-              </div>
-              </div>  
-          <% else %>
-            <%= f.fields_for :fotos do |h| %>
-                <div class="row">
-                  <div class="col-sm-8 col-8">
-                    <%= h.hidden_field :foto_name, value: "OPLN" %>
-                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
-                  </div>
-                </div>
-              <% end %>
-          <% end %>
-          </div>
-          </div>
-        </div>
-
-        <!-- OPEN LEARNING CERT (INTERVENSI AWAL) -->
-        <div class="form-group"> 
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>OPEN LEARNING CERT (INTERVENSI AWAL)</strong>
-            </div>
-          </div>
-          <div class="row">
-          <div class="col-sm-8 col-5">
-          <% image = @tchdetail.fotos.where(foto_name: "OPLN1").first %>
-          <% if image.present? %>
-            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-              <div class="row">
-              <div class="col-sm-8 col-5">
-                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-              </div>
-              </div>  
-          <% else %>
-            <%= f.fields_for :fotos do |h| %>
-                <div class="row">
-                  <div class="col-sm-8 col-8">
-                    <%= h.hidden_field :foto_name, value: "OPLN1" %>
-                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
-                  </div>
-                </div>
-              <% end %>
-          <% end %>
-          </div>
-          </div>
-        </div>
-
-        <!-- PERAKUAN JKM/JPN -->
-        <div class="form-group"> 
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>PERAKUAN JKM/JPN</strong>
-            </div>
-          </div>
-          <div class="row">
-          <div class="col-sm-8 col-5">
-          <% image = @tchdetail.fotos.where(foto_name: "CRTJ").first %>
-          <% if image.present? %>
-            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-              <div class="row">
-              <div class="col-sm-8 col-5">
-                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-              </div>
-              </div>  
-          <% else %>
-            <%= f.fields_for :fotos do |h| %>
-                <div class="row">
-                  <div class="col-sm-8 col-8">
-                    <%= h.hidden_field :foto_name, value: "CRTJ" %>
-                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
-                  </div>
-                </div>
-              <% end %>
-          <% end %>
-          </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- POST -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>PERAKUAN PEMOHON (KLIK JIKA BERSETUJU)</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-8">
-              <%= f.check_box :akun, checked: @tchdetail.akun %>&nbsp&nbsp
-              <i>Saya bersetuju yang PJKK yang dinyatakan diatas dan juga saya berada di <b>NEGERI SELANGOR</b> </i>           
-            </div>
-          </div>
-        </div>
-
 
         
 

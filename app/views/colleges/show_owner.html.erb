@@ -209,12 +209,12 @@
 
 <br><br>
 <% 
-  if @owner.id == 5
+  #if @owner.id == 5
     anis = "true"
     anisl = "&anis=true"
-  else
-    anis = nil
-  end 
+  #else
+    #anis = nil
+  #end 
 %>
 <strong>Registration Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}#{anisl}", new_tchdetail_path(id: @college.id, anis: anis), style: "color:blue" %><br><br>
 

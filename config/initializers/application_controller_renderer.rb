@@ -7,9 +7,9 @@
 #   )
 # end
 
-$anisf = [8,46,50,51,54,55,57,60,63,69]
-$anis2 = [64,66]
-$anis2f = [65,67]
+$anisf = []
+$anis2 = []
+$anis2f = []
 $eventpt = {
             "ptns-1"=>["https://kidcare-prod.s3.amazonaws.com/ptns-1.jpeg",
                       "BENGKEL WANITA CAKNA ANAK"]
