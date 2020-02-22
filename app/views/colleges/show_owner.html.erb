@@ -77,7 +77,7 @@
                   end      
                 end
                 if url1.blank? || url2.blank? || url3.blank? || url4.blank? || url5.blank? || url6.blank? || url7.blank?
-                  clrt="#ffcccc" unless tch.picst
+                  #clrt="#ffcccc" unless tch.picst
                 end
               %>
               <tr style="background-color:<%= clrt %>">
@@ -87,6 +87,7 @@
                   <%= " (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %><br>
                   <%= " (#{tch.phone_1}-#{tch.phone_2})" %><br><br>
 
+                  <% if false %>
                   <b>PROFILE PIC:&nbsp</b>
                   <% if url3.present? %>
                     <a href="<%="#{url3}"%>" target="_blank">
@@ -149,8 +150,9 @@
                   <% else %>
                     NO
                   <% end %><br>
+                  <% end %>
                 <%= f.fields_for :"#{tch.id}" do |h| %> <!-- Not align sebab tambah -->
-                  <b>Admin Approval:&nbsp</b> <%= h.check_box :picst, checked: tch.picst %>
+                  <!-- <b>Admin Approval:&nbsp</b> <%= h.check_box :picst, checked: tch.picst %> -->
 
 
 
@@ -176,8 +178,7 @@
                     <%= link_to "VIEW", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
                   </td>
                   <td>
-                    <b><%= tch.ts_name %></b><br>
-                    <%= "#{tch.ts_address_1}, #{tch.ts_address_2}, #{tch.city}, #{tch.states}, #{tch.postcode}" %>
+                    
                   </td>
                   <td>
                     <b>DUN</b><br>

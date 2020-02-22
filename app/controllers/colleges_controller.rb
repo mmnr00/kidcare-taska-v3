@@ -65,7 +65,7 @@ class CollegesController < ApplicationController
 		# 	tch_clg = tchdetail.tchdetail_colleges.last
 		# end
 		exstcl = tchdetail.tchdetail_colleges.where(tp: params[:tp])
-		if exstcl.present?
+		if 1==0 #exstcl.present?
 			tch_clg = exstcl.last
 		else
 			tch_clg = TchdetailCollege.new(tchdetail_id: tchdetail.id, tp: params[:tp])
