@@ -41,8 +41,8 @@ class CollegesController < ApplicationController
 			@owner_college = OwnerCollege.create(owner_id:@owner.id, college_id:@college.id)
 			@owner_college2 = OwnerCollege.create(owner_id:Owner.first.id, college_id:@college.id)			
 			flash[:notice] = "College was successfully created"					
-			#redirect_to owner_index_path;		
-			redirect_to create_collection_college_path(@owner, college_id:@college.id) 							
+			redirect_to owner_index_path;		
+			#redirect_to create_collection_college_path(@owner, college_id:@college.id) 							
 		else
 			render :new
 		end
