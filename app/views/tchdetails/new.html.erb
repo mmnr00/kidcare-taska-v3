@@ -1,8 +1,9 @@
 <% if params[:anis] == "true" %>
   <div class="row"><div class='col-lg-8 col-12 bg-white'>
-  <h2 align="center">APPLICATION FORM FOR CIKGU ANiS</h2>
-  <h3 align="center">(ANAK ISTIMEWA SELANGOR)</h3>
+  <h3 align="center">PROGRAM BICARA ANiS</h3>
+  <h4 align="center">(ANAK ISTIMEWA SELANGOR)</h4>
   <p align="center">
+    <%= image_tag("#{@college.picurl}", size: "200x200") %>
     <img src="<%= image_path('anis_head.png') %>" height="203px" width="700px" >
     <strong><%= @college.name %></strong><br>
     <%= "#{@college.address} (#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")})" %>
