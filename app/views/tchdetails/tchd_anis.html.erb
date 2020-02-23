@@ -1,7 +1,8 @@
 <div class="container">
+  <% if 1==0 %>
   <%= link_to "EDIT", edit_tchdetail_path(id: @tchdetail.id,anis: true), class: "btn btn-lg btn-warning" %>&nbsp
 
-  <% if @tchdetail.anis == "true" %>
+  
   <%
     tcl=@tchdetail.tchdetail_colleges.order('updated_at DESC')
   %>

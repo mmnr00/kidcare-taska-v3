@@ -222,9 +222,11 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_area :biloku, class: "form-control", autofocus: true, value: @tchdetail.biloku %>
+              <%= f.text_area :biloku, class: "form-control", autofocus: true, value: @tchdetail.biloku, placeholder: "Contoh: Saif Ali, 4 tahun, ADHD" %>
             </div>
+
           </div>
+          <font size="2"> Boleh diisi untuk lebih dari satu anak  </font>
         </div>
 
         <!-- SSM/SURAT AKUAN KERJA -->
@@ -236,7 +238,7 @@
           </div>
           <div class="row">
           <div class="col-sm-8 col-5">
-          <% image = @tchdetail.fotos.where(foto_name: "SSM1").first %>
+          <% image = @tchdetail.fotos.where(foto_name: "KAD OKU").first %>
           <% if image.present? %>
             <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
               <div class="row">
@@ -248,7 +250,7 @@
             <%= f.fields_for :fotos do |h| %>
                 <div class="row">
                   <div class="col-sm-8 col-8">
-                    <%= h.hidden_field :foto_name, value: "SSM1" %>
+                    <%= h.hidden_field :foto_name, value: "KAD OKU" %>
                     <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
                   </div>
                 </div>
@@ -256,7 +258,7 @@
           <% end %>
           </div>
           </div>
-          <font size="2"> Sijil SSM untuk pemilik institusi atau surat tawaran bekerja untuk pekerja  </font>
+          <font size="2"> Jika terdapat lebih dari satu kad, sila pastikan semua kad berada pada satu gambar  </font>
         </div>
 
         <div class="form-group"> <!-- DUN -->

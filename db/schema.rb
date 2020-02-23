@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_120208) do
+ActiveRecord::Schema.define(version: 2020_02_23_060936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2020_02_22_120208) do
     t.integer "course_id"
     t.time "start"
     t.time "end"
+    t.string "profurl"
   end
 
   create_table "applvs", force: :cascade do |t|

@@ -96,6 +96,11 @@
         <strong>LECTURER NAME</strong>
         <%= f.text_field :lec, class: "form-control", autofocus: true, required: true %><br>
       </div>
+
+      <div class="control-label col-sm-12">
+        <strong>LECTURER PROFILE LINK</strong>
+        <%= f.text_field :profurl, class: "form-control", autofocus: true %><br>
+      </div>
       
       <div class="control-label col-sm-12">
         <strong>START TIME</strong>
@@ -106,6 +111,7 @@
         <strong>END TIME</strong>
         <%= f.time_field :end, class: "form-control", autofocus: true, required: true %><br>
       </div>
+      
       
 
       <%= f.hidden_field :course_id, value: @course.id%>

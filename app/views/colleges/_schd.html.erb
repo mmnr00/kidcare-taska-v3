@@ -35,7 +35,11 @@
                     </td>
                   <% else %>
                     <td ><%= prog.name %></td>
-                    <td><%= prog.lec %></td>
+                    <td>
+                      <%= prog.lec %><br>
+                      <a href="<%= prog.profurl %>" target="_blank"><font color="blue">View Profile</font></a>
+                        
+                    </td>
                   <% end %>
                 <% end %></tr>
               </tbody>

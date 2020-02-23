@@ -6,7 +6,8 @@
     <%= image_tag("#{@college.picurl}", size: "200x200") %>
     <img src="<%= image_path('anis_head.png') %>" height="203px" width="700px" >
     <strong><%= @college.name %></strong><br>
-    <%= "#{@college.address} (#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")})" %>
+    <%= "#{@college.address}" %>
+    <%= render 'colleges/schd', vw: 0%>
   </p>
   </div></div><br>
 <% else %>
@@ -26,7 +27,7 @@
     <div class='col-lg-8 col-12 bg-white'>
       <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
         <div class="form-group text-center col-md-12">
-          <br><strong>PLEASE ENTER IC/NO TO CHECK REGISTRATION<br><br></strong>
+          <br><strong>SILA MASUKKAN NO K/P ANDA<br><br></strong>
           <div class="row">
             <div class="col-sm-4 col-4">
               <%= text_field_tag :ic1, params[:ic1], 
