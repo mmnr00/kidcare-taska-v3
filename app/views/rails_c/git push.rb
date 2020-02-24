@@ -14,10 +14,11 @@ git diff HEAD master_n
 git diff HEAD 10fbc
 git checkout 10fbc
 
-heroku maintenance:on --app kidcare-prod
-dropdb prod-bcup1 -U MustakhimRehan
-heroku pg:pull DATABASE_URL prod-bcup1 --app kidcare-prod
+# heroku maintenance:on --app kidcare-prod
+# dropdb prod-bcup1 -U MustakhimRehan
+# #heroku pg:pull DATABASE_URL prod-bcup1 --app kidcare-prod
 
+dropdb prod-dan -U MustakhimRehan
 heroku pg:pull DATABASE_URL prod-dan --app kcranis
 git push dan-heroku 00dan:master
 #heroku run rake db:migrate --app kidcare-prod
