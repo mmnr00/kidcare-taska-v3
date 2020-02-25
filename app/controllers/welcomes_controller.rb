@@ -4,6 +4,18 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def daftar
+		redirect_to new_tchdetail_path(id: 3, anis: true)
+	end
+
+	def hadir
+		redirect_to new_tchdetail_path(id: 4, anis: true)
+	end
+
+	def feedback
+		redirect_to anisfeed_pre_path(id: 3)
+	end
+
 	def cikgu_anis
 		redirect_to "https://kidcare.my/ebook_anis.pdf"
 	end

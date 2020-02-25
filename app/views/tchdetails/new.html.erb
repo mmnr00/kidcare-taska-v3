@@ -3,8 +3,7 @@
   <h3 align="center">PROGRAM BICARA ANiS</h3>
   <h4 align="center">(ANAK ISTIMEWA SELANGOR)</h4>
   <p align="center">
-    <%= image_tag("#{@college.picurl}", size: "200x200") %>
-    <img src="<%= image_path('anis_head.png') %>" height="203px" width="700px" >
+    <%= image_tag("#{@college.picurl}", size: "200x200") %><br>
     <strong><%= @college.name %></strong><br>
     <%= "#{@college.address}" %>
     <%= render 'colleges/schd', vw: 0%>
