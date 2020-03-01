@@ -5,7 +5,14 @@ class WelcomesController < ApplicationController
 	#layout "page"
 
 	def daftar
-		redirect_to new_tchdetail_path(id: 3, anis: true)
+		reg = 3
+		subt = 4
+		if College.find(reg).tchdetails.count > 50
+			id = subt
+		else
+			id = reg
+		end
+		redirect_to new_tchdetail_path(id: id, anis: true)
 	end
 
 	def hadir
@@ -13,7 +20,7 @@ class WelcomesController < ApplicationController
 	end
 
 	def feedback
-		redirect_to anisfeed_pre_path(id: 3)
+		redirect_to anisfeed_pre_path(id: 4)
 	end
 
 	def cikgu_anis
