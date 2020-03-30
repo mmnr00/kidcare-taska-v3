@@ -23,7 +23,7 @@
                   <div class="card-body text-center">
                     <p>
                       <% image = kid.fotos.where(foto_name: "CHILDREN PICTURE").first %>
-                      <% if image.present? && image.picture.present? %>
+                      <% if image.present? && image.picture.present? && 1==0 %>
                         <%= image_tag(image.picture.url, size: "100x100") %>
                       <% end %>
                     </p>
