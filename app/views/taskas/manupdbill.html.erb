@@ -64,10 +64,8 @@
         </div>
         <div class="row">
           <div class="col-sm-10 col-12">
-            <%= f.number_field :amt, class: "form-control", :step => 0.01, autofocus: true %>
-            <% if b %>
-            Leave Blank If Full Payment 
-            <% end %>
+            <%= f.number_field :amt, class: "form-control", :step => 0.01, autofocus: true, required: true %>
+            Please Make Sure the amount is correct
           </div>
         </div>
       </div>
