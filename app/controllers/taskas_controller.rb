@@ -838,17 +838,22 @@ class TaskasController < ApplicationController
     #@foto = @taska.fotos.build
     if bill[:paid] == "FULL PAYMENT"
       
-      @payment.paid = true
-      @payment.mtd = bill[:mtd]
-      @payment.updated_at = bill[:updated_at]
-      @foto = Foto.new
-      @foto.picture = bill[:picture]
-      @foto.foto_name = bill[:foto_name]
-      @foto.payment_id = bill[:payment_id]
-      if @foto.save && @payment.save
-        flash[:notice] = "BILL UPDATED"
+      if bill[:amt].to_f != @payment.amount
+        flash[:danger] = "WRONG AMOUNT ENTERED"
+        redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id) and return
       else
-        flash[:danger] = "UPDATE FAILED"
+        @payment.paid = true
+        @payment.mtd = bill[:mtd]
+        @payment.updated_at = bill[:updated_at]
+        @foto = Foto.new
+        @foto.picture = bill[:picture]
+        @foto.foto_name = bill[:foto_name]
+        @foto.payment_id = bill[:payment_id]
+        if @foto.save && @payment.save
+          flash[:notice] = "BILL UPDATED"
+        else
+          flash[:danger] = "UPDATE FAILED"
+        end
       end
 
     elsif bill[:paid] == "PARTIAL PAYMENT"

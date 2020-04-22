@@ -19,7 +19,7 @@ class FotosController < ApplicationController
       elsif @admin
         if @foto.taska.present?
         	@taska = @foto.taska
-        	redirect_to edit_taska_path(@taska)
+        	redirect_to edit_taska_path(@taska, plan: @taska.plan)
         elsif @foto.expense.present?
           @expense = @foto.expense
           redirect_to edit_expense_path(@expense)
