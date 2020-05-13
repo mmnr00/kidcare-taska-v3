@@ -54,6 +54,7 @@
                         <%= f.select :classroom_id, 
                           options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Change Classroom"} %>&nbsp&nbsp&nbsp                       
                         <%= f.hidden_field :kid_id, value: kid.id %>
+                        <%= f.hidden_field :curr_taska, value: @taska.id %>
                         <%= f.hidden_field :change, value: true %>
                         <%= f.submit :"CHANGE",  class: 'btn btn-sm btn-info btn-lg' %>
                       
