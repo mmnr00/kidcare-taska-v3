@@ -374,22 +374,31 @@ class PaymentsController < ApplicationController
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
       # start send sms to parents
-      if 1==1 && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#Rails.env.production?
-        @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
-        @client.messages.create(
-          to: "+6#{@kid.ph_1}#{@kid.ph_2}",
-          from: ENV["TWILIO_PHONE_NO"],
-          body: "New bill from #{@taska.name} . Please click at this link <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
-        )
+      url = "https://sms.360.my/gw/bulk360/v1.4?"
+      usr = "user=admin@kidcare.my&"
+      ps = "pass=#{ENV['SMS360']}&"
+      txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment"
+
+      if 1==1# && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#Rails.env.production?
+        to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
+        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        data_sms = HTTParty.get(
+                          "#{url}#{usr}#{ps}#{to}#{txt}",
+                          http_proxyaddr: fixie.host,
+                          http_proxyport: fixie.port,
+                          http_proxyuser: fixie.user,
+                          http_proxypass: fixie.password)
         
         if @payment.s2ph && @kid.sph_1.present? && @kid.sph_2.present?
           if @taska.cred >= 0.5
-            @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
-            @client.messages.create(
-              to: "+6#{@kid.sph_1}#{@kid.sph_2}",
-              from: ENV["TWILIO_PHONE_NO"],
-              body: "New bill from #{@taska.name} . Please click at this link <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
-            )
+            to = "to=6#{@kid.sph_1}#{@kid.sph_2}&"
+            fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+            data_sms = HTTParty.get(
+                              "#{url}#{usr}#{ps}#{to}#{txt}",
+                              http_proxyaddr: fixie.host,
+                              http_proxyport: fixie.port,
+                              http_proxyuser: fixie.user,
+                              http_proxypass: fixie.password)
             @taska.cred -= 0.5
             @taska.hiscred << [-0.5,Time.now,"#{@kid.sph_1}#{@kid.sph_2}",@payment.bill_id]
             @taska.save

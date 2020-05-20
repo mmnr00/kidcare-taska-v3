@@ -586,12 +586,19 @@ class TaskasController < ApplicationController
       nufcred = true
     end
     if 1==1 && nufcred #Rails.env.production?
-      @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
-        @client.messages.create(
-          to: "+6#{phk}",
-          from: ENV["TWILIO_PHONE_NO"],
-          body: "Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}> to payment."
-        )
+      #init SMS360 params
+      url = "https://sms.360.my/gw/bulk360/v1.4?"
+      usr = "user=admin@kidcare.my&"
+      ps = "pass=#{ENV['SMS360']}&"
+      to = "to=6#{phk}&"
+      txt = "text=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: @payment.id)}> to payment"
+      fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+      data_sms = HTTParty.get(
+                        "#{url}#{usr}#{ps}#{to}#{txt}",
+                        http_proxyaddr: fixie.host,
+                        http_proxyport: fixie.port,
+                        http_proxyuser: fixie.user,
+                        http_proxypass: fixie.password)
     end
     if params[:xtrarem].present? && nufcred
       @taska.hiscred << [-0.5,Time.now,phk,@payment.bill_id]
@@ -938,18 +945,25 @@ class TaskasController < ApplicationController
     else
       @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false)
     end
-    #@taska_all = Taska.all
     ctr = 0
-    #render json: @taska_all and return
+
+    #init SMS360 params
+    url = "https://sms.360.my/gw/bulk360/v1.4?"
+    usr = "user=admin@kidcare.my&"
+    ps = "pass=#{ENV['SMS360']}&"
+
     @kid_unpaid.each do |bill|
       @kid = bill.kids.first
       if Rails.env.production?
-        @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
-        @client.messages.create(
-          to: "+6#{@kid.ph_1}#{@kid.ph_2}",
-          from: ENV["TWILIO_PHONE_NO"],
-          body: "Reminder from #{@taska.name.upcase}. Please click here <#{bill_view_url(payment: bill.id, kid: @kid.id, taska: @taska.id)}> to payment."
-        )
+        to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
+        txt = "text=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: bill.id)}> to payment"
+        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        data_sms = HTTParty.get(
+                          "#{url}#{usr}#{ps}#{to}#{txt}",
+                          http_proxyaddr: fixie.host,
+                          http_proxyport: fixie.port,
+                          http_proxyuser: fixie.user,
+                          http_proxypass: fixie.password)
       end
       bill.reminder = true
       bill.save

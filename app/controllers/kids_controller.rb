@@ -20,7 +20,31 @@ class KidsController < ApplicationController
 
 	def billvw
 		#redirect_to root_path
-		redirect_to bill_view_path(kid: params[:kid], payment: params[:payment], taska: params[:taska])
+		redirect_to bill_view_path(payment: params[:pmt])
+	end
+
+	def bill_view
+		@pdf = false
+		
+		@payment = Payment.find(params[:payment]) 
+		#@kid = Kid.find(params[:kid])
+		@kid = @payment.kids.first
+		# if !current_admin.present?
+		# 	if current_parent != @kid.parent
+		# 		flash[:danger] = "You are not authorized to view this bill"
+		# 		redirect_to parent_index_path
+		# 	end
+		# end
+		@taska = @payment.taska
+		# if params[:classroom].present?
+		# 	@classroom = Classroom.find(params[:classroom])
+		# else
+		# 	@classroom = nil
+		# end
+		@fotos = @taska.fotos
+		if 1==0
+			redirect_to bill_pdf_path(payment: @payment.id, kid: @kid.id, taska: @taska.id, format: :pdf)
+		end
 	end
 
 	def new
@@ -142,29 +166,6 @@ class KidsController < ApplicationController
                               exs: params[:exs])
 	end
 
-	def bill_view
-		@pdf = false
-		
-		@payment = Payment.find(params[:payment]) 
-		#@kid = Kid.find(params[:kid])
-		@kid = @payment.kids.first
-		# if !current_admin.present?
-		# 	if current_parent != @kid.parent
-		# 		flash[:danger] = "You are not authorized to view this bill"
-		# 		redirect_to parent_index_path
-		# 	end
-		# end
-		@taska = Taska.find(params[:taska])
-		# if params[:classroom].present?
-		# 	@classroom = Classroom.find(params[:classroom])
-		# else
-		# 	@classroom = nil
-		# end
-		@fotos = @taska.fotos
-		if 1==0
-			redirect_to bill_pdf_path(payment: @payment.id, kid: @kid.id, taska: @taska.id, format: :pdf)
-		end
-	end
 
 	def bill_pdf
 		@pdf = true
