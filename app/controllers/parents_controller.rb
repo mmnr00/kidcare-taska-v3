@@ -5,6 +5,10 @@ class ParentsController < ApplicationController
 	#before_action	:update_bills
 	#$quarter = 3 || 6 || 9 || 12
 
+	def my_kid
+		@mykids = @parent.kids.order("name ASC")
+		render action: "my_kid", layout: "dsb-parent-child"
+	end
 
 	def index
 		@parent = current_parent
@@ -20,10 +24,7 @@ class ParentsController < ApplicationController
 		end
 	end
 
-	def my_kid
-		@mykids = @parent.kids.order("name ASC")
-		render action: "my_kid", layout: "dsb-parent-child"
-	end
+	
 
 	def check_kid
 
