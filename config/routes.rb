@@ -177,6 +177,8 @@ Rails.application.routes.draw do
   delete 'leave/:id/delete_leave', to: 'applvs#tchdelete', as: 'tchdeletelv'
 
   #~PARENTS
+  get 'prt_cov', to: 'parents#prt_cov', as: 'prt_cov'
+  get 'parent', to: 'parents#parent', as: 'parent'
   get 'parent_index', to: 'parents#index', as: 'parent_index'
   get '/parent/:id/my_kid', to: 'parents#my_kid', as: 'my_kid'
   get '/check_kid', to: 'parents#check_kid', as: 'check_kid'

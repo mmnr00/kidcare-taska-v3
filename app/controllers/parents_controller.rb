@@ -5,6 +5,15 @@ class ParentsController < ApplicationController
 	#before_action	:update_bills
 	#$quarter = 3 || 6 || 9 || 12
 
+	def prt_cov
+		render action: "prt_cov", layout: "dsb-parent-child"
+	end
+
+	def parent
+		@parent = current_parent
+		redirect_to my_kid_path(@parent)
+	end
+
 	def my_kid
 		@mykids = @parent.kids.order("name ASC")
 		render action: "my_kid", layout: "dsb-parent-child"
