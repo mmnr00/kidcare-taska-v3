@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_011435) do
+ActiveRecord::Schema.define(version: 2020_05_29_072122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,6 +115,25 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.string "description"
     t.date "start"
     t.date "end"
+  end
+
+  create_table "covdecs", force: :cascade do |t|
+    t.string "mname"
+    t.string "mic"
+    t.string "mph"
+    t.string "moffc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "fname"
+    t.string "fic"
+    t.string "fph"
+    t.string "foffc"
+    t.string "raddr"
+    t.string "vaddr"
+    t.string "mnph"
+    t.string "hph"
+    t.integer "kid_id"
+    t.integer "taska_id"
   end
 
   create_table "expenses", force: :cascade do |t|
@@ -226,15 +245,6 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
   create_table "kidtsks", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "taska_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "okids", force: :cascade do |t|
-    t.string "name"
-    t.string "ic"
-    t.integer "college_id"
-    t.boolean "stat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -480,13 +490,6 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "tp"
-  end
-
-  create_table "tchdetail_okids", force: :cascade do |t|
-    t.integer "tchdetail_id"
-    t.integer "okid_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "tchdetails", force: :cascade do |t|

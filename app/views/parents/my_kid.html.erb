@@ -31,7 +31,10 @@
                     <h4 class="card-title"><%= kid.name.upcase %></h4>
                     <p class="card-text">
                       <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %>
+                      <div style="margin-bottom: -20px"></div>
+                      <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "badge badge-primary" %>
                     </p>
+                    <div style="margin-bottom: -10px"></div>
                     <% if kid.taska.present? %>
                         <%= link_to "#{kid.taska.name.upcase}", taska_page_path(kid.taska), style: "color:blue", target: "_blank" %>
                       <br>
@@ -44,8 +47,8 @@
                       <%= link_to "ADD", prntschtsk_path(kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
                       NA<br>
                     <% end %>
-                    <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "badge badge-primary" %>
-                    <%= link_to "COVID FORM", prt_cov_path(id:kid), class: "badge badge-warning" %>
+                    <%= link_to "HEALTH STATUS FORM", prt_cov_path(id:kid), class: "badge badge-info" %>
+                    <%= link_to "DECLARATION FORM", prt_cov_path(id:kid), class: "badge badge-warning" %> 
                     <br>
                   </div>
                   <%= link_to "VIEW RECEIPTS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-success active" %>

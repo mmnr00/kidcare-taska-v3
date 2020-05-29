@@ -15,6 +15,7 @@ class Kid < ApplicationRecord
 	has_many :kid_extras
 	has_many :extras, through: :kid_extras
 	has_many :otkids
+	has_one :covdec
 	include HTTParty
 
 

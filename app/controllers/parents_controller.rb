@@ -5,7 +5,29 @@ class ParentsController < ApplicationController
 	#before_action	:update_bills
 	#$quarter = 3 || 6 || 9 || 12
 
+	def upd_covdesc
+		@covdec = Covdec.where(kid_id: params[:covdec][:kid_id]).last
+		@covdec.update(covdec_params)
+		flash[:notice] = "Declaration Form Updated"
+		redirect_to my_kid_path(id: @covdec.kid.parent_id)
+	end
+
+	def crt_covdesc
+		@covdec = Covdec.new(covdec_params)
+		@covdec.save
+		flash[:notice] = "Declaration Form Submitted"
+		redirect_to my_kid_path(id: @covdec.kid.parent_id)
+	end
+
 	def prt_cov
+		@kid = Kid.find(params[:id])
+		if @kid.covdec.present?
+			@covdec = @kid.covdec
+			@act = "upd_covdesc"
+		else
+			@covdec = Covdec.new
+			@act = "crt_covdesc"
+		end
 		render action: "prt_cov", layout: "dsb-parent-child"
 	end
 
@@ -137,6 +159,23 @@ class ParentsController < ApplicationController
 
 
 	private
+
+	def covdec_params
+		 params.require(:covdec).permit(:mname,
+																		:mic,
+																		:mph,
+																		:moffc,
+																		:fname,
+																		:fic,
+																		:fph,
+																		:foffc,
+																		:raddr,
+																		:vaddr,
+																		:mnph,
+																		:hph,
+																		:kid_id,
+																		:taska_id)
+	end
 
 	def set_parent
 		@parent = Parent.find(current_parent.id)
