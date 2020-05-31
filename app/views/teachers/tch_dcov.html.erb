@@ -1,0 +1,7 @@
+<h5>
+  <span class="badge badge-pill badge-secondary"><%= "Updated by #{@teacher.username}" %></span>
+  <%= link_to "Back", lstch_dcov_path(tsk: params[:tsk]), class: "badge badge-pill badge-info" %>
+</h5>
+
+
+<%= render 'dcovs/dcov-form' %>

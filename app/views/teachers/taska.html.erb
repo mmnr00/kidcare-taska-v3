@@ -35,7 +35,8 @@
       <% if image.present? && image.picture.present? %>
         <%= image_tag(image.picture.url, size: "50x50") %>
       <% end %><br>
-    <%= taska_name %>
+    <%= taska_name %>&nbsp&nbsp
+    <%= link_to "Update Health Status", lstch_dcov_path(tsk: taska.id), class: "badge badge-success", style: "font-size: 15px" %>
   </h6>
   
   <% if @teacher.classrooms.present? %>

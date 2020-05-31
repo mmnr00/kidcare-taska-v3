@@ -17,9 +17,15 @@ class DcovsController < ApplicationController
 			redirect_to my_kid_path(id: @dcov.kid.parent_id)
 		elsif current_admin.present?
 		elsif current_teacher.present?
+			@dcov.upd_by << "t"
+			@dcov.upd_by << current_teacher.id
+			redirect_to lstch_dcov_path(tsk: @dcov.kid.taska_id)
 		end
 		@dcov.save
 		flash[:success] = "Health Status Updated"
+		if (@dcov.temp > 100) || (@dcov.cond.include? "Yes") || (@dcov.cond[5].present?)
+			puts "Send Email"
+		end
 		
 	end
 

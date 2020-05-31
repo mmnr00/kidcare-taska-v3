@@ -2,6 +2,16 @@ class TeachersController < ApplicationController
 	before_action :authenticate_teacher!, except: [:search, :find, :show]
 	before_action :set_teacher #, only: [:index, :college, :add_college, :remove_college, :payment_signup]
 
+	def tch_dcov
+		@kid = Kid.find(params[:kid])
+		render action: "tch_dcov", layout: "dsb-teacher-tsk"
+	end
+
+	def lstch_dcov
+		@taska = Taska.find(params[:tsk])
+		@kids = @taska.kids.where.not(classroom_id: nil)
+		render action: "lstch_dcov", layout: "dsb-teacher-tsk"
+	end
 
 	def index
 		#render action: "index", layout: "dsb-teacher-main"
