@@ -7,6 +7,7 @@ class ParentsController < ApplicationController
 
 	def dcov_prt
 		@kid = Kid.find(params[:id])
+		@covdec = Covdec.new
 	end
 
 	def upd_covdesc

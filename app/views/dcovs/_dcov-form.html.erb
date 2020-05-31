@@ -1,12 +1,113 @@
-<%= link_to "BACK", :back, class: "badge badge-pill badge-info" %>
+
 <div class="col-lg-12 mb-4" style="margin-left: -15px">
   <div class="card bg-success text-white shadow">
     <div class="card-body">
       <%= @kid.name %>
       <div class="text-white-50 small">
-        <%= "@comm.own_name" %><br>
-        <%= "@comm.tn_name" %>
+        <%= Time.now.strftime('%d-%^b-%y') %><br>
+        <%= Time.now.strftime('%I:%M %p') %>
       </div>
     </div>
   </div>
 </div>
+
+<%= form_for(:dcov, :url => {:controller=>'dcovs', :action=>"crt_dcov"}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+  
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Temperature</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 col-5">
+        <%= f.number_field :temp, step: 0.01,class: "form-control", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Fever</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 col-5">
+        <%= f.select :fvr, options_for_select(["No","Yes"]), {required: true}, {include_blank: "Please Select"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Cough</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 col-5">
+        <%= f.select :cgh, options_for_select(["No","Yes"]), {required: true}, {include_blank: "Please Select"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Flu</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 col-5">
+        <%= f.select :flu, options_for_select(["No","Yes"]), {required: true}, {include_blank: "Please Select"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Sore Throat</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 col-5">
+        <%= f.select :sore, options_for_select(["No","Yes"]), {required: true}, {include_blank: "Please Select"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Breathing Difficulty</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-5 col-5">
+        <%= f.select :brd, options_for_select(["No","Yes"]), {required: true}, {include_blank: "Please Select"} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>Other Symptoms</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-10 col-10">
+        <%= f.text_field :otsy, class: "form-control", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <%= f.hidden_field :kid, value: @kid.id %>
+  <%= f.hidden_field :taska, value: @kid.taska.id %>
+
+  <%= f.submit :"SUBMIT", class: "btn btn-sm btn-warning", data: {confirm: "Please review the details. No edit is allowed once data is submitted"} %>
+
+
+<% end %>

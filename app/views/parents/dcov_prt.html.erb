@@ -1,5 +1,7 @@
-<h4><span class="badge badge-pill badge-secondary"><%= "Updated by #{@parent.username}" %></span>
-</h4>
+<h5>
+  <span class="badge badge-pill badge-secondary"><%= "Updated by #{@parent.username}" %></span>
+  <%= link_to "Back", my_kid_path(id: @parent.id), class: "badge badge-pill badge-info" %>
+</h5>
 
 
 <%= render 'dcovs/dcov-form' %>

@@ -47,7 +47,9 @@
                       <%= link_to "ADD", prntschtsk_path(kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
                       NA<br>
                     <% end %>
-                    <%= link_to "HEALTH STATUS FORM", dcov_prt_path(id:kid), class: "badge badge-warning" %>
+                    <% if kid.taska.present? %>
+                      <%= link_to "HEALTH STATUS FORM", dcov_prt_path(id:kid), class: "badge badge-warning" %>
+                    <% end %>
                     <br>
                   </div>
                   <%= link_to "VIEW RECEIPTS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-success active" %>

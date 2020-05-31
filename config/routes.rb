@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   get 'cikgu_anis', to: 'welcomes#cikgu_anis'
 
   #~DCOV
+  post 'crt_dcov', to: 'dcovs#crt_dcov', as: 'crt_dcov'
+
 
 
   #~PTNSMMB
