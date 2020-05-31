@@ -1,0 +1,3 @@
+class DcovsController < ApplicationController
+	
+end

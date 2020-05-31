@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   get 'star_rating', to: 'welcomes#star_rating'
   get 'cikgu_anis', to: 'welcomes#cikgu_anis'
 
+  #~DCOV
+
+
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   #get '/daftarkprm', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
@@ -177,9 +180,7 @@ Rails.application.routes.draw do
   delete 'leave/:id/delete_leave', to: 'applvs#tchdelete', as: 'tchdeletelv'
 
   #~PARENTS
-  post 'upd_covdesc', to: 'parents#upd_covdesc', as: 'upd_covdesc'
-  post 'crt_covdesc', to: 'parents#crt_covdesc', as: 'crt_covdesc'
-  get 'prt_cov', to: 'parents#prt_cov', as: 'prt_cov'
+  get 'dcov_prt', to: 'parents#dcov_prt', as: 'dcov_prt'
   get 'parent', to: 'parents#parent', as: 'parent'
   get 'parent_index', to: 'parents#index', as: 'parent_index'
   get '/parent/:id/my_kid', to: 'parents#my_kid', as: 'my_kid'
@@ -193,6 +194,9 @@ Rails.application.routes.draw do
   get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'
   get '/parent/:id/feedback', to: 'parents#parents_feedback', as: 'parents_feedback'
   get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
+  post 'upd_covdesc', to: 'parents#upd_covdesc', as: 'upd_covdesc'
+  post 'crt_covdesc', to: 'parents#crt_covdesc', as: 'crt_covdesc'
+  get 'prt_cov', to: 'parents#prt_cov', as: 'prt_cov'
 
   #~TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'

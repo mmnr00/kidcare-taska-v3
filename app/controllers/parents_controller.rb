@@ -5,6 +5,10 @@ class ParentsController < ApplicationController
 	#before_action	:update_bills
 	#$quarter = 3 || 6 || 9 || 12
 
+	def dcov_prt
+		@kid = Kid.find(params[:id])
+	end
+
 	def upd_covdesc
 		@covdec = Covdec.where(kid_id: params[:covdec][:kid_id]).last
 		@covdec.update(covdec_params)

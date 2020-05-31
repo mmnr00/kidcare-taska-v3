@@ -47,8 +47,7 @@
                       <%= link_to "ADD", prntschtsk_path(kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
                       NA<br>
                     <% end %>
-                    <%= link_to "HEALTH STATUS FORM", prt_cov_path(id:kid), class: "badge badge-info" %>
-                    <%= link_to "DECLARATION FORM", prt_cov_path(id:kid), class: "badge badge-warning" %> 
+                    <%= link_to "HEALTH STATUS FORM", dcov_prt_path(id:kid), class: "badge badge-warning" %>
                     <br>
                   </div>
                   <%= link_to "VIEW RECEIPTS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-success active" %>
