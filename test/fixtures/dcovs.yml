@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  temp: 1.5
+  cond: MyText
+  kid_id: 1
+  taska_id: 1
+  upd_by: MyText
+
+two:
+  temp: 1.5
+  cond: MyText
+  kid_id: 1
+  taska_id: 1
+  upd_by: MyText

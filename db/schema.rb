@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_29_072122) do
+ActiveRecord::Schema.define(version: 2020_05_31_025717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,16 @@ ActiveRecord::Schema.define(version: 2020_05_29_072122) do
     t.string "hph"
     t.integer "kid_id"
     t.integer "taska_id"
+  end
+
+  create_table "dcovs", force: :cascade do |t|
+    t.float "temp"
+    t.text "cond"
+    t.integer "kid_id"
+    t.integer "taska_id"
+    t.text "upd_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "expenses", force: :cascade do |t|
