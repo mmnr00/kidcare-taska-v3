@@ -20,7 +20,11 @@ class KidsController < ApplicationController
 
 	def billvw
 		#redirect_to root_path
-		redirect_to bill_view_path(payment: params[:pmt])
+		if params[:pmt].present?
+			redirect_to bill_view_path(payment: params[:pmt])
+		else
+			redirect_to bill_view_path(kid: params[:kid], payment: params[:payment], taska: params[:taska])
+		end
 	end
 
 	def bill_view
