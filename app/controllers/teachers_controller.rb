@@ -10,6 +10,9 @@ class TeachersController < ApplicationController
 	def lstch_dcov
 		@taska = Taska.find(params[:tsk])
 		@kids = @taska.kids.where.not(classroom_id: nil)
+		if params[:sch_kid].present?
+			@kids = @kids.where('name LIKE ?', "%#{params[:sch_kid].upcase}%")
+		end
 		render action: "lstch_dcov", layout: "dsb-teacher-tsk"
 	end
 
