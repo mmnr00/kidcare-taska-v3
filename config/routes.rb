@@ -125,6 +125,7 @@ Rails.application.routes.draw do
   get '/tchd_xls', to: 'tchdetails#tchd_xls', as: 'tchd_xls' 
   get '/market_xls', to: 'tchdetails#market_xls', as: 'market_xls'
   get '/dir_anis', to: 'tchdetails#dir_anis'
+  get '/daftaranis', to: 'tchdetails#daftaranis'
 
   #~OWNERS (FOR COLLEGE)
   get 'owner_index', to: 'owners#index'
