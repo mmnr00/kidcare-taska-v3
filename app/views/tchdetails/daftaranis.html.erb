@@ -1,3 +1,13 @@
 <h5>SILA PILIH SESI</h5>
 <% @clg.each do |clg| %>
+  <div class="card bg-info text-white shadow">
+    <div class="card-body">
+      <a href="<%= new_tchdetail_url(id: clg.id, anis: true) %>" class="text-white">
+        <%= clg.name %>
+      </a>
+      <div class="text-white-50 small">
+        <%= clg.start.strftime('%d-%^b-%y') %>
+      </div>
+    </div>
+  </div><br>
 <% end %>
