@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
 
   #~PAGES
+  get '/kap', to: 'pages#kap'
   get '/443322/about', to: 'pages#about'
   get '/443322/buttons', to: 'pages#buttons'
   get '/443322/charts', to: 'pages#charts'

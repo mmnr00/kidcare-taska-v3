@@ -6,6 +6,10 @@ class PagesController < ApplicationController
 
 	#layout "dsb-admin-eg"
 
+	def kap
+		redirect_to "https://www.kidcare.my/newtchdetail?id=72&nwt=true"
+	end
+
 	def index
 	end
 
