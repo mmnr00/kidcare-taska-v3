@@ -662,7 +662,7 @@
 
         <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
         <%= f.hidden_field :anis, value: params[:anis] %>
-        <%= f.hidden_field :college_id, value: params[:id] %>
+        
         <%
         if $anis2.include?(params[:id]) || $anis2f.include?(params[:id])
           tp="an2"
@@ -673,7 +673,7 @@
           <%= f.hidden_field :tp, value: tp %>
       <% end %>
       <!-- END ANIS -->
-
+      <%= f.hidden_field :college_id, value: params[:id] %>
         
 
 

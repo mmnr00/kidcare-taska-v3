@@ -71,7 +71,6 @@ class TchdetailsController < ApplicationController
 			end
 		elsif pars[:college_id].present? #teacher college
 
-		
 			@college = College.find(pars[:college_id])
 			owner = @college.owners.last
 			tchdc = nil
@@ -98,7 +97,8 @@ class TchdetailsController < ApplicationController
 					render :new
 				end
 			end
-			if @tchdetail.anis = "true"
+			if @tchdetail.anis == "true"
+				@tchdetail.anis = "true"
 				@tchdetail.stat = "PERMOHONAN DITERIMA"
 				@tchdetail.save
 			end
