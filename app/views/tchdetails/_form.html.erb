@@ -664,7 +664,7 @@
         <%= f.hidden_field :anis, value: params[:anis] %>
         
         <%
-        if $anis2.include?(params[:id]) || $anis2f.include?(params[:id])
+        if $anis2.include?(params[:id].to_i) || $anis2f.include?(params[:id].to_i)
           tp="an2"
         else
           tp="an1"
@@ -675,8 +675,7 @@
       <!-- END ANIS -->
       <%= f.hidden_field :college_id, value: params[:id] %>
         
-
-
+     
       <!-- END ANIS -->
 
       <div class="form-group">
