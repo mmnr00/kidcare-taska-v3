@@ -1,5 +1,5 @@
-old = 69
-nw = 71
+old = 71
+nw = 73
 
 clg=College.find(old)
 clgn = College.find(nw)
@@ -22,6 +22,28 @@ crs.anisprogs.each do |ap|
 b = ap.dup
 b.course_id = a.id 
 b.lec = ""
+b.save
+end
+
+end
+
+# NEW ANIS
+
+old = 73
+nw = 76
+
+clg=College.find(old)
+clgn = College.find(nw)
+
+clg.courses.each do |crs|
+a = crs.dup
+a.college_id = nw
+
+a.save
+
+crs.anisprogs.each do |ap|
+b = ap.dup
+b.course_id = a.id
 b.save
 end
 

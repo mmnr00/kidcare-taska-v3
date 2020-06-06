@@ -74,7 +74,7 @@
   <%= render 'tchdetails/form' %>
 <% end %>
 
-<% if 1==0 %>
+<% if 1==1 %>
 <div class='col-12 bg-white' style="margin-left: -15px"><br>
 
   <% if @college.appl %>
@@ -175,36 +175,29 @@
     </table>
   </div>
 
-  <br><br><!-- SENARAI BARANG KEPERLUAN -->
-  <h4><u>SENARAI BARANG KEPERLUAN</u></h4>
-  <h5>Sila Pastikan Anda Bawa Bersama Barang-Barang Keperluan di bawah semasa Bengkel Cikgu ANiS</h5>
-  <ol>
-    <li>Pen, Pensil, Buku Note</li>
-    <li>Gunting</li>
-    <li>Gam</li>
-    <li>Solatape/Double Sided Tape</li>
-    <li>Stapler/Ubat Stapler</li>
-    <li>Kertas Warna/A4</li>
-    <li>Pembaris/Sharpener</li>
-    <li>Barang-barang keperluan mandian</li>
-    <li>Telekung & Sejadah</li>
-    <li>Iron Baju (boleh share)</li>
-    <li>Hanger Baju (baju dah iron)</li>
-    <li>Baju Sejuk (Jika Perlu)</li>
-    <li>Air Mineral/Botol Air</li>
-  </ol>
+  <br>
 
   <br><!-- ETIKA PAKAIAN & TEMA -->
   <h4><u>ETIKA PAKAIAN & TEMA</u></h4>
   <b>Pakaian Sepanjang Program</b><br>
-  -Formal atau Casual. Pemakaian jeans tidak digalakkan sama sekali<br><br>
-  <b>Tema pakaian bergambar hari kedua (Sabtu-<%= (@college.start+1.days).strftime('%d/%^b/%y')%>)</b><br>
-  -<%= @college.thm %><br>
+  -Casual dan Sopan<br>
 
   <br><br><!-- JADUAL PROGRAM -->
   <h4><u>JADUAL PROGRAM</u></h4>
   <%= render 'colleges/schd', vw: 0 %>
 </div><br>
+
+<%
+  assg = @college.start + 8.days
+  certt = @college.start + 10.days
+%>
+
+TARIKH AKHIR PENGHANTARAN TUGASAN INDIVIDU : 
+<strong><%= assg.strftime("%d-%^b-%Y") %>&nbsp
+          (<%= assg.strftime("%A") %>) </strong><br>
+PENYERAHAN SIJIL : 
+<strong><%= certt.strftime("%d-%^b-%Y") %>&nbsp
+          (<%= certt.strftime("%A") %>) </strong><br>
 
 <% end %> <!-- END JADUAL PROGRAM ETC -->
 
