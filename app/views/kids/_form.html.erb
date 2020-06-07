@@ -325,6 +325,21 @@
           </div>
         </div>
 
+        <!-- MOTHER NAME -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER IC NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :mic, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+          E.G. 870829354321
+        </div>
+
         <!-- MOTHER PHONE -->
         <div class="form-group"> 
           <div class="row">
@@ -413,6 +428,21 @@
               <%= f.text_field :father_name, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %>
             </div>
           </div>
+        </div>
+
+        <!-- MOTHER NAME -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER IC NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :fic, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+          E.G. 870829354321
         </div>
 
         <!-- FATHER PHONE -->
