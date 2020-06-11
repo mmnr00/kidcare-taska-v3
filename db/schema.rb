@@ -117,6 +117,35 @@ ActiveRecord::Schema.define(version: 2020_06_07_065748) do
     t.date "end"
   end
 
+  create_table "covdecs", force: :cascade do |t|
+    t.string "mname"
+    t.string "mic"
+    t.string "mph"
+    t.string "moffc"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "fname"
+    t.string "fic"
+    t.string "fph"
+    t.string "foffc"
+    t.string "raddr"
+    t.string "vaddr"
+    t.string "mnph"
+    t.string "hph"
+    t.integer "kid_id"
+    t.integer "taska_id"
+  end
+
+  create_table "dcovs", force: :cascade do |t|
+    t.float "temp"
+    t.text "cond"
+    t.integer "kid_id"
+    t.integer "taska_id"
+    t.text "upd_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "expenses", force: :cascade do |t|
     t.string "name"
     t.decimal "cost"
