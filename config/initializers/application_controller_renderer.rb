@@ -8,8 +8,8 @@
 # end
 
 $anisf = [8,46,50,51,54,55,57,60,63,69,71]
-$anis2 = [64,66,73,74,75]
-$anis2f = [65,67,76,77,78]
+$anis2 = [64,66,73,74,75,79]
+$anis2f = [65,67,76,77,78,80]
 
 $eventpt = {
             "ptns-1"=>["https://kidcare-prod.s3.amazonaws.com/ptns-1.jpeg",
