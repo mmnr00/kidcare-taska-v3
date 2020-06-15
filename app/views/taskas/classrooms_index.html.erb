@@ -50,7 +50,7 @@
                       <p><strong><%= classroom.teachers.count %></strong> teachers</p>
                       <p class="text-muted">FEE: RM <%= classroom.base_fee %></p>
                     </div>
-                    <%= link_to classroom_path(classroom), class: "btn btn-sm btn-primary active" do %>
+                    <%= link_to mystudent_path(id: @taska.id, cls_id: classroom.id), class: "btn btn-sm btn-primary active" do %>
                       <i class="fa fa-book-open"></i>&nbsp&nbsp VIEW
                     <% end %>
                   </div>

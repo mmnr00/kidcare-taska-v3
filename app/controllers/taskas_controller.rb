@@ -37,6 +37,11 @@ class TaskasController < ApplicationController
 
   def mystudent
     @kids = @taska.kids
+
+    if params[:cls_id].present?
+      @kids = @kids.where(classroom_id: params[:cls_id])
+    end
+
     if params[:sch].present?
       @kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%")
     end
