@@ -1,0 +1,60 @@
+<!-- START TABLE -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="row">
+      <%= form_tag mystudent_path, method: :get, id: "find_kid" do %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here", style: 'text-transform: uppercase' %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+        <%= link_to mystudent_path(id: @taska.id), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+        <%= "#{@kids.count} result(s) found" unless params[:sch].blank? %>
+      <% end %>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <% if @kids.count < 1 %>
+    <br>
+    <% if params[:sch].present? %>
+      <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+    <% else %>
+      <%= link_to "Show All Units", mystudent_path(id: @taska.id, all: 1), class: "btn btn-sm btn-block btn-success" %><br>
+    <% end %>
+  <% else %>
+  <div class="card-body">
+    
+    <div class="table table-responsive border" style="font-size:13px">
+      <%= form_for(:cls, :url => {:controller=>'taskas', :action=>'mystudent'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ffb2b2">RESIDENT</th>
+              <th style="background-color:#ffb2b2">OWNER DETAILS</th>
+              <th style="background-color:#ffb2b2">TENANT DETAILS</th>
+              <th style="background-color:#ffb2b2">VEHICLES</th>
+              <th style="background-color:#ffb2b2">BILL TO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @kids.each do |kd| %>
+
+              <tr>
+                <td><%= kd.name %></td>
+              </tr>
+              
+            <% end %> <!-- END LOOP -->
+          </tbody>
+        </table>
+        <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

@@ -26,150 +26,22 @@ class TaskasController < ApplicationController
                                   :upldclsrm,
                                   :upldkid,
                                   :hiscrdt,
-                                  :topcred]
+                                  :topcred,:mybill,:mystudent]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
-  #START ANSYS
-  def admansys
-    tsk = Taska.find(params[:id])
-    tsk.states = params[:st]
-    tsk.save
-    flash[:success] = "UPDATE SUCCESSFULL"
-    redirect_to statansys_path
+  def mybill
+    render action: "mybill", layout: "dsb-admin-bill"
   end
 
-  def delansys
-    tsk = Taska.find(params[:id])
-    if tsk.destroy
-      flash[:danger] = "Delete berjaya"
-      redirect_to statansys_path
+  def mystudent
+    @kids = @taska.kids
+    if params[:sch].present?
+      @kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%")
     end
+    render action: "mystudent", layout: "dsb-admin-student" 
   end
-
-  def rsvpans
-    @taska=Taska.find(params[:id])
-  end
-
-  def updrsvp
-  end
-
-  def updrsvpadm
-  end
-
-  def regansys
-    @taska = Taska.new
-    @taska.fotos.build
-  end
-
-  def crtansys
-    @taska = Taska.new(taska_params)
-    if (t=Taska.where(name: 
-                    @taska.name, 
-                    email: @taska.email, 
-                    plan: @taska.plan)).present?
-      @taska = t.first
-    end
-    if @taska.save
-      flash[:notice] = "PENDAFTARAN DITERIMA"
-      redirect_to statansys_path
-    end
-  end
-
-  def statansys
-    @taskas = Taska.where(plan: "ansys19")
-    if params[:par].present?
-      if params[:par] == "nil"
-        st = nil
-      else
-        st = params[:par]
-      end
-      @tsort = Taska.where(plan: "ansys19", states: st)
-    else
-      @tsort = @taskas
-    end
-  end
-
-  def editansys
-    @taska = Taska.find(params[:id])
-  end
-
-  def updansys
-    @taska = Taska.find(params[:taska][:id])
-    rsvp = params[:taska][:rsvp]
-    if @taska.update(taska_params)
-      flash[:notice] = "KEMASKINI BERJAYA"
-      if rsvp == "0"
-        redirect_to statansys_path
-      else
-        redirect_to succansys_path
-      end
-    end
-  end
-
-  def succansys
-  end
-
-  def ansys_xls
-    @taskas = Taska.where(plan: "ansys19")
-    respond_to do |format|
-      #format.html
-      format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI SYMPOSIUM ANIS.xlsx"'
-      }
-    end
-  end
-  #END ANSYS
-
-
-  # START MBR
-  def regmbr19
-    @taska = Taska.new
-    @taska.fotos.build
-  end
-
-  def crtmbr19
-    @taska = Taska.new(taska_params)
-    if (t=Taska.where(name: 
-                    @taska.name, 
-                    email: @taska.email, 
-                    plan: @taska.plan)).present?
-      @taska = t.first
-    end
-    if @taska.save
-      flash[:notice] = "PENDAFTARAN DITERIMA"
-      redirect_to editmbr19_path(id: @taska.id)
-    end
-  end
-
-  def statmbr19
-    @taskas = Taska.where(plan: "mbr19")
-  end
-
-  def editmbr19
-    @taska = Taska.find(params[:id])
-  end
-
-  def updmbr19
-    @taska = Taska.find(params[:taska][:id])
-    if @taska.update(taska_params)
-      flash[:notice] = "KEMASKINI BERJAYA"
-      redirect_to editmbr19_path(id: @taska.id)
-    end
-  end
-
-  def mbr19_xls
-    @taskas = Taska.where(plan: "mbr19")
-    respond_to do |format|
-      #format.html
-      format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI TASKA MBR19.xlsx"'
-      }
-    end
-  end
-  # END MBR
-
 
   def index
     @taskas = Taska.all
@@ -1822,6 +1694,145 @@ class TaskasController < ApplicationController
     #   format.json { head :no_content }
     # end
   end
+
+  #START ANSYS
+  def admansys
+    tsk = Taska.find(params[:id])
+    tsk.states = params[:st]
+    tsk.save
+    flash[:success] = "UPDATE SUCCESSFULL"
+    redirect_to statansys_path
+  end
+
+  def delansys
+    tsk = Taska.find(params[:id])
+    if tsk.destroy
+      flash[:danger] = "Delete berjaya"
+      redirect_to statansys_path
+    end
+  end
+
+  def rsvpans
+    @taska=Taska.find(params[:id])
+  end
+
+  def updrsvp
+  end
+
+  def updrsvpadm
+  end
+
+  def regansys
+    @taska = Taska.new
+    @taska.fotos.build
+  end
+
+  def crtansys
+    @taska = Taska.new(taska_params)
+    if (t=Taska.where(name: 
+                    @taska.name, 
+                    email: @taska.email, 
+                    plan: @taska.plan)).present?
+      @taska = t.first
+    end
+    if @taska.save
+      flash[:notice] = "PENDAFTARAN DITERIMA"
+      redirect_to statansys_path
+    end
+  end
+
+  def statansys
+    @taskas = Taska.where(plan: "ansys19")
+    if params[:par].present?
+      if params[:par] == "nil"
+        st = nil
+      else
+        st = params[:par]
+      end
+      @tsort = Taska.where(plan: "ansys19", states: st)
+    else
+      @tsort = @taskas
+    end
+  end
+
+  def editansys
+    @taska = Taska.find(params[:id])
+  end
+
+  def updansys
+    @taska = Taska.find(params[:taska][:id])
+    rsvp = params[:taska][:rsvp]
+    if @taska.update(taska_params)
+      flash[:notice] = "KEMASKINI BERJAYA"
+      if rsvp == "0"
+        redirect_to statansys_path
+      else
+        redirect_to succansys_path
+      end
+    end
+  end
+
+  def succansys
+  end
+
+  def ansys_xls
+    @taskas = Taska.where(plan: "ansys19")
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI SYMPOSIUM ANIS.xlsx"'
+      }
+    end
+  end
+  #END ANSYS
+
+
+  # START MBR
+  def regmbr19
+    @taska = Taska.new
+    @taska.fotos.build
+  end
+
+  def crtmbr19
+    @taska = Taska.new(taska_params)
+    if (t=Taska.where(name: 
+                    @taska.name, 
+                    email: @taska.email, 
+                    plan: @taska.plan)).present?
+      @taska = t.first
+    end
+    if @taska.save
+      flash[:notice] = "PENDAFTARAN DITERIMA"
+      redirect_to editmbr19_path(id: @taska.id)
+    end
+  end
+
+  def statmbr19
+    @taskas = Taska.where(plan: "mbr19")
+  end
+
+  def editmbr19
+    @taska = Taska.find(params[:id])
+  end
+
+  def updmbr19
+    @taska = Taska.find(params[:taska][:id])
+    if @taska.update(taska_params)
+      flash[:notice] = "KEMASKINI BERJAYA"
+      redirect_to editmbr19_path(id: @taska.id)
+    end
+  end
+
+  def mbr19_xls
+    @taskas = Taska.where(plan: "mbr19")
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI TASKA MBR19.xlsx"'
+      }
+    end
+  end
+  # END MBR
 
   private
     # Use callbacks to share common setup or constraints between actions.
