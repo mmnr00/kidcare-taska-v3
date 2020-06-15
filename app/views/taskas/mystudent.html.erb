@@ -1,3 +1,5 @@
+
+
 <!-- START TABLE -->
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -23,13 +25,14 @@
   </div>
   <% if @kids.count < 1 %>
     <br>
-    <% if params[:sch].present? %>
-      <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
-    <% else %>
-      <%= link_to "Show All Units", mystudent_path(id: @taska.id, all: 1), class: "btn btn-sm btn-block btn-success" %><br>
-    <% end %>
+    <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
   <% else %>
-  <div class="card-body">
+    <div class="card-body">
+      <div style="margin-bottom: -20px"></div>
+      <div style="text-align: right" >
+        <%= link_to "REGISTER CHILDREN", new_kid_path(taska_id: @taska.id), class: "badge badge-pill badge-primary" %>
+        <%= link_to "UPLOAD EXCEL", xlskid_path(@taska), class: "badge badge-pill badge-info" %>
+      </div>
     
     <div class="table table-responsive border" style="font-size:13px">
       <%= form_for(:cls, :url => {:controller=>'taskas', :action=>'mystudent'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
@@ -45,7 +48,12 @@
             <% @kids.each do |kd| %>
 
               <tr>
-                <td><%= kd.name %></td>
+                <td>
+                  <a href="/kids/<%= kd.id %>" target="_blank"><font style="color: blue">
+                    <%= kd.name %>
+                    <%= link_to "Edit Details", new_kid_path(taska_id: @taska.id), class: "badge badge-pill badge-warning" %>    
+                  </font></a>   
+                </td>
                 <td>Setting,Create, View</td>
                 <td>
                   <%= f.select :classroom_id, 

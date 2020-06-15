@@ -39,7 +39,11 @@ class TaskasController < ApplicationController
     @kids = @taska.kids
 
     if params[:cls_id].present?
-      @kids = @kids.where(classroom_id: params[:cls_id])
+      if params[:cls_id] == "nil"
+        @kids = @kids.where(classroom_id: nil)
+      else
+        @kids = @kids.where(classroom_id: params[:cls_id])
+      end
     end
 
     if params[:sch].present?

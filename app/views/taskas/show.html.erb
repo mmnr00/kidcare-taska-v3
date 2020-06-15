@@ -12,7 +12,8 @@
           <i class="fa fa-code-fork"></i>
           <span class="count-numbers"><%= @unregistered_no %></span>
           <span class="count-name">
-            <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a>
+            <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a><br>
+            <a href="/mystudent?id=<%= @taska.id %>&cls_id=nil", style="color:#fff">New Reg</a>
             <br><font style="color:#fff">TOTAL: <%= @taska.kids.where.not(classroom_id: nil).count %></font>
             <% if (plan=@taska.plan) == "PAY PER USE" || (plan=@taska.plan) == "PAY PER USE N"  %>
               <% numchild = "NA" %>
