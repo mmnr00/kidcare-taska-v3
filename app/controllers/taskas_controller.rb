@@ -32,6 +32,9 @@ class TaskasController < ApplicationController
   before_action :authenticate_admin!, only: [:new]
 
   def mybill
+    @payments = @taska.payments.where.not(name: "TASKA PLAN")
+    @bill_paid = @payments.where(paid: true)
+    @amt = @bill_paid.sum(:amount)
     render action: "mybill", layout: "dsb-admin-bill"
   end
 
