@@ -188,7 +188,7 @@ class PaymentsController < ApplicationController
     @taska = Taska.find(params[:taska])
     @kid = Kid.find(params[:child])
     @kid_bills = @kid.payments.where.not(name: "TASKA BOOKING").order('bill_year DESC').order('bill_month DESC')
-    render action: "got_bill", layout: "dsb-admin-classroom" 
+    render action: "got_bill", layout: "dsb-admin-student" 
   end
 
   def chek_bill

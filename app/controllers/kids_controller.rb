@@ -15,7 +15,7 @@ class KidsController < ApplicationController
 		@admin = current_admin
 		@fotos = @kid.fotos
 		@taska = @kid.taska
-		render action: "show", layout: "dsb-admin-classroom" 
+		render action: "show", layout: "dsb-admin-student" 
 	end
 
 	def billvw
@@ -116,7 +116,8 @@ class KidsController < ApplicationController
 			if current_parent.present?
 				redirect_to my_kid_path(@kid.parent)		
 			elsif current_admin.present?
-				redirect_to unreg_kids_path(taska)
+				#redirect_to unreg_kids_path(taska)
+				redirect_to mystudent_path(id: taska.id)
 			end
 			# else
 				#redirect_to parent_index_path;		 
@@ -228,11 +229,12 @@ class KidsController < ApplicationController
 		if @kid.update(kid_params)
 			flash[:notice] = "Children was successfully updated"
 			if (current_admin)
-				if (cls=@kid.classroom_id).present?
-					redirect_to classroom_path(cls)
-				else
-					redirect_to unreg_kids_path(@kid.taska_id)
-				end
+				# if (cls=@kid.classroom_id).present?
+				# 	redirect_to classroom_path(cls)
+				# else
+				# 	redirect_to unreg_kids_path(@kid.taska_id)
+				# end
+				redirect_to kid_path(@kid)
 			else 
 				redirect_to parent_index_path(@kid.parent)
 			end
@@ -291,40 +293,59 @@ class KidsController < ApplicationController
 	end
 
 	def add_classroom
-		@kid = Kid.find(params[:kid][:kid_id])
-		@taska = Taska.find(params[:kid][:curr_taska])
-		if params[:kid][:taska_id].present? && params[:kid][:classroom_id].blank?
-			@kid.taska_id = params[:kid][:taska_id]
-			@kid.save
-			flash[:success] = "Center change successful!"
-			redirect_to unreg_kids_path(@taska)
-		elsif params[:kid][:taska_id].blank? && params[:kid][:classroom_id].present?		
-			@classroom = Classroom.find(params[:kid][:classroom_id])
-			#@taska = @classroom.taska
-			plan = @taska.plan
-			if plan == "PAY PER USE" || plan == "PAY PER USE N"
-				kidno = 100000
-			else
-				kidno = $package_child[plan]
-			end
-			if @taska.kids.where.not(classroom_id: nil).count >= kidno
-				flash[:danger] = "You have reached the maximum no of children allowed for #{plan} plan quote. Please upgrade or choose Pay/Use plan to proceed"
-			else
-				@kid.classroom_id = @classroom.id
+		pars = params[:cls]
+		@taska =Taska.find(pars[:curr_taska])
+
+		pars.each do |k,v|
+			if k != "curr_taska"
+				@kid = Kid.find(k)
+				cls_id= v[:classroom_id]
+				tsk_id= v[:taska_id]
+				if pars[:curr_taska] != tsk_id
+					@kid.taska_id = tsk_id unless cls_id.present?
+				end #end new taska
+				@kid.classroom_id = cls_id
 				@kid.save
-				flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
-			end
-			if params[:kid][:change] == "true"
-				redirect_to classroom_path(@classroom)
-			else
-				redirect_to unreg_kids_path(@taska)
-			end
-		else
-			flash[:danger] = "Please choose only one option"
-			redirect_to unreg_kids_path(@taska)
-		end
-		
-	end
+			end #end not curr_taska
+		end #end pars loop
+		flash[:success] = "Children lists updated"
+		redirect_to mystudent_path(id: @taska.id)
+	end #end add_classroom
+
+	# def add_classroom_old
+	# 	@kid = Kid.find(params[:kid][:kid_id])
+	# 	@taska = Taska.find(params[:kid][:curr_taska])
+	# 	if params[:kid][:taska_id].present? && params[:kid][:classroom_id].blank?
+	# 		@kid.taska_id = params[:kid][:taska_id]
+	# 		@kid.save
+	# 		flash[:success] = "Center change successful!"
+	# 		redirect_to unreg_kids_path(@taska)
+	# 	elsif params[:kid][:taska_id].blank? && params[:kid][:classroom_id].present?		
+	# 		@classroom = Classroom.find(params[:kid][:classroom_id])
+	# 		#@taska = @classroom.taska
+	# 		plan = @taska.plan
+	# 		if plan == "PAY PER USE" || plan == "PAY PER USE N"
+	# 			kidno = 100000
+	# 		else
+	# 			kidno = $package_child[plan]
+	# 		end
+	# 		if @taska.kids.where.not(classroom_id: nil).count >= kidno
+	# 			flash[:danger] = "You have reached the maximum no of children allowed for #{plan} plan quote. Please upgrade or choose Pay/Use plan to proceed"
+	# 		else
+	# 			@kid.classroom_id = @classroom.id
+	# 			@kid.save
+	# 			flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
+	# 		end
+	# 		if params[:kid][:change] == "true"
+	# 			redirect_to classroom_path(@classroom)
+	# 		else
+	# 			redirect_to unreg_kids_path(@taska)
+	# 		end
+	# 	else
+	# 		flash[:danger] = "Please choose only one option"
+	# 		redirect_to unreg_kids_path(@taska)
+	# 	end	
+	# end
 
 	def remove_classroom
 		@kid = Kid.find(params[:kid])

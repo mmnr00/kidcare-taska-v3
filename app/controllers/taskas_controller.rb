@@ -141,7 +141,7 @@ class TaskasController < ApplicationController
   end
 
   def xlskid
-    render action: "xlskid", layout: "dsb-admin-overview"
+    render action: "xlskid", layout: "dsb-admin-student"
   end
 
   def tempkidxls
@@ -194,7 +194,8 @@ class TaskasController < ApplicationController
 
     end
     flash[:success] = "FILE UPLOADED"
-    redirect_to taska_path(@taska)
+    #redirect_to taska_path(@taska)
+    redirect_to mystudent_path(id: @taska.id)
   end
 
   def find_spv

@@ -287,7 +287,7 @@ Rails.application.routes.draw do
   get '/register_child', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'
   get '/find_kid', to: 'kids#find', as: 'find_kid'
-  get 'add_classroom', to: 'kids#add_classroom'
+  post 'add_classroom', to: 'kids#add_classroom'
   get 'remove_classroom', to: 'kids#remove_classroom'
   get '/print/kid_pdf', to: 'kids#kid_pdf', as: 'kid_profile'
   post '/add_taska', to: 'kids#add_taska'

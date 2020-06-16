@@ -35,32 +35,49 @@
       </div>
     
     <div class="table table-responsive border" style="font-size:13px">
-      <%= form_for(:cls, :url => {:controller=>'taskas', :action=>'mystudent'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+      <%= form_for(:cls, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+        <%= f.hidden_field :curr_taska, value: @taska.id %>
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr class="shadow">
               <th style="background-color:#ffb2b2">NAME</th>
-              <th style="background-color:#ffb2b2">BILLING</th>
-              <th style="background-color:#ffb2b2">CLASSROOM</th>
+              <th style="background-color:#ffb2b2; width: 20%">BILLING</th>
+              <th style="background-color:#ffb2b2">CLASSROOM & CENTER</th>
             </tr>
           </thead>
           <tbody>
-            <% @kids.each do |kd| %>
-
+            <% @kids.order('name ASC').each do |kid| %>
+            <%= f.fields_for :"#{kid.id}" do |h| %>
               <tr>
                 <td>
-                  <a href="/kids/<%= kd.id %>" target="_blank"><font style="color: blue">
-                    <%= kd.name %>
-                    <%= link_to "Edit Details", new_kid_path(taska_id: @taska.id), class: "badge badge-pill badge-warning" %>    
-                  </font></a>   
+                  <a href="/kids/<%= kid.id %>" target="_blank"><font style="color: blue">
+                    <%= kid.name %>   
+                  </font></a><br>
+                  <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %><br>
+                  <% Date.today.year - kid.dob.year %>
+                  <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
+                  <% year = diff/12 %>
+                  <% month = diff - year*12 %>
+                  <%= year %> years <%= month %> months  
                 </td>
-                <td>Setting,Create, View</td>
                 <td>
-                  <%= f.select :classroom_id, 
-                    options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kd.classroom_id), {include_blank: "Select Classroom"} %>
+                  <%= link_to "Setting", new_kid_path(taska_id: @taska.id), class: "badge badge-primary", style: "font-size: 13px" %>
+                  <% if Time.now < @taska.expire && kid.classroom_id.present? %>
+                    <%= link_to "Create", got_bill_path(taska: @taska.id, child: kid.id, classroom: kid.classroom_id), class: "badge badge-success", style: "font-size: 13px"%>
+                  <% end %>
+                  
+                </td>
+                <td>
+                  <%= h.select :classroom_id, 
+                    options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kid.classroom_id), {include_blank: "No Classroom"} %>
+                  <% if 1==1 #kid.classroom_id.blank? %>
+                    <%= h.select :taska_id, 
+                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id) %>
+                  <% end %>
                 </td>
               </tr>
               
+            <% end %> <!-- END H  -->
             <% end %> <!-- END LOOP -->
           </tbody>
         </table>

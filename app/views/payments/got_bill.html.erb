@@ -6,12 +6,13 @@
       <div class="row">
         <div class="control-label col-sm-2">
          <strong>MONTH</strong>
-          <%= f.select :month, options_for_select(1..12),
+          <%= f.select :month, options_for_select(1..12,selected: Date.today.month),
               {include_blank: "Please Select"}, {required: true} %>
         </div>
         <div class="control-label col-sm-2">
          <strong>YEAR</strong>
-          <%= f.select :year, options_for_select(2016..2021),
+          <% yr = Date.today.year %>
+          <%= f.select :year, options_for_select((yr-4)..(yr+2),selected: yr),
               {include_blank: "Please Select"}, {required: true} %>
         </div>
         <%= f.hidden_field :taska, value: params[:taska] %>
