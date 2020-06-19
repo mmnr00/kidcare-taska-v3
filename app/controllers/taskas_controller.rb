@@ -33,8 +33,33 @@ class TaskasController < ApplicationController
 
   def mybill
     @payments = @taska.payments.where.not(name: "TASKA PLAN")
+    # @yrs = []
+    # @payments.each do |pmt|
+    #   @yrs << pmt.bill_year.to_i
+    # end
+    #logic search payment
+    if params[:sch].present?
+      @payments = @payments.where(bill_year: params[:sch_yr]) unless params[:sch_yr].blank? 
+      @payments = @payments.where(bill_month: params[:sch_mth]) unless params[:sch_mth].blank? 
+      @payments = @payments.where(paid: params[:sch_stt]) unless params[:sch_stt].blank?
+
+      if (str=params[:sch_str]).present?
+        str = str.upcase
+        pmt_arr = []
+        @payments.each do |pmt|
+          if pmt.kid_bills.where('kidname LIKE ?', "%#{str}%").present?
+            pmt_arr << pmt.id unless pmt_arr.include? pmt.id
+          end
+        end #end payments
+        @payments = @payments.where(id: pmt_arr)
+      end #end sch_str
+
+    end
+
     @bill_paid = @payments.where(paid: true)
-    @amt = @bill_paid.sum(:amount)
+    @bill_due = @payments.where(paid: false)
+    @amt_paid = @bill_paid.sum(:amount)
+    @amt_due = @bill_due.sum(:amount)
     render action: "mybill", layout: "dsb-admin-bill"
   end
 
