@@ -1,3 +1,4 @@
+<% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
 <!-- START TABLE -->
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -54,11 +55,59 @@
             <% kbls = pmt.kid_bills %>
             <tr>
               <td><%= "#{pmt.bill_month}-#{pmt.bill_year}" %></td>
-              <td><ol>
-                <% kbls.each do |kb| %>
-                  <li style="margin-left: -25px"><%= kb.kidname %></li>
+              <td>
+                <ol>
+                  <!-- CHILDREN NAMES -->
+                  <% kbls.each do |kb| %>
+                    <b><li style="margin-left: -25px"><%= kb.kidname %></li></b>
+                  <% end %>
+                </ol>
+                <div style="margin-bottom: -15px"></div>
+                <!-- SEND SMS -->
+                <% if !pmt.paid %>
+                  <% @kid = pmt.kids.first %>
+                  <% if status >=0 %>
+                    <% if !pmt.reminder %>
+                      <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: pmt.id), class: "btn btn-sm active", style: "color:blue" do %>
+                        <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                      <% end %>
+                    <% else %>
+                      <button class="btn btn-sm active">
+                        <i class="fa fa-check-circle"></i> REMINDER SENT TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                      </button>
+                    <% end %>
+                  <% end %>
+                  <div style="margin-left: -25px">
+                    <%= form_tag sms_reminder_path, method: :get do %>
+                      <%  if @kid.sph_1.present? && @kid.sph_1.present?
+                            secph = "#{@kid.sph_1}#{@kid.sph_2}"
+                          else
+                            secph = ""
+                          end
+                      %>
+                      <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-8">
+                          <%= text_field_tag :phk, secph,
+                              placeholder: "Example: 01162801556",
+                              class: "form-control search-box",
+                              style: "font-size: 12px"%>
+                          <i>Additional SMS (RM 0.50)</i>
+                          <%= hidden_field_tag :id, @taska.id %>
+                          <%= hidden_field_tag :kid, @kid.id %>
+                          <%= hidden_field_tag :bill, pmt.id %>
+                          <%= hidden_field_tag :xtrarem, true %>
+                        </div>
+                        <div class="col-md-0">
+                          <%= button_tag(type: :submit, class: "badge badge-secondary badge-pill",style: "font-size: 10px", id: "submit_expense") do %>
+                            <i class="fa fa-check"></i> SEND
+                          <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
                 <% end %>
-              </ol></td>
+              </td>
               <td>
                 <%= link_to "View", new_kid_path(taska_id: @taska.id), class: "badge badge-primary", style: "font-size: 13px" %>
                 <% if !pmt.paid %>

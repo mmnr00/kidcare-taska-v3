@@ -491,7 +491,7 @@ class TaskasController < ApplicationController
       phk = "#{@kid.ph_1}#{@kid.ph_2}"
       nufcred = true
     end
-    if 1==1 && nufcred #Rails.env.production?
+    if 1==0 && nufcred #Rails.env.production?
       #init SMS360 params
       url = "https://sms.360.my/gw/bulk360/v1.4?"
       usr = "user=admin@kidcare.my&"
@@ -519,14 +519,15 @@ class TaskasController < ApplicationController
     else
       flash[:danger] = "Insufficient credit. Please reload"
     end
-    if params[:account].present?
-      redirect_to bill_account_path(@taska, 
-                                    month: params[:month],
-                                    year: params[:year],
-                                    paid: false)
-    else
-      redirect_to unpaid_index_path(@taska)
-    end
+    # if params[:account].present?
+    #   redirect_to bill_account_path(@taska, 
+    #                                 month: params[:month],
+    #                                 year: params[:year],
+    #                                 paid: false)
+    # else
+    #   redirect_to unpaid_index_path(@taska)
+    # end
+    redirect_to request.referrer
   end
 
   def bill_account
@@ -899,7 +900,7 @@ end
     @taska = Taska.find(params[:id])
     #check all unpaid bills with billplz
     
-    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
     @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
   end

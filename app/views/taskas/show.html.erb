@@ -30,7 +30,7 @@
           <i class="fa fa-exclamation-circle"></i>
           <span class="count-numbers"><%= @kid_unpaid.count %></span>
           <span class="count-name">
-            <a href="<%= unpaid_index_url %>", style="color:#fff">
+            <a href="<%= unpaid_index_url(no_sch:1) %>", style="color:#fff">
               Unpaid Bills<br>
               RM 
               <% if @kid_unpaid.present? %>
