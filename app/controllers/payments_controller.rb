@@ -379,7 +379,7 @@ class PaymentsController < ApplicationController
       ps = "pass=#{ENV['SMS360']}&"
       txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment"
 
-      if 1==1# && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#Rails.env.production?
+      if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
         to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
         fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
         data_sms = HTTParty.get(

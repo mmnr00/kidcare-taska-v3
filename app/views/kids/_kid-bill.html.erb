@@ -1,7 +1,7 @@
 
 <div class="page-content">
   <% if (paid = @payment.paid) %>
-    <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
+    <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-sm btn-success active btn-block" %></h1>
   <% elsif @payment.parpayms.present? && !paid %>
     <%
     paympar = 0
@@ -10,9 +10,9 @@
     end
     amttop=@payment.amount - paympar
     %>
-    <h1 align="center"><%= link_to "RM #{amttop.round(3)} BALANCE PAYMENT", "#", class: "btn btn-sm btn-warning" %></h1>
+    <h1 align="center"><%= link_to "RM #{amttop.round(3)} BALANCE PAYMENT", "#", class: "btn btn-sm btn-warning btn-block" %></h1>
   <% else %>
-    <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
+    <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active btn-block" %></h1>
     <% trial = false %>
     <% expired = false %>
     <% if (bill = @taska.payments.where(name: "TASKA PLAN")).count == 1 %>
@@ -23,23 +23,26 @@
     <% end %>
     
     
-    <% if !@pdf && @payment.cltid != $clt %><% if @taska.blgt %>
-      <h1 align="right">
-        <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
-          <i></i> PAY
-        <% end %>
-      </h1>
-    <% end %><% end %>
+    
   <% end %>
 </div>
 
 <div class="content">
   <div class="row">
     <div class="col-md-12">
-      <div class="grid simple">
-        <div class="grid-body no-border invoice-body"><br> 
 
+      <div class="grid simple">
+        <div class="grid-body no-border invoice-body">
+          <div style="margin-bottom: -20px"></div>
+          <% if !@pdf && @payment.cltid != $clt %><% if @taska.blgt %>
+            <h1 align="right">
+              <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-sm btn-info" do %>
+                <i></i> CLICK HERE TO PAY
+              <% end %>
+            </h1>
+          <% end %><% end %>
           <div class="col-md-12"> 
+            
             <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
             <% if image.picture.present? %>
               <a href="<%="#{image.picture.url}"%>" target="_blank">
