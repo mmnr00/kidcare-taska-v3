@@ -30,7 +30,7 @@
       </div>
       <div class="row">
         <div class="col-sm-6" style="background-color:#66b266">
-          <%= link_to bill_account_path(@taska, month: month, year: year, paid: true) do %>
+          <%= link_to bill_account_path(@taska, month: month, year: year, paid: true, no_sch: 1) do %>
             <h6 align="center"><font color="white">PAID (RM)</font></h6>
              <h5 align="center">
               <font color="white">
@@ -50,7 +50,7 @@
           <% end %>
         </div>
         <div class="col-sm-6" style="background-color:#ff6666">
-          <%= link_to bill_account_path(@taska, month: month, year: year, paid: false) do %>
+          <%= link_to bill_account_path(@taska, month: month, year: year, paid: false, no_sch: 1) do %>
             <h6 align="center"><font color="white">UNPAID (RM)</font></h6>
              <h5 align="center"><font color="white"><%= number_with_delimiter(@tot_unpaid, :delimiter => ',') %></font></h5>
           <% end %>
