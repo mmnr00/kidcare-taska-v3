@@ -1,28 +1,25 @@
 <% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
-<div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-search"></i>
-      DISPLAYING ALL UNPAID BILLS
-      <% if status >=0 %>
-        <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary active" do %>
-          <i class="fa fa-bell"></i> SEND REMINDER TO ALL
-        <% end %>
-      <% end %>
-        <%= link_to updunpaid_path(@taska), class: "btn btn-sm btn-success" do %>
-          <i class="fa fa-refresh"></i> UPDATE PAYMENT STATUS
-        <% end %>
-    </div>
-    <div class="bg-light"><br>
-      <%= render 'taskas/bill-list' %>
-      <div class="pull-left">
-        <%= link_to unpaid_xls_path(@taska, paid: false, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
-          <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
-        <% end %>
-        <%= link_to unpaid_xls_path(@taska, paid: true, format: :xlsx), class: "btn btn-sm btn-success active" do %>
-          <i class="fa fa-file-excel"></i> ALL BILLS
-        <% end %>
-        
-      </div>
 
-    </div>
-  </div>
+<% if status >=0 %>
+  <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary" do %>
+    <i class="fa fa-bell"></i> SEND REMINDER TO ALL
+  <% end %>
+<% end %>
+<% if 1==0 %>
+  <%= link_to updunpaid_path(@taska), class: "btn btn-sm btn-success" do %>
+    <i class="fa fa-refresh"></i> UPDATE PAYMENT STATUS
+  <% end %>
+<% end %>
+
+<%= render 'taskas/bill-list' %>
+
+<div class="pull-left">
+  <%= link_to unpaid_xls_path(@taska, paid: false, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
+    <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
+  <% end %>
+  <%= link_to unpaid_xls_path(@taska, paid: true, format: :xlsx), class: "btn btn-sm btn-success active" do %>
+    <i class="fa fa-file-excel"></i> ALL BILLS
+  <% end %>
+  
+</div>
+

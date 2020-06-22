@@ -1013,7 +1013,8 @@ end
         end
       end
     end
-    redirect_to unpaid_index_path(id: bill[:taska_id])
+    #redirect_to unpaid_index_path(id: bill[:taska_id])
+    redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
   end
 
   def delete_parpaym
@@ -1075,7 +1076,8 @@ end
                                     year: params[:year],
                                     paid: false)
     else
-      redirect_to unpaid_index_path(@taska)
+      #redirect_to unpaid_index_path(@taska)
+      redirect_to request.referrer
     end
   end
 
