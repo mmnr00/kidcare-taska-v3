@@ -1,6 +1,6 @@
 <h4>PLEASE CHOOSE A MONTH</h4>
 
-<%= form_for(:payments, :url => {:controller=>'payments', :action=>'chek_bill'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+<%= form_for(:payment, :url => {:controller=>'payments', :action=>'chek_bill'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
   <div class="form-group"> <!-- name -->
     <div class="container">
       <div class="row">
@@ -26,55 +26,10 @@
     </div>
   </div>
 <% end %>
-<br>
-<div class="card ">
-  <div class="card-header">
+<div class="card-header">
     BILL LIST FOR <strong><%= @kid.name %></strong>
   </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered" width="100%" cellspacing="0">
-        <thead>
-          <tr>
-            <th style="background-color:#d8b2d8"> PERIOD </th>
-            <th style="background-color:#d8b2d8"> AMOUNT(RM) </th>
-            <th style="background-color:#d8b2d8"> STATUS </th>
-            <th style="background-color:#d8b2d8"> ACTION </th>
-          </tr>
-        </thead>
-        <tbody>
-          <% counter = 1 %>
-          <% @kid_bills.each do |bill| %>
-          <% if bill.paid %>
-            <% clr = "#7fbf7f" %>
-            <% stat = "PAID" %>
-          <% else %>
-            <% clr = "#ffc04d" %>
-            <% stat = "DUE" %>
-          <% end %>
-          <tr>
-            <td><%= "#{$month_name[bill.bill_month]}-#{bill.bill_year}" %></td>
-            <td><%= bill.amount %></td>
-            <td style="background-color:<%= "#{clr}" %>"><%= stat %></td>
-            <td>
-              <% if stat == "PAID" %>
-                <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-success active", target:"_blank" do %>
-                  <i class="fa fa-download"></i> VIEW RECEIPT
-                <% end %>
-              <% elsif stat == "DUE" %>
-                <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-info active", target:"_blank" do %>
-                  <i class="fa fa-eye"></i> VIEW BILL
-                <% end %>
-                <%= link_to payment_path(id: bill.id, taska_id: @taska.id, kid_id: @kid.id, gotb: "true"), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
-                  <i class="fa fa-trash"></i> DELETE
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-          <% counter = counter + 1 %>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
+<%= render 'taskas/bill-list' %>
+
+

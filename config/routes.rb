@@ -327,12 +327,13 @@ Rails.application.routes.draw do
   get '/got_bill', to: 'payments#got_bill'
   get '/chek_bill', to: 'payments#chek_bill'
   get '/tsksvbill', to: 'payments#tsksvbill'
+  get '/edit_bill/:id', to: 'payments#edit_bill', as: 'edit_bill'
   
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
   get '/taska/:id/search_bill', to: 'payments#search_bill', as: 'search_bill'
   get '/taska/:id/new_bill', to: 'payments#new', as: 'new_bill'
-  #get '/taska/:id/edit_bill', to: 'payments#edit_bill', as: 'edit_bill'
+  
   #get '/taska/:id/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
   get '/taska/:id/view_bill', to: 'payments#view_bill', as: 'view_bill'
   get '/payments/update', to: 'payments#update', as: 'payment_update'

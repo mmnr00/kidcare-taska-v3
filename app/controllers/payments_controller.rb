@@ -188,11 +188,12 @@ class PaymentsController < ApplicationController
     @taska = Taska.find(params[:taska])
     @kid = Kid.find(params[:child])
     @kid_bills = @kid.payments.where.not(name: "TASKA BOOKING").order('bill_year DESC').order('bill_month DESC')
+    @payments = @kid_bills
     render action: "got_bill", layout: "dsb-admin-student" 
   end
 
   def chek_bill
-    par = params[:payments]
+    par = params[:payment]
     kid = Kid.find(par[:child])
     if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: par[:month]).where(bill_year: par[:year]).present?
       flash[:notice] = "BILL ALREADY EXIST FOR #{$month_name[par[:month].to_i]}-#{par[:year]}."
@@ -248,10 +249,7 @@ class PaymentsController < ApplicationController
     end
   end
 
-  def edit_bill
-    @taska = Taska.find(params[:id])
-    render action: "edit_bill", layout: "dsb-admin-classroom" 
-  end
+  
 
   def create
     params.require(:payment).permit(:amount, 
@@ -428,6 +426,14 @@ class PaymentsController < ApplicationController
     #                               year: "#{params[:payment][:year]}", 
     #                               taska_id: "#{params[:payment][:taska_id]}", 
     #                               "button"=>""), :method => :get
+  end
+
+  def edit_bill
+    @payment = Payment.find(params[:id])
+    @taska = @payment.taska
+    @fotos = @taska.fotos
+    @kid = @payment.kids.first
+    render action: "edit_bill", layout: "dsb-admin-bill" 
   end
 
   def create_bill_booking
