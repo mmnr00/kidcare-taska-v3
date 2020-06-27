@@ -111,7 +111,7 @@
               <td>
                 <%= link_to "View", billview_path(pmt: pmt.id), class: "badge badge-primary", target: "_blank", style: "font-size: 13px" %>
                 <% if !pmt.paid %>
-                  <%= link_to "Edit", edit_bill_path(pmt.id), class: "badge badge-warning", style: "font-size: 13px" %>
+                  <%= link_to "Edit", edit_bill_path(pmt.id), class: "badge badge-warning", style: "font-size: 13px", target: "_blank" %>
                   <% if pmt.parpayms.blank? %>
                     <%= link_to "Delete", payment_path(id: pmt.id, taska_id: pmt.taska.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "badge badge-danger", style: "font-size: 13px" %>
                   <% end %>

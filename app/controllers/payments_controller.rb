@@ -5,6 +5,28 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
  
+  def upd_bill
+    pars = params[:bl]
+    @pmt = Payment.find(pars[:pmt_id])
+
+    #Start of OTKID
+    pars[:kd].each do |k,v|
+      kid = Kid.find(k)
+      otk = Otkid.where(kid_id: k,payment_id: @pmt.id).last
+      if v[:amt].present?
+        if otk.present?
+          otk.update(amt: v[:amt],descotk: v[:descotk])
+        else
+          Otkid.create(kid_id: k,payment_id: @pmt.id,amt: v[:amt],descotk: v[:descotk])
+        end
+      else
+        otk.destroy unless otk.blank?
+      end
+    end
+
+    flash[:success] = "Bill updated successfully"
+    redirect_to request.referrer
+  end
 
   def index
     @taska = Taska.find(params[:id])
@@ -433,6 +455,7 @@ class PaymentsController < ApplicationController
     @taska = @payment.taska
     @fotos = @taska.fotos
     @kid = @payment.kids.first
+    @kbs = @payment.kid_bills
     render action: "edit_bill", layout: "dsb-admin-bill" 
   end
 

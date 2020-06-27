@@ -76,7 +76,7 @@
                 <hr>
                 <p><%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
                   <p align="center"><%= f.select :extra_ids, 
-                    options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %>                        
+                    options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"}, style: "width: 150px" %>                        
                   <%= f.hidden_field :kid_id, value: @kid.id %>
                   <%= f.hidden_field :child, value: params[:child] %>
                   <%= f.hidden_field :classroom, value: params[:classroom] %>
@@ -203,7 +203,7 @@
                 <hr>
                 <p><%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
                   <p align="center"><%= f.select :extra_ids, 
-                    options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %>                        
+                    options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"}, style: "width: 150px" %>                        
                   <%= f.hidden_field :kid_id, value: beradik.id %>
                   <%= f.hidden_field :child, value: params[:child] %>
                   <%= f.hidden_field :classroom, value: params[:classroom] %>

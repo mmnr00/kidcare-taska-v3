@@ -200,7 +200,81 @@
   </div> <!-- DIV 6 BILL -->
 
   <div class="col-md-6 bg-light">
-    jskhdskjh
+    <%= form_for(:bl, :url => {:controller=>'payments', :action=>'upd_bill'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+      <%= f.hidden_field :pmt_id, value: @payment.id %>
+      <!-- SIBLINGS DETAILS -->
+      <div class="text-center" style="background-color:#7fbf7f">
+        <font color="white"><strong>SIBLINGS DETAILS<br></strong></font>     
+        <p></p>
+      </div>
+      <div class="table table-responsive border" style="font-size:13px; margin-top: -15px">
+        
+        <table class="table table-bordered table-striped shadow">
+          <thead>
+            <tr class="shadow" style="text-color:black">
+              <th style="background-color:#ffccff; width: 50%">NAME</th>
+              <th style="background-color:#ffccff; width: 50%">OT CHARGES</th>         
+            </tr>
+          </thead>
+          <tbody>
+            <%= f.fields_for :kd do |g| %>
+              <% @kbs.each do |kb| 
+                kid= kb.kid
+                otkd = Otkid.where(payment_id: @payment.id, kid_id: kid.id).first
+                if otkd.present?
+                  otamt = otkd.amt
+                  otdesc = otkd.descotk
+                else
+                  otamt = nil
+                  otdesc = nil
+                end 
+              %>
+                <%= g.fields_for :"#{kid.id}" do |h| %>
+                  <tr>
+                    <td><b><%= kid.name %></b></td>
+                    <td>
+                      AMOUNT (RM)
+                      <%= h.number_field :amt, rows: 10, class: "form-control", :step => 0.01, placeholder: "AMOUNT", style: "font-size: 12px",value: otamt %> 
+                      DESCRIPTION  
+                      <%= h.text_area :descotk, class: "form-control", placeholder: "DESCRIPTION", autofocus: true, style: "font-size: 12px", value: otdesc  %>  
+                    </td>
+                    <% if 1==0 %><td>
+                      <!-- Display all extras -->
+
+
+                      <!-- Form to submit new extras -->
+                      <%= form_for(kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |g| %>
+                        <%= g.select :extra_ids, 
+                        options_from_collection_for_select(kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"},
+                        style: "width: 120px" %>
+                      <% end %>
+                    </td><% end %>
+                  </tr>
+                <% end %> <!-- END FIELDS H-->
+              <% end %> <!-- END FIELDS G-->
+            <% end %> <!-- END FOR EACH -->
+          </tbody>
+        </table>
+      </div>
+
+      
+      <!-- BILL DISCOUNT -->
+      <div class="text-center" style="background-color:#ff6666">
+        <font color="white"><strong>BILL DISCOUNT (RM)<br></strong>
+        <p style="font-size: 12px; margin-top: -5px">Amount to be DEDUCTED from the total</p></font>
+      </div>
+
+      <br>
+      <!-- OTHER CHARGES -->
+      <div class="text-center" style="background-color:#7f7fff">
+        <font color="white"><strong>OTHER CHARGES (RM)<br></strong>
+        <p style="font-size: 12px; margin-top: -5px">Amount to be ADDED to the total</p></font>
+      </div>
+
+      <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-warning btn-lg', style: "align:center", data: { confirm: 'Please check all details before submission. All input will be final after submission' } %>
+
+    <% end %> <!-- END FORM -->
+
   </div> <!-- DIV 6 EDIT -->
 
 </div> <!-- DIV ROW -->

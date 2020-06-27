@@ -328,6 +328,7 @@ Rails.application.routes.draw do
   get '/chek_bill', to: 'payments#chek_bill'
   get '/tsksvbill', to: 'payments#tsksvbill'
   get '/edit_bill/:id', to: 'payments#edit_bill', as: 'edit_bill'
+  post '/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
   
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
