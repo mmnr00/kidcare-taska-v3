@@ -1,3 +1,4 @@
+<% tot_bill = 0.00 %>
 <div class="row">
   <div class="col-md-6">
     <br>
@@ -93,7 +94,10 @@
               <% if kb.clsname.present? && kb.clsfee.present? %>
                 <td>FEE FOR CLASSROOM <%= kb.clsname.upcase %></td>
                 <td></td>
-                <td class="text-right"><%= kb.clsfee %></td>
+                <td class="text-right">
+                  <%= kb.clsfee %>
+                  <% tot_bill += kb.clsfee %>
+                </td>
                 </tr>
               <% elsif @payment.name == "TASKA BOOKING" %>
                 <td>BOOKING FEE FOR <%= @taska.name.upcase %></td>
@@ -114,7 +118,10 @@
                   <% #extra = Extra.find(id) %>
                   <td><%= k %></td>
                   <td></td>
-                  <td class="text-right"><%= v %></td>
+                  <td class="text-right">
+                    <%= v %>
+                    <% tot_bill += v %>    
+                  </td>
                 
               </tr>
             <% end %>
@@ -257,20 +264,41 @@
         </table>
       </div>
 
-      
-      <!-- BILL DISCOUNT -->
-      <div class="text-center" style="background-color:#ff6666">
-        <font color="white"><strong>BILL DISCOUNT (RM)<br></strong>
-        <p style="font-size: 12px; margin-top: -5px">Amount to be DEDUCTED from the total</p></font>
-      </div>
+      <div class="row" style="margin-bottom: 10px">
 
-      <br>
-      <!-- OTHER CHARGES -->
-      <div class="text-center" style="background-color:#7f7fff">
-        <font color="white"><strong>OTHER CHARGES (RM)<br></strong>
-        <p style="font-size: 12px; margin-top: -5px">Amount to be ADDED to the total</p></font>
-      </div>
+        <div class="col-md-6" style="margin-right: -5px">
+          <!-- BILL DISCOUNT -->
+          <div class="text-center" style="background-color:#ff6666; margin-bottom: -10px">
+            <font color="white"><strong>BILL DISCOUNT<br></strong>
+            <p style="font-size: 12px; margin-top: -5px">Amount to be DEDUCTED from the total</p></font>
+          </div>
+          Discount Amount (RM)
+          <%= f.number_field :discount, class: "form-control", :step => 0.01, style: "font-size: 12px",value: @payment.discount %>
+        </div>
 
+        <div class="col-md-6" style="margin-left: -5px">
+          <!-- OTHER CHARGES -->
+          <%
+            adt = @payment.addtns.first
+            adt_amt = nil
+            adt_desc = nil
+            if adt.present?
+              adt_amt = adt.amount
+              adt_desc = adt.desc
+            end
+          %>
+          <div class="text-center" style="background-color:#7f7fff; margin-bottom: -10px">
+            <font color="white"><strong>OTHER CHARGES<br></strong>
+            <p style="font-size: 12px; margin-top: -5px">Amount to be ADDED to the total</p></font>
+          </div>
+          Additional Amount (RM)
+          <%= f.number_field :adt_amt, class: "form-control", :step => 0.01, style: "font-size: 12px",value: adt_amt %>
+          Description 
+          <%= f.text_area :adt_desc, class: "form-control", autofocus: true, style: "font-size: 12px", value: adt_desc  %>  
+        </div>
+
+      </div> <!-- div row -->
+      <%= f.hidden_field :tot_bill, value: tot_bill %>
       <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-warning btn-lg', style: "align:center", data: { confirm: 'Please check all details before submission. All input will be final after submission' } %>
 
     <% end %> <!-- END FORM -->

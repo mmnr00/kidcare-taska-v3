@@ -8,12 +8,14 @@ class PaymentsController < ApplicationController
   def upd_bill
     pars = params[:bl]
     @pmt = Payment.find(pars[:pmt_id])
+    tot_bill = pars[:tot_bill].to_f
 
     #Start of OTKID
     pars[:kd].each do |k,v|
       kid = Kid.find(k)
       otk = Otkid.where(kid_id: k,payment_id: @pmt.id).last
       if v[:amt].present?
+        tot_bill += v[:amt].to_f
         if otk.present?
           otk.update(amt: v[:amt],descotk: v[:descotk])
         else
@@ -23,6 +25,25 @@ class PaymentsController < ApplicationController
         otk.destroy unless otk.blank?
       end
     end
+
+    #Start Addition
+    adtn = @pmt.addtns.first
+    adtn.update(amount: pars[:adt_amt], desc: pars[:adt_desc])
+    tot_bill += pars[:adt_amt].to_f
+    # if pars[:adt_amt].present?
+    #   if adtn.present?
+    #     adtn.update(amount: pars[:adt_amt], desc: pars[:adt_desc])
+    #   else
+    #     Addtn.create(payment_id: @pmt.id, amount: pars[:adt_amt], desc: pars[:adt_desc])
+    #   end
+    # else
+    #   #adtn.destroy unless adtn.blank?
+    # end
+
+    @pmt.discount = pars[:discount]
+    tot_bill += pars[:discount].to_f
+    @pmt.amount = tot_bill
+    @pmt.save
 
     flash[:success] = "Bill updated successfully"
     redirect_to request.referrer
