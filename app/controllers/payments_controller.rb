@@ -40,12 +40,21 @@ class PaymentsController < ApplicationController
     #   #adtn.destroy unless adtn.blank?
     # end
 
-    @pmt.discount = pars[:discount]
-    tot_bill += pars[:discount].to_f
-    @pmt.amount = tot_bill
+    
     @pmt.save
+    
+    tot_bill -= pars[:discount].to_f
 
-    flash[:success] = "Bill updated successfully"
+    if @pmt.parpayms.sum(:amt) > tot_bill
+      flash[:danger] = "The figure paid is more than the current balance"
+    else
+      flash[:success] = "Bill updated successfully"
+      @pmt.discount = pars[:discount]
+      @pmt.amount = tot_bill
+      @pmt.save
+    end   
+
+    
     redirect_to request.referrer
   end
 

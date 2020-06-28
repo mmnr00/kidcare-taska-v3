@@ -1022,11 +1022,12 @@ end
     @payment = @parpaym.payment
     @taska = @payment.taska
     if @parpaym.destroy && @parpaym.fotos.first.destroy
-      flash[:notice] = "SUCCESS"
+      flash[:notice] = "Partial Payment Successfully Deleted"
     else
-      flash[:danger] = "FAILED"
+      flash[:danger] = "Fail to delete partial payment"
     end
-      redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
+      #redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
+      redirect_to request.referrer
   end
 
   def check_bill
