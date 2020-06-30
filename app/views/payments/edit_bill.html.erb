@@ -4,7 +4,7 @@
 
     <%= render 'kids/kid-bill' %>
     <%
-      tot_bill = @payment.amount - @payment.addtns.sum(:amount)# + @payment.discount
+      tot_bill = @payment.amount - @payment.addtns.sum(:amount) + @payment.discount
       Otkid.where(payment_id: @payment.id).each do |otk|
         tot_bill -= otk.amt
       end

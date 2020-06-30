@@ -39,6 +39,7 @@ class PaymentsController < ApplicationController
     data = JSON.parse(data_billplz.to_s)
     if data["id"].present?
       @payment.bill_id2 = data["id"]
+      @payment.cltid = cltid
       @payment.save
       redirect_to "#{ENV['BILLPLZ_URL']}bills/#{@payment.bill_id2}"
     else
