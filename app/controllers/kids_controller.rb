@@ -364,8 +364,8 @@ class KidsController < ApplicationController
 	def check_bill
 		payment = Payment.find(params[:payment]) 
 		#check payment status
-		if !payment.paid && Rails.env.production?
-			url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id}"
+		if !payment.paid #&& Rails.env.production?
+			url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id2}"
       data_billplz = HTTParty.get(url_bill.to_str,
               :body  => { }.to_json, 
                           #:callback_url=>  "YOUR RETURN URL"}.to_json,

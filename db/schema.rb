@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_065748) do
+ActiveRecord::Schema.define(version: 2020_06_30_214924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -352,6 +352,9 @@ ActiveRecord::Schema.define(version: 2020_06_07_065748) do
     t.string "mtd"
     t.string "cltid"
     t.boolean "s2ph"
+    t.string "bill_id2"
+    t.boolean "fin"
+    t.boolean "exs"
   end
 
   create_table "payslips", force: :cascade do |t|

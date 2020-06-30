@@ -4,6 +4,48 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_URL'] = "https://billplz-staging.herokuapp.com/"
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
+  before_action :check_bill, only: [:edit_bill]
+
+  def crt_billplz
+    @payment = Payment.find(params[:id])
+    @taska = @payment.taska
+    @kid = @payment.kids.first
+    kidname = ""
+    @payment.kid_bills.each do |kb|
+      if kidname.blank?
+        kidname = kb.kidname
+      else
+        kidname = kidname + ", " + kb.kidname
+      end
+    end
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
+    if @payment.exs
+      cltid = @taska.collection_id2
+    else
+      cltid = @taska.collection_id
+    end
+    data_billplz = HTTParty.post(url_bill.to_str,
+            :body  => { :collection_id => cltid, 
+                        :email=> "bill@kidcare.my",
+                        :name=> "#{kidname}", 
+                        :amount=>  @payment.amount*100,
+                        :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :description=>@payment.description}.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    #render json: data_billplz and return
+    data = JSON.parse(data_billplz.to_s)
+    if data["id"].present?
+      @payment.bill_id2 = data["id"]
+      @payment.save
+      redirect_to "#{ENV['BILLPLZ_URL']}bills/#{@payment.bill_id2}"
+    else
+      flash[:danger] = "Please try again"
+      redirect_to request.referrer
+    end
+  end
  
   def upd_bill
     pars = params[:bl]
@@ -86,6 +128,7 @@ class PaymentsController < ApplicationController
       redirect_to hiscrdt_path(id: params[:taska])
     else
       @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
+      @bill = Payment.where(bill_id2: "#{params[:billplz][:id]}").first unless @bill.present?
       if @bill.present?
       #@kid = @bill.kid
         @bill.paid = params[:billplz][:paid]
@@ -257,7 +300,7 @@ class PaymentsController < ApplicationController
                                 classroom: par[:classroom],
                                 month: par[:month],
                                 year: par[:year],
-                                exs: 1)
+                                exs: true)
 
     else
       redirect_to new_bill_path(id: par[:taska],
@@ -301,9 +344,183 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def create
+    params.require(:payment).permit(:amount, 
+                            :description, 
+                            :month, 
+                            :year, 
+                            :kid_id, 
+                            :taska_id, 
+                            :discount,
+                            :exs,
+                            :s2ph,
+                            addtns_attributes: [:desc, :amount])
+    amount = params[:payment][:amount].to_f*100
+    if (desc = params[:payment][:description]) == ""
+      desc = "NA"
+    end
+    
+    @payment = Payment.new
+    @addtn = Addtn.new
+    @taska = Taska.find(params[:payment][:taska_id])
+    exs = params[:payment][:exs]
+    if exs.blank?
+      collection_id = @taska.collection_id
+    else
+      collection_id = @taska.collection_id2
+    end
+    @kid = Kid.find(params[:payment][:kid_id])
+
+    if params[:payment][:discount].blank? #avoid discount becomes nil
+      discount = 0
+    else
+      discount = params[:payment][:discount].to_f
+    end
+    
+    if 1==1 #data["id"].present?
+      @payment.amount = params[:payment][:amount].to_f
+      @payment.description = desc
+      @payment.bill_month = params[:payment][:month]
+      @payment.bill_year = params[:payment][:year]
+      @payment.discount = discount
+      @payment.exs = exs
+      @payment.s2ph = params[:payment][:s2ph]
+      @payment.parent_id = @kid.parent.id
+      @payment.taska_id = @kid.classroom.taska.id
+      @payment.state = "due"
+      @payment.paid = false
+      unq = (0...8).map { ('A'..'Z').to_a[rand(26)] }.join
+      while Payment.where(bill_id: unq).present?
+        unq = (0...8).map { ('A'..'Z').to_a[rand(26)] }.join
+      end
+      @payment.bill_id = unq
+      @payment.reminder = false
+      @payment.name = "KID BILL"
+      @payment.cltid = collection_id
+      @payment.save
+      @taska = @payment.taska
+      @addtn.desc = params[:payment][:addtns_attributes]["0"][:desc]
+      @addtn.amount = params[:payment][:addtns_attributes]["0"][:amount]
+      @addtn.payment_id = @payment.id
+      @addtn.save
+      
+      if exs.blank?
+        cls = @kid.classroom.id
+      else
+        cls = nil
+      end
+      kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: cls)
+      kb.kidname = @kid.name
+      kb.kidic = "#{@kid.ic_1}-#{@kid.ic_2}-#{@kid.ic_3}"
+      if cls.present?
+        clsr = @kid.classroom
+        kb.clsname = clsr.classroom_name
+        kb.clsfee = clsr.base_fee
+      end
+      if (ot = @kid.otkids.where(payment_id: nil).first).present?
+        ot.payment_id = @payment.id
+        ot.save
+      end
+      cnt=1
+      @kid.extras.each do |extra|
+        kb.extra << extra.id
+        extra = Extra.find(extra.id)
+        kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
+        cnt = cnt + 1
+      end
+      kb.save
+
+      if @kid.beradik.count > 0
+        @kid.beradik.each do |beradik|
+          if exs.blank?
+            cls = beradik.classroom.id
+          else
+            cls = nil
+          end
+          kb = KidBill.new(kid_id: beradik.id, payment_id: @payment.id, classroom_id: cls)
+          kb.kidname = beradik.name
+          kb.kidic = "#{beradik.ic_1}-#{beradik.ic_2}-#{beradik.ic_3}"
+          if cls.present?
+            clsr = beradik.classroom
+            kb.clsname = clsr.classroom_name
+            kb.clsfee = clsr.base_fee
+          end
+          cnt=1
+          beradik.extras.each do |extra|
+            kb.extra << extra.id
+            extra = Extra.find(extra.id)
+            kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
+            cnt = cnt + 1
+          end
+          kb.save
+          if (ot = beradik.otkids.where(payment_id: nil).first).present?
+            ot.payment_id = @payment.id
+            ot.save
+          end
+        end
+
+      end
+      flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
+      # start send sms to parents
+      url = "https://sms.360.my/gw/bulk360/v1.4?"
+      usr = "user=admin@kidcare.my&"
+      ps = "pass=#{ENV['SMS360']}&"
+      txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment"
+
+      if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+        to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
+        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        data_sms = HTTParty.get(
+                          "#{url}#{usr}#{ps}#{to}#{txt}",
+                          http_proxyaddr: fixie.host,
+                          http_proxyport: fixie.port,
+                          http_proxyuser: fixie.user,
+                          http_proxypass: fixie.password)
+        
+        if @payment.s2ph && @kid.sph_1.present? && @kid.sph_2.present?
+          if @taska.cred >= 0.5
+            to = "to=6#{@kid.sph_1}#{@kid.sph_2}&"
+            fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+            data_sms = HTTParty.get(
+                              "#{url}#{usr}#{ps}#{to}#{txt}",
+                              http_proxyaddr: fixie.host,
+                              http_proxyport: fixie.port,
+                              http_proxyuser: fixie.user,
+                              http_proxypass: fixie.password)
+            @taska.cred -= 0.5
+            @taska.hiscred << [-0.5,Time.now,"#{@kid.sph_1}#{@kid.sph_2}",@payment.bill_id]
+            @taska.save
+            flash[:notice] = "Bills created successfully and SMS send to #{@kid.sph_1}#{@kid.sph_2}"
+          else
+            flash[:danger] = "Insufficient credit. SMS not send to second phone number. Please reload"
+          end
+        end
+      end
+      
+    else
+      flash[:danger] = "Bills creation failed. Please try again"
+      
+    end
+    redirect_to got_bill_path(taska: @kid.classroom.taska,
+                                child: @kid,
+                                classroom: @kid.classroom)
+    
+
+
+
+    #if child ada satu bill, pergi search bill, if more, pergi view bill
+    # redirect_to view_bill_path(params[:id] = "#{params[:payment][:taska_id]}",
+    #                               "utf8"=>"✓", 
+    #                               kid: "#{params[:payment][:kid_id]}",
+    #                               month: "#{params[:payment][:month]}", 
+    #                               year: "#{params[:payment][:year]}", 
+    #                               taska_id: "#{params[:payment][:taska_id]}", 
+    #                               "button"=>""), :method => :get
+  end
+
   
 
-  def create
+  def create_old
     params.require(:payment).permit(:amount, 
                             :description, 
                             :month, 
@@ -972,6 +1189,7 @@ class PaymentsController < ApplicationController
 
 
   private
+
   def set_all
     @teacher = current_teacher
     @parent = current_parent
@@ -980,6 +1198,27 @@ class PaymentsController < ApplicationController
       @spv = @admin.spv
     end  
     @owner = current_owner
+  end
+
+  def check_bill
+    payment = Payment.find(params[:id]) 
+    #check payment status
+    if !payment.paid #&& Rails.env.production?
+      url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id2}"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => { }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["id"].present? && (data["paid"] == true)
+        payment.paid = data["paid"]
+        payment.mtd = "BILLPLZ"
+        payment.updated_at = data["paid_at"]
+        payment.save
+      end
+    end
   end
   
 

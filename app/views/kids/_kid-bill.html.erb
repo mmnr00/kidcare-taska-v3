@@ -34,9 +34,9 @@
       <div class="grid simple">
         <div class="grid-body no-border invoice-body">
           <div style="margin-bottom: -20px"></div>
-          <% if !@pdf && @payment.cltid != $clt %><% if @taska.blgt %>
+          <% if !@pdf && @payment.cltid != $clt && !@payment.paid && !@admin %><% if @taska.blgt %>
             <h1 align="right">
-              <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-sm btn-info" do %>
+              <%= link_to crt_billplz_path(@payment.id), class: "btn btn-sm btn-info" do %>
                 <i></i> CLICK HERE TO PAY
               <% end %>
             </h1>
