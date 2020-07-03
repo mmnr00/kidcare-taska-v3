@@ -31,6 +31,14 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def tchchgtsk
+    flash[:success] = "Yes"
+    redirect_to taskateachers_path(id: params[:id],
+                                  tb2_a: "active",
+                                  tb2_ar: true,
+                                  tb2_d: "show active")
+  end
+
   def mybill
     @payments = @taska.payments.where.not(name: "TASKA PLAN")
     
