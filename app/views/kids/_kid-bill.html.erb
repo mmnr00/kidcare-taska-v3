@@ -195,7 +195,10 @@
                 <td class="text-right"><%= @payment.addtns.first.amount.to_f %></td>
               </tr>
               <tr>
-                <td class="text-right no-border" colspan="2"><strong>DISCOUNT</strong></td>
+                <td class="text-right no-border" colspan="2">
+                  <strong>DISCOUNT</strong><br>
+                  <%= @payment.discdx %>
+                </td>
                 <td class="text-right">(<%= @payment.discount.to_f %>)</td>
               </tr>
               <% parpm = 0 %>

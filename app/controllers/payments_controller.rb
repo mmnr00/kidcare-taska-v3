@@ -93,6 +93,7 @@ class PaymentsController < ApplicationController
     else
       flash[:success] = "Bill updated successfully"
       @pmt.discount = pars[:discount]
+      @pmt.discdx = pars[:descdx]
       @pmt.amount = tot_bill
       @pmt.save
     end   
@@ -353,6 +354,7 @@ class PaymentsController < ApplicationController
                             :kid_id, 
                             :taska_id, 
                             :discount,
+                            :descdx,
                             :exs,
                             :s2ph,
                             addtns_attributes: [:desc, :amount])
@@ -384,6 +386,7 @@ class PaymentsController < ApplicationController
       @payment.bill_month = params[:payment][:month]
       @payment.bill_year = params[:payment][:year]
       @payment.discount = discount
+      @payment.discdx = params[:payment][:descdx]
       @payment.exs = exs
       @payment.s2ph = params[:payment][:s2ph]
       @payment.parent_id = @kid.parent.id

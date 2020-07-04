@@ -156,6 +156,7 @@
                                             discount: params[:discount],
                                             addtn: params[:addtn],
                                             desc: params[:desc],
+                                            descdx: params[:descdx],
                                             exs: params[:exs]
                                               ), data: {confirm: "Are You Sure?"} do %>
                       <span class="pull-right text-danger">
@@ -277,25 +278,27 @@
           TOTAL: RM <%= total_bill.round(2) %></h2></div>
       </div><br>
       <div class ="row">
-        <div class="bg-success col-sm-5"><h4 align="center" style="color:white">
-          ADDITIONAL: RM <%= params[:addtn].to_f.round(2) %></h4></div>
+        <div class="bg-success col-sm-5">
+          <h4 align="center" style="color:white">
+            ADDITIONAL: RM <%= params[:addtn].to_f.round(2) %>
+          </h4>
+          <h6 align="center" style="color:white;font-size: 13px">
+            <i><%= params[:desc].upcase if params[:desc].present? %></i>
+          </h6>
+        </div>
         <div class="col-sm-2"></div>
-        <div class="bg-danger col-sm-5"><h4 align="center" style="color:white">
-          DISCOUNT: RM <%= params[:discount].to_f.round(2) %></h4></div>
+        <div class="bg-danger col-sm-5">
+          <h4 align="center" style="color:white">
+            DISCOUNT: RM <%= params[:discount].to_f.round(2) %> 
+          </h4>
+          <h6 align="center" style="color:white;font-size: 13px">
+            <i><%= params[:descdx].upcase if params[:descdx].present? %></i>
+          </h6>
+        </div>
       </div><br>
       <div class='row' style="margin-left: -20px">
         <%= form_for(@payment,:url => {:controller=>'payments', :action=>'create'},:html => {class: "form-horizontal", role: "form"}) do |f| %>
           <%= f.hidden_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: total_bill %>
-            
-
-          <div class="form-group"> 
-            <div class="control-label col-sm-8">
-              <strong>OTHER CHARGES DESCRIPTION</strong>
-            </div>
-            <div class="col-sm-12">
-              <%= params[:desc].upcase if params[:desc].present? %>
-            </div>
-          </div>
 
           <div class="form-group"> 
             <div class="control-label col-sm-12">
@@ -332,6 +335,7 @@
             <%= f.hidden_field :kid_id, value: @kid.id %>
             <%= f.hidden_field :taska_id, value: @taska.id %>
             <%= f.hidden_field :discount, value: params[:discount] %>
+            <%= f.hidden_field :descdx, value: params[:descdx] %>
             <%= f.hidden_field :exs, value: params[:exs] %>
             <%= f.fields_for :addtns do |h| %>
               <%= h.hidden_field :desc, value: params[:desc] %>
@@ -358,18 +362,28 @@
               <p>Amount to be DEDUCTED from the total</p></font>
             </div>
             <div class="row">
-            <div class="col-md-12">
-              <%= number_field_tag :discount, params[:discount], 
-                      placeholder: "", 
-                      autofocus: true,  
-                      step: 0.01,
-                      class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-            </div><br><br>
+              <div class="col-md-12">
+                <strong>DESCRIPTION</strong>
+                <%= text_area_tag :descdx, params[:descdx], 
+                        placeholder: "", 
+                        autofocus: true,
+                        class: "form-control search-box input-lg", 
+                        style: "text-transform:uppercase" %>
+              </div>
+              <div class="col-md-12">
+                <strong>AMOUNT (RM)</strong>
+                <%= number_field_tag :discount, params[:discount], 
+                        placeholder: "", 
+                        autofocus: true,  
+                        step: 0.01,
+                        class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+              </div><br><br>
+              <div style="margin-bottom: 70px"></div>
           </div>
           </div>
           <div class="form-group text-center col-md-12 bg-light" style="margin-top: -10px">
             <div style="background-color:#7f7fff">
-              <font color="white"><strong>OTHER CHARGES (RM)<br></strong>
+              <font color="white"><strong>ADDITIONAL CHARGES (RM)<br></strong>
               <p>Amount to be ADDED from the total</p></font>
             </div>
             <div class="row">

@@ -61,29 +61,31 @@ class ExtrasController < ApplicationController
 		@kid_extra.kid_id = params[:kid][:kid_id]
 		@kid_extra.extra_id = params[:kid][:extra_ids]
 		@kid_extra.save
-		redirect_to new_bill_path(child: params[:kid][:child], 
-															classroom: params[:kid][:classroom],
-															month: params[:kid][:month],
-															year: params[:kid][:year],
-															id: params[:kid][:id],
-															discount: params[:kid][:discount],
-															addtn: params[:kid][:addtn],
-															desc: params[:kid][:desc],
-															exs: params[:kid][:exs] )
+		redirect_to request.referrer
+		# redirect_to new_bill_path(child: params[:kid][:child], 
+		# 													classroom: params[:kid][:classroom],
+		# 													month: params[:kid][:month],
+		# 													year: params[:kid][:year],
+		# 													id: params[:kid][:id],
+		# 													discount: params[:kid][:discount],
+		# 													addtn: params[:kid][:addtn],
+		# 													desc: params[:kid][:desc],
+		# 													exs: params[:kid][:exs] )
 	end
 
 	def remove_kid_extras
 		@kid_extra = KidExtra.where(kid_id: params[:kid_id], extra_id: params[:extra_id]).first
 		@kid_extra.destroy
-		redirect_to new_bill_path(child: params[:child], 
-															classroom: params[:classroom],
-															month: params[:month],
-															year: params[:year],
-															id: params[:id],
-															discount: params[:discount],
-															addtn: params[:addtn],
-															desc: params[:desc],
-															exs: params[:exs] )
+		redirect_to request.referrer
+		# redirect_to new_bill_path(child: params[:child], 
+		# 													classroom: params[:classroom],
+		# 													month: params[:month],
+		# 													year: params[:year],
+		# 													id: params[:id],
+		# 													discount: params[:discount],
+		# 													addtn: params[:addtn],
+		# 													desc: params[:desc],
+		# 													exs: params[:exs] )
 	end
 
 	private

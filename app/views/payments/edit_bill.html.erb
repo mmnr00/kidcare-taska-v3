@@ -82,6 +82,8 @@
             </div>
             Discount Amount (RM)
             <%= f.number_field :discount, class: "form-control", :step => 0.01, style: "font-size: 12px",value: @payment.discount %>
+            Description 
+            <%= f.text_area :descdx, class: "form-control", autofocus: true, style: "font-size: 12px", value: @payment.discdx  %> 
           </div>
 
           <div class="col-md-6" style="margin-left: -5px">

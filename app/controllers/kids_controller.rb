@@ -160,6 +160,7 @@ class KidsController < ApplicationController
 				s2.destroy
 			end
 		end
+		#redirect_to request.referrer
 		redirect_to new_bill_path(id: params[:id],
                               child: params[:child],
                               classroom: params[:classroom],
@@ -168,6 +169,7 @@ class KidsController < ApplicationController
                               discount: params[:discount],
                               addtn: params[:addtn],
                               desc: params[:desc],
+                              descdx: params[:descdx],
                               exs: params[:exs])
 	end
 
