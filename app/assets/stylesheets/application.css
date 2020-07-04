@@ -37,6 +37,14 @@ START PROFILE_CARD (in vendor/stylesheets)
  *= require css_sb-admin-2/sb-admin-2
  END FOR ADMIN
 
+ START FUAD WEB
+ * require css_fuadweb/components
+ * require css_fuadweb/icons
+ * require css_fuadweb/responsee
+ * require css_fuadweb/style
+ * require css_fuadweb/template-style
+ END FUAD WEB
+
  *= require_tree .
  *= require_self
 @import "fontawesome-free/css";
