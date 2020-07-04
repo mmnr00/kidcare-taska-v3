@@ -32,8 +32,20 @@ class TaskasController < ApplicationController
   before_action :authenticate_admin!, only: [:new]
 
   def tchchgtsk
-    flash[:success] = "Yes"
-    redirect_to taskateachers_path(id: params[:id],
+    flash[:success] = "Data Updated"
+    pars = params[:cls]
+    id = pars[:id]
+    pars.each do |k,v|
+      if k != "id" && v[:taska_id] != id
+        tsktch = TaskaTeacher.where(taska_id: id, teacher_id: k, stat: true)
+        tsktch.each do |tstc|
+          tstc.stat = false
+          tstc.save
+        end
+        TaskaTeacher.create(taska_id: v[:taska_id], teacher_id: k, stat: true)
+      end
+    end
+    redirect_to taskateachers_path(id: id,
                                   tb2_a: "active",
                                   tb2_ar: true,
                                   tb2_d: "show active")

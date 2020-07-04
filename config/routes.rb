@@ -247,7 +247,7 @@ Rails.application.routes.draw do
   get '/taska/:id/topcred', to: 'taskas#topcred', as: 'topcred'
   get '/mystudent', to: 'taskas#mystudent', as: 'mystudent'
   get '/mybill', to: 'taskas#mybill', as: 'mybill'
-  get '/tchchgtsk', to: 'taskas#tchchgtsk', as: 'tchchgtsk'
+  post '/tchchgtsk', to: 'taskas#tchchgtsk', as: 'tchchgtsk'
 
   ## ANSYS19
   get '/rsvpans', to: 'taskas#rsvpans'
