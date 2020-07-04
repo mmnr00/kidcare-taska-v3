@@ -16,7 +16,7 @@
         <%= link_to mystudent_path(id: @taska.id), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
             <i class="fa fa-sync"></i> Clear
         <% end %>
-        <%= "#{@kids.count} result(s) found" unless params[:sch].blank? %>
+        <%= "#{@kids.count} result(s) found" %>
       <% end %>
       <div>
         
@@ -70,9 +70,12 @@
                 <td>
                   <%= h.select :classroom_id, 
                     options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kid.classroom_id), {include_blank: "No Classroom"} %>
-                  <% if 1==1 #kid.classroom_id.blank? %>
+                  <% if kid.classroom_id.blank? %>
                     <%= h.select :taska_id, 
-                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id) %>
+                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id) %><br>
+                    <%= link_to remove_taska_path(kid: kid), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal", :data => {:confirm => 'Are you sure?'} do %>
+                      <i class="fa fa-trash"></i> Remove from Center
+                    <% end %>
                   <% end %>
                 </td>
               </tr>

@@ -362,8 +362,8 @@ class TaskasController < ApplicationController
     else
       flash[:danger] = "Unsuccessful. Please try again"
     end
-    
-    redirect_to unreg_kids_path(@taska)
+    redirect_to request.referrer
+    #redirect_to unreg_kids_path(@taska)
   end
 
   def child_bill_index

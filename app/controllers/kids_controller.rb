@@ -303,7 +303,7 @@ class KidsController < ApplicationController
 				@kid = Kid.find(k)
 				cls_id= v[:classroom_id]
 				tsk_id= v[:taska_id]
-				if pars[:curr_taska] != tsk_id
+				if pars[:curr_taska] != tsk_id && tsk_id.present?
 					@kid.taska_id = tsk_id unless cls_id.present?
 				end #end new taska
 				@kid.classroom_id = cls_id
@@ -311,7 +311,8 @@ class KidsController < ApplicationController
 			end #end not curr_taska
 		end #end pars loop
 		flash[:success] = "Children lists updated"
-		redirect_to mystudent_path(id: @taska.id)
+		redirect_to request.referrer
+		#redirect_to mystudent_path(id: @taska.id)
 	end #end add_classroom
 
 	# def add_classroom_old
