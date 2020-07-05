@@ -248,6 +248,7 @@ Rails.application.routes.draw do
   get '/mystudent', to: 'taskas#mystudent', as: 'mystudent'
   get '/mybill', to: 'taskas#mybill', as: 'mybill'
   post '/tchchgtsk', to: 'taskas#tchchgtsk', as: 'tchchgtsk'
+  post '/cfmbill', to: 'taskas#cfmbill', as: 'cfmbill'
 
   ## ANSYS19
   get '/rsvpans', to: 'taskas#rsvpans'

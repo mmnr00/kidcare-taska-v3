@@ -31,6 +31,16 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def cfmbill
+    @payments = Payment.where(id: params[:pmt_ids])
+    @payments.each do |pmt|
+      pmt.fin = true
+      pmt.save
+    end
+    flash[:success] = "Payments confirmed and SMS sent"
+    #redirect_to request.referrer
+  end
+
   def tchchgtsk
     flash[:success] = "Data Updated"
     pars = params[:cls]
