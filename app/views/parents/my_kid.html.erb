@@ -15,7 +15,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4">
               <div class="frontside">
                 <div class="card">
-                  <% kid_pay = kid.payments.where(paid: false) %>
+                  <% kid_pay = kid.payments.where(paid: false, fin: [true,nil]) %>
                   <% if kid_pay.present? %>
                     <%= link_to "#{kid_pay.count} UNPAID BILLS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-warning active" %>
                   <% else %>

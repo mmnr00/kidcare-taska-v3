@@ -42,7 +42,9 @@
             <th style="background-color:#ffccff; width: 40%">BILL TO</th>
             <th style="background-color:#ffccff; width: 21%">
               ACTIONS
-              <%= link_to "Confirm ALL Bill", cfmbill_path(pmt_ids: @payments.where(fin: nil,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+              <% if (pmtfin=@payments.where(fin: false,paid: false).count) > 0 %>
+              <%= link_to "Confirm #{pmtfin} Bill(s)", cfmbill_path(pmt_ids: @payments.where(fin: false,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+              <% end %>
             </th>
             <th style="background-color:#ffccff; width: 9%">STATUS</th>
             <th style="background-color:#ffccff; width: 15%">PAYMENT</th>
@@ -115,7 +117,7 @@
                   <% if pmt.parpayms.blank? %>
                     <%= link_to "Delete", payment_path(id: pmt.id, taska_id: pmt.taska.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "badge badge-danger", style: "font-size: 13px" %>
                   <% end %>
-                  <% if !pmt.fin %>
+                  <% if pmt.fin == false %>
                     <div style="margin-top: 5px">
                       <%= link_to "Confirm Bill", cfmbill_path(pmt_ids: pmt.id), class: "badge badge-info", style: "font-size: 13px", method: :post %>
                     </div>

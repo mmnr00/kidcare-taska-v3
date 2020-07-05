@@ -62,7 +62,7 @@
                 </td>
                 <td>
                   <% if Time.now < @taska.expire && kid.classroom_id.present? %>
-                    <%= link_to "Setting", new_kid_path(taska_id: @taska.id), class: "badge badge-primary", style: "font-size: 13px" %>      
+                    <%= link_to "Setting", stgbill_path(id: @taska.id, child: kid.id, stg: true), class: "badge badge-primary", style: "font-size: 13px" %>      
                     <%= link_to "Create", got_bill_path(taska: @taska.id, child: kid.id, classroom: kid.classroom_id, no_sch: true), class: "badge badge-success", style: "font-size: 13px"%>
                   <% end %>
                   

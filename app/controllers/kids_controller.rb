@@ -10,6 +10,13 @@ class KidsController < ApplicationController
 	#before_action :rep_responsible, only: [:bill_view]
 	#before_action :authenticate_parent! || :authenticate_admin!
 
+	def stgbill
+		@taska = Taska.find(params[:id])
+		@kid = Kid.find(params[:child])
+		render action: "stgbill", layout: "dsb-admin-student" 
+	end
+
+
 	def show
 		@pdf = false
 		@admin = current_admin
@@ -160,7 +167,9 @@ class KidsController < ApplicationController
 				s2.destroy
 			end
 		end
-		#redirect_to request.referrer
+		if params[:stg] == "true"
+			redirect_to request.referrer and return
+		end
 		redirect_to new_bill_path(id: params[:id],
                               child: params[:child],
                               classroom: params[:classroom],

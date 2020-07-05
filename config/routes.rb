@@ -298,6 +298,7 @@ Rails.application.routes.draw do
   get '/bill_pdf', to: 'kids#bill_pdf'
   get '/bill_pdf_booking', to: 'kids#bill_pdf_booking'
   get '/remove_siblings', to: 'kids#remove_siblings'
+  get '/stgbill', to: 'kids#stgbill', as: 'stgbill'
   
   #~TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'

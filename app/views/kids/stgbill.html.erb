@@ -1,0 +1,146 @@
+
+<div class="row">
+
+  <!-- CHILD DIV -->
+  <div class="col-md-8 bg-white"><div class="row">
+
+    <!-- START MAIN -->
+    <div class="col-sm-4"><div class="frontside"><div class="card">
+
+      <div class='col-lg-12'>
+        <%= link_to "#" do %>
+          <span class="pull-left text-success">
+            MAIN BILL<i class=""></i>
+          </span>
+        <% end %>
+      </div>  
+      <div class="card-body text-center">
+        <h6 class="card-title"><%= @kid.name.upcase %></h6>
+        <hr>
+        <strong>EXTRAS</strong>
+        <hr>
+        <% @kid.extras.each do |extra|%>
+          <div class="notice notice-info">
+            <a href="<%= remove_kid_extras_url(child: @kid.id,
+                                              kid_id: @kid.id,
+                                              extra_id: extra.id,
+                                              classroom: params[:classroom],
+                                              month: params[:month],
+                                              year: params[:year],
+                                              id: params[:id],
+                                              discount: params[:discount],
+                                              addtn: params[:addtn],
+                                              desc: params[:desc],
+                                              exs: params[:exs])%>">
+
+              <div class="pull-right text-danger">
+                <i class="fa fa-times"></i>
+              </div>
+            </a>
+            <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br>
+          </div>
+        <% end %>
+        <hr>
+        <p><%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+          <p align="center"><%= f.select :extra_ids, 
+            options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"}, style: "width: 150px" %>                        
+          <%= f.hidden_field :kid_id, value: @kid.id %>
+          <%= f.hidden_field :child, value: params[:child] %>
+          <%= f.hidden_field :classroom, value: params[:classroom] %>
+          <%= f.hidden_field :month, value: params[:month] %>
+          <%= f.hidden_field :year, value: params[:year] %>
+          <%= f.hidden_field :id, value: params[:id] %>
+          <%= f.hidden_field :addtn, value: params[:addtn] %>
+          <%= f.hidden_field :discount, value: params[:discount] %>
+          <%= f.hidden_field :desc, value: params[:desc] %>
+          <%= f.hidden_field :exs, value: params[:exs] %>
+          <div style="width: 50%; margin: 0 auto;">
+            <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+          </div>
+        <% end %>
+      </div>
+    </div></div></div> 
+    <!-- END MAIN -->  
+
+    <!-- START SIBLINGS -->
+    <% if @kid.beradik.present? %><% @kid.beradik.each do |beradik| %>
+    <div class="col-sm-4"><div class="frontside"><div class="card">
+
+      <div class='col-lg-12'>
+        <%= link_to remove_siblings_path(id: @taska.id,
+                                          child: @kid.id,
+                                          classroom: @kid.classroom.id,
+                                          month: params[:month],
+                                          year: params[:year],
+                                          beradik: beradik.id,
+                                          discount: params[:discount],
+                                          addtn: params[:addtn],
+                                          desc: params[:desc],
+                                          descdx: params[:descdx],
+                                          stg: params[:stg],
+                                          exs: params[:exs]
+                                            ), data: {confirm: "Are You Sure?"} do %>
+          <span class="pull-right text-danger">
+            <i class="fa fa-times-circle"></i>
+          </span>
+          <span class="pull-left">
+            <font color="blue">SIBLING</font><i class=""></i>
+          </span>
+        <% end %>
+      </div>  
+      <div class="card-body text-center">
+        <h6 class="card-title"><%= beradik.name.upcase %></h6>
+        <hr>
+        <strong>EXTRAS</strong>
+        <hr>
+        <% beradik.extras.each do |extra|%>
+          <div class="notice notice-info">
+            <a href="<%= remove_kid_extras_url(child: @kid.id,
+                                              kid_id: beradik.id,
+                                              extra_id: extra.id,
+                                              classroom: params[:classroom],
+                                              month: params[:month],
+                                              year: params[:year],
+                                              id: params[:id],
+                                              discount: params[:discount],
+                                              addtn: params[:addtn],
+                                              desc: params[:desc],
+                                              exs: params[:exs])%>">
+
+              <div class="pull-right text-danger">
+                <i class="fa fa-times"></i>
+              </div>
+            </a>
+            <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br>
+          </div>
+        <% end %>
+        <hr>
+        <p><%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+          <p align="center"><%= f.select :extra_ids, 
+            options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"}, style: "width: 150px" %>                        
+          <%= f.hidden_field :kid_id, value: beradik.id %>
+          <%= f.hidden_field :child, value: params[:child] %>
+          <%= f.hidden_field :classroom, value: params[:classroom] %>
+          <%= f.hidden_field :month, value: params[:month] %>
+          <%= f.hidden_field :year, value: params[:year] %>
+          <%= f.hidden_field :id, value: params[:id] %>
+          <%= f.hidden_field :addtn, value: params[:addtn] %>
+          <%= f.hidden_field :discount, value: params[:discount] %>
+          <%= f.hidden_field :desc, value: params[:desc] %>
+          <%= f.hidden_field :exs, value: params[:exs] %>
+          <div style="width: 50%; margin: 0 auto;">
+            <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+          </div>
+        <% end %>
+      </div>
+    </div></div></div> 
+    <% end %><% end %>
+    <!-- END SIBLINGS -->
+
+  </div></div>
+
+  <!-- SEARCH FUNCTION DIV -->
+  <div class="col-md-4 bg-light">
+    <%= render 'taskas/lookup' %>
+  </div>
+</div>

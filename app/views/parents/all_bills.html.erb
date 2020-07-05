@@ -9,7 +9,7 @@
       <!-- Team -->
       <div class="container">
         <div class="row">
-          <% @kid_bills.each do |bill|%>
+          <% @kid_bills.where(fin: [true,nil]).each do |bill|%>
             <% image = bill.taska.fotos.where(foto_name: "CENTER LOGO").first %>
             <!-- Team member -->
             <div class="col-xs-12 col-sm-6 col-md-4">

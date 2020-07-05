@@ -340,6 +340,10 @@ class PaymentsController < ApplicationController
         end
       end
 
+      if params[:stg] == "true"
+        redirect_to request.referrer and return
+      end
+
       @payment = Payment.new
       @payment.addtns.build
       render action: "new", layout: "dsb-admin-classroom" 
@@ -393,6 +397,7 @@ class PaymentsController < ApplicationController
       @payment.taska_id = @kid.classroom.taska.id
       @payment.state = "due"
       @payment.paid = false
+      @payment.fin = true
       unq = (0...8).map { ('A'..'Z').to_a[rand(26)] }.join
       while Payment.where(bill_id: unq).present?
         unq = (0...8).map { ('A'..'Z').to_a[rand(26)] }.join

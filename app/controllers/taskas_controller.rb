@@ -38,7 +38,7 @@ class TaskasController < ApplicationController
       pmt.save
     end
     flash[:success] = "Payments confirmed and SMS sent"
-    #redirect_to request.referrer
+    redirect_to request.referrer
   end
 
   def tchchgtsk
