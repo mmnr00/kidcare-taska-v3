@@ -51,6 +51,8 @@ class PaymentsController < ApplicationController
   def upd_bill
     pars = params[:bl]
     @pmt = Payment.find(pars[:pmt_id])
+    sms = false
+    sms = true unless @pmt.fin
     tot_bill = pars[:tot_bill].to_f
 
     #Start of OTKID
@@ -95,7 +97,44 @@ class PaymentsController < ApplicationController
       @pmt.discount = pars[:discount]
       @pmt.discdx = pars[:descdx]
       @pmt.amount = tot_bill
+      @pmt.fin = true
       @pmt.save
+      @taska = @pmt.taska
+      kid = @pmt.kids.first
+
+      #START SMS
+      if 1==1 && sms && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+        url = "https://sms.360.my/gw/bulk360/v1.4?"
+        usr = "user=admin@kidcare.my&"
+        ps = "pass=#{ENV['SMS360']}&"
+        txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @pmt.id)}> to make payment"
+        to = "to=6#{kid.ph_1}#{kid.ph_2}&"
+        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        data_sms = HTTParty.get(
+                          "#{url}#{usr}#{ps}#{to}#{txt}",
+                          http_proxyaddr: fixie.host,
+                          http_proxyport: fixie.port,
+                          http_proxyuser: fixie.user,
+                          http_proxypass: fixie.password)
+        
+        if @pmt.s2ph && kid.sph_1.present? && kid.sph_2.present?
+          if @taska.cred >= 0.5
+            to = "to=6#{kid.sph_1}#{kid.sph_2}&"
+            fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+            data_sms = HTTParty.get(
+                              "#{url}#{usr}#{ps}#{to}#{txt}",
+                              http_proxyaddr: fixie.host,
+                              http_proxyport: fixie.port,
+                              http_proxyuser: fixie.user,
+                              http_proxypass: fixie.password)
+            @taska.cred -= 0.5
+            @taska.hiscred << [-0.5,Time.now,"#{kid.sph_1}#{kid.sph_2}",@pmt.bill_id]
+            @taska.save
+          end
+        end
+      end
+      #END SMS
+
     end   
 
     
