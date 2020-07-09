@@ -23,9 +23,9 @@ $trial = 30
 $expire = 11
 
 if Rails.env.development? || (ENV["ROOT_URL_BILLPLZ"] == "https://kidcare-staging.herokuapp.com/")
-  $clt = "andkymil"
+  $clt = ENV["CLT"]
 elsif Rails.env.production? 
-  $clt = "x7w_y71n"
+  $clt = ENV["CLT"]
 end
 
 $package_price = 	{ "BASIC"=>80,
