@@ -13,3 +13,5 @@ end
 p = Payment.find(id)
 
 Payment.where(name: "KID BILL",discount: nil).last
+
+#add ENV["CLT"]
