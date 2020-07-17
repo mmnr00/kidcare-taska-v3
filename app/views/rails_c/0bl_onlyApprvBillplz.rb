@@ -1,5 +1,6 @@
-t=Taska.find(592)
+t=Taska.find(593)
 pmts = t.payments.where(name: "KID BILL")
+pmts.count
 
 pmts.each do |pm|
 
