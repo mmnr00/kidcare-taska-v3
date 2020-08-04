@@ -1,4 +1,6 @@
-id = 10156 #11-06
+# payment
+
+id = 10156 
 Payment.where(name: "KID BILL").each do |pm|
 upd = pm.updated_at
 
@@ -14,4 +16,13 @@ p = Payment.find(id)
 
 Payment.where(name: "KID BILL",discount: nil).last
 
-#add ENV["CLT"]
+#taskas
+
+Taska.all.each do |tsk|
+tsk.exs20 = true
+tsk.save
+end
+
+
+
+
