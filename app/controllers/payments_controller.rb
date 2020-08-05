@@ -110,24 +110,35 @@ class PaymentsController < ApplicationController
         txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @pmt.id)}> to make payment"
         to = "to=6#{kid.ph_1}#{kid.ph_2}&"
         fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-        data_sms = HTTParty.get(
-                          "#{url}#{usr}#{ps}#{to}#{txt}",
-                          http_proxyaddr: fixie.host,
-                          http_proxyport: fixie.port,
-                          http_proxyuser: fixie.user,
-                          http_proxypass: fixie.password)
+        dlvd = nil
+
+        #while dlvd.blank?
+          data_sms = HTTParty.get(
+                            "#{url}#{usr}#{ps}#{to}#{txt}",
+                            http_proxyaddr: fixie.host,
+                            http_proxyport: fixie.port,
+                            http_proxyuser: fixie.user,
+                            http_proxypass: fixie.password,
+                            timeout: 120)
+          dlvd = data_sms.parsed_response[0..2]
+        #end
         
         if @pmt.s2ph && kid.sph_1.present? && kid.sph_2.present?
           if @taska.cred >= 0.5
             to = "to=6#{kid.sph_1}#{kid.sph_2}&"
             fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-            data_sms = HTTParty.get(
-                              "#{url}#{usr}#{ps}#{to}#{txt}",
-                              http_proxyaddr: fixie.host,
-                              http_proxyport: fixie.port,
-                              http_proxyuser: fixie.user,
-                              http_proxypass: fixie.password)
-            @taska.cred -= 0.5
+            dlvd = nil
+
+            #while dlvd.blank?
+              data_sms = HTTParty.get(
+                                "#{url}#{usr}#{ps}#{to}#{txt}",
+                                http_proxyaddr: fixie.host,
+                                http_proxyport: fixie.port,
+                                http_proxyuser: fixie.user,
+                                http_proxypass: fixie.password,
+                                timeout: 120)
+              dlvd = data_sms.parsed_response[0..2]
+            #end
             @taska.hiscred << [-0.5,Time.now,"#{kid.sph_1}#{kid.sph_2}",@pmt.bill_id]
             @taska.save
           end
@@ -518,23 +529,35 @@ class PaymentsController < ApplicationController
       if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
         to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
         fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-        data_sms = HTTParty.get(
-                          "#{url}#{usr}#{ps}#{to}#{txt}",
-                          http_proxyaddr: fixie.host,
-                          http_proxyport: fixie.port,
-                          http_proxyuser: fixie.user,
-                          http_proxypass: fixie.password)
+        dlvd = nil
+
+        #while dlvd.blank?
+          data_sms = HTTParty.get(
+                            "#{url}#{usr}#{ps}#{to}#{txt}",
+                            http_proxyaddr: fixie.host,
+                            http_proxyport: fixie.port,
+                            http_proxyuser: fixie.user,
+                            http_proxypass: fixie.password,
+                            timeout: 120)
+          dlvd = data_sms.parsed_response[0..2]
+        #end
         
         if @payment.s2ph && @kid.sph_1.present? && @kid.sph_2.present?
           if @taska.cred >= 0.5
             to = "to=6#{@kid.sph_1}#{@kid.sph_2}&"
             fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-            data_sms = HTTParty.get(
-                              "#{url}#{usr}#{ps}#{to}#{txt}",
-                              http_proxyaddr: fixie.host,
-                              http_proxyport: fixie.port,
-                              http_proxyuser: fixie.user,
-                              http_proxypass: fixie.password)
+            dlvd = nil
+
+            #while dlvd.blank?
+              data_sms = HTTParty.get(
+                                "#{url}#{usr}#{ps}#{to}#{txt}",
+                                http_proxyaddr: fixie.host,
+                                http_proxyport: fixie.port,
+                                http_proxyuser: fixie.user,
+                                http_proxypass: fixie.password,
+                                timeout: 120)
+              dlvd = data_sms.parsed_response[0..2]
+            #end
             @taska.cred -= 0.5
             @taska.hiscred << [-0.5,Time.now,"#{@kid.sph_1}#{@kid.sph_2}",@payment.bill_id]
             @taska.save
