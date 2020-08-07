@@ -341,7 +341,7 @@ Rails.application.routes.draw do
   
   #get '/taska/:id/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
   get '/taska/:id/view_bill', to: 'payments#view_bill', as: 'view_bill'
-  post '/payments/update', to: 'payments#update', as: 'payment_update'
+  get '/payments/update', to: 'payments#update', as: 'payment_update'
   post '/teacher/:id/new_bill', to: 'payments#teacher_create_bill', as: 'teacher_create_bill'
 
 
