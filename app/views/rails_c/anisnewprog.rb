@@ -27,26 +27,31 @@ end
 
 end
 
-# NEW ANIS
+# NEW ANIS MCO
 
-old = 76
-nw = 77
+old = 77
+nw = 80
 
 clg=College.find(old)
 clgn = College.find(nw)
 
-clg.courses.each do |crs|
+dt = clgn.start - 1.days
+
+clg.courses.order('start ASC').each do |crs|
 a = crs.dup
 a.college_id = nw
-
+a.start = dt
 a.save
 
 crs.anisprogs.each do |ap|
 b = ap.dup
 b.course_id = a.id
 b.save
-end
 
-end
+end #end anisprogs
+
+dt = dt + 1.days
+
+end #end course
 
  

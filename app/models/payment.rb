@@ -7,8 +7,8 @@ class Payment < ApplicationRecord
 	has_many :kids, through: :kid_bills
 	has_many :addtns, dependent: :destroy
 	has_one :tskbill
-	has_many :fotos
-	has_many :parpayms
+	has_many :fotos, dependent: :destroy
+	has_many :parpayms, dependent: :destroy
 	has_many :otkids, dependent: :destroy
 	accepts_nested_attributes_for :addtns
 	accepts_nested_attributes_for :fotos

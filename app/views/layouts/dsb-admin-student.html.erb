@@ -9,7 +9,7 @@
             <span>Overview</span>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/mystudent?id=<%= @taska.id %>">
             <i class="fas fa-fw fa-user-graduate"></i>
             <span>My Students </span>
@@ -33,7 +33,7 @@
             <span>My Accounts </span>
           </a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="/taska/<%= @taska.id %>/teachers?tb1_a=active&tb1_ar=true&tb1_d=show active">
             <i class="fas fa-fw fa-chalkboard-teacher"></i>
             <span>My Teachers </span>
@@ -56,7 +56,7 @@
             <li class="breadcrumb-item">
               Admin Dashboard
             </li>
-            <li class="breadcrumb-item active">Teachers for <strong><%= @taska.name.upcase %></strong></li>
+            <li class="breadcrumb-item active">Students for <strong><%= @taska.name.upcase %></strong></li>
           </ol>
           <div class="bg-white">
             <div class="container">

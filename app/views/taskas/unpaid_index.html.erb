@@ -1,142 +1,25 @@
 <% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
-<div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-search"></i>
-      DISPLAYING ALL UNPAID BILLS
-      <% if status >=0 %>
-        <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary active" do %>
-          <i class="fa fa-bell"></i> SEND REMINDER TO ALL
-        <% end %>
-      <% end %>
-        <%= link_to updunpaid_path(@taska), class: "btn btn-sm btn-success" do %>
-          <i class="fa fa-refresh"></i> UPDATE PAYMENT STATUS
-        <% end %>
-    </div>
-    <div class="bg-light"><br>
-      <!-- Team -->
-      <div class="container">
-        <div class="row">
-          <% @kid_unpaid.each do |bill| %>
 
-            
-            <!-- Team member -->
-            <div class="col-xs-12 col-sm-6 col-md-4">
-              <div class="frontside">
-                <div class="card">
-                  <% @kid = bill.kids.first %>
-                    <% if bill.paid %>
-                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-success active", target:"_blank" do %>
-                      <i class="fa fa-download"></i> RECEIPT
-                    <% end %>
-                  <% else %>
-                    <%
-                      sumppm = 0
-                      if bill.parpayms.present?
-                        btn = "btn-warning"
-                        fa = "adjust"
-                        notc = "BALANCE"
-                        sumppm = bill.parpayms.sum(:amt)
-                        del = false
-                      else
-                        btn = "btn-danger"
-                        fa = "exclamation"
-                        notc = "UNPAID"
-                        del = true
-                      end
-                    %>
-                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm #{btn}", target:"_blank" do %>
-                      <i class="fa fa-<%= "#{fa}" %>"></i> <%= "#{notc}" %>
-                    <% end %>
-                  <% end %>
-                  <div class="card-body text-center">
-                    
-                    <p class="card-text">
-                     <% bill.kids.each do |kid| %>
-                      <a href="/kids/<%= kid.id %>" target="_blank">
-                        <font color="blue">
-                         <h5 class="card-title">
-                          <strong><%= kid.name.upcase %></strong><br>
-                         </h5>
-                        </font>
-                      </a>
-                     <% end %>
-                     <%= "#{$month_name[bill.bill_month].upcase}" %>-
-                     <%= bill.bill_year %><br>
-                     <a href="<%= bill_view_url(payment: bill.id, kid: bill.kids.first.id, taska: @taska.id) %>" target="_blank">
-                      <font color="blue"><h7>BILL LINK</h7></font>
-                      </a>
-                    </p>
+<% if status >=0 %>
+  <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary" do %>
+    <i class="fa fa-bell"></i> SEND REMINDER TO ALL
+  <% end %>
+<% end %>
+<% if 1==0 %>
+  <%= link_to updunpaid_path(@taska), class: "btn btn-sm btn-success" do %>
+    <i class="fa fa-refresh"></i> UPDATE PAYMENT STATUS
+  <% end %>
+<% end %>
 
-                  </div>
-                  <%= link_to "RM #{(bill.amount-sumppm).round(2)}", "#", class: "btn btn-lg btn-info active" %>
-                  
-                    <% if !bill.paid %>
-                      <% if status >=0 %>
-                        <% if !bill.reminder %>
-                          <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: bill.id), class: "btn btn-sm active", style: "color:blue" do %>
-                            <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
-                          <% end %>
-                        <% else %>
-                          <button class="btn btn-sm active">
-                            <i class="fa fa-check-circle"></i> REMINDER SENT TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
-                          </button>
-                        <% end %>
-                      <% end %>
-                      <hr>
-                      <h6 align="center">ADDITIONAL SMS</font></h6>
-                      <%= form_tag sms_reminder_path, method: :get do %>
-                      <%  if @kid.sph_1.present? && @kid.sph_1.present?
-                            secph = "#{@kid.sph_1}#{@kid.sph_2}"
-                          else
-                            secph = ""
-                          end
-                      %>
-                        <div class="row">
-                          <div class="col-md-1"></div>
-                          <div class="col-md-8">
-                            <%= text_field_tag :phk, secph,
-                                placeholder: "Example: 01162801556",
-                                class: "form-control search-box input-lg"%>
-                            <i>Enter phone number(RM 0.50)</i>
-                            <%= hidden_field_tag :id, @taska.id %>
-                            <%= hidden_field_tag :kid, @kid.id %>
-                            <%= hidden_field_tag :bill, bill.id %>
-                            <%= hidden_field_tag :xtrarem, true %>
-                          </div>
-                          <div class="col-md-0">
-                            <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
-                              <i class="fa fa-check"></i> SEND
-                            <% end %>
-                          </div>
-                        </div>
-                      <% end %>
-                      <hr>
-                      <%= link_to tsk_manupdbill_path(taska: @taska.id, bill: bill.id, kid: @kid.id), class: "btn btn-sm active", style: "color:green" do %>
-                        <i class="fa fa-pen-square"></i> UPDATE MANUALLY
-                      <% end %>
-                    <% end %>
+<%= render 'taskas/bill-list' %>
 
-                    <% if del %>
-                    <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, index: true), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
-                      <i class="fa fa-trash"></i> DELETE
-                    <% end %>
-                    <% end %>
-                  
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-      <div class="pull-left">
-        <%= link_to unpaid_xls_path(@taska, paid: false, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
-          <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
-        <% end %>
-        <%= link_to unpaid_xls_path(@taska, paid: true, format: :xlsx), class: "btn btn-sm btn-success active" do %>
-          <i class="fa fa-file-excel"></i> ALL BILLS
-        <% end %>
-        
-      </div>
+<div class="pull-left">
+  <%= link_to unpaid_xls_path(@taska, paid: false, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
+    <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
+  <% end %>
+  <%= link_to unpaid_xls_path(@taska, paid: true, format: :xlsx), class: "btn btn-sm btn-success active" do %>
+    <i class="fa fa-file-excel"></i> ALL BILLS
+  <% end %>
+  
+</div>
 
-    </div>
-  </div>

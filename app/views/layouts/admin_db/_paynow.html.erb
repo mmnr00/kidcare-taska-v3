@@ -12,6 +12,7 @@
 </a>
 
 <!-- LESS RATIO -->
+<% if 1==0 %>
 <%
   totch = 0
   @taska.classrooms.each do |cls|
@@ -32,3 +33,4 @@
     <p><button class="w3-block btn-info"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspYOU HAVE LESS <strong><%= lesstch.round(0) %></strong> TEACHERS TO MEET QUOTA. CLICK HERE TO REQUEST FROM KIDDOCARE</button></p>
   <% end %>
 </a>
+<% end %>

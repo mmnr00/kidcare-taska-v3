@@ -26,150 +26,135 @@ class TaskasController < ApplicationController
                                   :upldclsrm,
                                   :upldkid,
                                   :hiscrdt,
-                                  :topcred]
+                                  :topcred,:mybill,:mystudent]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
-  #START ANSYS
-  def admansys
-    tsk = Taska.find(params[:id])
-    tsk.states = params[:st]
-    tsk.save
-    flash[:success] = "UPDATE SUCCESSFULL"
-    redirect_to statansys_path
-  end
+  def cfmbill
+    @payments = Payment.where(id: params[:pmt_ids])
+    @taska = @payments.last.taska
+    @payments.each do |pmt|
+      pmt.fin = true
+      pmt.save
+      kid = pmt.kids.first
 
-  def delansys
-    tsk = Taska.find(params[:id])
-    if tsk.destroy
-      flash[:danger] = "Delete berjaya"
-      redirect_to statansys_path
-    end
-  end
+      #START SMS
+      if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+        url = "https://sms.360.my/gw/bulk360/v1.4?"
+        usr = "user=admin@kidcare.my&"
+        ps = "pass=#{ENV['SMS360']}&"
+        txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: pmt.id)}> to make payment"
+        to = "to=6#{kid.ph_1}#{kid.ph_2}&"
+        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
 
-  def rsvpans
-    @taska=Taska.find(params[:id])
-  end
+        dlvd = nil
 
-  def updrsvp
-  end
+        #while dlvd.blank?
+          data_sms = HTTParty.get(
+                            "#{url}#{usr}#{ps}#{to}#{txt}",
+                            http_proxyaddr: fixie.host,
+                            http_proxyport: fixie.port,
+                            http_proxyuser: fixie.user,
+                            http_proxypass: fixie.password,
+                            timeout: 120)
+          dlvd = data_sms.parsed_response[0..2]
+        #end
 
-  def updrsvpadm
-  end
+        
+        if pmt.s2ph && kid.sph_1.present? && kid.sph_2.present?
+          if @taska.cred >= 0.5
+            to = "to=6#{kid.sph_1}#{kid.sph_2}&"
+            fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+            dlvd = nil
 
-  def regansys
-    @taska = Taska.new
-    @taska.fotos.build
-  end
-
-  def crtansys
-    @taska = Taska.new(taska_params)
-    if (t=Taska.where(name: 
-                    @taska.name, 
-                    email: @taska.email, 
-                    plan: @taska.plan)).present?
-      @taska = t.first
-    end
-    if @taska.save
-      flash[:notice] = "PENDAFTARAN DITERIMA"
-      redirect_to statansys_path
-    end
-  end
-
-  def statansys
-    @taskas = Taska.where(plan: "ansys19")
-    if params[:par].present?
-      if params[:par] == "nil"
-        st = nil
-      else
-        st = params[:par]
+            #while dlvd.blank?
+              data_sms = HTTParty.get(
+                                "#{url}#{usr}#{ps}#{to}#{txt}",
+                                http_proxyaddr: fixie.host,
+                                http_proxyport: fixie.port,
+                                http_proxyuser: fixie.user,
+                                http_proxypass: fixie.password,
+                                timeout: 120)
+              dlvd = data_sms.parsed_response[0..2]
+            #end
+            @taska.cred -= 0.5
+            @taska.hiscred << [-0.5,Time.now,"#{kid.sph_1}#{kid.sph_2}",pmt.bill_id]
+            @taska.save
+          end
+        end
       end
-      @tsort = Taska.where(plan: "ansys19", states: st)
-    else
-      @tsort = @taskas
-    end
+      #END SMS
+      puts data_sms
+    end #END LOOP
+    flash[:success] = "Payments confirmed and SMS sent"
+    redirect_to request.referrer
   end
 
-  def editansys
-    @taska = Taska.find(params[:id])
-  end
-
-  def updansys
-    @taska = Taska.find(params[:taska][:id])
-    rsvp = params[:taska][:rsvp]
-    if @taska.update(taska_params)
-      flash[:notice] = "KEMASKINI BERJAYA"
-      if rsvp == "0"
-        redirect_to statansys_path
-      else
-        redirect_to succansys_path
+  def tchchgtsk
+    flash[:success] = "Data Updated"
+    pars = params[:cls]
+    id = pars[:id]
+    pars.each do |k,v|
+      if k != "id" && v[:taska_id] != id
+        tsktch = TaskaTeacher.where(taska_id: id, teacher_id: k, stat: true)
+        tsktch.each do |tstc|
+          tstc.stat = false
+          tstc.save
+        end
+        TaskaTeacher.create(taska_id: v[:taska_id], teacher_id: k, stat: true)
       end
     end
+    redirect_to taskateachers_path(id: id,
+                                  tb2_a: "active",
+                                  tb2_ar: true,
+                                  tb2_d: "show active")
   end
 
-  def succansys
-  end
+  def mybill
+    @payments = @taska.payments.where.not(name: "TASKA PLAN")
+    
+    #logic search payment
+    if params[:sch].present?
+      @payments = @payments.where(bill_year: params[:sch_yr]) unless params[:sch_yr].blank? 
+      @payments = @payments.where(bill_month: params[:sch_mth]) unless params[:sch_mth].blank? 
+      @payments = @payments.where(paid: params[:sch_stt]) unless params[:sch_stt].blank?
 
-  def ansys_xls
-    @taskas = Taska.where(plan: "ansys19")
-    respond_to do |format|
-      #format.html
-      format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI SYMPOSIUM ANIS.xlsx"'
-      }
+      if (str=params[:sch_str]).present?
+        str = str.upcase
+        pmt_arr = []
+        @payments.each do |pmt|
+          if pmt.kid_bills.where('kidname LIKE ?', "%#{str}%").present?
+            pmt_arr << pmt.id unless pmt_arr.include? pmt.id
+          end
+        end #end payments
+        @payments = @payments.where(id: pmt_arr)
+      end #end sch_str
     end
-  end
-  #END ANSYS
 
-
-  # START MBR
-  def regmbr19
-    @taska = Taska.new
-    @taska.fotos.build
+    @bill_paid = @payments.where(paid: true)
+    @bill_due = @payments.where(paid: false)
+    @amt_paid = @bill_paid.sum(:amount)
+    @amt_due = @bill_due.sum(:amount)
+    render action: "mybill", layout: "dsb-admin-bill"
   end
 
-  def crtmbr19
-    @taska = Taska.new(taska_params)
-    if (t=Taska.where(name: 
-                    @taska.name, 
-                    email: @taska.email, 
-                    plan: @taska.plan)).present?
-      @taska = t.first
+  def mystudent
+    @kids = @taska.kids
+
+    if params[:cls_id].present?
+      if params[:cls_id] == "nil"
+        @kids = @kids.where(classroom_id: nil)
+      else
+        @kids = @kids.where(classroom_id: params[:cls_id])
+      end
     end
-    if @taska.save
-      flash[:notice] = "PENDAFTARAN DITERIMA"
-      redirect_to editmbr19_path(id: @taska.id)
+
+    if params[:sch].present?
+      @kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%")
     end
+    render action: "mystudent", layout: "dsb-admin-student" 
   end
-
-  def statmbr19
-    @taskas = Taska.where(plan: "mbr19")
-  end
-
-  def editmbr19
-    @taska = Taska.find(params[:id])
-  end
-
-  def updmbr19
-    @taska = Taska.find(params[:taska][:id])
-    if @taska.update(taska_params)
-      flash[:notice] = "KEMASKINI BERJAYA"
-      redirect_to editmbr19_path(id: @taska.id)
-    end
-  end
-
-  def mbr19_xls
-    @taskas = Taska.where(plan: "mbr19")
-    respond_to do |format|
-      #format.html
-      format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI TASKA MBR19.xlsx"'
-      }
-    end
-  end
-  # END MBR
-
 
   def index
     @taskas = Taska.all
@@ -260,7 +245,7 @@ class TaskasController < ApplicationController
   end
 
   def xlskid
-    render action: "xlskid", layout: "dsb-admin-overview"
+    render action: "xlskid", layout: "dsb-admin-student"
   end
 
   def tempkidxls
@@ -313,7 +298,8 @@ class TaskasController < ApplicationController
 
     end
     flash[:success] = "FILE UPLOADED"
-    redirect_to taska_path(@taska)
+    #redirect_to taska_path(@taska)
+    redirect_to mystudent_path(id: @taska.id)
   end
 
   def find_spv
@@ -448,8 +434,8 @@ class TaskasController < ApplicationController
     else
       flash[:danger] = "Unsuccessful. Please try again"
     end
-    
-    redirect_to unreg_kids_path(@taska)
+    redirect_to request.referrer
+    #redirect_to unreg_kids_path(@taska)
   end
 
   def child_bill_index
@@ -598,7 +584,8 @@ class TaskasController < ApplicationController
                         http_proxyaddr: fixie.host,
                         http_proxyport: fixie.port,
                         http_proxyuser: fixie.user,
-                        http_proxypass: fixie.password)
+                        http_proxypass: fixie.password,
+                        timeout: 120)
     end
     if params[:xtrarem].present? && nufcred
       @taska.hiscred << [-0.5,Time.now,phk,@payment.bill_id]
@@ -613,19 +600,211 @@ class TaskasController < ApplicationController
     else
       flash[:danger] = "Insufficient credit. Please reload"
     end
-    if params[:account].present?
-      redirect_to bill_account_path(@taska, 
-                                    month: params[:month],
-                                    year: params[:year],
-                                    paid: false)
-    else
-      redirect_to unpaid_index_path(@taska)
-    end
+    # if params[:account].present?
+    #   redirect_to bill_account_path(@taska, 
+    #                                 month: params[:month],
+    #                                 year: params[:year],
+    #                                 paid: false)
+    # else
+    #   redirect_to unpaid_index_path(@taska)
+    # end
+    redirect_to request.referrer
   end
 
   def bill_account
+  @taska = Taska.find(params[:id])
+
+  if params[:month].present? && params[:year].blank?
+    flash[:danger] = "Please Choose Year"
+    redirect_to bill_account_path(id: @taska.id, year: Date.today.year, month: Date.today.month) and return      
+  end
+  
+  params[:month] = "0" unless params[:month].present?
+  paid = params[:paid]
+  params[:paid] = [true,false] unless params[:paid].present?
+  mth = params[:month].to_i
+  year = params[:year].to_i
+  if params[:month] == "0"
+    if paid == "true"
+      @payments = nil
+      @w=[]
+      (1..12).each do |m|
+        dt = Time.find_zone("Singapore").local(year,m)
+        payment = @taska.payments.where.not(name: "TASKA PLAN")
+        curr_pmt = payment.where(bill_month: m).where(bill_year: year)
+        curr_pmt_paid = curr_pmt.where(paid: true)
+        curr_pmt_unpaid = curr_pmt.where(paid: false)
+        #CDTN_1 = current period pay early
+        @cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+        #CDTN_2 = current period pay this month
+        @cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
+        #CDTN_3 = previous period pay this month
+        dt_lp = dt
+        stp_lp = Time.find_zone("Singapore").local(2016,1)
+        @cdtn_3 = nil
+        while dt_lp >= stp_lp
+          if @cdtn_3.blank?    
+            @cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
+          else
+            tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
+            @cdtn_3 = @cdtn_3.or(tmp)
+          end
+          dt_lp = dt_lp - 1.months
+        end
+        if @payments.blank?
+          @payments = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
+        else
+          tmp = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
+          @payments = @payments.or(tmp)
+        end
+
+        #start for partial
+        #CDTN_1 All partials paid this month or previous month for current month bill
+        cdtn_1par = nil
+        cdtn_2par = nil
+        
+        curr_pmt_unpaid.each do |pmt|
+          if pmt.parpayms.present?
+            tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)) 
+            if tmp.ids.present?
+              tmp.ids.each do |k|
+                @w<<k
+              end
+            end
+            
+          end
+        end
+        #CDTN_2 previous months bills paid partially this month
+        #cdtn_2par = 0.00
+        dt_lp=dt-1.months
+        while dt_lp >= stp_lp
+          payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+            tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)
+            if tmp.ids.present?
+              tmp.ids.each do |k|
+                @w<<k
+              end
+            end
+          end
+          dt_lp -= 1.months
+        end
+        #END PARTIAL 
+
+        @w.each do |w|
+          tmp = Parpaym.find(w)
+          if @payments.present?
+            @payments = @payments.or(Payment.where(id: tmp.payment.id))
+          else
+            @payments = Payment.where(id: tmp.payment.id)
+          end
+        end
+      end
+      @payments = @payments.order('updated_at DESC')
+      #@payments = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
+      #@payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
+    else
+      @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
+    end
+  else
+    dt = Time.find_zone("Singapore").local(year,mth)
+    if paid == "true"
+      payment = @taska.payments.where.not(name: "TASKA PLAN")
+      curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
+      curr_pmt_paid = curr_pmt.where(paid: true)
+      curr_pmt_unpaid = curr_pmt.where(paid: false)
+      #CDTN_1 = current period pay early
+      cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+      #CDTN_2 = current period pay this month
+      cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+      #CDTN_3 = previous period pay this month
+      dt_lp = dt
+      stp_lp = Time.find_zone("Singapore").local(2016,1)
+      cdtn_3 = nil
+      while dt_lp >= stp_lp
+        if cdtn_3.blank?    
+          cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+        else
+          tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+          cdtn_3 = cdtn_3.or(tmp)
+        end
+        dt_lp = dt_lp - 1.months
+      end
+
+      #start for partial
+      #CDTN_1 All partials paid this month or previous month for current month bill
+      cdtn_1par = nil
+      cdtn_2par = nil
+      @all_par = nil
+      @w=[]
+      curr_pmt_unpaid.each do |pmt|
+        if pmt.parpayms.present?
+          tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+          if cdtn_1par.blank?
+            cdtn_1par = tmp unless tmp.blank?
+          else
+            cdtn_1par = cdtn_1par.or(tmp) unless tmp.blank?
+          end
+          if tmp.ids.present?
+            tmp.ids.each do |k|
+              @w<<k
+            end
+          end
+          @cdtn = cdtn_1par
+          #cdtn_1par = cdtn_1par.or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+        end
+      end
+      #CDTN_2 previous months bills paid partially this month
+      #cdtn_2par = 0.00
+      dt_lp=dt-1.months
+      while dt_lp >= stp_lp
+        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+          tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
+          if cdtn_2par.blank?
+            cdtn_2par = tmp unless tmp.blank?
+          else
+            cdtn_2par = cdtn_2par.or(tmp) unless tmp.blank?
+          end
+          if tmp.ids.present?
+            tmp.ids.each do |k|
+              @w<<k
+            end
+          end
+        end
+        dt_lp -= 1.months
+      end
+      #END PARTIAL 
+
+      @payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+      @w.each do |w|
+        tmp = Parpaym.find(w)
+        if @payments.present?
+          @payments = @payments.or(Payment.where(id: tmp.payment.id))
+        else
+          @payments = Payment.where(id: tmp.payment.id)
+        end
+      end
+      @payments = @payments.order('updated_at DESC')
+    else
+      @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
+    end
+    
+    #@kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+  end
+
+  render action: "bill_account", layout: "dsb-admin-account" 
+end
+
+  def bill_account_old
     @taska = Taska.find(params[:id])
+
+    if params[:month].present? && params[:year].blank?
+      flash[:danger] = "Please Choose Year"
+      redirect_to bill_account_path(id: @taska.id, year: Date.today.year, month: Date.today.month) and return      
+    end
+    
+    params[:month] = "0" unless params[:month].present?
     paid = params[:paid]
+    params[:paid] = [true,false] unless params[:paid].present?
     mth = params[:month].to_i
     year = params[:year].to_i
     if params[:month] == "0"
@@ -794,6 +973,7 @@ class TaskasController < ApplicationController
       
       #@kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     end
+
     render action: "bill_account", layout: "dsb-admin-account" 
   end
 
@@ -801,7 +981,7 @@ class TaskasController < ApplicationController
     @taska = Taska.find(params[:id])
     #check all unpaid bills with billplz
     
-    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
     @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
   end
@@ -914,7 +1094,8 @@ class TaskasController < ApplicationController
         end
       end
     end
-    redirect_to unpaid_index_path(id: bill[:taska_id])
+    #redirect_to unpaid_index_path(id: bill[:taska_id])
+    redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
   end
 
   def delete_parpaym
@@ -922,11 +1103,12 @@ class TaskasController < ApplicationController
     @payment = @parpaym.payment
     @taska = @payment.taska
     if @parpaym.destroy && @parpaym.fotos.first.destroy
-      flash[:notice] = "SUCCESS"
+      flash[:notice] = "Partial Payment Successfully Deleted"
     else
-      flash[:danger] = "FAILED"
+      flash[:danger] = "Fail to delete partial payment"
     end
-      redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
+      #redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
+      redirect_to request.referrer
   end
 
   def check_bill
@@ -963,7 +1145,8 @@ class TaskasController < ApplicationController
                           http_proxyaddr: fixie.host,
                           http_proxyport: fixie.port,
                           http_proxyuser: fixie.user,
-                          http_proxypass: fixie.password)
+                          http_proxypass: fixie.password,
+                          timeout: 120)
       end
       bill.reminder = true
       bill.save
@@ -976,7 +1159,8 @@ class TaskasController < ApplicationController
                                     year: params[:year],
                                     paid: false)
     else
-      redirect_to unpaid_index_path(@taska)
+      #redirect_to unpaid_index_path(@taska)
+      redirect_to request.referrer
     end
   end
 
@@ -1822,6 +2006,145 @@ class TaskasController < ApplicationController
     #   format.json { head :no_content }
     # end
   end
+
+  #START ANSYS
+  def admansys
+    tsk = Taska.find(params[:id])
+    tsk.states = params[:st]
+    tsk.save
+    flash[:success] = "UPDATE SUCCESSFULL"
+    redirect_to statansys_path
+  end
+
+  def delansys
+    tsk = Taska.find(params[:id])
+    if tsk.destroy
+      flash[:danger] = "Delete berjaya"
+      redirect_to statansys_path
+    end
+  end
+
+  def rsvpans
+    @taska=Taska.find(params[:id])
+  end
+
+  def updrsvp
+  end
+
+  def updrsvpadm
+  end
+
+  def regansys
+    @taska = Taska.new
+    @taska.fotos.build
+  end
+
+  def crtansys
+    @taska = Taska.new(taska_params)
+    if (t=Taska.where(name: 
+                    @taska.name, 
+                    email: @taska.email, 
+                    plan: @taska.plan)).present?
+      @taska = t.first
+    end
+    if @taska.save
+      flash[:notice] = "PENDAFTARAN DITERIMA"
+      redirect_to statansys_path
+    end
+  end
+
+  def statansys
+    @taskas = Taska.where(plan: "ansys19")
+    if params[:par].present?
+      if params[:par] == "nil"
+        st = nil
+      else
+        st = params[:par]
+      end
+      @tsort = Taska.where(plan: "ansys19", states: st)
+    else
+      @tsort = @taskas
+    end
+  end
+
+  def editansys
+    @taska = Taska.find(params[:id])
+  end
+
+  def updansys
+    @taska = Taska.find(params[:taska][:id])
+    rsvp = params[:taska][:rsvp]
+    if @taska.update(taska_params)
+      flash[:notice] = "KEMASKINI BERJAYA"
+      if rsvp == "0"
+        redirect_to statansys_path
+      else
+        redirect_to succansys_path
+      end
+    end
+  end
+
+  def succansys
+  end
+
+  def ansys_xls
+    @taskas = Taska.where(plan: "ansys19")
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI SYMPOSIUM ANIS.xlsx"'
+      }
+    end
+  end
+  #END ANSYS
+
+
+  # START MBR
+  def regmbr19
+    @taska = Taska.new
+    @taska.fotos.build
+  end
+
+  def crtmbr19
+    @taska = Taska.new(taska_params)
+    if (t=Taska.where(name: 
+                    @taska.name, 
+                    email: @taska.email, 
+                    plan: @taska.plan)).present?
+      @taska = t.first
+    end
+    if @taska.save
+      flash[:notice] = "PENDAFTARAN DITERIMA"
+      redirect_to editmbr19_path(id: @taska.id)
+    end
+  end
+
+  def statmbr19
+    @taskas = Taska.where(plan: "mbr19")
+  end
+
+  def editmbr19
+    @taska = Taska.find(params[:id])
+  end
+
+  def updmbr19
+    @taska = Taska.find(params[:taska][:id])
+    if @taska.update(taska_params)
+      flash[:notice] = "KEMASKINI BERJAYA"
+      redirect_to editmbr19_path(id: @taska.id)
+    end
+  end
+
+  def mbr19_xls
+    @taskas = Taska.where(plan: "mbr19")
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI TASKA MBR19.xlsx"'
+      }
+    end
+  end
+  # END MBR
 
   private
     # Use callbacks to share common setup or constraints between actions.

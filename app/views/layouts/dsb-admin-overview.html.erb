@@ -10,6 +10,18 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/mystudent?id=<%= @taska.id %>">
+            <i class="fas fa-fw fa-user-graduate"></i>
+            <span>My Students </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/mybill?id=<%= @taska.id %>&sch=true&sch_yr=<%= Date.today.year %>&sch_mth=<%= Date.today.month %>">
+            <i class="fas fa-fw fa-file-invoice-dollar"></i>
+            <span>My Bills </span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="/taska/<%= @taska.id %>/classroom">
             <i class="fas fa-fw fa-child"></i>
             <span>My Classrooms </span>

@@ -1,0 +1,179 @@
+<% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
+<!-- START TABLE -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <% if params[:no_sch].blank? %><div class="card-header">
+    <div class="row">
+      <%= form_tag mybill_path, method: :get, id: "find_kid" do %>
+        <%
+          yr_s = (Date.today.year) - 3
+          yr_e = (Date.today.year) + 1
+        %>
+        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]), include_blank: "All Year" %>
+        <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
+        <%= select_tag :sch_stt, options_for_select([["PAID",true],["DUE",false]], 
+          params[:sch_stt]), include_blank: "All Status" %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Name", style: 'text-transform: uppercase' %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= hidden_field_tag :id, params[:id], value: @taska.id %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+        <%= link_to mybill_path(id: @taska.id, sch: true, sch_yr: Date.today.year, sch_mth: Date.today.month), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+        <%= "#{@payments.count} result(s) found" unless params[:sch].blank? %>
+      <% end %>
+      <div>
+        
+      </div>
+   </div>
+  </div><% end %>
+  <% if @payments.count < 1 %>
+    <br>
+    <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+  <% else %>
+    <div class="card-body">
+    <div class="table table-responsive border" style="font-size:13px">
+      <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr class="shadow" style="text-color:black">
+            <th style="background-color:#ffccff; width: 5%">MONTH</th>
+            <th style="background-color:#ffccff; width: 40%">BILL TO</th>
+            <th style="background-color:#ffccff; width: 21%">
+              ACTIONS
+              <% if (pmtfin=@payments.where(fin: false,paid: false).count) > 0 %>
+              <%= link_to "Confirm #{pmtfin} Bill(s)", cfmbill_path(pmt_ids: @payments.where(fin: false,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+              <% end %>
+            </th>
+            <th style="background-color:#ffccff; width: 9%">STATUS</th>
+            <th style="background-color:#ffccff; width: 15%">PAYMENT</th>
+            <th style="background-color:#ffccff; width: 20%">DETAILS</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <% @payments.order('bill_year DESC').order('bill_month DESC').each do |pmt| %>
+            <% kbls = pmt.kid_bills %>
+            <tr>
+              <td><%= "#{pmt.bill_month}-#{pmt.bill_year}" %></td>
+              <td>
+                <ol>
+                  <!-- CHILDREN NAMES -->
+                  <% kbls.each do |kb| %>
+                    <b><li style="margin-left: -25px"><%= kb.kidname %></li></b>
+                  <% end %>
+                </ol>
+                <div style="margin-bottom: -15px"></div>
+                <!-- SEND SMS -->
+                <% if !pmt.paid %>
+                  <% @kid = pmt.kids.first %>
+                  <% if status >=0 %>
+                    <% if !pmt.reminder %>
+                      <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: pmt.id), class: "btn btn-sm active", style: "color:blue" do %>
+                        <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                      <% end %>
+                    <% else %>
+                      <button class="btn btn-sm active">
+                        <i class="fa fa-check-circle"></i> REMINDER SENT TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                      </button>
+                    <% end %>
+                  <% end %>
+                  <div style="margin-left: -25px">
+                    <%= form_tag sms_reminder_path, method: :get do %>
+                      <%  if @kid.sph_1.present? && @kid.sph_1.present?
+                            secph = "#{@kid.sph_1}#{@kid.sph_2}"
+                          else
+                            secph = ""
+                          end
+                      %>
+                      <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-8">
+                          <%= text_field_tag :phk, secph,
+                              placeholder: "Example: 01162801556",
+                              class: "form-control search-box",
+                              style: "font-size: 12px"%>
+                          <i>Additional SMS (RM 0.50)</i>
+                          <%= hidden_field_tag :id, @taska.id %>
+                          <%= hidden_field_tag :kid, @kid.id %>
+                          <%= hidden_field_tag :bill, pmt.id %>
+                          <%= hidden_field_tag :xtrarem, true %>
+                        </div>
+                        <div class="col-md-0">
+                          <%= button_tag(type: :submit, class: "badge badge-secondary badge-pill",style: "font-size: 10px", id: "submit_expense") do %>
+                            <i class="fa fa-check"></i> SEND
+                          <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "View", billview_path(pmt: pmt.id), class: "badge badge-primary", target: "_blank", style: "font-size: 13px" %>
+                <% if !pmt.paid %>
+                  <%= link_to "Edit", edit_bill_path(pmt.id), class: "badge badge-warning", style: "font-size: 13px", target: "_blank" %>
+                  <% if pmt.parpayms.blank? %>
+                    <%= link_to "Delete", payment_path(id: pmt.id, taska_id: pmt.taska.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "badge badge-danger", style: "font-size: 13px" %>
+                  <% end %>
+                  <% if pmt.fin == false %>
+                    <div style="margin-top: 5px">
+                      <%= link_to "Confirm Bill", cfmbill_path(pmt_ids: pmt.id), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </td>
+              <%
+                tot_pmt = pmt.amount
+                paid_pmt = 0.00
+                
+                if pmt.paid
+                  stat = "PAID"
+                  clr = "#cce5cc"
+                  paid_pmt = pmt.amount
+                else
+                  if pmt.parpayms.present?
+                    stat = "BALANCE"
+                    clr = "#ffdb99"
+                    paid_pmt = pmt.parpayms.sum(:amt)
+                  else
+                    stat = "NOT PAID"
+                    clr = "#ff9999"
+                  end
+                end
+                bal_pmt = tot_pmt - paid_pmt
+              %>
+              <td style="background-color: <%= clr %>">
+                <b><%= stat %></b><br>
+                <% if !pmt.paid %>
+                <%= link_to "Update", tsk_manupdbill_path(taska: @taska.id, bill: pmt.id, id: @taska.id), class: "badge badge-secondary",target: "_blank", style: "font-size: 10px" %>
+                <% end %>
+
+              </td>
+              <td>
+                <b>Total : </b><%= number_with_delimiter(tot_pmt.round(2), :delimiter => ',')  %><br>
+                <b>Paid : </b><%= number_with_delimiter(paid_pmt.round(2), :delimiter => ',')  %><br>
+                <b>Balance : </b><%= number_with_delimiter(bal_pmt.round(2), :delimiter => ',')  %><br>
+              </td>
+              <td>
+                <% if pmt.paid %>
+                  Made using <b><%= pmt.mtd %></b><br>
+                  On <b><%= pmt.updated_at.strftime('%d-%b-%y') %></b>
+                <% elsif pmt.parpayms.present? %>
+                 Please refer to 
+                 <a href="<%= billview_url(pmt: pmt.id)%>" target="_blank">HERE</a>
+                 for details
+                <% end %>
+              </td>
+            </tr>
+            
+          
+          <% end %> <!-- END LOOP -->
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% end %>
+</div>

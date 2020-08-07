@@ -32,7 +32,7 @@
           <!-- PENDING LEAVES -->
           <div class="tab-pane fade <%= "#{params[:tb1_d]}" %>" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
 
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr style="background-color:#d8b2d8">
@@ -123,8 +123,9 @@
           </div>
           <!-- NEW REGISTRATION -->
           <div class="tab-pane fade <%= "#{params[:tb2_d]}" %>" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><br>
-
-            <div class="table-responsive">
+            <%= form_for(:cls, :url => {:controller=>'taskas', :action=>'tchchgtsk'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+            <%= f.hidden_field :id, value: params[:id] %>
+            <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr style="background-color:#d8b2d8">
@@ -132,6 +133,9 @@
                     <th>NRIC</th>
                     <th>DETAILS</th>
                     <th>ACTION</th>
+                    <th>
+                      <%= f.submit :"Change Center",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -148,6 +152,13 @@
                         <td>
                           <%= link_to "PROFILE", tchdetail_path(teacher.tchdetail, adm: @admin.id), class: "btn btn-sm btn-primary active", target: "_blank"  %>
                           <%= link_to "REMOVE", remove_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-sm btn-danger active", data: { confirm: 'Are you sure?' }  %>
+                        </td>
+                        <td>
+                          <%= f.fields_for :"#{teacher.id}" do |h| %>
+                            <%= h.select :taska_id, 
+                              options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, params[:id]),
+                              style: "width: 150px" %>
+                          <% end %>
                         </td> 
                       </tr>
                     <% end %>
@@ -156,6 +167,8 @@
               </table>
             </div>
           </div>
+
+          <% end %>
           <!-- ASSIGNED TEACHERS -->
           <div class="tab-pane fade <%= "#{params[:tb3_d]}" %>" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
 
@@ -165,7 +178,7 @@
               <% end %>
             </div>&nbsp&nbsp&nbsp&nbsp
             </div><br><br>
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                   <tr style="background-color:#d8b2d8">
@@ -205,7 +218,7 @@
                 <i class="fa fa-plus"></i> NEW LEAVE
               <% end %></p>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr style="background-color:#d8b2d8">
@@ -244,7 +257,7 @@
           <!-- APPROVED & REJECTED LEAVES -->
           <div class="tab-pane fade <%= "#{params[:tb5_d]}" %>" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact2-tab"><br>
 
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr style="background-color:#d8b2d8">
@@ -295,7 +308,7 @@
           </div>
           <!-- PUBLIC HOLIDAY -->
           <div class="tab-pane fade <%= "#{params[:tb6_d]}" %>" id="nav-contact3" role="tabpanel" aria-labelledby="nav-contact3-tab"><br>
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr style="background-color:#d8b2d8">
@@ -355,7 +368,7 @@
                   PAYSLIPS LIST FOR <strong><%= "#{$month_name[params[:mthpsl].to_i]}-#{params[:yrpsl].last(2)}" %></strong>
                 </div>
                 <div class="card-body">
-                  <div class="table-responsive">
+                  <div class="table-responsive" style="font-size:13px">
                     <table class="table table-striped table-bordered" width="100%" cellspacing="0">
                       <thead>
                         <tr>

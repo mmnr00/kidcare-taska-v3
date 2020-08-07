@@ -1,0 +1,85 @@
+
+
+<div class="row">
+<% if 1==0 %>
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">No of bills paid</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= @bill_paid.count %></div>
+              </div>
+              <div class="col">
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Amount Received (RM)</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= number_with_delimiter(@amt_paid.round(2), :delimiter => ',')  %></div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-coins fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-danger shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">No of Bills Due</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @bill_due.count  %></div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-coins fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Amount Due (RM)</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= number_with_delimiter(@amt_due.round(2), :delimiter => ',')  %></div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-coins fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div> <!-- DIV ROW -->
+
+<br>
+
+<%= render 'taskas/bill-list' %>
+
+
+
