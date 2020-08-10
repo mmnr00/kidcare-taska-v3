@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_03_102950) do
+ActiveRecord::Schema.define(version: 2020_08_10_122750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -497,6 +497,9 @@ ActiveRecord::Schema.define(version: 2020_07_03_102950) do
     t.float "cred"
     t.text "hiscred"
     t.float "rato"
+    t.integer "bldt"
+    t.integer "remdt"
+    t.integer "psldt"
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 
