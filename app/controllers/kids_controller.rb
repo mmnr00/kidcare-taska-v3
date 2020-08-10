@@ -37,7 +37,8 @@ class KidsController < ApplicationController
 	def bill_view
 		@pdf = false
 		
-		@payment = Payment.find(params[:payment]) 
+		@payment = Payment.find(params[:payment])
+		check2_bill(params[:payment]) 
 		#@kid = Kid.find(params[:kid])
 		@kid = @payment.kids.first
 		# if !current_admin.present?

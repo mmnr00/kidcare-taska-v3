@@ -34,6 +34,9 @@
                     <p class="card-text">
                      <%= "#{$month_name[bill.bill_month].upcase}" %>-
                      <%= bill.bill_year %>
+                     <% if !bill.paid %>
+                     <%= link_to "Check Status", bill_check_path(payment: bill.id), class: "badge badge-info", style: "font-size: 10px" %>
+                     <% end %>
                     </p>
 
                   </div>

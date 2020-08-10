@@ -148,6 +148,7 @@
                 <b><%= stat %></b><br>
                 <% if !pmt.paid %>
                 <%= link_to "Update", tsk_manupdbill_path(taska: @taska.id, bill: pmt.id, id: @taska.id), class: "badge badge-secondary",target: "_blank", style: "font-size: 10px" %>
+                <%= link_to "Check Status", bill_check_path(payment: pmt.id), class: "badge badge-light", style: "font-size: 10px" %>
                 <% end %>
 
               </td>

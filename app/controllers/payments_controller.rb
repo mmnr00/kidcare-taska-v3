@@ -6,6 +6,11 @@ class PaymentsController < ApplicationController
   before_action :set_all
   before_action :check_bill, only: [:edit_bill]
 
+  def bill_check
+    check2_bill(params[:payment])
+    redirect_to request.referrer
+  end
+
   def crt_billplz
     @payment = Payment.find(params[:id])
     @taska = @payment.taska
