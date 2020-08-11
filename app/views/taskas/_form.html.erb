@@ -188,10 +188,10 @@
           <div class="row">
             <div class="col-sm-8 col-12">
               <%= f.select :remdt, 
-                            options_for_select(1..28,
+                            options_for_select(1..30,
                                               selected: @taska.remdt,), 
                               {include_blank: "Please Select"}, {required: true} %> 
-              of every month
+              day(s) after bill issuance date
             </div>
           </div>
         </div>
