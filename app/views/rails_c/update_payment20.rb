@@ -13,5 +13,5 @@ arr << payment.id
 payment.bill_id2 = data["id"]
 payment.save
 end
-sleep 0.2
+sleep 0.5
 end

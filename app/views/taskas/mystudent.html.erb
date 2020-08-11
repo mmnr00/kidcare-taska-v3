@@ -58,7 +58,10 @@
                   <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
                   <% year = diff/12 %>
                   <% month = diff - year*12 %>
-                  <%= year %> years <%= month %> months  
+                  <%= year %> years <%= month %> months
+                  <% if kid.date_enter.present? %>
+                    <br><%= kid.date_enter.strftime('%d-%^b-%y') %>
+                  <% end %>  
                 </td>
                 <td>
                   <% if Time.now < @taska.expire && kid.classroom_id.present? %>
