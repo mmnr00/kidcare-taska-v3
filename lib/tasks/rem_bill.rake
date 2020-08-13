@@ -8,13 +8,15 @@ task rem_bill: :environment do
 
 	Taska.where(remdt: dy).each do |tsk|
 
-		tsk.payments.where(name: "KID BILL",paid: false,reminder: false).each do |pmt|
+		unpaid_remd = tsk.payments.where(name: "KID BILL",paid: false,reminder: false)
+
+		unpaid_remd.each do |pmt|
 			kd = pmt.kids.first
 			ph = "#{kd.ph_1}#{kd.ph_2}"
 			to = "to=6#{ph}&"
       txt = "text=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay"
-			puts "#{ph}-#{kd.id}"
-			puts txt
+			# puts "#{ph}-#{kd.id}"
+			# puts txt
 			data_sms = HTTParty.get(
                         "#{url}#{usr}#{ps}#{to}#{txt}",
                         http_proxyaddr: fixie.host,
@@ -26,6 +28,20 @@ task rem_bill: :environment do
 			pmt.save
 		end #payment
 
+		#send sms to admin
+		to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
+    txt = "text=[KIDCARE] #{unpaid_remd.count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
+		# puts txt
+		data_sms = HTTParty.get(
+                      "#{url}#{usr}#{ps}#{to}#{txt}",
+                      http_proxyaddr: fixie.host,
+                      http_proxyport: fixie.port,
+                      http_proxyuser: fixie.user,
+                      http_proxypass: fixie.password,
+                        timeout: 120)
+
 	end #taska
 
 end #task
+
+
