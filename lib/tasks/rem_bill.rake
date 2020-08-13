@@ -54,6 +54,26 @@ task rem_bill: :environment do
 
 	#send log to Mus
 	puts email_par
+
+	#write email body
+	list_sms = ""
+	email_par.each do |k,v|
+		t= Taska.find(k)
+		tsk_list = "<h4>#{t.name} (#{k})</h4><br>
+								<ol>"
+		sms_list = nil
+		v.each do |sms|
+			sms_list = sms_list + 
+								"<li>
+									Ph No=#{sms[0]};Kid Id=#{sms[1]};Pmt Id=#{sms[2]};Stat=#{sms[3]};
+								<li>
+								"
+		end
+		list_sms = list_sms + tsk_list + sms_list + "</ol><br><br>"
+	end
+
+
+
 end #task
 
 
