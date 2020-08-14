@@ -20,13 +20,13 @@ task rem_bill: :environment do
 			# puts "#{ph}-#{kd.id}"
 			# puts txt
 			data_sms = nil
-			# data_sms = HTTParty.get(
-   #                      "#{url}#{usr}#{ps}#{to}#{txt}",
-   #                      http_proxyaddr: fixie.host,
-   #                      http_proxyport: fixie.port,
-   #                      http_proxyuser: fixie.user,
-   #                      http_proxypass: fixie.password,
-   #                      timeout: 120)
+			data_sms = HTTParty.get(
+                        "#{url}#{usr}#{ps}#{to}#{txt}",
+                        http_proxyaddr: fixie.host,
+                        http_proxyport: fixie.port,
+                        http_proxyuser: fixie.user,
+                        http_proxypass: fixie.password,
+                        timeout: 120)
 			pmt.reminder = true unless data_sms.blank?
 			pmt.save
 			if data_sms.present?
@@ -42,13 +42,13 @@ task rem_bill: :environment do
 		to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
     txt = "text=[KIDCARE] #{unpaid_remd.count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
 		# puts txt
-		# data_sms = HTTParty.get(
-  #                     "#{url}#{usr}#{ps}#{to}#{txt}",
-  #                     http_proxyaddr: fixie.host,
-  #                     http_proxyport: fixie.port,
-  #                     http_proxyuser: fixie.user,
-  #                     http_proxypass: fixie.password,
-  #                       timeout: 120)
+		data_sms = HTTParty.get(
+                      "#{url}#{usr}#{ps}#{to}#{txt}",
+                      http_proxyaddr: fixie.host,
+                      http_proxyport: fixie.port,
+                      http_proxyuser: fixie.user,
+                      http_proxypass: fixie.password,
+                      timeout: 120)
 
 	end #taska
 
@@ -74,7 +74,7 @@ task rem_bill: :environment do
 
 	mail = SendGrid::Mail.new
   mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
-  mail.subject = "Try email schedule"
+  mail.subject = "SMS REMINDER ROBOT - #{Time.now}"
   #Personalisation, add cc
   personalization = SendGrid::Personalization.new
   personalization.add_to(SendGrid::Email.new(email: "mustakhim@kidcare.my"))
