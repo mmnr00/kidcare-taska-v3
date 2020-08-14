@@ -157,6 +157,65 @@
           </div>
         </div>
 
+        <hr>
+        <h4> Automation Settings </h4>
+
+        <!-- BILL ISSUANCE DATE -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BILL ISSUANCE DATE </strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :bldt, 
+                            options_for_select(1..28,
+                                              selected: @taska.bldt,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+              of every month
+            </div>
+          </div>
+        </div>
+
+        <!-- BILL REMINDER DATE -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BILL REMINDER DATE </strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :remdt, 
+                            options_for_select(1..28,
+                                              selected: @taska.remdt,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+              of every month
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYSLIP ISSUANCE DATE -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PAYSLIP ISSUANCE DATE </strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :psldt, 
+                            options_for_select(1..28,
+                                              selected: @taska.psldt,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+              of every month
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
         <h4> Bank Details </h4>
 
         <!-- BANK NAME-->

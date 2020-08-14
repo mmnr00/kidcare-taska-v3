@@ -451,6 +451,10 @@ class TaskasController < ApplicationController
   # GET /taskas/1.json
   def show
     # ada kt bawah func set_taska
+    if @taska.bldt.blank? || @taska.remdt.blank? || @taska.psldt.blank?
+      flash[:notice] = "Please Complete and Update Your Center Details to Proceed"
+      redirect_to edit_taska_path(id: @taska.id, plan: @taska.plan) and return
+    end
     if 1==0 #@taska.classrooms.count < 1
       redirect_to xlsclsrm_path(@taska)
     elsif 2==0 #@taska.kids.count < 1
@@ -2261,6 +2265,9 @@ end
                                     :blgt,
                                     :rato,
                                     :cred,
+                                    :bldt,
+                                    :remdt,
+                                    :psldt,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank
