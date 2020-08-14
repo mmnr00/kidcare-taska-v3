@@ -339,12 +339,12 @@
                   <div class="row">
                     <div class="control-label col-sm-2">
                      <strong>MONTH</strong>
-                      <%= select_tag :mthpsl, options_for_select(1..12),
+                      <%= select_tag :mthpsl, options_for_select(1..12,selected: params[:mthpsl]),
                           include_blank: "Please Select", required: true %>
                     </div>
                     <div class="control-label col-sm-2">
                      <strong>YEAR</strong>
-                      <%= select_tag :yrpsl, options_for_select(2018..2021),
+                      <%= select_tag :yrpsl, options_for_select(2018..(Date.today + 1.years).year,selected: params[:yrpsl]),
                           include_blank: "Please Select", required: true %>
                     </div>
                     <%= hidden_field_tag :id, params[:id], value: params[:id] %>
