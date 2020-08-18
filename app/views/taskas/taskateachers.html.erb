@@ -146,7 +146,7 @@
                         <td><%= teacher.tchdetail.name %></td>
                         <td><%= "#{teacher.tchdetail.ic_1}-#{teacher.tchdetail.ic_2}-#{teacher.tchdetail.ic_3}" %></td>
                         <td>
-                          <%= link_to "ADD", tchinfo_new_path(@taska, tchid: teacher.id), class: "btn btn-sm btn-success active"  %>
+                          <%= link_to "ADD", tchinfo_new_path(@taska, tchid: teacher.id), class: "badge badge-success", style: "font-size: 12px"  %>
                           
                         </td>
                         <td>
@@ -413,7 +413,13 @@
                         <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
                         <tr>
                           <% tchd = psl.teacher.tchdetail %>
-                          <td><%= tchd.name.upcase %></td>
+                          <td>
+                            <%= tchd.name.upcase %><br>
+                            <% if psl.notf.blank? %>
+                              <%= link_to "Confirm Payslip", cfmpsl_path(psl: psl.id), class: "badge badge-info", style: "font-size: 13px" %>
+                            <% end %>
+                            
+                          </td>
                           <td><%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %></td>
                           <td>
                             <%= number_with_delimiter(psl.amtepfa.round(2), :delimeter=>',')  %>
