@@ -40,7 +40,7 @@ task rem_bill: :environment do
 
 		#send sms to admin
 		to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "text=[KIDCARE] #{unpaid_remd.count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
+    txt = "text=[KIDCARE] #{email_par[tsk.id].count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
 		# puts txt
 		data_sms = HTTParty.get(
                       "#{url}#{usr}#{ps}#{to}#{txt}",
