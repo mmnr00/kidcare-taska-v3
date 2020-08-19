@@ -1,0 +1,29 @@
+<div class="table table-responsive border" style="font-size:10px">
+  <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr class="shadow">
+        <th style="background-color:#ffb2b2">NAME</th>
+        <th style="background-color:#ffb2b2">LOGBOOK</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @kids.order('name ASC').each do |kid|; lgbk = kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).last %>
+
+        <tr>
+          <td>
+            <b><%= kid.name %></b><br>
+            <% if lgbk.blank? %>
+              <%= link_to "Check-In", root_path, class: "badge badge-primary", style: "font-size: 10px" %>
+            <% else %>
+              <%= link_to "Check-Out", root_path, class: "badge badge-danger", style: "font-size: 10px" %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to "Create", root_path, class: "badge badge-success", style: "font-size: 10px" %>
+            <%= link_to "Edit", root_path, class: "badge badge-warning", style: "font-size: 10px" %>  
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
