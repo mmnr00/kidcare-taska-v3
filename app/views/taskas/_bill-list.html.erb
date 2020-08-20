@@ -39,13 +39,13 @@
         <thead>
           <tr class="shadow" style="text-color:black">
             <th style="background-color:#ffccff; width: 5%">MONTH</th>
-            <th style="background-color:#ffccff; width: 40%">BILL TO</th>
-            <th style="background-color:#ffccff; width: 21%">
-              ACTIONS
+            <th style="background-color:#ffccff; width: 40%">
+              BILL TO
               <% if (pmtfin=@payments.where(fin: false,paid: false).count) > 0 %>
-              <%= link_to "Confirm #{pmtfin} Bill(s)", cfmbill_path(pmt_ids: @payments.where(fin: false,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                <%= link_to "Confirm #{pmtfin} Bill(s)", cfmbill_path(pmt_ids: @payments.where(fin: false,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
               <% end %>
             </th>
+            <th style="background-color:#ffccff; width: 21%">ACTIONS</th>
             <th style="background-color:#ffccff; width: 9%">STATUS</th>
             <th style="background-color:#ffccff; width: 15%">PAYMENT</th>
             <th style="background-color:#ffccff; width: 20%">DETAILS</th>
@@ -65,8 +65,9 @@
                   <% end %>
                 </ol>
                 <div style="margin-bottom: -15px"></div>
+
                 <!-- SEND SMS -->
-                <% if !pmt.paid %>
+                <% if !pmt.paid && pmt.fin != false %>
                   <% @kid = pmt.kids.first %>
                   <% if status >=0 %>
                     <% if !pmt.reminder %>
@@ -79,6 +80,8 @@
                       </button>
                     <% end %>
                   <% end %>
+
+
                   <div style="margin-left: -25px">
                     <%= form_tag sms_reminder_path, method: :get do %>
                       <%  if @kid.sph_1.present? && @kid.sph_1.present?
@@ -108,7 +111,13 @@
                       </div>
                     <% end %>
                   </div>
+                <% elsif pmt.fin == false %>
+                  <div style="margin-top: 5px">
+                    <%= link_to "Confirm Bill", cfmbill_path(pmt_ids: pmt.id), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                  </div>
                 <% end %>
+                <!-- END SEND SMS -->
+
               </td>
               <td>
                 <%= link_to "View", billview_path(pmt: pmt.id), class: "badge badge-primary", target: "_blank", style: "font-size: 13px" %>
@@ -118,9 +127,7 @@
                     <%= link_to "Delete", payment_path(id: pmt.id, taska_id: pmt.taska.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "badge badge-danger", style: "font-size: 13px" %>
                   <% end %>
                   <% if pmt.fin == false %>
-                    <div style="margin-top: 5px">
-                      <%= link_to "Confirm Bill", cfmbill_path(pmt_ids: pmt.id), class: "badge badge-info", style: "font-size: 13px", method: :post %>
-                    </div>
+                    
                   <% end %>
                 <% end %>
               </td>
