@@ -34,6 +34,10 @@ Rails.application.routes.draw do
   get 'star_rating', to: 'welcomes#star_rating'
   get 'cikgu_anis', to: 'welcomes#cikgu_anis'
 
+  #~LGBK
+  get 'std_checkin', to: 'lgbks#std_checkin', as: 'std_checkin'
+  get 'std_checkout', to: 'lgbks#std_checkout', as: 'std_checkout'
+
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   #get '/daftarkprm', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'

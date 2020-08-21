@@ -1,3 +1,7 @@
+<div style="background-color:#ccccff; text-align: center">
+  <%= "#{Time.now.strftime("%d-%^b-%y")} (#{Date.today.strftime("%A")})" %>
+</div>
+
 <div class="table table-responsive border" style="font-size:10px">
   <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
     <thead>
@@ -7,15 +11,35 @@
       </tr>
     </thead>
     <tbody>
-      <% @kids.order('name ASC').each do |kid|; lgbk = kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).last %>
+      <% @kids.order('name ASC').each do |kid|; 
+        lgbk = kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).where.not(cin: nil);
+        lg_curr = lgbk.last
+       %>
 
         <tr>
           <td>
             <b><%= kid.name %></b><br>
-            <% if lgbk.blank? %>
-              <%= link_to "Check-In", root_path, class: "badge badge-primary", style: "font-size: 10px" %>
-            <% else %>
-              <%= link_to "Check-Out", root_path, class: "badge badge-danger", style: "font-size: 10px" %>
+            <% if lgbk.blank? %> <!-- not yet check in -->
+              <%= link_to "Check-In", std_checkin_path(kid: kid.id,tch: @teacher.id), class: "badge badge-primary", style: "font-size: 10px" %>
+            <% elsif lg_curr.cout.blank? %> <!-- check in, not checkout -->
+              <% lg_curr = lgbk.last %>
+              <%="IN: #{lg_curr.cin[0].strftime("%l:%M %P")} "%><%= "(36.5 C)" %>
+              <% if lg_curr.cin[2].blank? %>
+                (<%= "36.5" %>&#8451)
+              <% end %>
+              <br>
+              <%= link_to "Check-Out", std_checkout_path(lgbk: lg_curr.id,tch: @teacher.id), class: "badge badge-danger", style: "font-size: 10px" %>
+            <% elsif lg_curr.cin.present? && lg_curr.cout.present?  %> <!-- check in, not checkout -->
+              <%="IN: #{lg_curr.cin[0].strftime("%l:%M %P")} "%>
+              <% if lg_curr.cin[2].blank? %>
+                (<%= "36.5" %>&#8451)
+              <% end %>
+              <br>
+              <%="OUT: #{lg_curr.cout[0].strftime("%l:%M %P")} "%>
+              <% if lg_curr.cout[2].blank? %>
+                (<%= "36.5" %>&#8451)
+              <% end %>
+              <br>
             <% end %>
           </td>
           <td>
