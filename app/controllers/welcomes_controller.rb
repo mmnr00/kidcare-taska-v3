@@ -4,6 +4,10 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def cubakidcare
+		redirect_to "https://docs.google.com/forms/d/e/1FAIpQLSd4JxRbj0HIubm_o1w0BjUUkebPFxJf8SwFzwT09f2QJCFUWw/viewform?usp=sf_link"
+	end
+
 	def cikgu_anis
 		redirect_to "https://kidcare.my/ebook_anis.pdf"
 	end
