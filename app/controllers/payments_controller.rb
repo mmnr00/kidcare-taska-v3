@@ -29,6 +29,11 @@ class PaymentsController < ApplicationController
     else
       cltid = @taska.collection_id
     end
+    if @payment.description.present?
+      desc = @payment.description
+    else
+      desc = "NA"
+    end
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => cltid, 
                         :email=> "bill@kidcare.my",
@@ -36,7 +41,7 @@ class PaymentsController < ApplicationController
                         :amount=>  @payment.amount*100,
                         :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                         :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                        :description=>@payment.description}.to_json, 
+                        :description=>desc}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
