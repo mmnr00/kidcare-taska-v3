@@ -40,7 +40,7 @@ task crt_bill: :environment do
 
 				#create payment 
 				pmt = Payment.new(amount: amount,
-													description: "",
+													description: "NA",
 													bill_month: mth,
 													bill_year: yr,
 													discount: 0,
