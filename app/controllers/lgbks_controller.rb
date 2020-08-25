@@ -1,5 +1,12 @@
 class LgbksController < ApplicationController
 
+	before_action :set_all
+
+	def prt_lgbk
+		@kid = Kid.find(params[:kid_id])
+		render action: "prt_lgbk", layout: "dsb-parent-child"
+	end
+
 	def std_checkin
 		kid = Kid.find(params[:kid])
 		tch = Teacher.find(params[:tch])
@@ -27,6 +34,14 @@ class LgbksController < ApplicationController
 		lg_curr.save
 		#flash[:notice] = "Check-Out successful for #{kid.name} by #{tch.username}"
 		redirect_to request.referrer
+	end
+
+	private
+
+	def set_all
+		@parent = current_parent
+		@teacher = current_teacher
+		@admin = current_admin
 	end
 
 end

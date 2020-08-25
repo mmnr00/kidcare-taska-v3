@@ -1,0 +1,38 @@
+<div style="margin-right: -20px;margin-left: -20px;margin-top: -10px">
+
+  <div style="text-align: left; margin-bottom: 10px">
+    <%= link_to "VIEW HISTORY", prt_lgbk_path, class: "badge badge-success" %><br>
+  </div>
+
+  <div style="background-color:#ccccff; text-align: center">
+    <h5><%= "#{Time.now.strftime("%d-%^b-%y")} (#{Date.today.strftime("%A")})" %></h5>
+  </div>
+
+  <%= form_tag root_path, method: :get, id: "find_kid" do %>
+
+    <div class="row" style="margin-top: 5px">
+      <div class="col-6">
+        Tidur Nyenyak?
+        <%= select_tag :tdo, options_for_select(["Ya","Tidak"],selected: nil),include_blank: "Sila Pilih" %>
+      </div>
+      <div class="col-6">
+        Anak Sihat?
+        <%= select_tag :sihat, options_for_select(["Ya","Tidak"],selected: nil),include_blank: "Sila Pilih" %>
+      </div>
+    </div>
+
+    <div class="col-12" style="margin-left: -10px;margin-right: -10px;margin-top: 5px">
+      Nyatakan Sebab Jika Tidak
+      <%= text_area_tag :sch_str, params[:sch_str], class:"col-12" %>
+    </div>
+
+    <div class="col-12" style="margin-left: -10px;margin-top: 5px;margin-right: -10px;">
+      Adakah Anak Anda Sudah Dimandikan?
+      <%= select_tag :tdo, options_for_select(["Ya","Tidak"],selected: nil),include_blank: "Sila Pilih" %>
+    </div>
+
+
+
+  <% end %>
+
+</div>
