@@ -79,18 +79,19 @@ end %>
 
             <% if image.present? && image.picture.present? %>
               <% if @pdf %>
-                <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "120x120") %>
               <% else %>
-                <%= image_tag(image.picture.url, size: "50x50") %>
+                <%= image_tag(image.picture.url, size: "100x100") %>
               <% end %>
               
             <% end %>
           </div>
           <!-- COMPANY LOGO -->
+          <br><br>
           <% if avail %>
             <br><br><br>
-            <%= co %><br> <strong>(<%= ssm %>)</strong>
-            <br><br>
+            <%= co %>: <strong>(<%= ssm %>)</strong>
+            <br>
           <% else %>
             <br><br><br>
           <% end %>

@@ -62,7 +62,8 @@ class PayslipsController < ApplicationController
 		   render pdf: "Payslip",
 		   template: "payslips/pdfpsl.html.erb",
 		   #disposition: "attachment",
-		   #page_size: "A6",
+		   page_size: "A4",
+		   zoom: 0.85,
 		   #orientation: "landscape",
 		   layout: 'pdf.html.erb'
 			end
