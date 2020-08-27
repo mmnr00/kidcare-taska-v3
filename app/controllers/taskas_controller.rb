@@ -371,7 +371,11 @@ class TaskasController < ApplicationController
 
   def childlist_xls
     @taska = Taska.find(params[:id])
-    @taska_kids = @taska.kids.order('name ASC')
+    kids = @taska.kids
+    kids = kids.where(classroom_id: params[:cls]) unless params[:cls].blank?
+    kids = kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
+
+    @taska_kids = kids.order('name ASC')
     respond_to do |format|
       #format.html
       format.xlsx{
