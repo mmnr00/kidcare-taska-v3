@@ -76,6 +76,12 @@ class KidsController < ApplicationController
 	def create
 		@kid = Kid.new(kid_params)
 		#@expense.taska = session[:taska_id]
+
+		if Kid.where(ic_1: @kid.ic_1,ic_2: @kid.ic_2,ic_3: @kid.ic_3).present?
+			flash[:danger] = "Kid with IC NO: #{@kid.ic_1}-#{@kid.ic_2}-#{@kid.ic_3} already present!"
+			redirect_to request.referrer and return
+		end
+
 		if @kid.save
 			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])
 			# if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
@@ -236,6 +242,12 @@ class KidsController < ApplicationController
 
 	def update
 		@kid = Kid.find(params[:id])
+		@kd2 = Kid.new(kid_params)
+		dup_ids = Kid.where(ic_1: @kd2.ic_1,ic_2: @kd2.ic_2,ic_3: @kd2.ic_3).ids
+		if dup_ids.present? ; if (dup_ids.count > 1) || (!dup_ids.include?@kid.id)
+			flash[:danger] = "Kid with IC NO: #{@kd2.ic_1}-#{@kd2.ic_2}-#{@kd2.ic_3} already present!"
+			redirect_to request.referrer and return
+		end; end
 		@parent = Parent.find(@kid.parent.id)
 		#@classroom = Classroom.find(params[:classroom])
 		if @kid.update(kid_params)
