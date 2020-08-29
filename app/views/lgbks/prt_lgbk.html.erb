@@ -31,8 +31,111 @@
       <%= select_tag :tdo, options_for_select(["Ya","Tidak"],selected: nil),include_blank: "Sila Pilih" %>
     </div>
 
+    <div class="col-12" style="margin-left: -10px;margin-top: 10px;margin-right: -10px;">
+      Alatan/Bahan yang Dibawa Dalam Beg
+      <div class="table table-responsive border" style="font-size:10px">
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ffb2b2">Perkara</th>
+              <th style="background-color:#ffb2b2">Bilangan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Botol Susu/Cip Susu</td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td>Lampin Pakai Buang</td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td>Botol Air</td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td>Tuala Mandi</td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td>Pakaian Bersih/Sepasang</td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td>Bekas Baju Kotor</td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td><%= text_field_tag :sch_str, params[:sch_str] %></td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td><%= text_field_tag :sch_str, params[:sch_str] %></td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+            <tr>
+              <td><%= text_field_tag :sch_str, params[:sch_str] %></td>
+              <td><%= select_tag :tdo, options_for_select(0..10,selected: nil),include_blank: "Sila Pilih" %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
+    <div class="col-12" style="margin-left: -10px;margin-top: 10px;margin-right: -10px;">
+      Ubat yang Dibawa Dalam Beg
+      <div class="table table-responsive border" style="font-size:10px">
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ffb2b2">Nama/Jenis Ubat</th>
+              <th style="background-color:#ffb2b2; width: 100%">Masa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><%= text_area_tag :sch_str, params[:sch_str] %></td>
 
-  <% end %>
+              <td>
+                Masa Terakhir<br>
+                <%= text_field_tag :sch_str, params[:sch_str] %><br>
+                Masa Seterusnya<br>
+                <%= text_field_tag :sch_str, params[:sch_str] %>
+                  
+              </td>
+            </tr>
+            <tr>
+              <td><%= text_area_tag :sch_str, params[:sch_str] %></td>
+
+              <td>
+                Masa Terakhir<br>
+                <%= text_field_tag :sch_str, params[:sch_str] %><br>
+                Masa Seterusnya<br>
+                <%= text_field_tag :sch_str, params[:sch_str] %>
+                  
+              </td>
+            </tr>
+            <tr>
+              <td><%= text_area_tag :sch_str, params[:sch_str] %></td>
+
+              <td>
+                Masa Terakhir<br>
+                <%= text_field_tag :sch_str, params[:sch_str] %><br>
+                Masa Seterusnya<br>
+                <%= text_field_tag :sch_str, params[:sch_str] %>
+                  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <% end %> <!-- END FORM -->
 
 </div>
+
+
+
+

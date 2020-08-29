@@ -4,7 +4,7 @@ class LgbksController < ApplicationController
 
 	def prt_lgbk
 		@kid = Kid.find(params[:kid_id])
-		render action: "prt_lgbk", layout: "dsb-parent-child"
+		render action: "prt_lgbk", layout: "dsb-parent-child-nosb"
 	end
 
 	def std_checkin
