@@ -33,9 +33,9 @@ task crt_bill: :environment do
 					end 
 				end
 
-				unq = (0...8).map { ('A'..'Z').to_a[rand(26)] }.join
+				unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
 	      while Payment.where(bill_id: unq).present?
-	        unq = (0...8).map { ('A'..'Z').to_a[rand(26)] }.join
+	        unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
 	      end
 
 				#create payment 

@@ -24,10 +24,14 @@ task crt_psl: :environment do
   			amta = tot + pi.epfa + pi.socsa + pi.sipa
   			# puts "Amt= #{amt}"
   			# puts "Amta= #{amta}"
+        unq = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
+        while Payslip.where(psl_id: unq).present?
+          unq = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
+        end
   			psl = Payslip.new(mth: mth, year: yr, amt: tot,
   												alwnc: pi.alwnc, epf: pi.epf,
   												epfa: pi.epfa, amtepfa: amta,
-  												socs: pi.socs, socsa: pi.socsa,
+  												socs: pi.socs, socsa: pi.socsa, psl_id: unq,
   												sip: pi.sip, sipa: pi.sipa, fxddc: pi.fxddc,
   												taska_id: tsk.id, teacher_id: tch.id, xtra: "")
   			if psl.save
