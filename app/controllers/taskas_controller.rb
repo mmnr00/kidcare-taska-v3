@@ -58,13 +58,6 @@ class TaskasController < ApplicationController
                                 timeout: 120)
 
         if data_sms.blank? #timeout
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 500)
-        else
           mail = SendGrid::Mail.new
           mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
           mail.subject = "SMS Sent Failure"
@@ -75,14 +68,20 @@ class TaskasController < ApplicationController
           #add content
           msg = "<html>
                   <body>
-                    PMT ID: #{pmt.id} (#{data_sms.parsed_response[0..2]})
+                    PMT ID: #{pmt.id} (#{to})
                   </body>
                 </html>"
           #sending email
           mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
           sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
           @response = sg.client.mail._('send').post(request_body: mail.to_json)
-          puts data_sms.parsed_response[0..2]
+
+          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
+                                http_proxyaddr: fixie.host,
+                                http_proxyport: fixie.port,
+                                http_proxyuser: fixie.user,
+                                http_proxypass: fixie.password,
+                                timeout: 500)
         end
 
 
@@ -101,13 +100,6 @@ class TaskasController < ApplicationController
                                     timeout: 120)
 
             if data_sms.blank? #timeout
-              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                    http_proxyaddr: fixie.host,
-                                    http_proxyport: fixie.port,
-                                    http_proxyuser: fixie.user,
-                                    http_proxypass: fixie.password,
-                                    timeout: 500)
-            else
               mail = SendGrid::Mail.new
               mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
               mail.subject = "SMS Sent Failure"
@@ -118,14 +110,21 @@ class TaskasController < ApplicationController
               #add content
               msg = "<html>
                       <body>
-                        PMT ID: #{pmt.id} (#{data_sms.parsed_response[0..2]})
+                        PMT ID: #{pmt.id} (#{to})
                       </body>
                     </html>"
               #sending email
               mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
               sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
               @response = sg.client.mail._('send').post(request_body: mail.to_json)
-              puts data_sms.parsed_response[0..2]
+              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
+                                    http_proxyaddr: fixie.host,
+                                    http_proxyport: fixie.port,
+                                    http_proxyuser: fixie.user,
+                                    http_proxypass: fixie.password,
+                                    timeout: 500)
+            
+              
             end
 
             @taska.cred -= 0.5
@@ -647,13 +646,6 @@ class TaskasController < ApplicationController
                                 timeout: 120)
 
         if data_sms.blank? #timeout
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 500)
-        else
           mail = SendGrid::Mail.new
           mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
           mail.subject = "SMS Sent Failure"
@@ -664,14 +656,21 @@ class TaskasController < ApplicationController
           #add content
           msg = "<html>
                   <body>
-                    PMT ID: #{@payment.id} (#{data_sms.parsed_response[0..2]})
+                    PMT ID: #{@payment.id} (#{to})
                   </body>
                 </html>"
           #sending email
           mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
           sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
           @response = sg.client.mail._('send').post(request_body: mail.to_json)
-          puts data_sms.parsed_response[0..2]
+          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
+                                http_proxyaddr: fixie.host,
+                                http_proxyport: fixie.port,
+                                http_proxyuser: fixie.user,
+                                http_proxypass: fixie.password,
+                                timeout: 500)
+        
+          
         end
     end
     if params[:xtrarem].present? && nufcred
@@ -1237,13 +1236,6 @@ end
                                 timeout: 120)
 
         if data_sms.blank? #timeout
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 500)
-        else
           mail = SendGrid::Mail.new
           mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
           mail.subject = "SMS Sent Failure"
@@ -1254,14 +1246,22 @@ end
           #add content
           msg = "<html>
                   <body>
-                    PMT ID: #{bill.id} (#{data_sms.parsed_response[0..2]})
+                    PMT ID: #{bill.id} (#{to})
                   </body>
                 </html>"
           #sending email
           mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
           sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
           @response = sg.client.mail._('send').post(request_body: mail.to_json)
-          puts data_sms.parsed_response[0..2]
+          
+          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
+                                http_proxyaddr: fixie.host,
+                                http_proxyport: fixie.port,
+                                http_proxyuser: fixie.user,
+                                http_proxypass: fixie.password,
+                                timeout: 500)
+        
+          
         end
       end
       bill.reminder = true
