@@ -4,7 +4,33 @@ class LgbksController < ApplicationController
 
 	def prt_lgbk
 		@kid = Kid.find(params[:kid_id])
+		if (lgbk = @kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)).present?
+			@lgbk = lgbk.last
+		else
+			@lgbk = Lgbk.new
+		end
 		render action: "prt_lgbk", layout: "dsb-parent-child-nosb"
+	end
+
+	def prt_upd
+		@kid = Kid.find(params[:kid_id])
+		if (lgbk = @kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)).present?
+			@lgbk = lgbk.last
+		else
+			@lgbk = Lgbk.new
+			@lgbk.kid_id = @kid.id
+			@lgbk.save
+		end		
+		@lgbk.update(tdo: params[:tdo],
+								sih: params[:sih],
+								sbb: params[:sbb],
+								mand: params[:mand])
+		@lgbk.tool = {"tool1" => params[:tool1],"tool2" => params[:tool2],"tool3" => params[:tool3],
+									"tool4" => params[:tool4],"tool5" => params[:tool5],"tool6" => params[:tool6],
+									params[:tool7_d] => params[:tool7],params[:tool8_d] => params[:tool8],params[:tool9_d] => params[:tool9]}
+		@lgbk.save
+		flash[:success] = "Logbook successfully updated"
+		redirect_to request.referrer
 	end
 
 	def std_checkin
@@ -42,6 +68,13 @@ class LgbksController < ApplicationController
 		@parent = current_parent
 		@teacher = current_teacher
 		@admin = current_admin
+	end
+
+	def lgbk_params
+		params.permit(:bank_name,
+                  :acc_no,
+                  :acc_name,
+                  :ssm_no)
 	end
 
 end

@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get 'std_checkin', to: 'lgbks#std_checkin', as: 'std_checkin'
   get 'std_checkout', to: 'lgbks#std_checkout', as: 'std_checkout'
   get 'prt_lgbk', to: 'lgbks#prt_lgbk', as: 'prt_lgbk'
+  post 'prt_upd', to: 'lgbks#prt_upd', as: 'prt_upd'
 
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
