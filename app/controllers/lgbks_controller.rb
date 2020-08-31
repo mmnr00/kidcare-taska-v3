@@ -27,7 +27,10 @@ class LgbksController < ApplicationController
 								mand: params[:mand])
 		@lgbk.tool = {"tool1" => params[:tool1],"tool2" => params[:tool2],"tool3" => params[:tool3],
 									"tool4" => params[:tool4],"tool5" => params[:tool5],"tool6" => params[:tool6],
-									params[:tool7_d] => params[:tool7],params[:tool8_d] => params[:tool8],params[:tool9_d] => params[:tool9]}
+									"tool7_d" => params[:tool7_d],"tool8_d" => params[:tool8_d],"tool9_d" => params[:tool9_d],
+									"tool7" => params[:tool7],"tool8" => params[:tool8],"tool9" => params[:tool9]}
+		@lgbk.medc = {"med1_d" => params[:med1_d],"med1_p" => params[:med1_p],"med1_n" => params[:med1_n],
+								}
 		@lgbk.save
 		flash[:success] = "Logbook successfully updated"
 		redirect_to request.referrer

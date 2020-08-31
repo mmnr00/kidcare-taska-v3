@@ -68,16 +68,16 @@
               <td><%= select_tag :tool6, options_for_select(0..10,@lgbk.tool["tool6"]),include_blank: "Sila Pilih" %></td>
             </tr>
             <tr>
-              <td><%= text_field_tag :tool7_d, @lgbk.tool["tool7"][0] %></td>
-              <td><%= select_tag :tool7, options_for_select(0..10,@lgbk.tool["tool7"][1]),include_blank: "Sila Pilih" %></td>
+              <td><%= text_field_tag :tool7_d, @lgbk.tool["tool7_d"] %></td>
+              <td><%= select_tag :tool7, options_for_select(0..10,@lgbk.tool["tool7"]),include_blank: "Sila Pilih" %></td>
             </tr>
             <tr>
-              <td><%= text_field_tag :tool8_d, @lgbk.tool["tool8"][0] %></td>
-              <td><%= select_tag :tool8, options_for_select(0..10,@lgbk.tool["tool8"][0]),include_blank: "Sila Pilih" %></td>
+              <td><%= text_field_tag :tool8_d, @lgbk.tool["tool8_d"] %></td>
+              <td><%= select_tag :tool8, options_for_select(0..10,@lgbk.tool["tool8"]),include_blank: "Sila Pilih" %></td>
             </tr>
             <tr>
-              <td><%= text_field_tag :tool9_d, @lgbk.tool["tool9"][0] %></td>
-              <td><%= select_tag :tool9, options_for_select(0..10,@lgbk.tool["tool9"][1]),include_blank: "Sila Pilih" %></td>
+              <td><%= text_field_tag :tool9_d, @lgbk.tool["tool9_d"] %></td>
+              <td><%= select_tag :tool9, options_for_select(0..10,@lgbk.tool["tool9"]),include_blank: "Sila Pilih" %></td>
             </tr>
           </tbody>
         </table>
@@ -96,13 +96,13 @@
           </thead>
           <tbody>
             <tr>
-              <td><%= text_area_tag :sch_str, params[:sch_str] %></td>
+              <td><%= text_area_tag :med1_d, @lgbk.medc[:med1_d] %></td>
 
               <td>
                 Masa Terakhir<br>
-                <%= text_field_tag :sch_str, params[:sch_str] %><br>
+                <%= text_area_tag :med1_p, @lgbk.medc[:med1_p] %><br>
                 Masa Seterusnya<br>
-                <%= text_field_tag :sch_str, params[:sch_str] %>
+                <%= text_area_tag :med1_n, @lgbk.medc[:med1_n] %>
                   
               </td>
             </tr>
