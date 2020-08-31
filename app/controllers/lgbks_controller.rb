@@ -4,7 +4,11 @@ class LgbksController < ApplicationController
 
 	def prt_lgbk
 		@kid = Kid.find(params[:kid_id])
-		if (lgbk = @kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)).present?
+		@tm = Time.now
+		if params[:lgbk].present?
+			@lgbk = Lgbk.find(params[:lgbk])
+			@tm = @lgbk.created_at
+		elsif (lgbk = @kid.lgbks.where(created_at: @tm.beginning_of_day..@tm.end_of_day)).present?
 			@lgbk = lgbk.last
 		else
 			@lgbk = Lgbk.new
@@ -14,23 +18,30 @@ class LgbksController < ApplicationController
 
 	def prt_upd
 		@kid = Kid.find(params[:kid_id])
-		if (lgbk = @kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)).present?
+		@tm = Time.now
+		if params[:lgbk].present?
+			@lgbk = Lgbk.find(params[:lgbk])
+			@tm = @lgbk.created_at
+		elsif (lgbk = @kid.lgbks.where(created_at: @tm.beginning_of_day..@tm.end_of_day)).present?
 			@lgbk = lgbk.last
 		else
 			@lgbk = Lgbk.new
 			@lgbk.kid_id = @kid.id
+			@lgbk.taska_id = @kid.taska_id
 			@lgbk.save
 		end		
 		@lgbk.update(tdo: params[:tdo],
 								sih: params[:sih],
 								sbb: params[:sbb],
-								mand: params[:mand])
+								mand: params[:mand],
+								phyc: params[:phyc])
 		@lgbk.tool = {"tool1" => params[:tool1],"tool2" => params[:tool2],"tool3" => params[:tool3],
 									"tool4" => params[:tool4],"tool5" => params[:tool5],"tool6" => params[:tool6],
 									"tool7_d" => params[:tool7_d],"tool8_d" => params[:tool8_d],"tool9_d" => params[:tool9_d],
 									"tool7" => params[:tool7],"tool8" => params[:tool8],"tool9" => params[:tool9]}
 		@lgbk.medc = {"med1_d" => params[:med1_d],"med1_p" => params[:med1_p],"med1_n" => params[:med1_n],
-								}
+									"med2_d" => params[:med2_d],"med2_p" => params[:med2_p],"med2_n" => params[:med2_n],
+									"med3_d" => params[:med3_d],"med3_p" => params[:med3_p],"med3_n" => params[:med3_n]}
 		@lgbk.save
 		flash[:success] = "Logbook successfully updated"
 		redirect_to request.referrer

@@ -5,4 +5,5 @@ class Lgbk < ApplicationRecord
 	serialize :tool,Hash
 	serialize :medc,Hash
 	belongs_to :kid
+	belongs_to :taska
 end

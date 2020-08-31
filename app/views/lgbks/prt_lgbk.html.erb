@@ -1,12 +1,12 @@
 <div style="margin-right: -20px;margin-left: -20px;margin-top: -10px">
 
   <div style="text-align: left; margin-bottom: 10px">
-    <%= link_to "VIEW HISTORY FOR #{@kid.name}", prt_lgbk_path, class: "badge badge-success" %>
+    <%= link_to "VIEW HISTORY FOR #{@kid.name}", ls_lgbk_path(@parent,kid: @kid.id), class: "badge badge-success" %>
     <%= link_to "BACK", my_kid_path(@parent), class: "badge badge-warning" %><br>
   </div>
 
   <div style="background-color:#ccccff; text-align: center">
-    <h5><%= "#{Time.now.strftime("%d-%^b-%y")} (#{Date.today.strftime("%A")})" %></h5>
+    <h5><%= "#{@tm.strftime("%d-%^b-%y")} (#{@tm.strftime("%A")})" %></h5>
   </div>
 
   <%= form_tag prt_upd_path, method: :post, id: "find_kid" do %>
@@ -91,40 +91,40 @@
           <thead>
             <tr class="shadow">
               <th style="background-color:#ffb2b2">Nama/Jenis Ubat</th>
-              <th style="background-color:#ffb2b2; width: 100%">Masa</th>
+              <th style="background-color:#ffb2b2">Masa</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><%= text_area_tag :med1_d, @lgbk.medc[:med1_d] %></td>
+              <td><%= text_area_tag :med1_d, @lgbk.medc["med1_d"] %></td>
 
               <td>
                 Masa Terakhir<br>
-                <%= text_area_tag :med1_p, @lgbk.medc[:med1_p] %><br>
+                <%= text_area_tag :med1_p, @lgbk.medc["med1_p"] %><br>
                 Masa Seterusnya<br>
-                <%= text_area_tag :med1_n, @lgbk.medc[:med1_n] %>
+                <%= text_area_tag :med1_n, @lgbk.medc["med1_n"] %>
                   
               </td>
             </tr>
             <tr>
-              <td><%= text_area_tag :sch_str, params[:sch_str] %></td>
+              <td><%= text_area_tag :med2_d, @lgbk.medc["med2_d"] %></td>
 
               <td>
                 Masa Terakhir<br>
-                <%= text_field_tag :sch_str, params[:sch_str] %><br>
+                <%= text_area_tag :med2_p, @lgbk.medc["med2_p"] %><br>
                 Masa Seterusnya<br>
-                <%= text_field_tag :sch_str, params[:sch_str] %>
+                <%= text_area_tag :med2_n, @lgbk.medc["med2_n"] %>
                   
               </td>
             </tr>
             <tr>
-              <td><%= text_area_tag :sch_str, params[:sch_str] %></td>
+              <td><%= text_area_tag :med3_d, @lgbk.medc["med3_d"] %></td>
 
               <td>
                 Masa Terakhir<br>
-                <%= text_field_tag :sch_str, params[:sch_str] %><br>
+                <%= text_area_tag :med3_p, @lgbk.medc["med3_p"] %><br>
                 Masa Seterusnya<br>
-                <%= text_field_tag :sch_str, params[:sch_str] %>
+                <%= text_area_tag :med3_n, @lgbk.medc["med3_n"] %>
                   
               </td>
             </tr>
@@ -135,10 +135,11 @@
 
     <div class="col-12" style="margin-left: -10px;margin-right: -10px;margin-top: 5px;margin-bottom: 20px">
       Keadaan Fizikal
-      <%= text_area_tag :sch_str, params[:sch_str], placeholder: "Sila nyatakan sebarang keadaan fizikal yang ada rasa perlu disini", class:"col-12" %>
+      <%= text_area_tag :phyc, @lgbk.phyc, placeholder: "Sila nyatakan sebarang keadaan fizikal yang ada rasa perlu disini", class:"col-12" %>
     </div>
 
     <%= hidden_field_tag :kid_id, params[:kid_id] %>
+    <%= hidden_field_tag :lgbk, params[:lgbk] %>
 
     <%= button_tag(type: :submit, class: "btn btn-success btn-block", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
         <i class=""></i> Hantar

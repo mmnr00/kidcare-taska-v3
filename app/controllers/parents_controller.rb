@@ -5,6 +5,12 @@ class ParentsController < ApplicationController
 	#before_action	:update_bills
 	#$quarter = 3 || 6 || 9 || 12
 
+	def ls_lgbk
+		@kid = Kid.find(params[:kid])
+		@lgbks = @kid.lgbks
+		render action: "ls_lgbk",layout: "dsb-parent-child-nosb"
+	end
+
 	def my_kid
 		@mykids = @parent.kids.order("name ASC")
 		render action: "my_kid", layout: "dsb-parent-child"
