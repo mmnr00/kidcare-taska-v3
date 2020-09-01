@@ -85,7 +85,8 @@
           <td>
             <% if lgbk.present? %>
               <%= link_to "Update", root_path, class: "badge badge-info", style: "font-size: 10px" %><br>
-              <%= lg_curr.updated_at.in_time_zone("Singapore").strftime("%l:%M %P") %> 
+              <%= lg_curr.updated_at.in_time_zone("Singapore").strftime("%l:%M %P") %> <br>
+              <%= link_to "History", root_path, class: "badge badge-success", style: "font-size: 10px" %>
             <% end %>
           </td>
         </tr>
