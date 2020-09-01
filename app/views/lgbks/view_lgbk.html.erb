@@ -1,6 +1,6 @@
 <%
-  lft = "0px"
-  rgh = "0px"
+  lft = "20px"
+  rgh = "20px"
   if params[:pdf].blank?
     lft = "-25px"
     rgh = "-25px"
@@ -26,47 +26,12 @@
           </p>
         </td>
       </tr>
-      <tr>
-        <td style="background-color:#d8b2d8; font-size: 12px; text-align: center" colspan="2"><b>Catatan Ibu-Bapa</b></td>
-      <tr>
-        <td style="font-size: 15px; text-align: left">
-          Anak Anda Sihat? - <b>YA</b>
-        </td>
-        <td style="font-size: 15px; text-align: left">
-          Anak Tidur Nyenyak? - <b>YA</b>
-        </td>
-      <tr>
-        <td style="font-size: 15px; text-align: left" colspan="2">
-          <b>Nyatakan Sebab Jika Tidak</b><br>
-          <%= "kdjsdkjsdkjsdkljsdkjsdkljsklsjdklsdjlkds" %>
-        </td>
-      </tr>
-      <tr>
-        <td>Expressive language skills</td>
-        <td><%= "@ste.expr" %></td>
-      </tr>  
-      <tr>
-        <td>OVERALL</td>
-        <td><%= "@ste.ovc" %></td>
-      </tr>
-      <tr>
-        <td style="background-color:#d8b2d8; font-size: 12px; text-align: center" colspan="2"><b>Catatan Pusat Jagaan</b></td>
-      <tr>
-        <td>Preverbal skills</td>
-        <td><%= "@ste.pre" %></td>
-      </tr>
-      <tr>
-        <td>Receptive language skills</td>
-        <td><%= "@ste.rec" %></td>
-      </tr>
-      <tr>
-        <td>Expressive language skills</td>
-        <td><%= "@ste.expr" %></td>
-      </tr>  
-      <tr>
-        <td>OVERALL</td>
-        <td><%= "@ste.ovc" %></td>
-      </tr>
+      <%= render 'lgbks/tsklg'%>
+
+      <%= render 'lgbks/prtlg'%>
+
+      
+      
     </tbody>
   </table>
 </div>
