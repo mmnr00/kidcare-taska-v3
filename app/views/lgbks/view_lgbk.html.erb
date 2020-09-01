@@ -17,9 +17,6 @@
           <b><%= @lgbk.kid.name %></b>
           <p style="font-size: 14px;margin-bottom: -10px;margin-top: -5px">
             <%= @lgbk.created_at.strftime('%d-%^b-%y') %>
-            <div style="margin-top: 5px;margin-bottom: -20px; font-size:10px">
-              (In: 5pm, Out: 9pm)
-            </div>
           </p>
           <p style="font-size: 12px;margin-bottom: -10px;margin-top: 5px">
             <i><%= @lgbk.taska.name %></i>
@@ -30,7 +27,7 @@
 
       <%= render 'lgbks/prtlg'%>
 
-      
+
       
     </tbody>
   </table>

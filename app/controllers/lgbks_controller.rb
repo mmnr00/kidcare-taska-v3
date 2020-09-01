@@ -75,7 +75,7 @@ class LgbksController < ApplicationController
 		tch = Teacher.find(params[:tch])
 		lgbk = kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
 		if lgbk.blank?
-			lg_curr = Lgbk.new(kid_id: kid.id)
+			lg_curr = Lgbk.new(kid_id: kid.id, taska_id: kid.taska.id)
 		else
 			lg_curr = lgbk.last
 		end

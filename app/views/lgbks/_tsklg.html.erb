@@ -1,12 +1,22 @@
 <tr>
   <td style="background-color:#d8b2d8; font-size: 15px; text-align: center" colspan="2"><b>Catatan Pusat Jagaan</b></td>
 <tr>
-  <td>Preverbal skills</td>
-  <td><%= "@ste.pre" %></td>
+  <td>Masa Masuk (Suhu)</td>
+  <td>
+    <% if @lgbk.cin.present? %>
+      <%= @lgbk.cin[0].strftime("%l:%M %P") %>
+      (<%= @lgbk.cin[2] %>&#8451)
+    <% end %>
+  </td>
 </tr>
 <tr>
-  <td>Receptive language skills</td>
-  <td><%= "@ste.rec" %></td>
+  <td>Masa Keluar (Suhu)</td>
+  <td>
+    <% if @lgbk.cout.present? %>
+      <%= @lgbk.cout[0].strftime("%l:%M %P") %>
+      (<%= @lgbk.cout[2] %>&#8451)
+    <% end %>
+  </td>
 </tr>
 <tr>
   <td>Expressive language skills</td>
