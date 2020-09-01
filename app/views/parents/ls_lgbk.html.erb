@@ -20,7 +20,7 @@
         <tr>
           <td>
             <%= lg.created_at.strftime('%d-%^b-%y') %>
-            <%= link_to "View", my_kid_path(@parent), class: "badge badge-success" %>
+            <%= link_to "View", view_lgbk_path(lgbk: lg.id), class: "badge badge-success", target: "_blank" %>
             <%= link_to "Edit", prt_lgbk_path(kid_id: @kid.id,lgbk: lg.id), class: "badge badge-info" %>
           </td>
           <td><%= lg.taska.name %></td>

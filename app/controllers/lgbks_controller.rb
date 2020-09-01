@@ -2,6 +2,29 @@ class LgbksController < ApplicationController
 
 	before_action :set_all
 
+	def view_lgbk
+		@lgbk = Lgbk.find(params[:lgbk])
+
+		if params[:pdf].present?
+			respond_to do |format|
+		 		format.html
+		 		format.pdf do
+			   render pdf: "#{@lgbk.kid.name}",
+			   template: "lgbks/view_lgbk.html.erb",
+			   #disposition: "attachment",
+			   #save_to_file: Rails.root.join('pdfs', "#{filename}.pdf"),
+	       #save_only: true, 
+			   #page_size: "A6",
+			   orientation: "portrait",
+			   layout: 'pdf.html.erb'
+				end
+			end
+		else
+			render action: "view_lgbk", layout: "dsb-parent-child-nosb"
+		end
+		
+	end
+
 	def prt_lgbk
 		@kid = Kid.find(params[:kid_id])
 		@tm = Time.now
