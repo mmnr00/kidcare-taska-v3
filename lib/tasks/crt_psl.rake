@@ -19,8 +19,9 @@ task crt_psl: :environment do
   			pi = tch.payinfos.first
   			amt = 0.00
   			amta = 0.00
+        amt = pi.amt unless pi.amt.blank?
   			tot = pi.amt + pi.alwnc 
-  			amt = tot - pi.epf - pi.socs - pi.sip - pi.fxddc  
+  			#amt = tot - pi.epf - pi.socs - pi.sip - pi.fxddc  
   			amta = tot + pi.epfa + pi.socsa + pi.sipa
   			# puts "Amt= #{amt}"
   			# puts "Amta= #{amta}"
@@ -28,7 +29,7 @@ task crt_psl: :environment do
         while Payslip.where(psl_id: unq).present?
           unq = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
         end
-  			psl = Payslip.new(mth: mth, year: yr, amt: tot,
+  			psl = Payslip.new(mth: mth, year: yr, amt: amt,
   												alwnc: pi.alwnc, epf: pi.epf,
   												epfa: pi.epfa, amtepfa: amta,
   												socs: pi.socs, socsa: pi.socsa, psl_id: unq,
