@@ -1,0 +1,133 @@
+<div class='col-12 bg-white' style="margin-left: -15px"><br>
+
+  <% if @college.appl %>
+    <div style="background-color: #cce5cc"><h2 align="center">TERMA & SYARAT</h2></div>
+    <h6>Syarat-syarat permohonan peserta Bengkel Cikgu ANIS</h6>
+    <ol>
+      <li>Warganegara Malaysia</li>
+      <li>Pendidik di TASKA/TADIKA/Pusat Jagaan yang berdaftar di Negeri Selangor </li>
+      <li>TASKA/TADIKA/pusat Jagaan  yang mempunyai perakuan JKM/JPN yang sah</li>
+      <li>Permohonan dari NGO/Kolej perlu disertakan bersama dengan surat permohonan kepada Pengarah Program Bengkel Cg. Anis, Persatuan TASKA Negeri Selangor</li>
+      <li>Mohon pastikan anda mengisi semua keperluan permohonan dan memuat naik dokumen-dokumen yang diperlukan</li>
+      <li>Pemilihan akan dibuat oleh urusetia berdasarkan permohonan yg lengkap bergantung kepada kouta tertentu</li>
+      <li>Anda perlu mengemas kini maklumat anda di dalam sistem pendaftaran jika terdapat sebarang perubahan</li>
+      <li>Semakkan status permohonan diketahui selepas 3 hari daripada tarikh tutup iklan di link ini</li>
+      <li>Peserta yang layak dan berjaya sahaja akan dihubungi oleh pihak urusetia.</li>
+      <li>Sebarang rayuan atau surat menyurat boleh di alamatkan Pengarah Program Bengkel Cg. Anis, Persatuan TASKA Negeri Selangor</li>
+      <li>Tarikh tutup permohonan adalah pada <b><%= @college.clse.strftime("%d-%^b-%y") %></b> (tertakluk kepada pindaan)</li>
+    </ol>
+  <% end %><br>
+
+  <div style="background-color: #cce5cc"><h2 align="center">MAKLUMAT PROGRAM</h2></div><br><br>
+  <!-- LINK OPEN LEARNING -->
+  <h4><u>LAMAN OPEN LEARNING</u></h4>
+  <h6><i>Dapatkan 2 Sijil Open Learning di pautan berikut:</i></h6>
+  <%= link_to "Open Learning Asas Autisme", "https://www.openlearning.com/courses/ikurnia-asas-autisme/", style: "color:blue", target:"_blank" %><br>
+  <%= link_to "Open Learning Asas Intervensi", "https://www.openlearning.com/courses/ikurnia-asas-intervensi/", style: "color:blue", target:"_blank" %><br>
+
+  <br><br><!-- SENARAI SEMAK DOKUMEN -->
+  <h4><u>SENARAI SEMAK DOKUMEN</u></h4>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th style="background-color:#d8b2d8"> NO </th>
+          <th style="background-color:#d8b2d8"> SENARAI DOKUMEN </th>
+          <th style="background-color:#d8b2d8"> CATATAN URUSETIA</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Borang Pendaftaran Cikgu ANIS</td>
+          <td><i>Sila Lengkapkan Semua Maklumat Anda di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Salinan Kad Pengenalan</td>
+          <td><i>Sila Muat Naik gambar yg JELAS muka depan dan belakang Kad Pengenalan Anda di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Surat Tawaran Bekerja (jika bekerja)</td>
+          <td><i>Sila Muat Naik gambar/pdf yg JELAS di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Salinan SSM (jika pemilik syarikat)</td>
+          <td><i>Sila Muat Naik gambar/pdf yg JELAS di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Salinan Perakuan JKM (TASKA Swasta)</td>
+          <td><i>Sila Muat Naik gambar/pdf yg JELAS di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Salinan Perakuan JPN/JAIS dll (TADIKA Swasta)</td>
+          <td><i>Sila Muat Naik gambar/pdf yg JELAS di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Sijil Open Learning (Asas Autisme)</td>
+          <td><i>Sila Muat Naik sijil di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Sijil Open Learning (Asas Intervensi)</td>
+          <td><i>Sila Muat Naik sijil di Sistem KidCare</i></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Gambar Anda</td>
+          <td><i>Sila Muat Naik gambar anda yang jelas dan bersesuaian di Sistem KidCare</i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br><!-- ETIKA PAKAIAN & TEMA -->
+  <!-- <h4><u>SYARAT DAN PERATURAN BENGKEL ONLINE CIKGU ANIS 2020</u></h4><br>
+  <p style="text-align: justify">1. Bengkel akan diadakan secara <b>dalam talian</b> menggunakan aplikasi <b><i>Zoom Cloud Meeting</i></b> yang boleh dimuat turun di play store (bagi android) dan di App Store(bagi i-phone) atau di alamat <a href="https://zoom.us/download" style="color: blue">https://zoom.us/download</a>. Sila muat turun aplikasi zoom pada telefon pintar/laptop anda terlebih dahulu sebelum bengkel berlangsung.</p>
+  <p style="text-align: justify">2. Peserta dimohon untuk menggunakan nama sebenar dan  nama penuh sebagai username pada aplikasi <i>Zoom Cloud Meeting</i> bagi membolehkan <i>admin</i> memberi kebenaran kepada peserta untuk menyertai kelas yang akan dijalankan.</p>
+  <p style="text-align: justify">3. Bagi memastikan kelas berjalan lancar, setiap peserta perlu bersedia dengan data Internet @ Wifi yang mencukupi dan peserta perlu bersedia sekurang-kurangnya 10 minit awal sebelum kelas bermula.</p>
+  <p style="text-align: justify">4. Bengkel PERCUMA ini memerlukan komitmen kehadiran peserta selama 3 hari berturut-turut secara dalam talian. Kehadiran peserta akan diambil pada setiap kali sesi kelas berlangsung.</p>
+  <p style="text-align: justify">5. Setiap peserta juga perlu menyelesaikan kuiz/tugasan ringkas dan mengisi borang maklum balas pada setiap kali sesi kelas tamat bagi membuktikan kehadiran dan komitmen peserta terhadap bengkel ini.</p>
+  <p style="text-align: justify">6. Platform yang akan digunakan bagi melaksanakan semua tugasan dan kuiz adalah menggunakan <i>Google Classroom</i>. Oleh yang demikian, adalah digalakkan agar semua peserta bersedia dengan aplikasi ini untuk melancarkan proses bengkel. </p>
+  <p style="text-align: justify">7. Sijil penyertaan Bengkel Cikgu Anis 2.0 Siri 1/2020 akan di serahkan melalui e-mel  setelah semua peserta menghadiri setiap kelas dan memenuhi syarat kelayakkan dengan menghantar semua tugasan individu, kuiz dan borang maklumbalas di dalam medium yang telah ditetapkan. </p>
+  <p style="text-align: justify">8. Adalah diharapkan agar peserta yang telah di pilih peka serta bersedia dari segi ruang dan masa seperti di dalam jadual bengkel dengan memberikan komitmen kehadiran serta fokus di dalam setiap kelas yang di adakan selama 3 hari. </p> --> 
+
+  <h4><u>SYARAT DAN PERATURAN AM SEMPENA PKPP</u></h4>
+  <ol>
+    <li>Memakai pelitup mulut sepanjang bengkel berlangsung.</li>
+    <li>Membawa hand sanitizer sendiri.</li>
+    <li>Download apps MySejahtera di google playstore.</li>
+    <li>Mengambil suhu 3 kali sehari (pagi -tengahari – malam) sebelum masuk ke dewan.</li>
+    <li>Peserta yang bergejala demam, selesema dan batuk yang teruk tidak dibenarkan menyertai bengkel ini.</li>
+  </ol>
+
+  <br><!-- ETIKA PAKAIAN & TEMA -->
+  <h4><u>ETIKA PAKAIAN & TEMA</u></h4>
+  <b>Pakaian Sepanjang Program</b><br>
+  -Casual dan Sopan<br>
+  <b>Tema Pakaian 5 September 2020</b><br>
+  -Baju Warna Biru (Royal Blue) dan Tudung Krim<br>
+
+<!--
+  <br><br>
+  <h4><u>JADUAL PROGRAM</u></h4>
+  <%= render 'colleges/schd', vw: 0 %>
+</div><br>
+
+
+<%
+  assg = @college.start + 7.days
+  certt = @college.start + 10.days
+%>
+
+TARIKH AKHIR PENGHANTARAN TUGASAN INDIVIDU : 
+<strong><%= assg.strftime("%d-%^b-%Y") %>&nbsp
+          (<%= assg.strftime("%A") %>) </strong><br>
+PENYERAHAN SIJIL : 
+<strong><%= certt.strftime("%d-%^b-%Y") %>&nbsp
+          (<%= certt.strftime("%A") %>) </strong><br> -->
