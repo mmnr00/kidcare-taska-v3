@@ -9,7 +9,7 @@ task rem_bill: :environment do
 
 	Taska.where(remdt: dy).each do |tsk|
 		email_par[tsk.id] = []
-		unpaid_remd = tsk.payments.where(name: "KID BILL",paid: false,reminder: false)
+		unpaid_remd = tsk.payments.where(name: "KID BILL",paid: false,reminder: false, fin: true)
 
 		unpaid_remd.each do |pmt|; if pmt.parpayms.blank?
 			kd = pmt.kids.first
