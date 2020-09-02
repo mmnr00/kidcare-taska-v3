@@ -1,6 +1,18 @@
 class CollegesController < ApplicationController
 	before_action :set_owner
-	before_action :set_college, only: [:edit, :update, :destroy, :anis_reglist, :college_report, :college_reportxls]
+	before_action :set_college, only: [:updstat, :edit, :update, :destroy, :anis_reglist, :college_report, :college_reportxls]
+
+	def updstat
+		
+		if params[:tp] == "acv"
+			@college.acv = params[:act]
+		elsif params[:tp] == "appl"
+			@college.appl = params[:act]
+		end
+		@college.save
+		flash[:notice] = "Update Success"
+		redirect_to request.referrer
+	end
 
 	def index
 	end

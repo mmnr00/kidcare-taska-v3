@@ -144,6 +144,7 @@ Rails.application.routes.draw do
   get '/infopage', to: 'colleges#infopage', as: 'infopage_anis'
   get '/crtatt', to: 'colleges#crtatt'
   get 'chsreport', to: 'colleges#chsreport'
+  get 'updstat', to: 'colleges#updstat'
 
   #~COURSE
   get '/courses/new', to: 'courses#new', as: 'new_course'
