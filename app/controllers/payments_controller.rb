@@ -4,7 +4,7 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_URL'] = "https://billplz-staging.herokuapp.com/"
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
-  before_action :check_bill, only: [:edit_bill]
+  before_action :check_bill, only: [:edit_bill,:crt_billplz]
 
   def bill_check
     check2_bill(params[:payment])
@@ -13,6 +13,10 @@ class PaymentsController < ApplicationController
 
   def crt_billplz
     @payment = Payment.find(params[:id])
+    if @payment.paid
+      flash[:danger] = "Bill already paid"
+      redirect_to billview_path(pmt: @payment.id) and return
+    end
     @taska = @payment.taska
     @kid = @payment.kids.first
     kidname = ""
