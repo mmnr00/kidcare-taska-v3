@@ -179,6 +179,7 @@ Rails.application.routes.draw do
   get '/find_taska', to: 'teachers#find_taska', as: 'tch_find_taska'
   get '/teacher/:id/teacher_payslip', to: 'teachers#tchpslip', as: 'tchpslip'
   get '/teacher/:id/tch_std', to: 'teachers#tch_std', as: 'tch_std'
+  get '/teacher/:id/ls_lgbk', to: 'teachers#ls_lgbk', as: 'tch_ls_lgbk'
 
   #~APPLVS
   post '/apply_leave', to: 'applvs#apply', as: 'tchapplylv'
