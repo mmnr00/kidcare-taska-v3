@@ -99,6 +99,13 @@
                   <td></td>
                   <td class="text-right"><%= tskbill.real %></td>
                 </tr>
+                <% if tskbill.stp > 0 %>
+                <tr>
+                  <td>SETUP FEE (ONE-TIME)</td>
+                  <td></td>
+                  <td class="text-right"><%= tskbill.stp.round(2) %></td>
+                </tr>
+                <% end %>
                 <tr>
                   <td colspan="0" rowspan="4">
                     <h4 class="semi-bold">terms and conditions</h4>

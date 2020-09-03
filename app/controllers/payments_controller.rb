@@ -1039,6 +1039,14 @@ class PaymentsController < ApplicationController
     real = kid_count*$package_price[plan].to_f*100
     amount = (real*(@taska.discount)).round(2)
 
+    if bill_plan.where(paid: true).blank?
+      stp = 300
+    else
+      stp = 0
+    end
+
+    amount = amount + (stp*100)
+
     #expire = $my_time + 12.months
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     @payment = Payment.new
@@ -1067,7 +1075,7 @@ class PaymentsController < ApplicationController
       @payment.bill_id = data["id"]
       @payment.cltid = data["collection_id"]
       if @payment.save
-        Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
+        Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id, stp: stp)
       end
       redirect_to view_invoice_taska_path(taska: @taska, payment: @payment)
       #flash[:notice] = "SUCCESS CREATED FOR #{@taska.name}"
