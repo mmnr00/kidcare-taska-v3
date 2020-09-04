@@ -2,5 +2,42 @@
 <div style="text-align: center; background-color: #4c4cff; font-size: 15px; color: white">
   <%= @kid.name %> LOGBOOKS
 </div>
+<div class="table table-responsive border" style="font-size:12px">
+  <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr class="shadow">
+        <th style="background-color:#ffb2b2">Tarikh</th>
+        <th style="background-color:#ffb2b2">Kehadiran</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lgbks.order('created_at DESC').each do |lg| %>
+        <tr>
+          <td>
+            <%= lg.created_at.strftime('%d-%^b-%y') %>
+            <%= link_to "View", view_lgbk_path(lgbk: lg.id), class: "badge badge-success", target: "_blank" %>
+            <%= link_to "Edit", prt_lgbk_path(kid_id: @kid.id,lgbk: lg.id), class: "badge badge-info" %>
+          </td>
+          <td>
+            <b>Check In: </b>
+            <% if lg.cin.present? %>
+              <br>
+              <%= lg.cin[0].strftime("%l:%M %P") %>
+              (<%= lg.cin[2] %>&#8451)
+            <% end %>
+            <br>
+            <b>Check Out: </b>
+            <% if lg.cout.present? %>
+              <br>
+              <%= lg.cout[0].strftime("%l:%M %P") %>
+              (<%= lg.cout[2] %>&#8451)
+            <% end %>
+            <br>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <%= link_to "BACK", tch_std_path(@teacher, taska: @taska.id), class: "badge badge-warning" %>
 
