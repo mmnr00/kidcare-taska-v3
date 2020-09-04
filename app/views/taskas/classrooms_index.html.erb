@@ -6,9 +6,11 @@
         <a class="btn btn-sm btn-success pull-left active" href="/classrooms/new?taska_id=<%= @taska.id %>">
           <span class="fa fa-plus"></span> NEW CLASSROOM
         </a>&nbsp&nbsp
+        <% if @admin.id == 4 %>
         <a class="btn btn-sm btn-info pull-left active" href="/taska/<%= @taska.id %>/xlsclsrm">
           <span class="fa fa-upload"></span> UPLOAD EXCEL
         </a>
+        <% end %>
       </div><br>
       <% if @taska_classrooms.present? %>
         <div class="container">

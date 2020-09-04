@@ -1040,7 +1040,7 @@ class PaymentsController < ApplicationController
     amount = (real*(@taska.discount)).round(2)
 
     if bill_plan.where(paid: true).blank?
-      stp = 300
+      stp = 0
     else
       stp = 0
     end
