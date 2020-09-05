@@ -869,6 +869,18 @@ class TaskasController < ApplicationController
           @payments = Payment.where(id: tmp.payment.id)
         end
       end
+      #all parpayms this months that bill fully paid
+      @taska.payments.where(name: "KID BILL", paid: params[:paid]).each do |pmt|
+        if pmt.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).present?
+          if @payments.present?
+            @payments = @payments.or(Payment.where(id: pmt.id))
+          else
+            @payments = Payment.where(id: pmt.id)
+          end
+        end
+        
+      end
+
       @payments = @payments.order('updated_at DESC')
     else
       @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')

@@ -36,6 +36,19 @@ def my_expenses
 			curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
 			curr_pmt_paid = curr_pmt.where(paid: true)
 			curr_pmt_unpaid = curr_pmt.where(paid: false)
+
+			# arr_curr_pmt_paid =[]
+			# arr_curr_pmt_unpaid =[]
+			# curr_pmt.each do |pmt|
+			# 	if pmt.paid && pmt.parpayms.blank?
+			# 		arr_curr_pmt_paid << pmt.id
+			# 	else
+			# 		arr_curr_pmt_unpaid << pmt.id
+			# 	end
+			# end
+			# curr_pmt_paid = Payment.where(id: arr_curr_pmt_paid)
+			# curr_pmt_unpaid = Payment.where(id: arr_curr_pmt_unpaid)
+
 			#CDTN_1 = current period pay early
 			cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
 			#CDTN_2 = current period pay this month
@@ -43,7 +56,7 @@ def my_expenses
 			#CDTN_3 = previous period pay this month
 			dt_lp = dt
 			stp_lp = Time.find_zone("Singapore").local(2016,1)
-			cdtn_3 = nil
+			cdtn_3 = Payment.where(name: "Dummy Kaw Kaw")#nil
 			while dt_lp >= stp_lp
 				if cdtn_3.blank?		
 					cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
@@ -58,9 +71,11 @@ def my_expenses
 			#start for partial
       #CDTN_1 All partials paid this month or previous month for current month bill
       cdtn_1par = 0.00
+      cdtn_3par = 0.00 #To remove unpaid payment that already have partial
       curr_pmt_unpaid.each do |pmt|
         if pmt.parpayms.present?
-          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt)
+          cdtn_3par += pmt.parpayms.sum(:amt)
           cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
         end
       end
@@ -78,11 +93,28 @@ def my_expenses
 
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 			@payments_due = curr_pmt
-			@tot_unpaid = @payments_due.where(paid: false).sum(:amount) - cdtn_1par
+			@tot_unpaid = @payments_due.where(paid: false).sum(:amount) - cdtn_1par -cdtn_3par
+			
 			#@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
+			bill_noppm = []
+			@taska_payments.where(paid: true).each do |pmt|
+				bill_noppm << pmt.id unless pmt.parpayms.present?
+			end
+			bill_noppm = Payment.where(id: bill_noppm) #all paid bills without partial payment
+
+			all_ppm_curr = []
+			@taska.payments.where(paid: true, name: "KID BILL").each do |pmt|
+				pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).each do |ppm|
+					all_ppm_curr << ppm.id
+				end
+			end
+			all_ppm_curr = Parpaym.where(id: all_ppm_curr)
+			# ppm_curr = Parpaym.where(payment_id: tsk_payments_paid.ids).where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
+			@dummy = all_ppm_curr.count
+			@new_bills_paid = bill_noppm.sum(:amount) + @bills_partial + all_ppm_curr.sum(:amt)
 			@payments_pie = {
 										"unpaid"=>@tot_unpaid,
-										"paid"=>@taska_payments.where(paid: true).sum(:amount) + @bills_partial
+										"paid"=> @new_bills_paid
 											}
 		#TASKA BILLS END
 
@@ -132,9 +164,11 @@ def my_expenses
 				#START PARTIAL
 				#CDTN_1 All partials paid this month or previous month for current month bill
 	      cdtn_1par = 0.00
+	      cdtn_3par = 0.00 #To remove unpaid payment that already have partial
 	      curr_pmt_unpaid.each do |pmt|
 	        if pmt.parpayms.present?
 	          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+	          cdtn_3par += pmt.parpayms.sum(:amt)
 	          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
 	        end
 	      end
@@ -150,7 +184,7 @@ def my_expenses
 	      @partial_hash[mth] = cdtn_1par + cdtn_2par
 				#END PARTIAL
 				@payments_dues = curr_pmt
-				@unpaid_hash[mth] = @payments_dues.where(paid: false).sum(:amount) - cdtn_1par
+				@unpaid_hash[mth] = @payments_dues.where(paid: false).sum(:amount) - cdtn_1par - cdtn_3par 
 				@tot_unpaid += @unpaid_hash[mth]
 				@tot_paidyr += @partial_hash[mth] + @bill_hash[mth]
 			end
