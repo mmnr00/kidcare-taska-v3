@@ -1188,7 +1188,17 @@ end
     @parpaym = Parpaym.find(params[:prppm])
     @payment = @parpaym.payment
     @taska = @payment.taska
+    kind = @parpaym.kind
+    if kind == "PARTIAL PAYMENT" && @payment.parpayms.where(kind: "FINAL PAYMENT").present?
+      flash[:danger] = "Please Delete Final Payment First"
+      redirect_to request.referrer and return
+    end
+
     if @parpaym.destroy && @parpaym.fotos.first.destroy
+      if kind == "FINAL PAYMENT"
+        @payment.paid = false
+        @payment.save
+      end
       flash[:notice] = "Partial Payment Successfully Deleted"
     else
       flash[:danger] = "Fail to delete partial payment"
