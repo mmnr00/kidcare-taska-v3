@@ -1388,7 +1388,16 @@ end
         #@bills = @bills.order('bill_year ASC').order('bill_year ASC')
         @bills = @bills.order('updated_at ASC')
         @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
-      end
+
+        @par_bills = []
+        @taska.payments.where(name: "KID BILL").each do |pmt|
+          pmt.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).each do |ppm|
+            @par_bills << ppm.id
+          end
+        end #payment
+        @par_bills = Parpaym.where(id: @par_bills)
+
+      end #end paid true
       #@bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year, bill_month: mth, paid: paid).order('bill_month ASC')
     else
       #START EVERY MONTH

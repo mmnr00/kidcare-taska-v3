@@ -7,7 +7,7 @@ wb.styles do |style|
                                   sz: 13,
                                    alignment: { horizontal: :center })
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
-  wb.add_worksheet(name: "PAID BILL LIST") do |sheet|
+  wb.add_worksheet(name: "PAID BILLS") do |sheet|
     sheet.add_row ["BILL LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["",
@@ -24,31 +24,33 @@ wb.styles do |style|
     counter = 1
     row =2
     @bills.where(paid: true).each do |bill|
-      a= ""
-      bill.kid_bills.each do |kb|
-        a=a+"\n"+"; "+kb.kid.name
+      if bill.parpayms.blank?
+        a= ""
+        bill.kid_bills.each do |kb|
+          a=a+"\n"+"; "+kb.kid.name
+        end
+        chrg = 0.00
+        if bill.mtd == "BILLPLZ" && bill.cltid == @taska.collection_id2
+          chrg = 3.00
+        end
+        sheet.add_row ["",
+                      "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
+                      bill.bill_id,
+                      bill.amount,
+                      chrg,
+                      "#{bill.amount-chrg}",
+                      bill.updated_at.strftime('%d-%m-%y'),
+                      bill.mtd,
+                      a], style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cell
+        counter = counter +1
+        sheet.column_widths *col_widths
       end
-      chrg = 0.00
-      if bill.mtd == "BILLPLZ" && bill.cltid == @taska.collection_id2
-        chrg = 3.00
-      end
-      sheet.add_row ["",
-                    "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
-                    bill.bill_id,
-                    bill.amount,
-                    chrg,
-                    "#{bill.amount-chrg}",
-                    bill.updated_at.strftime('%d-%m-%y'),
-                    bill.mtd,
-                    a], style: [nil, border_cell]
-      sheet.rows[row+counter].style = border_cell
-      counter = counter +1
-      sheet.column_widths *col_widths
     end
   
   end
 
-  wb.add_worksheet(name: "UNPAID BILL LIST") do |sheet|
+  wb.add_worksheet(name: "UNPAID BILLS") do |sheet|
     sheet.add_row ["BILL LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["",
@@ -61,31 +63,30 @@ wb.styles do |style|
     counter = 1
     row =2
     @unpaid_bills.each do |bill|
-      if !bill.parpayms.present? 
-        a= ""
+      amt = bill.amount - bill.parpayms.sum(:amt)
+      a=""
       bill.kid_bills.each do |kb|
         a=a+"\n"+kb.kid.name
       end
       sheet.add_row ["",
                     "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
                     bill.bill_id,
-                    bill.amount,
+                    amt,
                     a], style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
       sheet.column_widths *col_widths
-      end
     end
   
   end
 
-  wb.add_worksheet(name: "PARTIAL PAYMENT LIST") do |sheet|
+  wb.add_worksheet(name: "MANUAL UPDATE BILLS") do |sheet|
     sheet.add_row ["PAYMENT LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["",
                   "PERIOD",
                   "ID",
-                  "TOTAL(RM)",
+                  "AMOUNT(RM)",
                   "PAYMENT DATE",
                   "METHOD",
                   "CHILDREN"]
@@ -94,7 +95,28 @@ wb.styles do |style|
     counter = 1
     row =2
 
-    @bills.where(paid: false).each do |bill|
+    if params[:month] != "0"
+      @par_bills.each do |ppm|
+        bill = ppm.payment
+        a=""
+        bill.kid_bills.each do |kb|
+          a=a+"\n"+kb.kid.name
+        end
+        sheet.add_row ["",
+                      "#{bill.bill_month}-#{bill.bill_year}",
+                      bill.bill_id,
+                      ppm.amt,
+                      ppm.upd.strftime('%d-%^b-%y'),
+                      ppm.mtd,
+                      a], style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cell
+        counter = counter +1
+        sheet.column_widths *col_widths
+      end
+
+    end
+
+    if params[:month]== "0" ;@bills.each do |bill|
 
       dtbill = Date.new(bill.bill_year,bill.bill_month)
       ppmarr =[]
@@ -143,9 +165,9 @@ wb.styles do |style|
             end
           end
         end
-      end
+      end #end months 0
 
-    end
+    end; end #end bills
   
   end
 end

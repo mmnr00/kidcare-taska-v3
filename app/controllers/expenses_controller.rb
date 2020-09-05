@@ -192,6 +192,7 @@ def my_expenses
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year)
 			@payments_due = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:expense][:year])
 			@payments_pie = @payments_due.where(paid: false).or(@taska_payments.where(paid: true))
+			@new_bills_paid = @tot_paidyr
 			@payments_pie = {
 										"unpaid"=>@tot_unpaid,
 										"paid"=>@tot_paidyr
