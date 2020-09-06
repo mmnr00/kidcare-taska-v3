@@ -5,6 +5,10 @@
     lft = "-25px"
     rgh = "-25px"
   end
+  if params[:tch].present?
+    lft = "0px"
+    rgh = "0px"
+  end
 
 %>
 
@@ -23,7 +27,9 @@
           </p>
         </td>
       </tr>
-      <%= render 'lgbks/tsklg'%>
+      <% if params[:note].blank? %>
+        <%= render 'lgbks/tsklg'%>
+      <% end %>
 
       <%= render 'lgbks/prtlg'%>
 

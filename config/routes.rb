@@ -38,8 +38,9 @@ Rails.application.routes.draw do
   get 'std_checkin', to: 'lgbks#std_checkin', as: 'std_checkin'
   get 'std_checkout', to: 'lgbks#std_checkout', as: 'std_checkout'
   get 'prt_lgbk', to: 'lgbks#prt_lgbk', as: 'prt_lgbk'
-
+  get 'tch_lgbk', to: 'lgbks#tch_lgbk', as: 'tch_lgbk'
   post 'prt_upd', to: 'lgbks#prt_upd', as: 'prt_upd'
+  post 'tch_upd', to: 'lgbks#tch_upd', as: 'tch_upd'
   get 'view_lgbk', to: 'lgbks#view_lgbk', as: 'view_lgbk'
 
   #~PTNSMMB

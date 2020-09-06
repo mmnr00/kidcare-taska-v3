@@ -2,6 +2,17 @@ class LgbksController < ApplicationController
 
 	before_action :set_all
 
+	def tch_upd
+		redirect_to root_path
+	end
+
+	def tch_lgbk
+		@lgbk = Lgbk.find(params[:lgbk])
+		@kid = @lgbk.kid
+		@tm = Time.now
+		@taska = @lgbk.taska
+	end
+
 	def view_lgbk
 		@lgbk = Lgbk.find(params[:lgbk])
 
@@ -20,7 +31,11 @@ class LgbksController < ApplicationController
 				end
 			end
 		else
-			render action: "view_lgbk", layout: "dsb-parent-child-nosb"
+			if params[:tch].present?
+				render action: "view_lgbk", layout: "dsb-teacher-tsk-nosb"
+			else
+				render action: "view_lgbk", layout: "dsb-parent-child-nosb"
+			end
 		end
 		
 	end
