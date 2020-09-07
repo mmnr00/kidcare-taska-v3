@@ -4,6 +4,10 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def payabesar
+		redirect_to "https://forms.gle/oh86QEVx46QfTKrT9"
+	end
+
 	def cubakidcare
 		redirect_to "https://docs.google.com/forms/d/e/1FAIpQLSd4JxRbj0HIubm_o1w0BjUUkebPFxJf8SwFzwT09f2QJCFUWw/viewform?usp=sf_link"
 	end

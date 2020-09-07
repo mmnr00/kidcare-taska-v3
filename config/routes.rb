@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'star_rating', to: 'welcomes#star_rating'
   get 'cikgu_anis', to: 'welcomes#cikgu_anis'
   get 'cubakidcare', to: 'welcomes#cubakidcare'
+  get 'payabesar', to: 'welcomes#payabesar'
 
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
