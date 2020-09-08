@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_124553) do
+ActiveRecord::Schema.define(version: 2020_09_07_123157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -276,6 +276,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_124553) do
     t.text "medc"
     t.string "phyc"
     t.integer "taska_id"
+    t.text "susu"
   end
 
   create_table "otkids", force: :cascade do |t|
@@ -628,6 +629,7 @@ ActiveRecord::Schema.define(version: 2020_08_31_124553) do
     t.integer "payment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "stp"
   end
 
   create_table "tsklvs", force: :cascade do |t|

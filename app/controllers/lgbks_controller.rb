@@ -3,7 +3,30 @@ class LgbksController < ApplicationController
 	before_action :set_all
 
 	def tch_upd
-		redirect_to root_path
+		@lgbk = Lgbk.find(params[:lgbk])
+
+		#start for susu
+		susu_n = params[:susu_n].to_i
+		@lgbk.susu = nil
+		(0..susu_n).each do |n|
+			if params[:"st#{n}"].present? && params[:"sk#{n}"].present?
+				@lgbk.susu[n] = [params[:"st#{n}"],params[:"sk#{n}"]]
+			elsif @lgbk.susu[n].present?
+				@lgbk.susu.delete_at(n)
+			end
+		end
+
+		ind = 0
+		@lgbk.susu.each do |n|
+			@lgbk.susu.delete_at(ind) unless n.present?
+			ind += 1
+		end
+
+		#end for susu
+
+		@lgbk.save
+		flash[:notice] = "Logbook updated successfully"
+		redirect_to request.referrer
 	end
 
 	def tch_lgbk
@@ -11,6 +34,10 @@ class LgbksController < ApplicationController
 		@kid = @lgbk.kid
 		@tm = Time.now
 		@taska = @lgbk.taska
+		if @admin
+		elsif @teacher
+			render action: "tch_lgbk", layout: "dsb-teacher-tsk-nosb"
+		end
 	end
 
 	def view_lgbk
