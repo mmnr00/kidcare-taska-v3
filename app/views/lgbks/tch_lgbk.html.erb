@@ -46,21 +46,21 @@
                 <% end %>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :susudc, @lgbk.susudc, style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Makanan</td>
               <td>
                 Pagi: <br>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%" %> <br>
+                <%= text_area_tag :mknpg, @lgbk.mkn[0], style: "width: 100%" %> <br>
                 Tengahari: <br>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%" %> <br>
+                <%= text_area_tag :mkntg, @lgbk.mkn[1], style: "width: 100%" %> <br>
                 Petang: <br>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%" %> <br> 
+                <%= text_area_tag :mknpt, @lgbk.mkn[2], style: "width: 100%" %> <br> 
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :mkndc, @lgbk.mkn[3], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
@@ -143,63 +143,24 @@
                 <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="col-12" style="margin-left: -10px;margin-top: 10px;margin-right: -10px;">
-      Ubat yang Dibawa Dalam Beg
-      <div class="table table-responsive border" style="font-size:10px">
-        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
-          <thead>
-            <tr class="shadow">
-              <th style="background-color:#ffb2b2">Nama/Jenis Ubat</th>
-              <th style="background-color:#ffb2b2">Masa</th>
-            </tr>
-          </thead>
-          <tbody>
             <tr>
-              <td><%= text_area_tag :med1_d, @lgbk.medc["med1_d"] %></td>
-
-              <td>
-                Masa Terakhir<br>
-                <%= text_area_tag :med1_p, @lgbk.medc["med1_p"] %><br>
-                Masa Seterusnya<br>
-                <%= text_area_tag :med1_n, @lgbk.medc["med1_n"] %>
-                  
+              <td>Aktiviti Bebas</td>
+              <td colspan="2">
+                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
               </td>
             </tr>
             <tr>
-              <td><%= text_area_tag :med2_d, @lgbk.medc["med2_d"] %></td>
-
               <td>
-                Masa Terakhir<br>
-                <%= text_area_tag :med2_p, @lgbk.medc["med2_p"] %><br>
-                Masa Seterusnya<br>
-                <%= text_area_tag :med2_n, @lgbk.medc["med2_n"] %>
-                  
+                Tingkah Laku/ Kesihatan/ Sakit
+                Kemalangan/ Kecederaan
               </td>
-            </tr>
-            <tr>
-              <td><%= text_area_tag :med3_d, @lgbk.medc["med3_d"] %></td>
-
-              <td>
-                Masa Terakhir<br>
-                <%= text_area_tag :med3_p, @lgbk.medc["med3_p"] %><br>
-                Masa Seterusnya<br>
-                <%= text_area_tag :med3_n, @lgbk.medc["med3_n"] %>
-                  
+              <td colspan="2">
+                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div> <!-- DIV UBAT -->
-
-    <div class="col-12" style="margin-left: -10px;margin-right: -10px;margin-top: 5px;margin-bottom: 20px">
-      Keadaan Fizikal
-      <%= text_area_tag :phyc, @lgbk.phyc, placeholder: "Sila nyatakan sebarang keadaan fizikal yang ada rasa perlu disini", class:"col-12" %>
     </div>
 
     <%= hidden_field_tag :kid_id, @lgbk.kid.id %>

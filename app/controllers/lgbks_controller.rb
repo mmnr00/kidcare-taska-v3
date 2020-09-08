@@ -14,7 +14,15 @@ class LgbksController < ApplicationController
 			elsif @lgbk.susu[n].present?
 				@lgbk.susu.delete_at(n)
 			end
-		end
+		end 
+		@lgbk.susudc = params[:susudc]
+		#susu
+
+		#start makan
+		@lgbk.mkn = [params[:mknpg],params[:mkntg],params[:mknpt],params[:mkndc]]
+		#last makan
+
+
 
 		ind = 0
 		@lgbk.susu.each do |n|

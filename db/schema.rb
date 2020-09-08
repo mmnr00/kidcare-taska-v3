@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_123157) do
+ActiveRecord::Schema.define(version: 2020_09_08_125049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -277,6 +277,17 @@ ActiveRecord::Schema.define(version: 2020_09_07_123157) do
     t.string "phyc"
     t.integer "taska_id"
     t.text "susu"
+    t.string "susudc"
+    t.text "mkn"
+    t.text "ctm"
+    t.text "aktl"
+    t.text "aktp"
+    t.text "lmpn"
+    t.text "gigi"
+    t.text "mnd"
+    t.text "tdur"
+    t.string "aktb"
+    t.string "othdc"
   end
 
   create_table "otkids", force: :cascade do |t|
