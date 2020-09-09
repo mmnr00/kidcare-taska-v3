@@ -7,7 +7,7 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-3 col-lg-3" align="center"> 
+        <div class="col-md-12 col-lg-12" align="center"> 
           <% image = @fotos.where(foto_name: "CHILDREN PICTURE").first %>
           <% if image.present? && image.present? && image.picture.present? %>
             <a href="<%="#{image.picture.url}"%>" target="_blank">
@@ -22,7 +22,7 @@
           <% end %>
          </div>
 
-         <div class=" col-md-9 col-lg-9"> 
+         <div class=" col-md-12 col-lg-12"> 
 
         <div class="table-responsive">
           

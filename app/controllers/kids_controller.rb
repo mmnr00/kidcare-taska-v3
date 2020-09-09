@@ -153,7 +153,8 @@ class KidsController < ApplicationController
 		   render pdf: "(#{@kid.name})",
 		   template: "kids/kid_pdf.html.erb",
 		   #disposition: "attachment",
-		   #page_size: "A6",
+		   zoom: 0.8,
+		   page_size: "A4",
 		   orientation: "portrait",
 		   layout: 'pdf.html.erb'
 			end
