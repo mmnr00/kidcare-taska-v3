@@ -15,22 +15,34 @@ class LgbksController < ApplicationController
 				@lgbk.susu.delete_at(n)
 			end
 		end 
-		@lgbk.susudc = params[:susudc]
-		#susu
-
-		#start makan
-		@lgbk.mkn = [params[:mknpg],params[:mkntg],params[:mknpt],params[:mkndc]]
-		#last makan
-
-
-
 		ind = 0
 		@lgbk.susu.each do |n|
 			@lgbk.susu.delete_at(ind) unless n.present?
 			ind += 1
 		end
-
+		@lgbk.susudc = params[:susudc]
 		#end for susu
+
+		#makan
+		@lgbk.mkn = [params[:mknpg],params[:mkntg],params[:mknpt],params[:mkndc]]
+		#circle time
+		@lgbk.ctm = [params[:ctmm],params[:ctmdc]]
+		#aktiviti luar
+		@lgbk.aktl = [params[:aktlm],params[:aktldc]]
+		#aktiviti permata
+		@lgbk.aktp = [params[:aktpm],params[:aktpdc]]
+		#lampin/tandas
+		@lgbk.lmpn = [params[:lmpm],params[:lmpt],params[:lmpp],params[:lmpn],params[:lmpw],params[:lmpdc]]
+		#gigi
+		@lgbk.gigi = [params[:ggm],params[:ggt],params[:ggp],params[:ggdc]]
+		#mandi
+		@lgbk.mnd = [params[:mndm],params[:mndt],params[:mndp],params[:mnddc]]
+		#tidur
+		@lgbk.tdur = [params[:tdrm],params[:tdrt],params[:tdrp],params[:tdrdc]]
+		#aktiviti bebas
+		@lgbk.aktb = params[:aktb]
+		#tingkah laku
+		@lgbk.othdc = params[:othdc]
 
 		@lgbk.save
 		flash[:notice] = "Logbook updated successfully"

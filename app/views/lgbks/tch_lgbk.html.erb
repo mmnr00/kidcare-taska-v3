@@ -67,86 +67,85 @@
               <td>Circle Time</td>
               <td>
                 Masa & Senarai Aktiviti: <br>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
+                <%= text_area_tag :ctmm, @lgbk.ctm[0], style: "width: 100%; height: 100px" %>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :ctmdc, @lgbk.ctm[1], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Aktiviti Luar</td>
               <td>
                 Masa & Senarai Aktiviti: <br>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
+                <%= text_area_tag :aktlm, @lgbk.aktl[0], style: "width: 100%; height: 100px" %>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :aktldc, @lgbk.aktl[1], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Aktiviti PERMATA</td>
               <td>
                 Masa & Senarai Aktiviti: <br>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
+                <%= text_area_tag :aktpm, @lgbk.aktp[0], style: "width: 100%; height: 100px" %>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :aktpdc, @lgbk.aktp[1], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Tukar Lampin/Tandas</td>
               <td>
-                <% try = nil %>
                 Masa: <br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], try), include_blank: "Pilih" %>&nbsp 8am-12pm<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], try), include_blank: "Pilih" %>&nbsp 12pm-3pm<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], try), include_blank: "Pilih" %>&nbsp 3pm-7pm<br>
+                <%= select_tag :lmpm, options_for_select([ "Ya", "Tidak" ], @lgbk.lmpn[0]), include_blank: "Pilih" %>&nbsp 8am-12pm<br>
+                <%= select_tag :lmpt, options_for_select([ "Ya", "Tidak" ], @lgbk.lmpn[1]), include_blank: "Pilih" %>&nbsp 12pm-3pm<br>
+                <%= select_tag :lmpp, options_for_select([ "Ya", "Tidak" ], @lgbk.lmpn[2]), include_blank: "Pilih" %>&nbsp 3pm-7pm<br>
                 Najis: <br>
-                <%= select_tag :ppk, options_for_select([ "Keras","Lembik","Cair","Lain-lain" ], try), include_blank: "Pilih" %><br>
+                <%= select_tag :lmpn, options_for_select([ "Keras","Lembik","Cair","Lain-lain" ], @lgbk.lmpn[3]), include_blank: "Pilih" %><br>
                 Warna: <br>
-                <%= select_tag :ppk, options_for_select([ "Kuning","Coklat","Lain-lain" ], try), include_blank: "Pilih" %><br>
+                <%= select_tag :lmpw, options_for_select([ "Kuning","Coklat","Lain-lain" ], @lgbk.lmpn[4]), include_blank: "Pilih" %><br>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :lmpdc, @lgbk.lmpn[5], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Gosok Gigi</td>
               <td>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp Pagi<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp Tengah Hari<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp Petang<br>
+                <%= select_tag :ggm, options_for_select([ "Ya", "Tidak" ], @lgbk.gigi[0]), include_blank: "Pilih" %>&nbsp Pagi<br>
+                <%= select_tag :ggt, options_for_select([ "Ya", "Tidak" ], @lgbk.gigi[1]), include_blank: "Pilih" %>&nbsp Tengah Hari<br>
+                <%= select_tag :ggp, options_for_select([ "Ya", "Tidak" ], @lgbk.gigi[2]), include_blank: "Pilih" %>&nbsp Petang<br>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :ggdc, @lgbk.gigi[3], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Mandi</td>
               <td>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp Pagi<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp Tengah Hari<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp Petang<br>
+              <%= select_tag :mndm, options_for_select([ "Ya", "Tidak" ], @lgbk.mnd[0]), include_blank: "Pilih" %>&nbsp Pagi<br>
+                <%= select_tag :mndt, options_for_select([ "Ya", "Tidak" ], @lgbk.mnd[1]), include_blank: "Pilih" %>&nbsp Tengah Hari<br>
+                <%= select_tag :mndp, options_for_select([ "Ya", "Tidak" ], @lgbk.mnd[2]), include_blank: "Pilih" %>&nbsp Petang<br>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :mnddc, @lgbk.mnd[3], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Tidur</td>
               <td>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp 9am - 12pm<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp 12pm - 3pm<br>
-                <%= select_tag :ppk, options_for_select([ "Ya", "Tidak" ], nil), include_blank: "Pilih" %>&nbsp 3pm - 7pm<br>
+              <%= select_tag :tdrm, options_for_select([ "Ya", "Tidak" ], @lgbk.tdur[0]), include_blank: "Pilih" %>&nbsp Pagi<br>
+                <%= select_tag :tdrt, options_for_select([ "Ya", "Tidak" ], @lgbk.tdur[1]), include_blank: "Pilih" %>&nbsp Tengah Hari<br>
+                <%= select_tag :tdrp, options_for_select([ "Ya", "Tidak" ], @lgbk.tdur[2]), include_blank: "Pilih" %>&nbsp Petang<br>
               </td>
               <td>
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 150px" %>
+                <%= text_area_tag :tdrdc, @lgbk.tdur[3], style: "width: 100%; height: 150px" %>
               </td>
             </tr>
             <tr>
               <td>Aktiviti Bebas</td>
               <td colspan="2">
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
+                <%= text_area_tag :aktb, @lgbk.aktb, style: "width: 100%; height: 100px" %>
               </td>
             </tr>
             <tr>
@@ -155,7 +154,7 @@
                 Kemalangan/ Kecederaan
               </td>
               <td colspan="2">
-                <%= text_area_tag :st, Time.now.strftime("%l:%M %P"), style: "width: 100%; height: 100px" %>
+                <%= text_area_tag :othdc, @lgbk.othdc, style: "width: 100%; height: 100px" %>
               </td>
             </tr>
           </tbody>
