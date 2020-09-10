@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_125049) do
+ActiveRecord::Schema.define(version: 2020_09_10_124521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -264,7 +264,6 @@ ActiveRecord::Schema.define(version: 2020_09_08_125049) do
   create_table "lgbks", force: :cascade do |t|
     t.text "cin"
     t.text "cout"
-    t.float "temp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kid_id"
@@ -288,6 +287,8 @@ ActiveRecord::Schema.define(version: 2020_09_08_125049) do
     t.text "tdur"
     t.string "aktb"
     t.string "othdc"
+    t.text "tchid"
+    t.text "temp"
   end
 
   create_table "otkids", force: :cascade do |t|

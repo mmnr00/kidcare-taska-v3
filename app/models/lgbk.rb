@@ -13,6 +13,7 @@ class Lgbk < ApplicationRecord
 	serialize :gigi,Array
 	serialize :mnd,Array
 	serialize :tdur,Array
+	serialize :tchid,Hash
 	belongs_to :kid
 	belongs_to :taska
 end

@@ -20,6 +20,15 @@
 </tr>
 
 <tr>
+  <td>REKOD SUHU</td>
+  <td>
+    <% @lgbk.temp.each do |k,v| %>
+      <%= v %>&#8451(<%= k.strftime("%l:%M %P") %>)<br>
+    <% end %>
+  </td>
+</tr>
+
+<tr>
   <td>
     SUSU <br>
     <i>Catatan : <%= @lgbk.susudc %></i>
@@ -27,7 +36,7 @@
   <td>
     <% @lgbk.susu.each do |sus| %>
       <b>Masa :</b><%= sus[0]%><br>
-      <b>Kuantiti :</b><%= sus[1]%> oz<br>
+      <b>Kuantiti : </b><%= sus[1]%> oz<br>
       <div style="margin-bottom: 5px"></div>
     <% end %>
   </td>
@@ -133,6 +142,20 @@
 <tr>
   <td>Tingkah Laku/ Kesihatan/ Sakit Kemalangan/ Kecederaan</td>
   <td><%= @lgbk.othdc %></td>
+</tr>
+
+<tr>
+  <td colspan="2">
+    <b>DIKEMASKINI OLEH: </b><br>
+    <% @lgbk.tchid.each do |k,v| %>
+      <%= Teacher.find(k).tchdetail.name %>
+      (
+        <% v.each do |tm| %>
+          <%= tm.strftime("%l:%M %P") %>,
+        <% end %>
+      )
+    <% end %>
+  </td>
 </tr>
 
 

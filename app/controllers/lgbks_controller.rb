@@ -44,6 +44,15 @@ class LgbksController < ApplicationController
 		#tingkah laku
 		@lgbk.othdc = params[:othdc]
 
+		if @lgbk.tchid[params[:tchid]].present?
+			@lgbk.tchid[params[:tchid]] << Time.now
+		else	
+			@lgbk.tchid[params[:tchid]] = [Time.now]
+		end		
+
+		#temperature
+		@lgbk.temp[Time.now] = params[:temp]
+
 		@lgbk.save
 		flash[:notice] = "Logbook updated successfully"
 		redirect_to request.referrer
