@@ -1,0 +1,58 @@
+<div style="background-color:#ccccff; text-align: center">
+    <h3>LOGBOOK FOR <%= @kid.name %></h3>
+</div>
+<% if @lgbks.present? %>
+
+  <div class="table table-responsive border" style="font-size:12px">
+    <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr class="shadow">
+          <th style="background-color:#ffb2b2; width: 10%">DATE</th>
+          <th style="background-color:#ffb2b2;width: 50%" >ATTENDANCE INFO</th>
+          <th style="background-color:#ffb2b2; width:">UPDATED BY</th>
+          <th style="background-color:#ffb2b2; width:">ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lgbks.order('created_at desc').each do |lg| %>
+          <tr>
+            <td>
+              <%= (lg.created_at + 8.hours).strftime('%d-%^b-%y') %> 
+              
+            </td>
+            <td>
+              <b>Check-In Time (&#8451) : </b>
+              <% if lg.cin.present? %>
+                <%= lg.cin[0].strftime("%l:%M %P") %>
+                (<%= lg.cin[2] %>&#8451)
+              <% end %><br>
+              <b>Check-Out Time (&#8451) : </b>
+              <% if lg.cout.present? %>
+                <%= lg.cout[0].strftime("%l:%M %P") %>
+                (<%= lg.cout[2] %>&#8451)
+              <% end %><br>
+            </td>
+            <td>
+              <% lg.tchid.each do |k,v| %>
+                <%= Teacher.find(k).tchdetail.name %>
+                (
+                  <% v.each do |tm| %>
+                    <%= tm.strftime("%l:%M %P") %>,
+                  <% end %>
+                )
+              <% end %>
+            </td>
+            <td>
+              <%= link_to "View", view_lgbk_path(lgbk: lg.id, tsk: @taska.id), class: "badge badge-success", style: "font-size: 12px", target: "_blank" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+ 
+<% else %>
+  <div style="background-color:#ffb2b2; text-align: center">
+    <h5>NO LOGBOOK HISTORY FOUND</h5>
+  </div>
+<% end %>

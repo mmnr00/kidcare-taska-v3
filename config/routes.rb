@@ -261,6 +261,8 @@ Rails.application.routes.draw do
   get '/mybill', to: 'taskas#mybill', as: 'mybill'
   post '/tchchgtsk', to: 'taskas#tchchgtsk', as: 'tchchgtsk'
   post '/cfmbill', to: 'taskas#cfmbill', as: 'cfmbill'
+  get 'tskvw_lgbk', to: 'taskas#tskvw_lgbk', as: 'tskvw_lgbk'
+  get 'stdatt', to: 'taskas#stdatt', as: 'stdatt'
 
   ## ANSYS19
   get '/rsvpans', to: 'taskas#rsvpans'

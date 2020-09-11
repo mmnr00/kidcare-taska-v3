@@ -89,6 +89,9 @@ class LgbksController < ApplicationController
 		else
 			if params[:tch].present?
 				render action: "view_lgbk", layout: "dsb-teacher-tsk-nosb"
+			elsif params[:tsk].present?
+				@taska = Taska.find(params[:tsk])
+				render action: "view_lgbk", layout: "dsb-admin-student"
 			else
 				render action: "view_lgbk", layout: "dsb-parent-child-nosb"
 			end

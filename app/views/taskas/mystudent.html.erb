@@ -16,7 +16,12 @@
         <%= link_to mystudent_path(id: @taska.id), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
             <i class="fa fa-sync"></i> Clear
         <% end %>
+
+
         <%= "#{@kids.count} result(s) found" %>
+        <%= link_to stdatt_path(id: @taska.id, dt: Date.today), class: "badge badge-warning shadow-sm", style: "font-size: 18px; font-weight: normal; align: right" do %>
+            <i class=""></i> Attendance
+        <% end %>
       <% end %>
       <div>
         
@@ -53,6 +58,7 @@
                   <a href="/kids/<%= kid.id %>" target="_blank"><font style="color: blue">
                     <%= kid.name %>   
                   </font></a><br>
+                  <%= link_to "Logbook", tskvw_lgbk_path(id: @taska.id, child: kid.id, stg: true), class: "badge badge-info", style: "font-size: 13px" %><br>
                   <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %><br>
                   <% Date.today.year - kid.dob.year %>
                   <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>

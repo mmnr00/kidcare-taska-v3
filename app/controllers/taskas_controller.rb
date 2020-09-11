@@ -25,11 +25,24 @@ class TaskasController < ApplicationController
                                   :xlskid,
                                   :upldclsrm,
                                   :upldkid,
-                                  :hiscrdt,
+                                  :hiscrdt,:tskvw_lgbk, :stdatt,
                                   :topcred,:mybill,:mystudent]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
+
+  def stdatt
+    @dt = Date.new(params[:dt][0..3].to_i,params[:dt][5..6].to_i,params[:dt][8..9].to_i)
+    @dtct = @dt + 8.hours
+    @lgbks = Lgbk.where(taska_id: @taska.id,created_at: @dtct.beginning_of_day..@dtct.end_of_day)
+    render action: "stdatt", layout: "dsb-admin-student"
+  end
+
+  def tskvw_lgbk
+    @kid = Kid.find(params[:child])
+    @lgbks = @kid.lgbks.where(taska_id: @taska.id)
+    render action: "tskvw_lgbk", layout: "dsb-admin-student"
+  end
 
   def cfmbill
     @payments = Payment.where(id: params[:pmt_ids])

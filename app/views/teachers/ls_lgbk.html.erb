@@ -14,9 +14,9 @@
       <% @lgbks.order('created_at DESC').each do |lg| %>
         <tr>
           <td>
-            <%= lg.created_at.strftime('%d-%^b-%y') %>
-            <%= link_to "View", view_lgbk_path(lgbk: lg.id), class: "badge badge-success", target: "_blank" %>
-            <%= link_to "Edit", prt_lgbk_path(kid_id: @kid.id,lgbk: lg.id), class: "badge badge-info" %>
+            <%= (lg.created_at + 8.hours).strftime('%d-%^b-%y') %>
+            <%= link_to "View", view_lgbk_path(lgbk: lg.id,tch: 1), class: "badge badge-success", target: "_blank" %>
+            <%= link_to "Edit", tch_lgbk_path(kid_id: @kid.id,lgbk: lg.id), class: "badge badge-info" %>
           </td>
           <td>
             <b>Check In: </b>
