@@ -17,8 +17,8 @@
         <% @lgbks.order('created_at desc').each do |lg| %>
           <tr>
             <td>
-              <%= (lg.created_at + 8.hours).strftime('%d-%^b-%y') %> 
-              
+              <%= (lg.created_at + 8.hours).strftime('%d-%^b-%y') %><br>
+              <%= lg.created_at %>
             </td>
             <td>
               <b>Check-In Time (&#8451) : </b>

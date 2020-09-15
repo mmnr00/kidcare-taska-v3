@@ -33,8 +33,14 @@ class TaskasController < ApplicationController
 
   def stdatt
     @dt = Date.new(params[:dt][0..3].to_i,params[:dt][5..6].to_i,params[:dt][8..9].to_i)
-    @dtct = @dt + 8.hours
-    @lgbks = Lgbk.where(taska_id: @taska.id,created_at: @dtct.beginning_of_day..@dtct.end_of_day)
+    id_lg = []
+    Lgbk.where(taska_id: @taska.id).where.not(cin: nil).each do |lg|
+      ct= lg.created_at + 8.hours
+      if ct.day == @dt.day && ct.month == @dt.month && ct.year == @dt.year
+        id_lg << lg.id
+      end
+    end
+    @lgbks = Lgbk.where(id: id_lg)
     render action: "stdatt", layout: "dsb-admin-student"
   end
 

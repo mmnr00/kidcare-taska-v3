@@ -3,3 +3,9 @@
       (<%= @lgbks.ids %>)
     </h3>
 </div>
+
+
+<% @lgbks.each do |lg| %>
+  ori = <%= lg.created_at %><br>
+  my = <%= lg.created_at + 8.hours %><br>
+<% end %>
