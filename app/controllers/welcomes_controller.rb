@@ -4,6 +4,10 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def caknafeedback
+		redirect_to "https://forms.gle/EE7LbsekSA8MHDK7A"
+	end
+
 	def payabesar
 		redirect_to "https://forms.gle/oh86QEVx46QfTKrT9"
 	end
