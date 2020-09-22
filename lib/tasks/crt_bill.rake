@@ -6,10 +6,11 @@ task crt_bill: :environment do
 	mth = bl_dt.month
 	yr = bl_dt.year 
 	email_par = {} #{Taska ID => [[pmt_id,[kid_ids]]]}
-	url = "https://sms.360.my/gw/bulk360/v1.4?"
-  usr = "user=admin@kidcare.my&"
-  ps = "pass=#{ENV['SMS360']}&"
-  fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+	url = "https://www.isms.com.my/isms_send.php?"
+  usr = "un=admin_kidcare&"
+  ps = "pwd=#{ENV['isms']}&"
+  tp = "type=1&"
+  trm = "agreedterm=YES"
 
 	Taska.where(bldt: dy).each do |tsk|
 		email_par[tsk.id] = []
@@ -92,16 +93,10 @@ task crt_bill: :environment do
 
 		#send sms to admin
 		puts "#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s)"
-		to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "text=[KIDCARE] #{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s) for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
+		to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
+    txt = "msg=#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s) for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
 		puts txt
-		data_sms = HTTParty.get(
-	                    "#{url}#{usr}#{ps}#{to}#{txt}",
-	                    http_proxyaddr: fixie.host,
-	                    http_proxyport: fixie.port,
-	                    http_proxyuser: fixie.user,
-	                    http_proxypass: fixie.password,
-	                      timeout: 120)
+		data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
 	end #taska
 

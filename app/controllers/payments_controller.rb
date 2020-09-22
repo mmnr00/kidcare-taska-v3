@@ -118,20 +118,18 @@ class PaymentsController < ApplicationController
 
       #START SMS
       if 1==1 && sms && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
-        url = "https://sms.360.my/gw/bulk360/v1.4?"
-        usr = "user=admin@kidcare.my&"
-        ps = "pass=#{ENV['SMS360']}&"
-        txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @pmt.id)}> to make payment"
-        to = "to=6#{kid.ph_1}#{kid.ph_2}&"
-        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        url = "https://www.isms.com.my/isms_send.php?"
+        usr = "un=admin_kidcare&"
+        ps = "pwd=#{ENV['isms']}&"
+        txt = "msg=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @pmt.id)}> to make payment&"
+        to = "dstno=6#{kid.ph_1}#{kid.ph_2}&"
+        tp = "type=1&"
+        trm = "agreedterm=YES"
         data_sms = nil
+        puts data_sms
 
-        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 120)
+        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+
 
         if data_sms.blank? #timeout
           mail = SendGrid::Mail.new
@@ -152,12 +150,7 @@ class PaymentsController < ApplicationController
           sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
           @response = sg.client.mail._('send').post(request_body: mail.to_json)
 
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 500)
+          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
         
           
 
@@ -165,16 +158,10 @@ class PaymentsController < ApplicationController
         
         if @pmt.s2ph && kid.sph_1.present? && kid.sph_2.present?
           if @taska.cred >= 0.5
-            to = "to=6#{kid.sph_1}#{kid.sph_2}&"
-            fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+            to = "dstno=6#{kid.sph_1}#{kid.sph_2}&"
             data_sms = nil
 
-            data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                    http_proxyaddr: fixie.host,
-                                    http_proxyport: fixie.port,
-                                    http_proxyuser: fixie.user,
-                                    http_proxypass: fixie.password,
-                                    timeout: 120)
+            data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
             if data_sms.blank? #timeout
               mail = SendGrid::Mail.new
@@ -195,12 +182,7 @@ class PaymentsController < ApplicationController
               sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
               @response = sg.client.mail._('send').post(request_body: mail.to_json)
 
-              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                    http_proxyaddr: fixie.host,
-                                    http_proxyport: fixie.port,
-                                    http_proxyuser: fixie.user,
-                                    http_proxypass: fixie.password,
-                                    timeout: 500)
+              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
             
               
               
@@ -587,22 +569,18 @@ class PaymentsController < ApplicationController
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
       # start send sms to parents
-      url = "https://sms.360.my/gw/bulk360/v1.4?"
-      usr = "user=admin@kidcare.my&"
-      ps = "pass=#{ENV['SMS360']}&"
-      txt = "text=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment"
+      url = "https://www.isms.com.my/isms_send.php?"
+      usr = "un=admin_kidcare&"
+      ps = "pwd=#{ENV['isms']}&"
+      tp = "type=1&"
+      trm = "agreedterm=YES"
+      txt = "msg=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment&"
 
-      if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
-        to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
-        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+      if 1==1 #&& Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+        to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
         data_sms = nil
 
-        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 120)
+        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
         if data_sms.blank? #timeout
           mail = SendGrid::Mail.new
@@ -623,12 +601,7 @@ class PaymentsController < ApplicationController
           sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
           @response = sg.client.mail._('send').post(request_body: mail.to_json)
 
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 500)
+          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
         
           
           
@@ -636,16 +609,10 @@ class PaymentsController < ApplicationController
         
         if @payment.s2ph && @kid.sph_1.present? && @kid.sph_2.present?
           if @taska.cred >= 0.5
-            to = "to=6#{@kid.sph_1}#{@kid.sph_2}&"
-            fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+            to = "dstno=6#{@kid.sph_1}#{@kid.sph_2}&"
             data_sms = nil
 
-            data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                    http_proxyaddr: fixie.host,
-                                    http_proxyport: fixie.port,
-                                    http_proxyuser: fixie.user,
-                                    http_proxypass: fixie.password,
-                                    timeout: 120)
+            data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
             if data_sms.blank? #timeout
               mail = SendGrid::Mail.new
@@ -666,12 +633,7 @@ class PaymentsController < ApplicationController
               sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
               @response = sg.client.mail._('send').post(request_body: mail.to_json)
 
-              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                    http_proxyaddr: fixie.host,
-                                    http_proxyport: fixie.port,
-                                    http_proxyuser: fixie.user,
-                                    http_proxypass: fixie.password,
-                                    timeout: 500)
+              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
             
               
               
