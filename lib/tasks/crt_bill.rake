@@ -94,10 +94,10 @@ task crt_bill: :environment do
 		#send sms to admin
 		puts "#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s)"
 		to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "msg=#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s) for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
+    txt = "msg=#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s) for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}&"
 		puts txt
 		data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-
+		puts data_sms
 	end #taska
 
 	#write email body

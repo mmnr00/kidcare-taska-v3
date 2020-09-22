@@ -6,9 +6,11 @@ task crt_psl: :environment do
 	yr = bl_dt.year 
 	email_par = {} #{Taska ID => [[psl_id,tch_id]]}
 
-	url = "https://sms.360.my/gw/bulk360/v1.4?"
-  usr = "user=admin@kidcare.my&"
-  ps = "pass=#{ENV['SMS360']}&"
+	url = "https://www.isms.com.my/isms_send.php?"
+  usr = "un=admin_kidcare&"
+  ps = "pwd=#{ENV['isms']}&"
+  tp = "type=1&"
+  trm = "agreedterm=YES"
   fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
 
   Taska.where(psldt: dy).each do |tsk|
@@ -44,15 +46,10 @@ task crt_psl: :environment do
 
   	#send sms to admin
   	puts "#{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}"
-  	to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "text=[KIDCARE] #{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}"
-		data_sms = HTTParty.get(
-                      "#{url}#{usr}#{ps}#{to}#{txt}",
-                      http_proxyaddr: fixie.host,
-                      http_proxyport: fixie.port,
-                      http_proxyuser: fixie.user,
-                      http_proxypass: fixie.password,
-                      timeout: 120)
+  	to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
+    txt = "msg= #{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}&"
+		data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+    puts data_sms
   end #taska
 
   #send email to Mus

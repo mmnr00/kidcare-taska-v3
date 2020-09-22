@@ -1,9 +1,11 @@
 desc "Bill Reminder"
 task rem_bill: :environment do
 	dy = Time.now.day
-	url = "https://sms.360.my/gw/bulk360/v1.4?"
-  usr = "user=admin@kidcare.my&"
-  ps = "pass=#{ENV['SMS360']}&"
+	url = "https://www.isms.com.my/isms_send.php?"
+  usr = "un=admin_kidcare&"
+  ps = "pwd=#{ENV['isms']}&"
+  tp = "type=1&"
+  trm = "agreedterm=YES"
   fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
   email_par = {} #{Taska ID => [[ph1,kid_id1,payment_id,stat],[ph2,kid_id2,payment_id2,stat]]}
 
@@ -38,19 +40,15 @@ task rem_bill: :environment do
 		unpaid_remd.each do |pmt|; if pmt.parpayms.blank?
 			kd = pmt.kids.first
 			ph = "#{kd.ph_1}#{kd.ph_2}"
-			to = "to=6#{ph}&"
+			to = "dstno=6#{ph}&"
 			log = [ph,kd.id,pmt.id]
-      txt = "text=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay"
+      txt = "msg=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay&"
 			# puts "#{ph}-#{kd.id}"
 			# puts txt
 			data_sms = nil
-			data_sms = HTTParty.get(
-                        "#{url}#{usr}#{ps}#{to}#{txt}",
-                        http_proxyaddr: fixie.host,
-                        http_proxyport: fixie.port,
-                        http_proxyuser: fixie.user,
-                        http_proxypass: fixie.password,
-                        timeout: 120)
+			data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+    	puts data_sms
+
 			pmt.reminder = true unless data_sms.blank?
 			pmt.save
 			if data_sms.present?
