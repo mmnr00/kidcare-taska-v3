@@ -35,7 +35,7 @@ class TaskasController < ApplicationController
     @dt = Date.new(params[:dt][0..3].to_i,params[:dt][5..6].to_i,params[:dt][8..9].to_i)
     id_lg = []
     Lgbk.where(taska_id: @taska.id).where.not(cin: nil).each do |lg|
-      ct= lg.created_at + 8.hours
+      ct= lg.cin[0]
       if ct.day == @dt.day && ct.month == @dt.month && ct.year == @dt.year
         id_lg << lg.id
       end
