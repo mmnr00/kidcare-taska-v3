@@ -20,7 +20,7 @@
         <td style="background-color:#ffedcc; text-align:center; font-size:20px" colspan="2">
           <b><%= @lgbk.kid.name %></b>
           <p style="font-size: 14px;margin-bottom: -10px;margin-top: -5px">
-            <%= @lgbk.created_at.strftime('%d-%^b-%y') %>
+            <%= (@lgbk.created_at + 8.hours).strftime('%d-%^b-%y') %>
           </p>
           <p style="font-size: 12px;margin-bottom: -10px;margin-top: 5px">
             <i><%= @lgbk.taska.name %></i>

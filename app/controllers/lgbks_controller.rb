@@ -102,6 +102,7 @@ class LgbksController < ApplicationController
 	def prt_lgbk
 		@kid = Kid.find(params[:kid_id])
 		@tm = Time.now
+		@tm = @tm + 1.days unless params[:tomm].blank?
 		if params[:lgbk].present?
 			@lgbk = Lgbk.find(params[:lgbk])
 			@tm = @lgbk.created_at
@@ -116,6 +117,7 @@ class LgbksController < ApplicationController
 	def prt_upd
 		@kid = Kid.find(params[:kid_id])
 		@tm = Time.now
+		@tm = @tm + 1.days unless params[:tomm].blank?
 		if params[:lgbk].present?
 			@lgbk = Lgbk.find(params[:lgbk])
 			@tm = @lgbk.created_at
@@ -125,6 +127,7 @@ class LgbksController < ApplicationController
 			@lgbk = Lgbk.new
 			@lgbk.kid_id = @kid.id
 			@lgbk.taska_id = @kid.taska_id
+			@lgbk.created_at = @tm
 			@lgbk.save
 		end		
 		@lgbk.update(tdo: params[:tdo],
