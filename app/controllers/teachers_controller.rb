@@ -15,7 +15,7 @@ class TeachersController < ApplicationController
 		if params[:sch].present?
 			@kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
 		end
-		render action: "tch_std", layout: "dsb-teacher-tsk"
+		render action: "tch_std", layout: "dsb-teacher-tsk-nosb"
 	end
 
 	def index

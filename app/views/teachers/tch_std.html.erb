@@ -2,7 +2,7 @@
   <%= "#{Time.now.strftime("%d-%^b-%y")} (#{Date.today.strftime("%A")})" %>
 </div>
 
-
+    
     <div class="card-header row">
       <%= form_tag tch_std_path, method: :get, id: "find_kid" do %>
         <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Name Here", style: 'text-transform: uppercase; font-size: 10px' %>
@@ -15,11 +15,15 @@
         <%= link_to tch_std_path(id: params[:id],taska: params[:taska]), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal" do %>
             <i class="fa fa-sync"></i> Clear
         <% end %>
+        <%= link_to "BACK", teacher_taska_path(@teacher), class: "badge badge-warning" %>
       <% end %>
       <% if params[:sch].present? %>
         <p style="font-size: 10px; margin-bottom: -15px"><%= @kids.count %> result(s) found</p>
       <% end %>
     </div>
+
+
+    
 
 <div class="table table-responsive border" style="font-size:10px">
   <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">

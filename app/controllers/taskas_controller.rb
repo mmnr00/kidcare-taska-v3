@@ -24,12 +24,54 @@ class TaskasController < ApplicationController
                                   :xlsclsrm,
                                   :xlskid,
                                   :upldclsrm,
-                                  :upldkid,
+                                  :upldkid,:rptatt,:att_xls,
                                   :hiscrdt,:tskvw_lgbk, :stdatt,
                                   :topcred,:mybill,:mystudent]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
+
+  def att_xls
+    dte = Date.new(params[:dte][0..3].to_i,params[:dte][5..6].to_i,params[:dte][8..9].to_i)
+    dts = Date.new(params[:dts][0..3].to_i,params[:dts][5..6].to_i,params[:dts][8..9].to_i)
+    @lgbks = Lgbk.where(taska_id: @taska.id).where.not(cin: nil)
+    @att = {}
+    (dts..dte).each do |dt|
+      lgbk_id = []
+      @lgbks.each do |lg|
+        cin = lg.cin[0]
+        if cin.day == dt.day && cin.month == dt.month && cin.year == dt.year
+          lgbk_id << lg.id
+        end
+      end
+      @att[dt] = lgbk_id
+    end
+    puts @att
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="Attendance Report.xlsx"'
+      }
+    end
+  end
+
+  def rptatt
+    dte = Date.new(params[:dte][0..3].to_i,params[:dte][5..6].to_i,params[:dte][8..9].to_i)
+    dts = Date.new(params[:dts][0..3].to_i,params[:dts][5..6].to_i,params[:dts][8..9].to_i)
+    @lgbks = Lgbk.where(taska_id: @taska.id).where.not(cin: nil)
+    @att = {}
+    (dts..dte).each do |dt|
+      cnt = 0
+      @lgbks.each do |lg|
+        cin = lg.cin[0]
+        if cin.day == dt.day && cin.month == dt.month && cin.year == dt.year
+          cnt += 1
+        end
+      end
+      @att[dt] = cnt
+    end
+    render action: "rptatt", layout: "dsb-admin-student"
+  end
 
   def stdatt
     @dt = Date.new(params[:dt][0..3].to_i,params[:dt][5..6].to_i,params[:dt][8..9].to_i)

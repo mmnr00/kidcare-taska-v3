@@ -264,6 +264,8 @@ Rails.application.routes.draw do
   post '/cfmbill', to: 'taskas#cfmbill', as: 'cfmbill'
   get 'tskvw_lgbk', to: 'taskas#tskvw_lgbk', as: 'tskvw_lgbk'
   get 'stdatt', to: 'taskas#stdatt', as: 'stdatt'
+  get 'rptatt', to: 'taskas#rptatt', as: 'rptatt'
+  get 'att_xls', to: 'taskas#att_xls', as: 'att_xls'
 
   ## ANSYS19
   get '/rsvpans', to: 'taskas#rsvpans'
