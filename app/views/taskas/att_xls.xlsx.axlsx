@@ -1,0 +1,75 @@
+wb = xlsx_package.workbook
+col_widths= [4,29,13,22]
+col_widths2= [5,70,16,16,16]
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER) 
+
+  wb.add_worksheet(name: "RUMUSAN KEHADIRAN") do |sheet|
+
+    sheet.add_row ["","RUMUSAN KEHADIRAN #{@taska.name} dari #{@dts.strftime('%d-%^b-%y')} hingga #{@dte.strftime('%d-%^b-%y')}"]
+    sheet.add_row [""]
+    sheet.add_row ["",
+                  "TARIKH",
+                  "BILANGAN"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @att.each do |dt,arr_lg|
+      sheet.add_row ["",
+                    dt.strftime('%d-%^b-%y'), 
+                    arr_lg.count], 
+      style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+    end
+    sheet.column_widths *col_widths
+
+  end
+
+  #start for each date 
+  (@dts..@dte).each do |dt|
+    wb.add_worksheet(name: "#{dt.strftime('%d-%^b-%y')}") do |sheet|
+      sheet.add_row ["","MAKLUMAT KEHADIRAN #{@taska.name} untuk #{dt.strftime('%d-%^b-%y')}"]
+      sheet.add_row [""]
+      sheet.add_row ["BIL",
+                    "NAMA PELAJAR",
+                    "MY KID NO",
+                    "CHECKED-IN",
+                    "CHECKED-OUT"]
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+
+      @att[dt].each do |lg|
+        lgb = Lgbk.find(lg)
+        if lgb.cout.present?
+          cout = lgb.cout[0].strftime("%l:%M %P")
+        else
+          cout = nil
+        end
+        kd = lgb.kid
+        sheet.add_row [counter,
+                      kd.name, 
+                      "#{kd.ic_1}-#{kd.ic_2}-#{kd.ic_3}",
+                      lgb.cin[0].strftime("%l:%M %P"),
+                      cout], 
+        style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cell
+        counter = counter +1
+      end
+      sheet.column_widths *col_widths2
+    end #end worksheet
+  end #end for loop date
+end
+
+
+
+

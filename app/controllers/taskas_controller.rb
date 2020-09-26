@@ -32,11 +32,12 @@ class TaskasController < ApplicationController
   before_action :authenticate_admin!, only: [:new]
 
   def att_xls
-    dte = Date.new(params[:dte][0..3].to_i,params[:dte][5..6].to_i,params[:dte][8..9].to_i)
-    dts = Date.new(params[:dts][0..3].to_i,params[:dts][5..6].to_i,params[:dts][8..9].to_i)
+    #create hash @att
+    @dte = Date.new(params[:dte][0..3].to_i,params[:dte][5..6].to_i,params[:dte][8..9].to_i)
+    @dts = Date.new(params[:dts][0..3].to_i,params[:dts][5..6].to_i,params[:dts][8..9].to_i)
     @lgbks = Lgbk.where(taska_id: @taska.id).where.not(cin: nil)
     @att = {}
-    (dts..dte).each do |dt|
+    (@dts..@dte).each do |dt|
       lgbk_id = []
       @lgbks.each do |lg|
         cin = lg.cin[0]
@@ -46,7 +47,7 @@ class TaskasController < ApplicationController
       end
       @att[dt] = lgbk_id
     end
-    puts @att
+
     respond_to do |format|
       #format.html
       format.xlsx{
