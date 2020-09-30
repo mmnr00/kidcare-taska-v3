@@ -36,7 +36,7 @@ wb.styles do |style|
   #start for each date 
   (@dts..@dte).each do |dt|
     wb.add_worksheet(name: "#{dt.strftime('%d-%^b-%y')}") do |sheet|
-      sheet.add_row ["","MAKLUMAT KEHADIRAN #{@taska.name} untuk #{dt.strftime('%d-%^b-%y')}"]
+      sheet.add_row ["","MAKLUMAT KEHADIRAN #{@taska.name} untuk #{dt.strftime('%d-%^b-%y')} (#{@att[dt].count})"]
       sheet.add_row [""]
       sheet.add_row ["BIL",
                     "NAMA PELAJAR",
