@@ -37,6 +37,15 @@ Rails.application.routes.draw do
   get 'payabesar', to: 'welcomes#payabesar'
   get 'caknafeedback', to: 'welcomes#caknafeedback'
 
+  #~LGBK
+  get 'std_checkin', to: 'lgbks#std_checkin', as: 'std_checkin'
+  get 'std_checkout', to: 'lgbks#std_checkout', as: 'std_checkout'
+  get 'prt_lgbk', to: 'lgbks#prt_lgbk', as: 'prt_lgbk'
+  get 'tch_lgbk', to: 'lgbks#tch_lgbk', as: 'tch_lgbk'
+  post 'prt_upd', to: 'lgbks#prt_upd', as: 'prt_upd'
+  post 'tch_upd', to: 'lgbks#tch_upd', as: 'tch_upd'
+  get 'view_lgbk', to: 'lgbks#view_lgbk', as: 'view_lgbk'
+
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   #get '/daftarkprm', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
@@ -174,6 +183,8 @@ Rails.application.routes.draw do
   get '/add_taska', to: 'teachers#add_taska', as: 'tch_add_taska'
   get '/find_taska', to: 'teachers#find_taska', as: 'tch_find_taska'
   get '/teacher/:id/teacher_payslip', to: 'teachers#tchpslip', as: 'tchpslip'
+  get '/teacher/:id/tch_std', to: 'teachers#tch_std', as: 'tch_std'
+  get '/teacher/:id/ls_lgbk', to: 'teachers#ls_lgbk', as: 'tch_ls_lgbk'
 
   #~APPLVS
   post '/apply_leave', to: 'applvs#apply', as: 'tchapplylv'
@@ -195,6 +206,8 @@ Rails.application.routes.draw do
   get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'
   get '/parent/:id/feedback', to: 'parents#parents_feedback', as: 'parents_feedback'
   get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
+  get '/parent/:id/ls_lgbk', to: 'parents#ls_lgbk', as: 'ls_lgbk'
+  get '/chdt_lgbk', to: 'parents#chdt_lgbk', as: 'chdt_lgbk'
 
   #~TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
@@ -253,6 +266,10 @@ Rails.application.routes.draw do
   get '/mybill', to: 'taskas#mybill', as: 'mybill'
   post '/tchchgtsk', to: 'taskas#tchchgtsk', as: 'tchchgtsk'
   post '/cfmbill', to: 'taskas#cfmbill', as: 'cfmbill'
+  get 'tskvw_lgbk', to: 'taskas#tskvw_lgbk', as: 'tskvw_lgbk'
+  get 'stdatt', to: 'taskas#stdatt', as: 'stdatt'
+  get 'rptatt', to: 'taskas#rptatt', as: 'rptatt'
+  get 'att_xls', to: 'taskas#att_xls', as: 'att_xls'
 
   ## ANSYS19
   get '/rsvpans', to: 'taskas#rsvpans'

@@ -1,0 +1,101 @@
+<div style="background-color:#ccccff; text-align: center">
+  <%= "#{Time.now.strftime("%d-%^b-%y")} (#{Date.today.strftime("%A")})" %>
+</div>
+
+    
+    <div class="card-header row">
+      <%= form_tag tch_std_path, method: :get, id: "find_kid" do %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Name Here", style: 'text-transform: uppercase; font-size: 10px' %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :taska, params[:taska], value: params[:taska] %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 10px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+        <%= link_to tch_std_path(id: params[:id],taska: params[:taska]), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+        <%= link_to "BACK", teacher_taska_path(@teacher), class: "badge badge-warning" %>
+      <% end %>
+      <% if params[:sch].present? %>
+        <p style="font-size: 10px; margin-bottom: -15px"><%= @kids.count %> result(s) found</p>
+      <% end %>
+    </div>
+
+
+    
+
+<div class="table table-responsive border" style="font-size:10px">
+  <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr class="shadow">
+        <th style="background-color:#ffb2b2">NAME</th>
+        <th style="background-color:#ffb2b2">LOGBOOK</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @kids.order('name ASC').each do |kid|; 
+        lgbk = kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).where.not(cin: nil);
+        lg_curr = lgbk.last
+       %>
+
+        <tr>
+          <td>
+            <b><%= kid.name %></b><br>
+            <% if lgbk.blank? %> <!-- not yet check in -->
+
+              <%= form_tag std_checkin_path, method: :get, id: "find_kid" do %>
+                <%= hidden_field_tag :kid, params[:kid], value: kid.id %>
+                <%= hidden_field_tag :tch, params[:tch], value: @teacher.id %>
+                <%= number_field_tag :tmpi, params[:tmpi], placeholder: "Temperature", :step=>0.1, value: 36.5 %>
+                <%= button_tag(type: :submit, class: "badge badge-primary", style: "font-size: 10px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+                    <b>Check In</b>
+                <% end %>
+              <% end %>
+
+            <% elsif lg_curr.cout.blank? %> <!-- check in, not checkout -->
+
+              <% lg_curr = lgbk.last %>
+              <%="IN: #{lg_curr.cin[0].strftime("%l:%M %P")} "%>
+              <% if lg_curr.cin[2].present? %>
+                (<%= lg_curr.cin[2] %>&#8451)
+              <% end %>
+              <br>
+
+              
+
+              <%= form_tag std_checkout_path, method: :get, id: "find_kid" do %>
+                <%= hidden_field_tag :lgbk, params[:lgbk], value: lg_curr.id %>
+                <%= hidden_field_tag :tch, params[:tch], value: @teacher.id %>
+                <%= number_field_tag :tmpo, params[:tmpo], placeholder: "Temperature",:step=>0.1, value: 36.5 %>
+                <%= button_tag(type: :submit, class: "badge badge-danger", style: "font-size: 10px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+                    <b>Check Out</b>
+                <% end %>
+              <% end %>
+
+            <% elsif lg_curr.cin.present? && lg_curr.cout.present?  %> <!-- check in, not checkout -->
+              <%="IN: #{lg_curr.cin[0].strftime("%l:%M %P")} "%>
+              <% if lg_curr.cin[2].present? %>
+                (<%= lg_curr.cin[2] %>&#8451)
+              <% end %>
+              <br>
+              <%="OUT: #{lg_curr.cout[0].strftime("%l:%M %P")} "%>
+              <% if lg_curr.cout[2].present? %>
+                (<%= lg_curr.cout[2] %>&#8451)
+              <% end %>
+              <br>
+            <% end %>
+          </td>
+          <td>
+            <% if lgbk.present? %>
+              <%= link_to "Update", tch_lgbk_path(lgbk: lg_curr.id), class: "badge badge-info", style: "font-size: 10px" %><br>
+              <%= lg_curr.updated_at.in_time_zone("Singapore").strftime("%l:%M %P") %> <br>
+            <% end %>
+            <%= link_to "History", tch_ls_lgbk_path(@teacher, kid: kid.id), class: "badge badge-success", style: "font-size: 10px" %>
+            
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

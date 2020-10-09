@@ -1,0 +1,7 @@
+<h5 style="margin-bottom: -3px"><%= @kid.name %>'S LOGBOOK FOR</h5>
+<i>Please Choose A Date</i><br>
+
+<% tm = Time.now; tm1 = Time.now + 1.days %>
+
+<%= link_to "#{tm.strftime('%d-%^b-%y')} (#{tm.strftime("%a")})", prt_lgbk_path(kid_id: @kid.id), class: "badge badge-success", style: "font-size:15px" %>
+<%= link_to "#{tm1.strftime('%d-%^b-%y')} (#{tm1.strftime("%a")})", prt_lgbk_path(kid_id: @kid.id, tomm: 1), class: "badge badge-warning", style: "font-size:15px" %>

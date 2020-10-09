@@ -1,0 +1,162 @@
+<tr>
+  <td style="background-color:#d8b2d8; font-size: 15px; text-align: center" colspan="2"><b>Catatan Pusat Jagaan</b></td>
+<tr>
+  <td>MASA MASUK (SUHU)</td>
+  <td>
+    <% if @lgbk.cin.present? %>
+      <%= @lgbk.cin[0].strftime("%l:%M %P") %>
+      (<%= @lgbk.cin[2] %>&#8451)
+    <% end %>
+  </td>
+</tr>
+<tr>
+  <td>MASA KELUAR (SUHU)</td>
+  <td>
+    <% if @lgbk.cout.present? %>
+      <%= @lgbk.cout[0].strftime("%l:%M %P") %>
+      (<%= @lgbk.cout[2] %>&#8451)
+    <% end %>
+  </td>
+</tr>
+
+<tr>
+  <td>REKOD SUHU</td>
+  <td>
+    <% @lgbk.temp.each do |k,v| %>
+      <%= v %>&#8451(<%= k.strftime("%l:%M %P") %>)<br>
+    <% end %>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    SUSU <br>
+    <i>Catatan : <%= @lgbk.susudc %></i>
+  </td>
+  <td>
+    <% @lgbk.susu.each do |sus| %>
+      <b>Masa :</b><%= sus[0]%><br>
+      <b>Kuantiti : </b><%= sus[1]%> oz<br>
+      <div style="margin-bottom: 5px"></div>
+    <% end %>
+  </td>
+</tr> 
+
+<tr>
+  <td>
+    MAKANAN <br>
+    <i>Catatan : <%= @lgbk.mkn[3] %></i>
+  </td>
+  <td>
+    <b>Pagi : </b><%= @lgbk.mkn[0] %><br>
+    <b>Tengah Hari : </b><%= @lgbk.mkn[1] %><br>
+    <b>Petang : </b><%= @lgbk.mkn[2] %><br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    CIRCLE TIME <br>
+    <i>Catatan : <%= @lgbk.ctm[1] %></i>
+  </td>
+  <td>
+    <b>Masa & Senarai Aktiviti : </b><br><%= @lgbk.ctm[0] %>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    AKTIVITI LUAR <br>
+    <i>Catatan : <%= @lgbk.aktl[1] %></i>
+  </td>
+  <td>
+    <b>Masa & Senarai Aktiviti : </b><br><%= @lgbk.aktl[0] %>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    AKTIVITI PERMATA <br>
+    <i>Catatan : <%= @lgbk.aktp[1] %></i>
+  </td>
+  <td>
+    <b>Masa & Senarai Aktiviti : </b><br><%= @lgbk.aktp[0] %>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    TUKAR LAMPIN/TANDAS <br>
+    <i>Catatan : <%= @lgbk.lmpn[5] %></i>
+  </td>
+  <td>
+    <b>8am to 12pm : </b><%= @lgbk.lmpn[0] %><br>
+    <b>12pm to 3pm : </b><%= @lgbk.lmpn[1] %><br>
+    <b>3pm to 7pm : </b><%= @lgbk.lmpn[2] %><br>
+    <b>Najis : </b><%= @lgbk.lmpn[3] %><br>
+    <b>Warna: </b><%= @lgbk.lmpn[4] %><br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    GOSOK GIGI <br>
+    <i>Catatan : <%= @lgbk.gigi[3] %></i>
+  </td>
+  <td>
+    <b>Pagi : </b><%= @lgbk.gigi[0] %><br>
+    <b>Tengah Hari : </b><%= @lgbk.gigi[1] %><br>
+    <b>Petang : </b><%= @lgbk.gigi[2] %><br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    MANDI <br>
+    <i>Catatan : <%= @lgbk.mnd[3] %></i>
+  </td>
+  <td>
+    <b>Pagi : </b><%= @lgbk.mnd[0] %><br>
+    <b>Tengah Hari : </b><%= @lgbk.mnd[1] %><br>
+    <b>Petang : </b><%= @lgbk.mnd[2] %><br>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    TIDUR <br>
+    <i>Catatan : <%= @lgbk.tdur[3] %></i>
+  </td>
+  <td>
+    <b>Pagi : </b><%= @lgbk.tdur[0] %><br>
+    <b>Tengah Hari : </b><%= @lgbk.tdur[1] %><br>
+    <b>Petang : </b><%= @lgbk.tdur[2] %><br>
+  </td>
+</tr>
+
+<tr>
+  <td>AKTIVIT BEBAS</td>
+  <td><%= @lgbk.aktb %></td>
+</tr>
+
+<tr>
+  <td>Tingkah Laku/ Kesihatan/ Sakit Kemalangan/ Kecederaan</td>
+  <td><%= @lgbk.othdc %></td>
+</tr>
+
+<tr>
+  <td colspan="2">
+    <b>DIKEMASKINI OLEH: </b><br>
+    <% @lgbk.tchid.each do |k,v| %>
+      <%= Teacher.find(k).tchdetail.name %>
+      (
+        <% v.each do |tm| %>
+          <%= tm.strftime("%l:%M %P") %>,
+        <% end %>
+      )
+    <% end %>
+  </td>
+</tr>
+
+
+

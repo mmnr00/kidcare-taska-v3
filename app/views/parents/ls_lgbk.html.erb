@@ -1,0 +1,31 @@
+<div style="margin-left: -25px; margin-right: -25px; margin-top: 5px">
+<div style="text-align: center; background-color: #4c4cff; font-size: 15px; color: white">
+  <%= @kid.name %> LOGBOOKS
+</div>
+<%= link_to "BACK", my_kid_path(@parent), class: "badge badge-warning" %>
+</div>
+
+<div style="margin-left: -25px; margin-right: -25px; margin-top: 5px">
+<div class="table table-responsive border" style="font-size:12px">
+  <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr class="shadow">
+        <th style="background-color:#ffb2b2">Tarikh</th>
+        <th style="background-color:#ffb2b2">PJKK</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lgbks.order('created_at DESC').each do |lg| %>
+        <tr>
+          <td>
+            <%= (lg.created_at + 8.hours).strftime('%d-%^b-%y') %>
+            <%= link_to "View", view_lgbk_path(lgbk: lg.id), class: "badge badge-success", target: "_blank" %>
+            <%= link_to "Edit", prt_lgbk_path(kid_id: @kid.id,lgbk: lg.id), class: "badge badge-info" %>
+          </td>
+          <td><%= lg.taska.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+</div>

@@ -29,14 +29,19 @@
                       <% end %>
                     </p>
                     <h4 class="card-title"><%= kid.name.upcase %></h4>
-                    <p class="card-text">
-                      <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %>
+                    <p class="card-text" style="margin-bottom: -5px">
+                      <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %> 
                     </p>
+                    <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "badge badge-pill badge-primary" %><br><br>
                     <% if kid.taska.present? %>
                         <%= link_to "#{kid.taska.name.upcase}", taska_page_path(kid.taska), style: "color:blue", target: "_blank" %>
+
                       <br>
                       <% if kid.classroom.present? %>
                         <%= kid.classroom.classroom_name %><br>
+                        <% link_to " NEW LOGBOOK", prt_lgbk_path(kid_id: kid.id), class: "badge badge-success" %>
+                        <%= link_to " NEW LOGBOOK", chdt_lgbk_path(kid: kid.id), class: "badge badge-success" %><br>
+                        <%= link_to "VIEW LOGBOOK", ls_lgbk_path(@parent,kid: kid.id), class: "badge badge-info" %>
                       <% else %>
                          AWAITING CONFIRMATION FROM CENTER <br><br>
                       <% end %>
@@ -44,7 +49,7 @@
                       <%= link_to "ADD", prntschtsk_path(kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
                       NA<br>
                     <% end %>
-                    <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "btn btn-sm btn-primary active" %>
+                    
                     <br>
                   </div>
                   <%= link_to "VIEW RECEIPTS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-success active" %>
