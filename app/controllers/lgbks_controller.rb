@@ -51,7 +51,7 @@ class LgbksController < ApplicationController
 		end		
 
 		#temperature
-		@lgbk.temp[Time.now] = params[:temp]
+		@lgbk.temp[Time.now] = params[:temp] unless params[:temp].blank?
 
 		@lgbk.save
 		flash[:notice] = "Logbook updated successfully"
