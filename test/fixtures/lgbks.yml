@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cin: MyText
+  cout: MyText
+  temp: 1.5
+
+two:
+  cin: MyText
+  cout: MyText
+  temp: 1.5

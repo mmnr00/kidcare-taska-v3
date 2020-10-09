@@ -44,6 +44,20 @@
       <div class="row">
 
         <div class="col-md-4">
+          <div class="card-counter success">
+            <i class="fa fa-child"></i>
+            <span class="count-numbers"><%= taska.kids.where.not(classroom: nil).count %></span>
+            <span class="count-name">
+              <a href="<%= tch_std_url(@teacher,
+                                        taska: taska.id)%>", 
+              style="color:#fff">
+                CENTER <br> STUDENTS
+              </a>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-md-4">
           <div class="card-counter danger">
             <i class="fa fa-file-signature"></i>
             <span class="count-numbers">
@@ -78,11 +92,13 @@
               <a href="<%= tchpslip_url(@teacher,
                                         tskid: taska.id)%>", 
               style="color:#fff">
-                SALARY <br> SLIP
+                SALARY <br> SLIPS
               </a>
             </span>
           </div>
         </div>
+
+        
 
       </div>
     </div>

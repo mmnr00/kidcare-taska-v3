@@ -1,0 +1,50 @@
+<div style="background-color:#ccccff; text-align: center">
+    <h3>ATTENDANCE LIST FOR <%= @dt.strftime('%d-%^b-%y') %>
+      (<%= @lgbks.count%>)
+    </h3>
+</div>
+<%= form_tag stdatt_path, method: :get, id: "find_kid" do %>
+  <%= date_field_tag :dt, params[:dt], value: params[:dt] %>
+  <%= hidden_field_tag :id, params[:id], value: @taska.id %>
+  <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+      <i class="fa fa-search"></i> Search
+  <% end %>
+  <%= link_to "Attendance Report", rptatt_path(id: @taska.id, dts: Date.today, dte: Date.today), class: "badge badge-info", style: "font-size:14px" %>
+<% end %>
+
+
+
+<div class="card-body" style="margin-top: -10px">
+  <div class="table table-responsive border" style="font-size:13px">
+    <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr class="shadow" style="text-color:black">
+          <th style="background-color:#ffccff; width: 40%">NAME</th>
+          <th style="background-color:#ffccff; width: 20%">CHECK IN DETAILS</th>
+          <th style="background-color:#ffccff; width: 20%">CHECK OUT DETAILS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lgbks.each do |lg| %>
+          <tr>
+            <td><%= lg.kid.name %></td>
+            <td>
+              <b>Time : </b><%= lg.cin[0].strftime("%l:%M %P") %><br>
+              <b>Temp : </b><%= lg.cin[2] %>&#8451<br>
+              <b>Log by: </b><%= Teacher.find(lg.cin[1]).tchdetail.name %><br>
+            </td>
+            <td>
+              <% if lg.cout.present? %>
+                <b>Time : </b><%= lg.cout[0].strftime("%l:%M %P") %><br>
+                <b>Temp : </b><%= lg.cout[2] %>&#8451<br>
+                <b>Log by: </b><%= Teacher.find(lg.cin[1]).tchdetail.name %><br>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

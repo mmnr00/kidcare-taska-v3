@@ -1,0 +1,34 @@
+
+
+<%= form_tag rptatt_path, method: :get, id: "find_kid" do %>
+  <%= date_field_tag :dts, params[:dts], value: params[:dts] %> to 
+  <%= date_field_tag :dte, params[:dte], value: params[:dte] %>
+  <%= hidden_field_tag :id, params[:id], value: @taska.id %>
+  <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+      <i class="fa fa-search"></i> Search
+  <% end %>
+  <%= link_to "Generate Report", att_xls_path(id: @taska.id, dts: params[:dts], dte: params[:dte], format: :xlsx), class: "badge badge-info", style: "font-size:14px" %>
+<% end %>
+
+<div class="card-body" style="margin-top: -10px">
+  <div class="table table-responsive border" style="font-size:13px">
+    <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr class="shadow" style="text-color:black">
+          <th style="background-color:#ffccff; width: 40%">DATE</th>
+          <th style="background-color:#ffccff; width: 20%">ATTENDANCE</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <% @att.each do |dt,cnt| %>
+          <tr>
+            <td><%= dt.strftime('%d-%^b-%y') %></td>
+            <td><%= cnt %></td>
+          </tr>
+        <% end %>
+
+      </tbody>
+    </table>
+  </div>
+</div>

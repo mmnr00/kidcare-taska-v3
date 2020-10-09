@@ -1,0 +1,155 @@
+<tr>
+  <td style="background-color:#d8b2d8; font-size: 15px; text-align: center" colspan="2"><b>Catatan Ibu-Bapa</b></td>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Anak Anda Tidur Nyenyak?</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tdo %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Anak Anda Sihat?</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.sih %></b>
+  </td>
+</tr>
+  <td style="font-size: 15px; text-align: left" colspan="2">
+    <b>Nyatakan Sebab Jika Tidak Sihat/Tidur Nyenyak:</b><br>
+    <%= @lgbk.sbb %>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Anak Anda Sudah Mandi/Dibersihkan?</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.mand %></b>
+  </td>
+</tr>
+
+<tr>
+  <td style="background-color: #ccffff;font-size: 15px; text-align: center; padding-bottom: -200px" colspan="2">
+    <i>Alatan/Bahan Yang Dibawa Dalam Beg?</i>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Botol Susu/Sip Cup</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool1"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Lampin Pakai Buang</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool2"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Botol Air</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool3"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Tuala Mandi</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool4"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Pakaian Bersih/Sepasang</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool5"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    Bekas Baju Kotor</b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool6"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    <%= @lgbk.tool["tool7_d"] %></b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool7"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    <%= @lgbk.tool["tool8_d"] %></b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool8"] %></b>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    <%= @lgbk.tool["tool9_d"] %></b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b><%= @lgbk.tool["tool9"] %></b>
+  </td>
+</tr>
+
+<tr>
+  <td style="background-color: #ccffff;font-size: 15px; text-align: center; padding-bottom: -200px" colspan="2">
+    <i>Ubat Yang Dibawa Dalam Beg?</i>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    <%= @lgbk.medc["med1_d"] %></b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b>Masa Terakhir: </b>
+    <%= @lgbk.medc["med1_p"] %><br>
+    <b>Masa Seterusnya: </b>
+    <%= @lgbk.medc["med1_n"] %><br>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    <%= @lgbk.medc["med2_d"] %></b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b>Masa Terakhir: </b>
+    <%= @lgbk.medc["med2_p"] %><br>
+    <b>Masa Seterusnya: </b>
+    <%= @lgbk.medc["med2_n"] %><br>
+  </td>
+</tr>
+<tr>
+  <td style="font-size: 15px; text-align: left">
+    <%= @lgbk.medc["med3_d"] %></b><br>
+  </td>
+  <td style="font-size: 15px; text-align: left">
+    <b>Masa Terakhir: </b>
+    <%= @lgbk.medc["med3_p"] %><br>
+    <b>Masa Seterusnya: </b>
+    <%= @lgbk.medc["med3_n"] %><br>
+  </td>
+</tr>
+
+</tr>
+  <td style="font-size: 15px; text-align: left" colspan="2">
+    <b>Keadaan Fizikal:</b><br>
+    <%= @lgbk.phyc %>
+  </td>
+</tr>
