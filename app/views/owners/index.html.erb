@@ -25,18 +25,18 @@
             <tr>
               <td>
                 <%= "#{college.name}(#{college.id})" %>
-                <% if params[:adm].present? %>
+                <% if 1==1 #params[:adm].present? %>
                   <% if college.acv %>
                     <%= link_to "Deactivate", updstat_path(id: college.id, tp: "acv", act: "false"), class: "badge badge-danger" %>
                   <% else %>
                     <%= link_to "Activate", updstat_path(id: college.id, tp: "acv", act: "true"), class: "badge badge-success" %>
                   <% end %>
 
-                  <% if college.appl %>
+                  <% if params[:adm].present? %><% if college.appl %>
                     <%= link_to "Real", updstat_path(id: college.id, tp: "appl", act: "false"), class: "badge badge-info" %>
                   <% else %>
                     <%= link_to "Apply", updstat_path(id: college.id, tp: "appl", act: "true"), class: "badge badge-warning" %>
-                  <% end %>
+                  <% end %><% end %>
                 <% end %>
               </td>
               <td><%= college.address %></td>
