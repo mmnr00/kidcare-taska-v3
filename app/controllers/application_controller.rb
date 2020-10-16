@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 	 #end
 
 	 def check2_bill(pmt)
-	 	payment = Payment.find(params[:payment]) 
+	 	payment = Payment.find(pmt) 
 		#check payment status
 		if !payment.paid #&& Rails.env.production?
 			url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id2}"

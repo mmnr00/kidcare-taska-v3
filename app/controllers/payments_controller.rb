@@ -4,7 +4,7 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_URL'] = "https://billplz-staging.herokuapp.com/"
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
-  before_action :check_bill, only: [:edit_bill,:crt_billplz]
+  #before_action :check_bill, only: [:edit_bill,:crt_billplz]
 
   def bill_check
     check2_bill(params[:payment])
@@ -12,6 +12,7 @@ class PaymentsController < ApplicationController
   end
 
   def crt_billplz
+    check2_bill(params[:id])
     @payment = Payment.find(params[:id])
     if @payment.paid
       flash[:danger] = "Bill already paid"
@@ -576,7 +577,7 @@ class PaymentsController < ApplicationController
       trm = "agreedterm=YES"
       txt = "msg=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment&"
 
-      if 1==1 #&& Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+      if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
         to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
         data_sms = nil
 
@@ -849,6 +850,7 @@ class PaymentsController < ApplicationController
   end
 
   def edit_bill
+    check2_bill(params[:id])
     @payment = Payment.find(params[:id])
     @taska = @payment.taska
     @fotos = @taska.fotos
@@ -1230,7 +1232,12 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
+    check2_bill(params[:id])
     @payment = Payment.find(params[:id])
+    if @payment.paid
+      flash[:danger] = "Bill already paid. Cannot be deleted"
+      redirect_to request.referrer and return
+    end
     # addtn = @payment.addtns
     # kb = @payment.kid_bills
     # otk = @payment.otkids
