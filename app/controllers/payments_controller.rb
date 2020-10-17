@@ -68,7 +68,12 @@ class PaymentsController < ApplicationController
  
   def upd_bill
     pars = params[:bl]
+    check2_bill(pars[:pmt_id])
     @pmt = Payment.find(pars[:pmt_id])
+    if @pmt.paid 
+      flash[:danger] = "Bill already paid. Further edit is not allowed"
+      redirect_to bill_view_path(payment: @pmt.id) and return
+    end
     sms = false
     sms = true unless @pmt.fin
     tot_bill = pars[:tot_bill].to_f
