@@ -18,6 +18,9 @@ class PaymentsController < ApplicationController
       flash[:danger] = "Bill already paid"
       redirect_to billview_path(pmt: @payment.id) and return
     end
+    if @payment.bill_id2.present?
+      redirect_to "#{ENV['BILLPLZ_URL']}bills/#{@payment.bill_id2}" and return
+    end
     @taska = @payment.taska
     @kid = @payment.kids.first
     kidname = ""
@@ -113,6 +116,7 @@ class PaymentsController < ApplicationController
       @pmt.discdx = pars[:descdx]
       @pmt.amount = tot_bill
       @pmt.fin = true
+      @pmt.bill_id2 = nil
       @pmt.save
       @taska = @pmt.taska
       kid = @pmt.kids.first
