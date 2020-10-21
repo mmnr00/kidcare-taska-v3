@@ -108,7 +108,7 @@ class PaymentsController < ApplicationController
     #   #adtn.destroy unless adtn.blank?
     # end
 
-    
+    @pmt.description = pars[:descr]
     @pmt.save
     
     tot_bill -= pars[:discount].to_f

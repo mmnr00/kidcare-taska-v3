@@ -106,7 +106,12 @@
             Description 
             <%= f.text_area :adt_desc, class: "form-control", autofocus: true, style: "font-size: 12px", value: adt_desc  %>  
           </div>
-
+          <div class="col-md-12" style="margin-top: 10px">
+            <div class="text-center" style="background-color:#4c4c4c; margin-bottom: 5px">
+              <font color="white"><strong>ADDITIONAL DESCRIPTION<br></strong></font>
+            </div>
+            <%= f.text_area :descr, class: "form-control", autofocus: true, style: "font-size: 12px", value: @payment.description  %> 
+          </div>
 
         </div> <!-- div row -->
         <%= f.hidden_field :tot_bill, value: tot_bill %>
