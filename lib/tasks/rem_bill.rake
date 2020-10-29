@@ -10,68 +10,69 @@ task rem_bill: :environment do
   email_par = {} #{Taska ID => [[ph1,kid_id1,payment_id,stat],[ph2,kid_id2,payment_id2,stat]]}
 
 	Taska.where(remdt: dy).each do |tsk|
-		email_par[tsk.id] = []
-		unpaid_remd2 = tsk.payments.where(name: "KID BILL",paid: false,reminder: false, fin: true)
+		if tsk.expire > (Date.today - 1.days)
+			email_par[tsk.id] = []
+			unpaid_remd2 = tsk.payments.where(name: "KID BILL",paid: false,reminder: false, fin: true)
 
-		unpaid_remd2.each do |pm|
-			payment = Payment.find(pm.id) 
-			#check payment status
-			if !payment.paid #&& Rails.env.production?
-				url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id2}"
-	      data_billplz = HTTParty.get(url_bill.to_str,
-	              :body  => { }.to_json, 
-	                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
-	              :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
-	              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-	      #render json: data_billplz and return
-	      data = JSON.parse(data_billplz.to_s)
-	      if data["id"].present? && (data["paid"] == true)
-	      	payment.paid = data["paid"]
-	      	payment.mtd = "BILLPLZ"
-	      	payment.updated_at = data["paid_at"]
-	      	payment.save
-	      end
+			unpaid_remd2.each do |pm|
+				payment = Payment.find(pm.id) 
+				#check payment status
+				if !payment.paid #&& Rails.env.production?
+					url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id2}"
+		      data_billplz = HTTParty.get(url_bill.to_str,
+		              :body  => { }.to_json, 
+		                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+		              :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+		              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+		      #render json: data_billplz and return
+		      data = JSON.parse(data_billplz.to_s)
+		      if data["id"].present? && (data["paid"] == true)
+		      	payment.paid = data["paid"]
+		      	payment.mtd = "BILLPLZ"
+		      	payment.updated_at = data["paid_at"]
+		      	payment.save
+		      end
+				end
 			end
-		end
 
 
-		unpaid_remd = tsk.payments.where(name: "KID BILL",paid: false,reminder: false, fin: true)
+			unpaid_remd = tsk.payments.where(name: "KID BILL",paid: false,reminder: false, fin: true)
 
-		unpaid_remd.each do |pmt|; if pmt.parpayms.blank?
-			kd = pmt.kids.first
-			ph = "#{kd.ph_1}#{kd.ph_2}"
-			to = "dstno=6#{ph}&"
-			log = [ph,kd.id,pmt.id]
-      txt = "msg=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay&"
-			# puts "#{ph}-#{kd.id}"
+			unpaid_remd.each do |pmt|; if pmt.parpayms.blank?
+				kd = pmt.kids.first
+				ph = "#{kd.ph_1}#{kd.ph_2}"
+				to = "dstno=6#{ph}&"
+				log = [ph,kd.id,pmt.id]
+	      txt = "msg=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay&"
+				# puts "#{ph}-#{kd.id}"
+				# puts txt
+				data_sms = nil
+				data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+	    	puts data_sms
+
+				pmt.reminder = true unless data_sms.blank?
+				pmt.save
+				if data_sms.present?
+					stat = data_sms.parsed_response[0..2]
+				else
+					stat = "not sent"
+				end
+				log = [ph,kd.id,pmt.id,stat]
+				email_par[tsk.id] << log
+			end; end #payment
+
+			#send sms to admin
+			to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
+	    txt = "text=[KIDCARE] #{email_par[tsk.id].count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
 			# puts txt
-			data_sms = nil
-			data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-    	puts data_sms
-
-			pmt.reminder = true unless data_sms.blank?
-			pmt.save
-			if data_sms.present?
-				stat = data_sms.parsed_response[0..2]
-			else
-				stat = "not sent"
-			end
-			log = [ph,kd.id,pmt.id,stat]
-			email_par[tsk.id] << log
-		end; end #payment
-
-		#send sms to admin
-		to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "text=[KIDCARE] #{email_par[tsk.id].count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
-		# puts txt
-		data_sms = HTTParty.get(
-                      "#{url}#{usr}#{ps}#{to}#{txt}",
-                      http_proxyaddr: fixie.host,
-                      http_proxyport: fixie.port,
-                      http_proxyuser: fixie.user,
-                      http_proxypass: fixie.password,
-                      timeout: 120)
-
+			data_sms = HTTParty.get(
+	                      "#{url}#{usr}#{ps}#{to}#{txt}",
+	                      http_proxyaddr: fixie.host,
+	                      http_proxyport: fixie.port,
+	                      http_proxyuser: fixie.user,
+	                      http_proxypass: fixie.password,
+	                      timeout: 120)
+		end #expire
 	end #taska
 
 	#send log to Mus

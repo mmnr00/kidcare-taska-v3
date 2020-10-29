@@ -13,91 +13,93 @@ task crt_bill: :environment do
   trm = "agreedterm=YES"
 
 	Taska.where(bldt: dy).each do |tsk|
-		email_par[tsk.id] = []
-		#init create Bill
-		kids = tsk.kids.where.not(classroom_id: nil)
+			if tsk.expire > (Date.today - 1.days)
+			email_par[tsk.id] = []
+			#init create Bill
+			kids = tsk.kids.where.not(classroom_id: nil)
 
-		#check if bill already exist
-		kids.each do |kd|
-			if kd.payments.where(bill_month: mth,bill_year: yr).blank?
+			#check if bill already exist
+			kids.each do |kd|
+				if kd.payments.where(bill_month: mth,bill_year: yr).blank?
 
-				#init payment details
-				amount = 0.00
-				amount = amount + kd.classroom.base_fee
-				kd.extras.each do |ext|
-					amount += ext.price
-				end 
-				kd.beradik.each do |sb|
-					amount = amount + sb.classroom.base_fee
-					sb.extras.each do |ext|
+					#init payment details
+					amount = 0.00
+					amount = amount + kd.classroom.base_fee
+					kd.extras.each do |ext|
 						amount += ext.price
 					end 
-				end
-
-				unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
-	      while Payment.where(bill_id: unq).present?
-	        unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
-	      end
-
-				#create payment 
-				pmt = Payment.new(amount: amount,
-													description: "NA",
-													bill_month: mth,
-													bill_year: yr,
-													discount: 0,
-													discdx: "",
-													parent_id: kd.parent.id,
-													taska_id: tsk.id,
-													state: "due",
-													paid: false,
-													fin: false,
-													bill_id: unq,
-													reminder: false,
-													name: "KID BILL",
-													cltid: tsk.collection_id)
-				pmt.save
-
-				#create addition
-				Addtn.create(desc: "",
-												amount: 0,
-												payment_id: pmt.id)
-
-				#create kidbill
-				kid_id = [kd.id]
-				kd.beradik.each do |sb|
-					kid_id << sb.id
-				end
-				Kid.where(id: kid_id).each do |kd|
-					kb = KidBill.new(kid_id: kd.id,
-													payment_id: pmt.id,
-													kidname: kd.name,
-													kidic: "#{kd.ic_1}-#{kd.ic_2}-#{kd.ic_3}",
-													classroom_id: kd.classroom.id,
-													clsname: kd.classroom.classroom_name,
-													clsfee: kd.classroom.base_fee)
-					cnt = 1
-					kd.extras.each do |ext|
-						kb.extra << ext.id
-						extra = Extra.find(ext.id)
-		        kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
-		        cnt = cnt + 1
+					kd.beradik.each do |sb|
+						amount = amount + sb.classroom.base_fee
+						sb.extras.each do |ext|
+							amount += ext.price
+						end 
 					end
-					kb.save
-				end
 
-				email_par[tsk.id] << [pmt.id,pmt.kids.ids]
+					unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
+		      while Payment.where(bill_id: unq).present?
+		        unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
+		      end
+
+					#create payment 
+					pmt = Payment.new(amount: amount,
+														description: "NA",
+														bill_month: mth,
+														bill_year: yr,
+														discount: 0,
+														discdx: "",
+														parent_id: kd.parent.id,
+														taska_id: tsk.id,
+														state: "due",
+														paid: false,
+														fin: false,
+														bill_id: unq,
+														reminder: false,
+														name: "KID BILL",
+														cltid: tsk.collection_id)
+					pmt.save
+
+					#create addition
+					Addtn.create(desc: "",
+													amount: 0,
+													payment_id: pmt.id)
+
+					#create kidbill
+					kid_id = [kd.id]
+					kd.beradik.each do |sb|
+						kid_id << sb.id
+					end
+					Kid.where(id: kid_id).each do |kd|
+						kb = KidBill.new(kid_id: kd.id,
+														payment_id: pmt.id,
+														kidname: kd.name,
+														kidic: "#{kd.ic_1}-#{kd.ic_2}-#{kd.ic_3}",
+														classroom_id: kd.classroom.id,
+														clsname: kd.classroom.classroom_name,
+														clsfee: kd.classroom.base_fee)
+						cnt = 1
+						kd.extras.each do |ext|
+							kb.extra << ext.id
+							extra = Extra.find(ext.id)
+			        kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
+			        cnt = cnt + 1
+						end
+						kb.save
+					end
+
+					email_par[tsk.id] << [pmt.id,pmt.kids.ids]
 
 
-			end	#no existing payment		
-		end #kid
+				end	#no existing payment		
+			end #kid
 
-		#send sms to admin
-		puts "#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s)"
-		to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "msg=#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s) for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}&"
-		puts txt
-		data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-		puts data_sms
+			#send sms to admin
+			puts "#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s)"
+			to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
+	    txt = "msg=#{$month_name[mth]}-#{yr} bills created for #{kids.count} kid(s) for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}&"
+			puts txt
+			data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+			puts data_sms
+		end #end expire
 	end #taska
 
 	#write email body

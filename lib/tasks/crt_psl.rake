@@ -14,42 +14,44 @@ task crt_psl: :environment do
   fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
 
   Taska.where(psldt: dy).each do |tsk|
-  	psl_cnt = 0
-  	email_par[tsk.id] = []
-  	tsk.classrooms.each do |cls|
-  		cls.teachers.each do |tch|; if tch.payslips.where(mth: mth, year: yr).blank?
-  			pi = tch.payinfos.first
-  			amt = 0.00
-  			amta = 0.00
-        amt = pi.amt unless pi.amt.blank?
-  			tot = pi.amt + pi.alwnc 
-  			#amt = tot - pi.epf - pi.socs - pi.sip - pi.fxddc  
-  			amta = tot + pi.epfa + pi.socsa + pi.sipa
-  			# puts "Amt= #{amt}"
-  			# puts "Amta= #{amta}"
-        unq = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
-        while Payslip.where(psl_id: unq).present?
+    if tsk.expire > (Date.today - 1.days)
+    	psl_cnt = 0
+    	email_par[tsk.id] = []
+    	tsk.classrooms.each do |cls|
+    		cls.teachers.each do |tch|; if tch.payslips.where(mth: mth, year: yr).blank?
+    			pi = tch.payinfos.first
+    			amt = 0.00
+    			amta = 0.00
+          amt = pi.amt unless pi.amt.blank?
+    			tot = pi.amt + pi.alwnc 
+    			#amt = tot - pi.epf - pi.socs - pi.sip - pi.fxddc  
+    			amta = tot + pi.epfa + pi.socsa + pi.sipa
+    			# puts "Amt= #{amt}"
+    			# puts "Amta= #{amta}"
           unq = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
-        end
-  			psl = Payslip.new(mth: mth, year: yr, amt: amt,
-  												alwnc: pi.alwnc, epf: pi.epf,
-  												epfa: pi.epfa, amtepfa: amta,
-  												socs: pi.socs, socsa: pi.socsa, psl_id: unq,
-  												sip: pi.sip, sipa: pi.sipa, fxddc: pi.fxddc,
-  												taska_id: tsk.id, teacher_id: tch.id, xtra: "")
-  			if psl.save
-	  			psl_cnt += 1
-	  			email_par[tsk.id] << [psl.id,tch.id]
-	  		end
-  		end; end
-  	end #classroom
+          while Payslip.where(psl_id: unq).present?
+            unq = [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
+          end
+    			psl = Payslip.new(mth: mth, year: yr, amt: amt,
+    												alwnc: pi.alwnc, epf: pi.epf,
+    												epfa: pi.epfa, amtepfa: amta,
+    												socs: pi.socs, socsa: pi.socsa, psl_id: unq,
+    												sip: pi.sip, sipa: pi.sipa, fxddc: pi.fxddc,
+    												taska_id: tsk.id, teacher_id: tch.id, xtra: "")
+    			if psl.save
+  	  			psl_cnt += 1
+  	  			email_par[tsk.id] << [psl.id,tch.id]
+  	  		end
+    		end; end
+    	end #classroom
 
-  	#send sms to admin
-  	puts "#{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}"
-  	to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
-    txt = "msg= #{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}&"
-		data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-    puts data_sms
+    	#send sms to admin
+    	puts "#{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}"
+    	to = "dstno=6#{tsk.phone_1}#{tsk.phone_2}&"
+      txt = "msg= #{psl_cnt} payslip(s) AUTOMATICALLY created for #{tsk.name}&"
+  		data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+      puts data_sms
+    end #expire
   end #taska
 
   #send email to Mus
