@@ -42,7 +42,11 @@
             <th style="background-color:#ffccff; width: 40%">
               BILL TO
               <% if (pmtfin=@payments.where(fin: false,paid: false).count) > 0 %>
-                <%= link_to "Confirm #{pmtfin} Bill(s)", cfmbill_path(pmt_ids: @payments.where(fin: false,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                <% if status >= 0%>
+                  <%= link_to "Confirm #{pmtfin} Bill(s)", cfmbill_path(pmt_ids: @payments.where(fin: false,paid: false).ids), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                <% else %>
+                  <%= link_to "Please Activate To Confirm #{pmtfin} Bills", bill_taska1_monthly_path(id: @taska.id), class: "badge badge-secondary", style: "font-size: 13px" %>
+                <% end %>
               <% end %>
             </th>
             <th style="background-color:#ffccff; width: 21%">ACTIONS</th>
@@ -113,7 +117,11 @@
                   </div>
                 <% elsif pmt.fin == false %>
                   <div style="margin-top: 5px">
-                    <%= link_to "Confirm Bill", cfmbill_path(pmt_ids: pmt.id), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                    <% if status >= 0%>
+                      <%= link_to "Confirm Bill", cfmbill_path(pmt_ids: pmt.id), class: "badge badge-info", style: "font-size: 13px", method: :post %>
+                    <% else %>
+                      <%= link_to "Please Activate To Confirm Bill",  bill_taska1_monthly_path(id: @taska.id), class: "badge badge-secondary", style: "font-size: 13px" %>
+                    <% end %>
                   </div>
                 <% end %>
                 <!-- END SEND SMS -->
