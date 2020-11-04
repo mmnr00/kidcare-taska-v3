@@ -38,9 +38,9 @@ class PaymentsController < ApplicationController
       cltid = @taska.collection_id
     end
     if @payment.description.present?
-      desc = @payment.description
+      desc = "#{@payment.description} (#{@payment.id})"
     else
-      desc = "NA"
+      desc = @payment.id
     end
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => cltid, 
