@@ -1,45 +1,63 @@
 <h1 align="center">KIDCARE SYSTEM VIDEOS TUTORIAL</h1>
 
+<h4 align="center">(Please Click The Button To View Any Tutorial)</h4>
 
+<% 
+  tut_init = [
+    ["Login & Update Center Details","_Gah_4WB_f8"],
+    ["Register Children By Parents","8TOnp3hLxFw"],
+    ["Register Children By Admin","8TOnp3hLxFw"],
+    ["Create Classrooms","8TOnp3hLxFw"],
+    ["Assign Children to Classroom","8TOnp3hLxFw"],
+    ["Create Extras","8TOnp3hLxFw"],
+    ["Children Bill Setting","8TOnp3hLxFw"],      
+    ["Create Children Bill","8TOnp3hLxFw"],
+    ["Edit Children Bill","8TOnp3hLxFw"],
+    ["View & Print Children Profile","8TOnp3hLxFw"],
+    ["Edit Children Profile","8TOnp3hLxFw"],
+    ["Download Children Lists","8TOnp3hLxFw"],
+    ["View Center Account","8TOnp3hLxFw"],
+    ["Download Center Account Report","8TOnp3hLxFw"],
+    ["Create New Expense & Income in Account","8TOnp3hLxFw"],
+    ["Teacher Registration","8TOnp3hLxFw"],
+    ["Assign Teacher to Center","8TOnp3hLxFw"],
+    ["Create Teacher Payslip","8TOnp3hLxFw"],
+    ["Edit Teacher Payslip","8TOnp3hLxFw"],
+    ["View Teachers Payslip","8TOnp3hLxFw"],
+    ["View & Download Payslip","8TOnp3hLxFw"],
+    ["Apply Leave by Teacher","8TOnp3hLxFw"],
+    ["Approve Teacher Leave","8TOnp3hLxFw"],
+    ["Automation Setting","8TOnp3hLxFw"],
+    ["Student Attendance","8TOnp3hLxFw"],
+    ["Logbook For Teacher","8TOnp3hLxFw"],
+    ["Logbook For Admin","8TOnp3hLxFw"],
+    ["Logbook For Parent","8TOnp3hLxFw"],
 
-<% if 1==0 #!current_admin %>
-  <h4 align="center">Please Login To View Tutorial</h4>
-<% else %>
-  <h4 align="center">(Please Click The Button To View Any Tutorial)</h4><br>
-  
-  <% 
-    tut_init = [
-      ["Login & Update Center Details","_Gah_4WB_f8"],
+  ]
+  cnt = 1
+  tut_hash = {}
+  tut_init.each do |k|
+    tut_hash[cnt] = k
+    cnt += 1
+  end
 
-    ]
-    cnt = 1
-    tut_hash = {}
-    tut_init.each do |k|
-      tut_hash[cnt] = k
-      cnt += 1
-    end
+%>
 
-  %>
-
+<div class="main-body">
+  <div class="d-none" id="div-ifr" style="width:100%;height: 100%;position:absolute;margin-left: -10px">
+    <button class="close-modal btn-block btn-secondary" style="text-align: right"></button>
+    <iframe class="modal-ifr" style="" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div><br>
   <% tut_hash.each do |tutid,detl| %>
+    
     <!-- NEXT VIDEO -->
-    <button type="button" class="btn btn-success btn-block" data-toggle="collapse" data-target="#filter-panel<%= tutid %>">
-      
+    <button type="button" class="btn btn-success btn-block btn-tute" id="<%= detl[1]%>">    
       <div style="text-align: left"><%= "#{tutid}. #{detl[0]}" %></div>
     </button>
-    <div id="filter-panel<%= tutid %>" class="collapse filter-panel<%= tutid %>">
-      <hr><br>
-      <div class="iframe-container">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= detl[1] %>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>   
-    <br>
-  <% end %>
+  <% end %>  
+</div>
 
 
-<% end %>
-
-<%= root_path %>
 <script type="text/javascript" src="/mus_js/tutorial_mus.js"></script>
 
 
