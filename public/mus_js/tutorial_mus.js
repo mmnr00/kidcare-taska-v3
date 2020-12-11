@@ -54,11 +54,13 @@ const mainBody = document.querySelector('.main-body')
 const tutIfr = document.querySelector('.modal-ifr')
 const divIfr = document.getElementById('div-ifr')
 const closeBtn = document.querySelector('.close-modal')
-console.log(closeBtn)
+const tuteList = document.querySelector('.tute-list')
+// console.log(closeBtn)
 
 const closeModal = function (){
 	tutIfr.src=""
 	divIfr.classList.add('d-none')
+	tuteList.classList.remove('d-none')
 }
 
 for (let i = 0; i < btnTute.length; i++){
@@ -70,6 +72,7 @@ for (let i = 0; i < btnTute.length; i++){
 		// </div>
 		// `
 		divIfr.classList.remove('d-none')
+		tuteList.classList.add('d-none')
 		tutIfr.src = `https://www.youtube.com/embed/${btnTute[i].id}`	
 		closeBtn.textContent = 'Close X'
 		console.log('click')

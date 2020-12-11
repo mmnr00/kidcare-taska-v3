@@ -27,7 +27,8 @@ wb.styles do |style|
                   "EMAIL",
                   "JENIS KEAHLIAN",
                   "NO AHLI",
-                  "TARIKH LUPUT"]
+                  "TARIKH LUPUT",
+                  "TARIKH DAFTAR"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -55,7 +56,8 @@ wb.styles do |style|
                     mmb.email,
                     mmb.mmb,
                     mmb.mmbid,
-                    exp], 
+                    exp,
+                    mmb.created_at.strftime('%d-%^b-%Y')], 
       style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
