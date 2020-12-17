@@ -29,8 +29,8 @@ end
 
 # NEW ANIS MCO
 
-old = 88
-nw = 91
+old = 92
+nw = 93
 
 clg=College.find(old)
 clgn = College.find(nw)

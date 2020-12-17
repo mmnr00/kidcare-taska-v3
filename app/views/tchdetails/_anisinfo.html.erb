@@ -21,7 +21,6 @@
   <div style="background-color: #cce5cc"><h2 align="center">MAKLUMAT PROGRAM</h2></div><br><br>
   <!-- LINK OPEN LEARNING -->
   <h4><u>LAMAN OPEN LEARNING</u></h4>
-  <h6><i>Dapatkan 2 Sijil Open Learning di pautan berikut:</i></h6>
   <%= link_to "Open Learning Asas Autisme", "https://www.openlearning.com/courses/ikurnia-asas-autisme/", style: "color:blue", target:"_blank" %><br>
   <%= link_to "Open Learning Asas Intervensi", "https://www.openlearning.com/courses/ikurnia-asas-intervensi/", style: "color:blue", target:"_blank" %><br>
 
@@ -69,6 +68,19 @@
         </tr>
         <tr>
           <td>7</td>
+          <td>
+            Bukti Ada Menerima Anak Istimewa (sekiranya ada)
+            <ul>
+              <li>Kad JKM</li>
+              <li>Surat Doktor</li>
+              <li>Kad Rawatan</li>
+              <li>Rekod Perkembangan</li>
+            </ul>
+          </td>
+          <td><i>Sila daftarkan semua anak istimewa dibawah jagaan anda di Sistem KidCare dan bawa bersama dokumen-dokumen diatas (jika ada) untuk pengesahan urusetia semasa program</i></td>
+        </tr>
+        <tr>
+          <td>8</td>
           <td>Sijil Open Learning (Asas Autisme)</td>
           <td><i>Sila Muat Naik sijil di Sistem KidCare</i></td>
         </tr>
@@ -86,38 +98,37 @@
     </table>
   </div>
 
-  <br><!-- ETIKA PAKAIAN & TEMA -->
-  <!-- <h4><u>SYARAT DAN PERATURAN BENGKEL ONLINE CIKGU ANIS 2020</u></h4><br>
-  <p style="text-align: justify">1. Bengkel akan diadakan secara <b>dalam talian</b> menggunakan aplikasi <b><i>Zoom Cloud Meeting</i></b> yang boleh dimuat turun di play store (bagi android) dan di App Store(bagi i-phone) atau di alamat <a href="https://zoom.us/download" style="color: blue">https://zoom.us/download</a>. Sila muat turun aplikasi zoom pada telefon pintar/laptop anda terlebih dahulu sebelum bengkel berlangsung.</p>
-  <p style="text-align: justify">2. Peserta dimohon untuk menggunakan nama sebenar dan  nama penuh sebagai username pada aplikasi <i>Zoom Cloud Meeting</i> bagi membolehkan <i>admin</i> memberi kebenaran kepada peserta untuk menyertai kelas yang akan dijalankan.</p>
-  <p style="text-align: justify">3. Bagi memastikan kelas berjalan lancar, setiap peserta perlu bersedia dengan data Internet @ Wifi yang mencukupi dan peserta perlu bersedia sekurang-kurangnya 10 minit awal sebelum kelas bermula.</p>
-  <p style="text-align: justify">4. Bengkel PERCUMA ini memerlukan komitmen kehadiran peserta selama 3 hari berturut-turut secara dalam talian. Kehadiran peserta akan diambil pada setiap kali sesi kelas berlangsung.</p>
-  <p style="text-align: justify">5. Setiap peserta juga perlu menyelesaikan kuiz/tugasan ringkas dan mengisi borang maklum balas pada setiap kali sesi kelas tamat bagi membuktikan kehadiran dan komitmen peserta terhadap bengkel ini.</p>
-  <p style="text-align: justify">6. Platform yang akan digunakan bagi melaksanakan semua tugasan dan kuiz adalah menggunakan <i>Google Classroom</i>. Oleh yang demikian, adalah digalakkan agar semua peserta bersedia dengan aplikasi ini untuk melancarkan proses bengkel. </p>
-  <p style="text-align: justify">7. Sijil penyertaan Bengkel Cikgu Anis 2.0 Siri 1/2020 akan di serahkan melalui e-mel  setelah semua peserta menghadiri setiap kelas dan memenuhi syarat kelayakkan dengan menghantar semua tugasan individu, kuiz dan borang maklumbalas di dalam medium yang telah ditetapkan. </p>
-  <p style="text-align: justify">8. Adalah diharapkan agar peserta yang telah di pilih peka serta bersedia dari segi ruang dan masa seperti di dalam jadual bengkel dengan memberikan komitmen kehadiran serta fokus di dalam setiap kelas yang di adakan selama 3 hari. </p> --> 
-
-  <h4><u>SYARAT DAN PERATURAN AM SEMPENA PKPP</u></h4>
+  <% if 1==1 %>
+  <br><br><!-- SENARAI BARANG KEPERLUAN -->
+  <h4><u>SYARAT DAN PERATURAN BENGKEL ONLINE CIKGU ANIS 2020</u></h4>
   <ol>
-    <li>Memakai pelitup mulut sepanjang bengkel berlangsung.</li>
-    <li>Membawa hand sanitizer sendiri.</li>
-    <li>Download apps MySejahtera di google playstore.</li>
-    <li>Mengambil suhu 3 kali sehari (pagi -tengahari – malam) sebelum masuk ke dewan.</li>
-    <li>Peserta yang bergejala demam, selesema dan batuk yang teruk tidak dibenarkan menyertai bengkel ini.</li>
+    <li>Bengkel akan diadakan secara dalam talian menggunakan aplikasi Zoom Cloud Meeting yang boleh dimuat turun di play store (bagi android) dan di App Store(bagi i-phone) atau di alamat <a href="https://zoom.us/download">https://zoom.us/download</a> Sila muat turun aplikasi zoom pada telefon pintar/laptop anda terlebih dahulu sebelum bengkel berlangsung.</li><br>
+    <li>Peserta dimohon untuk menggunakan nama sebenar dan  nama penuh sebagai username pada aplikasi <i>Zoom Cloud Meeting</i> bagi membolehkan <i>admin</i> memberi kebenaran kepada peserta untuk menyertai kelas yang akan dijalankan.</li><br>
+    <li>Bagi memastikan kelas berjalan lancar, setiap peserta perlu bersedia dengan data Internet @ Wifi yang mencukupi dan peserta perlu bersedia sekurang-kurangnya 10 minit awal sebelum kelas bermula.</li><br>
+    <li>Bengkel PERCUMA ini memerlukan komitmen kehadiran peserta selama 3 hari berturut-turut secara dalam talian. Kehadiran peserta akan diambil pada setiap kali sesi kelas berlangsung.</li><br>
+    <li>Setiap peserta juga perlu menyelesaikan kuiz/tugasan ringkas dan mengisi borang maklum balas pada setiap kali sesi kelas tamat bagi membuktikan kehadiran dan komitmen peserta terhadap bengkel ini.</li><br>
+    <li>Platform yang akan digunakan bagi melaksanakan semua tugasan dan kuiz adalah menggunakan <i>Google Classroom</i> Oleh yang demikian, adalah digalakkan agar semua peserta bersedia dengan aplikasi ini untuk melancarkan proses bengkel. </li><br>
+    <li>Sijil penyertaan Bengkel Cikgu Anis akan di serahkan melalui e-mel  setelah semua peserta menghadiri setiap kelas dan memenuhi syarat kelayakkan dengan menghantar semua tugasan individu, kuiz dan borang maklumbalas di dalam medium yang telah ditetapkan</li><br>
+    <li>Adalah diharapkan agar peserta yang telah di pilih peka serta bersedia dari segi ruang dan masa seperti di dalam jadual bengkel dengan memberikan komitmen kehadiran serta fokus di dalam setiap kelas yang di adakan selama 3 hari</li><br>
+    <h4>SELAMAT MENIMBA ILMU BERSAMA BENGKEL ONLINE CIKGU ANIS</h4>
   </ol>
+  <% end %>
 
+  <% if 1==0 %>
+  <br><br><!-- SENARAI BARANG KEPERLUAN -->
   <h4><u>SENARAI BARANG KEPERLUAN</u></h4>
+  <h5>Sila Pastikan Anda Bawa Bersama Barang-Barang Keperluan di bawah semasa Bengkel Cikgu ANiS</h5>
   <ol>
-    <li>Pen, Pensil, Buku Nota</li>
+    <li>Pen, Pensil, Buku Note</li>
     <li>Gunting</li>
     <li>Gam</li>
-    <li>Selotape/Double Sided Tape</li>
+    <li>Solatape/Double Sided Tape</li>
     <li>Stapler/Ubat Stapler</li>
     <li>Kertas Warna/A4</li>
     <li>Pembaris/Sharpener</li>
     <li>Barang-barang keperluan mandian</li>
     <li>Telekung & Sejadah</li>
-    <li>Iron Baju (Boleh share)</li>
+    <li>Iron Baju (boleh share)</li>
     <li>Hanger Baju (baju dah iron)</li>
     <li>Baju Sejuk (Jika Perlu)</li>
     <li>Air Mineral/Botol Air</li>
@@ -126,12 +137,12 @@
   <br><!-- ETIKA PAKAIAN & TEMA -->
   <h4><u>ETIKA PAKAIAN & TEMA</u></h4>
   <b>Pakaian Sepanjang Program</b><br>
-  -Casual dan Sopan<br>
-  <b>Tema Pakaian 5 September 2020</b><br>
-  -Baju Warna Biru (Royal Blue) dan Tudung Krim<br>
+  -Formal atau Casual. Pemakaian jeans tidak digalakkan sama sekali<br><br>
+  <b>Tema pakaian bergambar hari kedua (Sabtu-<%= (@college.start+1.days).strftime('%d/%^b/%y')%>)</b><br>
+  -<%= @college.thm %><br>
+  <% end %>
 
-
-  <br><br>
+  <br><br><!-- JADUAL PROGRAM -->
   <h4><u>JADUAL PROGRAM</u></h4>
   <%= render 'colleges/schd', vw: 0 %>
 </div><br>
