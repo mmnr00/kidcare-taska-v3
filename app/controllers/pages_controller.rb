@@ -6,6 +6,21 @@ class PagesController < ApplicationController
 
 	#layout "dsb-admin-eg"
 
+	def undiptns
+
+	end
+
+	def check_ptns
+		ada_ic = $undiptns.include? params[:sch_str]
+		if ada_ic
+			redirect_to "https://forms.gle/TcfdrebUcY6Zi4VEA"
+		else
+			flash[:danger] = "No MYKAD anda tiada dalam rekod kelayakan mengundi"
+			redirect_to request.referrer
+		end
+		
+	end
+
 	def kap
 		redirect_to "https://www.kidcare.my/newtchdetail?id=72&nwt=true"
 	end

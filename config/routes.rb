@@ -83,7 +83,8 @@ Rails.application.routes.draw do
   get '/tutorial', to: 'pages#tutorial'
   get '/tryroo', to: 'pages#tryroo'
   post '/uploadroo', to: 'pages#uploadroo', as: 'uploadroo'
-
+  get '/undiptns', to: 'pages#undiptns'
+  post '/check_ptns', to: 'pages#check_ptns'
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
   get '/billplz_reg', to: 'pages#billplz_reg'
