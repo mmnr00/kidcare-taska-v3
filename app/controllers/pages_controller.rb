@@ -13,7 +13,10 @@ class PagesController < ApplicationController
 	def check_ptns
 		ada_ic = $undiptns.include? params[:sch_str]
 		if ada_ic
-			redirect_to "https://forms.gle/TcfdrebUcY6Zi4VEA"
+			flash[:success] = "Anda layak untuk mengundi. Sila klik link dibawah untuk mengundi"
+			redirect_to undiptns_path(ic_val: 1)
+			# sleep 1.5
+			# redirect_to ENV['FORMPTNS']
 		else
 			flash[:danger] = "No MYKAD anda tiada dalam rekod kelayakan mengundi"
 			redirect_to request.referrer
