@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2020_09_10_124521) do
+ActiveRecord::Schema.define(version: 2020_12_31_024732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -253,6 +252,7 @@ ActiveRecord::Schema.define(version: 2020_09_10_124521) do
     t.string "sph_2"
     t.string "mic"
     t.string "fic"
+    t.string "fulladd"
   end
 
   create_table "kidtsks", force: :cascade do |t|
@@ -265,10 +265,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_124521) do
   create_table "lgbks", force: :cascade do |t|
     t.text "cin"
     t.text "cout"
-<<<<<<< HEAD
-    t.float "temp"
-=======
->>>>>>> 00lgbk
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "kid_id"
@@ -280,8 +276,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_124521) do
     t.text "medc"
     t.string "phyc"
     t.integer "taska_id"
-<<<<<<< HEAD
-=======
     t.text "susu"
     t.string "susudc"
     t.text "mkn"
@@ -296,7 +290,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_124521) do
     t.string "othdc"
     t.text "tchid"
     t.text "temp"
->>>>>>> 00lgbk
   end
 
   create_table "otkids", force: :cascade do |t|

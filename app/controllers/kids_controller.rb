@@ -465,6 +465,7 @@ end
 																	:alt_phone,
 																	:date_enter,
 																	:taska_id,
+																	:fulladd,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 
