@@ -466,6 +466,7 @@ end
 																	:date_enter,
 																	:taska_id,
 																	:fulladd,
+																	:prevsc,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 

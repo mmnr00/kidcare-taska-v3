@@ -44,6 +44,7 @@ class Kid < ApplicationRecord
 
   def save_kids
   	self.name = self.name.upcase unless !self.name.present?
+  	self.prevsc = self.prevsc.upcase unless !self.prevsc.present?
   	self.fulladd = self.fulladd.upcase unless !self.fulladd.present?
   	self.birth_place = self.birth_place.upcase unless !self.birth_place.present?
   	self.allergy = self.allergy.upcase unless !self.allergy.present?
