@@ -42,11 +42,11 @@
               </div>
               <div class="col-sm-8 col-12">
                 <% if (lv = @teacher.tchlvs.where(tsklv_id: tsklv.id).first).present? %>
-                  <% day = lv.day.to_i %>
+                  <% day = lv.day.to_f %>
                 <% else %>
                   <% day = tsklv.day %>
                 <% end %>
-                <%= h.number_field :"day", class: "form-control", autofocus: true, required: true, value: day %>
+                <%= h.number_field :"day", class: "form-control", autofocus: true, required: true, value: day, :step => 0.5 %>
                 <%= h.hidden_field :"teacher_id", value: @teacher.id %>
                 <%= h.hidden_field :"taska_id", value: @taska.id %>
                 <%= h.hidden_field :"tsklv_id", value: tsklv.id %>
