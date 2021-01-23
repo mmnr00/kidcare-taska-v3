@@ -1,6 +1,15 @@
 <div class='row'>
   <div class='col-lg-8 col-12'>
     <%= form_for(@kid, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+
+      <%= f.hidden_field :parent_id, value: @parent.id %>
+      <%= f.hidden_field :ckn, value: params[:ckn] %>
+      <% if @kid.taska_id.present? %>
+        <%= f.hidden_field :taska_id, value: @kid.taska_id %>
+      <% else %>
+        <%= f.hidden_field :taska_id, value: params[:taska_id] %>
+      <% end %>
+      <%= f.hidden_field :classroom_id, value: @kid.classroom_id %>
         
         <!-- name -->
         <div class="form-group"> 
@@ -53,7 +62,7 @@
             </div>         
           </div>
         </div>
-
+        
         <!-- CHILD MYKID -->
         <% m = 0 %> <!-- Stop loop at 1 -->
         <div class="form-group"> 
@@ -560,12 +569,12 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :income, options_for_select(["RM8,319.00 and above", 
-                                                        "RM3,860.00 to RM8,319.00", 
-                                                        "RM3,860.00 and below",
-                                                        "Others"],
+              <%= f.select :income, options_for_select(["Below RM3860",
+                                                        "RM3860 - RM5000",
+                                                        "RM5000 - RM8000",
+                                                        "Above RM8000"],
                                                         selected: @kid.income),
-              {include_blank: "Please Select"} %>          
+              {include_blank: "Please Select"},required: true %>          
             </div>
           </div>
         </div>
@@ -586,13 +595,7 @@
 
         
 
-        <%= f.hidden_field :parent_id, value: @parent.id %>
-        <% if @kid.taska_id.present? %>
-          <%= f.hidden_field :taska_id, value: @kid.taska_id %>
-        <% else %>
-          <%= f.hidden_field :taska_id, value: params[:taska_id] %>
-        <% end %>
-        <%= f.hidden_field :classroom_id, value: @kid.classroom_id %>
+        
 
 
         <!-- BOOKING FEE -->
@@ -639,7 +642,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-10 col-4">
-              <%= f.submit :"UPDATE PROFILE",  class: 'btn btn-primary btn-lg' %>
+              <%= f.submit :"SUBMIT",  class: 'btn btn-primary btn-lg' %>
             </div>
           </div>
         </div>
