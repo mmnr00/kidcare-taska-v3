@@ -3,6 +3,7 @@
 <% 
   if params[:volunteer].present?
     "volunteer"
+    link = new_vltr_url
   elsif params[:children].present?
     "children"
     link = new_kid_url

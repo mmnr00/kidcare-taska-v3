@@ -1,0 +1,19 @@
+<%= form_for(@vltr, :url => {:controller=>'vltrs', :action=>act}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+  
+  <!-- name -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>FULL NAME*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.text_field :name, class: "form-control", placeholder: "FULL NAME AS PER MYKID", autofocus: true, required: true, style: "text-transform:uppercase" %>
+      </div>
+    </div>
+  </div>
+
+  <%= f.submit :"Submit", class: 'btn btn-success btn-sm'%>
+
+<% end %>

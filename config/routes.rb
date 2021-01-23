@@ -37,6 +37,12 @@ Rails.application.routes.draw do
   get 'payabesar', to: 'welcomes#payabesar'
   get 'caknafeedback', to: 'welcomes#caknafeedback'
 
+  #~VLTRS
+  get 'new_vltr', to: 'vltrs#new_vltr', as: 'new_vltr'
+  post 'crt_vltr', to: 'vltrs#crt_vltr', as: 'crt_vltr'
+  get 'edit_vltr', to: 'vltrs#edit_vltr', as: 'edit_vltr'
+  post 'upd_vltr', to: 'vltrs#upd_vltr', as: 'upd_vltr'
+
   #~LGBK
   get 'std_checkin', to: 'lgbks#std_checkin', as: 'std_checkin'
   get 'std_checkout', to: 'lgbks#std_checkout', as: 'std_checkout'
