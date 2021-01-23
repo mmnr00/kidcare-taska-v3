@@ -4,7 +4,7 @@ class KidsController < ApplicationController
 	before_action :set_kid, only: [:show, :kid_pdf]
 	#before_action :set_kid_bill, only: [:bill_view]
 	before_action :set_all
-	before_action :authenticate_parent!, only: [:new], unless: -> {current_admin.present?}
+	before_action :authenticate_parent!, only: [:new], unless: -> {current_admin.present? || params[:ckn].present?}
 	before_action :check_bill, only: [:bill_view, :bill_pdf]
 	#before_action	:authenticate!, only: [:bill_view]
 	#before_action :rep_responsible, only: [:bill_view]

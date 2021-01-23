@@ -6,6 +6,9 @@ class PagesController < ApplicationController
 
 	#layout "dsb-admin-eg"
 
+	def cakna21
+	end
+
 	def undiptns
 
 	end

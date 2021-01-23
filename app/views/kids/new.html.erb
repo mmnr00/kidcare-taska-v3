@@ -2,7 +2,7 @@
 <h3><% image = @fotos.where(foto_name: "CENTER LOGO").first %>
     <% if image.present? && image.picture.present? %>
       <%= image_tag(image.picture.url, size: "50x50") %>
-    <% end %> <%= link_to "#{@taska.name.upcase}", taska_page_path(id: params[:taska_id]), class: "btn btn-m btn-primary active", target: "_blank" %>
+    <% end %> <%= link_to "#{@taska.name.upcase}", "#", class: "btn btn-m btn-primary active" %>
 </h3>
 <br>
 <%if params[:new] == "yes" %>

@@ -6,11 +6,13 @@
 #     https: false
 #   )
 # end
-if Rails.env.development?
-  $undiptns = ENV['UNDIPTNS'].split(/\r/)
-elsif Rails.env.production? 
-  $undiptns = ENV['UNDIPTNS'].split(/\n/)
-end
+# if Rails.env.development?
+#   $undiptns = ENV['UNDIPTNS'].split(/\r/)
+# elsif Rails.env.production? 
+#   $undiptns = ENV['UNDIPTNS'].split(/\n/)
+# end
+
+$cakna21 = ENV['cakna21'].split(',')
 
 $anisf = [8,46,50,51,54,55,57,60,63,69,71,82,84,90]
 $anis2 = [64,66,73,74,75,79,85,87,91,93]
