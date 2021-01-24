@@ -1,0 +1,87 @@
+
+
+<!-- START TABLE -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <button class="btn btn-sm btn-block btn-primary">Volunteer Details</button>
+  <div class="card-header">
+    <div class="row">
+      <%= form_tag pth, method: :get, id: "find_kid" do %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here", style: 'text-transform: uppercase' %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+        <%= link_to "mystudent_path(id: @taska.id)", class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+
+
+        <%= "#{@vltrs.count} result(s) found" %>
+      <% end %>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div style="margin-bottom: -20px"></div>
+    <%= link_to "DOWNLOAD EXCEL", childlist_xls_path(@taska, cls: params[:cls_id], sch_str: params[:sch_str], format: :xlsx), class: "badge badge-pill badge-info" %>
+  <% if @vltrs.count < 1 %>
+    <br>
+    <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+  <% else %>
+    
+    
+    <div class="table table-responsive border" style="font-size:13px">
+      <%= form_for(:cls, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+        <%= f.hidden_field :curr_taska, value: @taska.id %>
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ffb2b2; width: 50%">NAME</th>
+
+              <th style="background-color:#ffb2b2; width: 20%">ADDRESS</th>
+              <th style="background-color:#ffb2b2; width: 20%">CONTACT</th>
+              <th style="background-color:#ffb2b2">CLASSROOM & CENTER</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @vltrs.order('name ASC').each do |vltr|; ic= vltr.ic %>
+            <%= f.fields_for :"#{vltr.id}" do |h| %>
+              <tr>
+                <td>
+                  <%= vltr.name %><br>
+                  <i><%= "#{ic[0..5]}-#{ic[6..7]}-#{ic[8..11]}" %></i>   
+                </td>
+                <td>
+                  <%= vltr.address %>
+                </td>
+                <td>
+                  <%= vltr.ph %><br>
+                  <%= vltr.email %>
+                </td>
+                <td>
+                  <%= h.select :classroom_id, 
+                    options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, vltr.classroom_id), {include_blank: "No Classroom"} %>
+                  <% if vltr.classroom_id.blank? %>
+                    <%= h.select :taska_id, 
+                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, vltr.taska_id) %><br>
+                    <%= link_to remove_taska_path(kid: vltr), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal", :data => {:confirm => 'Are you sure?'} do %>
+                      <i class="fa fa-trash"></i> Remove from Center
+                    <% end %>
+                  <% end %>
+                </td>
+                
+              </tr>
+              
+            <% end %> <!-- END H  -->
+            <% end %> <!-- END LOOP -->
+          </tbody>
+        </table>
+        <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

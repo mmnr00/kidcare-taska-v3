@@ -1,5 +1,7 @@
 class VltrsController < ApplicationController
 
+	before_action :set_all
+
 	def new_vltr
 		@vltr = Vltr.new
 		@taska = Taska.find(params[:taska_id])
@@ -34,6 +36,10 @@ class VltrsController < ApplicationController
 	end
 
 	private
+
+	def set_all
+		@admin = current_admin
+	end
 
 	def vltr_params
       params.require(:vltr).permit(:name,

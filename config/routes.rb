@@ -278,6 +278,7 @@ Rails.application.routes.draw do
   get 'stdatt', to: 'taskas#stdatt', as: 'stdatt'
   get 'rptatt', to: 'taskas#rptatt', as: 'rptatt'
   get 'att_xls', to: 'taskas#att_xls', as: 'att_xls'
+  get 'vltrlist', to: 'taskas#vltrlist', as: 'vltrlist'
 
   ## ANSYS19
   get '/rsvpans', to: 'taskas#rsvpans'

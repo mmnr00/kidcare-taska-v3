@@ -81,10 +81,9 @@ class KidsController < ApplicationController
 			flash[:danger] = "Kid with IC NO: #{@kid.ic_1}-#{@kid.ic_2}-#{@kid.ic_3} already registered under #{@kid.parent.username}"
 			redirect_to request.referrer and return
 		elsif kidexs.present? && @kid.ckn.present? #
-			if kidexs.count <= 1
+			if kidexs.count <= 1 && (kidexs.first.taska_id == @kid.taska_id)
 				kid = kidexs.first
-				kid.taska_id = @kid.taska_id
-				kid.classroom_id = nil
+				kid.ckn = 1
 				kid.save
 				flash[:success] = "Child successfully registered"
 			else

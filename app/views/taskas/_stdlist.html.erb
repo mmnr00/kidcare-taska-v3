@@ -1,0 +1,104 @@
+
+
+<!-- START TABLE -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="row">
+      <%= form_tag pth, method: :get, id: "find_kid" do %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here", style: 'text-transform: uppercase' %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :cls_id, params[:cls_id], value: params[:cls_id] %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+
+        <%= link_to "#{pth}?id=#{@taska.id}", class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+
+
+        <%= "#{@kids.count} result(s) found" %>
+        <%= link_to stdatt_path(id: @taska.id, dt: Date.today), class: "badge badge-warning shadow-sm", style: "font-size: 18px; font-weight: normal; align: right" do %>
+            <i class=""></i> Attendance
+        <% end %>
+      <% end %>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div style="margin-bottom: -20px"></div>
+    <%= link_to "DOWNLOAD EXCEL", childlist_xls_path(@taska, cls: params[:cls_id], sch_str: params[:sch_str], format: :xlsx), class: "badge badge-pill badge-info" %>
+    <%= link_to "REGISTER CHILDREN", new_kid_path(taska_id: @taska.id), class: "badge badge-pill badge-primary" %>
+    <% if @admin.id == 4 %>
+      <%= link_to "UPLOAD EXCEL", xlskid_path(@taska), class: "badge badge-pill badge-warning" %>
+    <% end %>
+  <% if @kids.count < 1 %>
+    <br>
+    <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+  <% else %>
+    
+    
+    <div class="table table-responsive border" style="font-size:13px">
+      <%= form_for(:cls, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+        <%= f.hidden_field :curr_taska, value: @taska.id %>
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ffb2b2">NAME</th>
+              <th style="background-color:#ffb2b2; width: 20%">BILLING</th>
+              <th style="background-color:#ffb2b2">CLASSROOM & CENTER</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @kids.order('name ASC').each do |kid| %>
+            <%= f.fields_for :"#{kid.id}" do |h| %>
+              <tr>
+                <td>
+                  <a href="/kids/<%= kid.id %>" target="_blank"><font style="color: blue">
+                    <%= kid.name %>   
+                  </font></a><br>
+                  <%= link_to "Logbook", tskvw_lgbk_path(id: @taska.id, child: kid.id, stg: true), class: "badge badge-info", style: "font-size: 13px" %><br>
+                  <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %><br>
+                  <% Date.today.year - kid.dob.year %>
+                  <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
+                  <% year = diff/12 %>
+                  <% month = diff - year*12 %>
+                  <%= year %> years <%= month %> months
+                  <% if kid.date_enter.present? %>
+                    <br><%= kid.date_enter.strftime('%d-%^b-%y') %>
+                  <% end %>  
+                </td>
+                <td>
+                  <% if Time.now < @taska.expire && kid.classroom_id.present? %>
+                    <%= link_to "Setting", stgbill_path(id: @taska.id, child: kid.id, stg: true), class: "badge badge-primary", style: "font-size: 13px" %>      
+                    <%= link_to "Create", got_bill_path(taska: @taska.id, child: kid.id, classroom: kid.classroom_id, no_sch: true), class: "badge badge-success", style: "font-size: 13px"%>
+                  <% end %>
+                  
+                </td>
+                <td>
+                  <%= h.select :classroom_id, 
+                    options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kid.classroom_id), {include_blank: "No Classroom"} %>
+                  <% if kid.classroom_id.blank? %>
+                    <%= h.select :taska_id, 
+                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id) %><br>
+                    <%= link_to remove_taska_path(kid: kid), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal", :data => {:confirm => 'Are you sure?'} do %>
+                      <i class="fa fa-trash"></i> Remove from Center
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+              
+            <% end %> <!-- END H  -->
+            <% end %> <!-- END LOOP -->
+          </tbody>
+        </table>
+        <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

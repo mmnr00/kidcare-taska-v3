@@ -26,10 +26,16 @@ class TaskasController < ApplicationController
                                   :upldclsrm,
                                   :upldkid,:rptatt,:att_xls,
                                   :hiscrdt,:tskvw_lgbk, :stdatt,
-                                  :topcred,:mybill,:mystudent]
+                                  :topcred,:mybill,:mystudent,:vltrlist]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
+
+  def vltrlist
+    @vltrs = @taska.vltrs
+    render action: "vltrlist", layout: "dsb-admin-overview"
+
+  end
 
   def att_xls
     #create hash @att
