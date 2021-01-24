@@ -1,9 +1,17 @@
-<h4>NEW CHILDREN REGISTRATION FOR </h4> 
-<h3><% image = @fotos.where(foto_name: "CENTER LOGO").first %>
-    <% if image.present? && image.picture.present? %>
-      <%= image_tag(image.picture.url, size: "50x50") %>
-    <% end %> <%= link_to "#{@taska.name.upcase}", "#", class: "btn btn-m btn-primary active" %>
-</h3>
+
+<% if params[:ckn].present? %>
+  <div class="badge badge-info" style="margin-bottom: 10px">Children Registration For <%= @taska.name %></div>
+<% else %>
+  <h4>NEW CHILDREN REGISTRATION FOR </h4> 
+  <h3><% image = @fotos.where(foto_name: "CENTER LOGO").first %>
+      <% if image.present? && image.picture.present? %>
+        <%= image_tag(image.picture.url, size: "50x50") %>
+      <% end %> <%= link_to "#{@taska.name.upcase}", "#", class: "btn btn-sm btn-primary active" %>
+  </h3>
+<% end %>
+
+
+
 <br>
 <%if params[:new] == "yes" %>
   <%= render 'kids/form' %>

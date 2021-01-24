@@ -1,5 +1,10 @@
 <%= form_for(@vltr, :url => {:controller=>'vltrs', :action=>act}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
   
+  <!-- All Hidden Field-->
+
+  <%= f.hidden_field :taska_id, value: @taska.id %>
+  <%= f.hidden_field :id, value: params[:id] %>
+
   <!-- name -->
   <div class="form-group"> 
     <div class="row">
@@ -9,7 +14,63 @@
     </div>
     <div class="row">
       <div class="col-sm-8 col-12">
-        <%= f.text_field :name, class: "form-control", placeholder: "FULL NAME AS PER MYKID", autofocus: true, required: true, style: "text-transform:uppercase" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Full Name as MYKAD", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- ic -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>MYKAD NUMBER*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.text_field :ic, class: "form-control", placeholder: "eg: 870829356521", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- phone -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>PHONE NUMBER*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.text_field :ph, class: "form-control", placeholder: "eg: 0174151554", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>EMAIL*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.email_field :email, class: "form-control", placeholder: "", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRENT ADDRESS -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>CURRENT ADDRESS*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.text_area :address, class: "form-control", placeholder: "", autofocus: true, required: true %>
       </div>
     </div>
   </div>
@@ -17,3 +78,9 @@
   <%= f.submit :"Submit", class: 'btn btn-success btn-sm'%>
 
 <% end %>
+
+
+
+
+
+
