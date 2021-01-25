@@ -93,6 +93,8 @@ Rails.application.routes.draw do
   post '/check_ptns', to: 'pages#check_ptns'
   get '/cakna21', to: 'pages#cakna21'
   get '/rptckn', to: 'pages#rptckn'
+  get '/lsctr', to: 'pages#lsctr'
+  get '/cknstd', to: 'pages#cknstd'
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
   get '/billplz_reg', to: 'pages#billplz_reg'

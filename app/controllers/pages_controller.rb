@@ -7,6 +7,17 @@ class PagesController < ApplicationController
 
 	#layout "dsb-admin-eg"
 
+	def cknstd
+		@kids = Kid.where(taska_id: $cakna21).where.not(classroom_id: nil)
+		if params[:sch].present?
+			@kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%")
+		end
+	end
+
+	def lsctr
+		@taskas = Taska.where(id: $cakna21)
+	end
+
 	def rptckn
 		@taskas = Taska.find($cakna21)
 		@kids = Kid.where.not(classroom_id: nil).where(taska_id: $cakna21)

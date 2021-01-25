@@ -1,0 +1,37 @@
+<div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa"></i>
+      <b>CENTERS LIST FOR PROGRAM CAKNA ANAK (<%= @taskas.count %>)</b>
+    </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+        <thead class="thead-dark">
+          <tr>
+            <th> CENTER NAME </th>
+            <th> NO OF CHILDRENS </th>
+            <th> NO OF VOLUNTEERS </th>
+            <th> ADDRESS </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @taskas.order('name ASC').each do |kuli|%>
+            <tr>
+              <td>
+                <%= kuli.name.upcase %>
+                <%= link_to "DASHBOARD", taska_path(id: kuli.id) , class: "badge badge-primary"%>
+              </td>
+              <td><%= kuli.kids.where.not(classroom_id: nil).count %></td>
+              <td><%= kuli.vltrs.count %></td>
+              <td><%= kuli.address_1 %>&nbsp
+                <%= kuli.address_2 %>&nbsp
+                <%= kuli.city %>&nbsp
+                <%= kuli.postcode %>&nbsp<%= kuli.states %><br>  
+              </td> 
+              
+            </tr>
+          <% end %> 
+        </tbody>
+      </table>
+    </div>
+  </div>
