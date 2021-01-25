@@ -6,8 +6,14 @@
   <% else %>
     <%= link_to "SHOW OVERALL", admin_index_path(ovrl: true) , class: "btn btn-xs btn-success active"%>
   <% end %><% end %>
-  <br>
+  
 <% end %>
+
+<% if $admckn.include? @admin.id.to_s %>
+  <%= link_to "Program Cakna Anak", rptckn_path , class: "btn btn-sm btn-info"%>
+<% end %>
+
+<br>
 
 <% if @admin_taska.count > 1 && params[:ovrl].present? %><hr>
   <div class="container">

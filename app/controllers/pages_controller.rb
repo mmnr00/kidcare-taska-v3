@@ -3,8 +3,15 @@ class PagesController < ApplicationController
 	 
 	 before_action :set_all
 	 before_action :superadmin, only: [:bank_status]
+	 before_action :checkadmckn, only: [:rptckn]
 
 	#layout "dsb-admin-eg"
+
+	def rptckn
+		@taskas = Taska.find($cakna21)
+		@kids = Kid.where.not(classroom_id: nil).where(taska_id: $cakna21)
+		@vltrs = Vltr.where(taska_id: $cakna21)
+	end
 
 	def cakna21
 	end
@@ -192,6 +199,13 @@ class PagesController < ApplicationController
 	end
 
 	private
+
+	def checkadmckn
+		if ((!current_admin) || (!$admckn.include? current_admin.id.to_s))
+			flash[:danger] = "You dont have access"
+			redirect_to admin_index_path
+		end
+	end
 
 	def set_all
     @teacher = current_teacher
