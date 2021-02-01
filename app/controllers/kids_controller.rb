@@ -331,6 +331,7 @@ class KidsController < ApplicationController
 	def add_classroom
 		pars = params[:cls]
 		@taska =Taska.find(pars[:curr_taska])
+		errmsg = []
 
 		pars.each do |k,v|
 			if k != "curr_taska"
@@ -340,11 +341,20 @@ class KidsController < ApplicationController
 				if pars[:curr_taska] != tsk_id && tsk_id.present?
 					@kid.taska_id = tsk_id unless cls_id.present?
 				end #end new taska
-				@kid.classroom_id = cls_id
-				@kid.save
+				if @kid.siblings.present?
+					errmsg << @kid.name
+				else
+					@kid.classroom_id = cls_id
+					@kid.save
+				end
+				
 			end #end not curr_taska
 		end #end pars loop
-		flash[:success] = "Children lists updated"
+		if errmsg.present?
+			flash[:danger] = "Some students cannot be remove from classroom. Please clear any siblings attachment."
+		else
+			flash[:success] = "Children lists updated"
+		end
 		redirect_to request.referrer
 		#redirect_to mystudent_path(id: @taska.id)
 	end #end add_classroom

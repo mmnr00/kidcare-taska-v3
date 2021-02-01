@@ -2,6 +2,9 @@
     <div class="card-header">
       <i class="fas fa"></i>
       <b>CENTERS LIST FOR PROGRAM CAKNA ANAK (<%= @taskas.count %>)</b>
+      <%= link_to rptckn_path, class: "badge badge-secondary shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+          <i class="fa fa-arrow-circle-left"></i> Back to Summary
+      <% end %>
     </div>
   <div class="card-body">
     <div class="table-responsive">

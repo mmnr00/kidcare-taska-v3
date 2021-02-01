@@ -8,9 +8,11 @@ class PagesController < ApplicationController
 	#layout "dsb-admin-eg"
 
 	def cknstd
+		@taskas = Taska.where(id: $cakna21)
 		@kids = Kid.where(taska_id: $cakna21).where.not(classroom_id: nil)
 		if params[:sch].present?
-			@kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%")
+			@kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
+			@kids = @kids.where(taska_id: params[:taska_id]) unless params[:taska_id].blank?
 		end
 	end
 
