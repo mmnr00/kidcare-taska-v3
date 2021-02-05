@@ -236,10 +236,10 @@ class PaymentsController < ApplicationController
         flash[:danger] = "Credit Reload Failed. Please try again"
       end
       redirect_to hiscrdt_path(id: params[:taska])
-    else
+    else # for other bills
       @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
       @bill = Payment.where(bill_id2: "#{params[:billplz][:id]}").first unless @bill.present?
-      if @bill.present?
+      if @bill.present? && !@bill.paid
       #@kid = @bill.kid
         @bill.paid = params[:billplz][:paid]
         @bill.updated_at = params[:billplz][:paid_at]
