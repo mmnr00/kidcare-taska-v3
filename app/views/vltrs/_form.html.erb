@@ -1,3 +1,5 @@
+<div class="badge badge-info" style="margin-bottom: 10px" id="try-btn">Try</div>
+
 <%= form_for(@vltr, :url => {:controller=>'vltrs', :action=>act}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
   
   <!-- All Hidden Field-->
@@ -117,7 +119,7 @@
     </div>
   </div>
 
-  <!-- CURRENT ADDRESS -->
+  <!-- MARITAL STATUS -->
   <div class="form-group"> 
     <div class="row">
       <div class="control-label col-sm-8">
@@ -173,6 +175,8 @@
   <%= f.submit :"Submit", class: 'btn btn-success btn-sm'%>
 
 <% end %>
+
+
 
 
 

@@ -10,7 +10,7 @@
         <%= f.hidden_field :taska_id, value: params[:taska_id] %>
       <% end %>
       <%= f.hidden_field :classroom_id, value: @kid.classroom_id %>
-        
+
         <!-- name -->
         <div class="form-group"> 
           <div class="row">
@@ -113,7 +113,7 @@
               <%= f.text_field :ph_2, maxlength: 8, class: "form-control", placeholder: "", autofocus: true, required: true %>
             </div>      
           </div>
-            The main phone number to contact and send bill
+            <!-- The main phone number to contact and send bill -->
         </div>
 
         <div class="form-group"> 
@@ -130,7 +130,7 @@
               <%= f.text_field :sph_2, maxlength: 8, class: "form-control", placeholder: "", autofocus: true %>
             </div>      
           </div>
-            Second Contact Number to send bill 
+            
         </div>
 
          <!-- DOB -->
@@ -165,12 +165,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>CURRENT ADDRESS</strong>
+              <strong>CURRENT ADDRESS*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_area :fulladd, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_area :fulladd, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -241,7 +241,31 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-caret-down"></i><strong> SEQUENCE IN FAMILY</strong>
+              <i class="fas fa-caret-down"></i><strong> NO OF SIBLINGS *</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :sib, options_for_select(["1", 
+                                                          "2", 
+                                                          "3",
+                                                          "4",
+                                                          "5",
+                                                          "6",
+                                                          "7",
+                                                          "8",
+                                                          "More than 8"],
+                                                          selected: @kid.sib),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
+        <!-- ARRANGEMENT IN FAMILY-->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-caret-down"></i><strong> SEQUENCE IN FAMILY *</strong>
             </div>
           </div>
           <div class="row">
@@ -251,9 +275,12 @@
                                                           "3",
                                                           "4",
                                                           "5",
-                                                          "Others"],
+                                                          "6",
+                                                          "7",
+                                                          "8",
+                                                          "More than 8"],
                                                           selected: @kid.arr_infam),
-              {include_blank: "Please Select"} %>          
+              {include_blank: "Please Select"}, {required: true} %>          
             </div>
           </div>
         </div>
@@ -314,6 +341,24 @@
           </div>
         </div>
 
+        <!-- OKU -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>ADAKAH ANAK MEMPUNYAI MASALAH KELEWATAN PERKEMBANGAN/KEPERLUAN KHAS?*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :oku, options_for_select(["Tidak", 
+                                                          "Ya (Mempunyai Kad OKU)",
+                                                          "Ya (Tidak/belum/dalam proses memdapatkan Kad OKU)"],
+                                                          selected: @kid.oku),
+              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
         <!-- IMMUNIZATION RECORD -->
         <% m = 0 %> <!-- Stop loop at 1 -->
         <div class="form-group"> 
@@ -366,12 +411,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER IC NO</strong>
+              <strong>MOTHER IC NO*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.number_field :mic, class: "form-control", autofocus: true %>
+              <%= f.number_field :mic, class: "form-control", autofocus: true, required: true %>
             </div>
           </div>
           E.G. 870829354321
@@ -381,12 +426,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER PHONE NO</strong>
+              <strong>MOTHER PHONE NO*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :mother_phone, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :mother_phone, class: "form-control", autofocus: true, required: true %>
             </div>
           </div>
         </div>
@@ -395,12 +440,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER CURRENT JOB</strong>
+              <strong>MOTHER JOB POST*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :mother_job, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :mother_job, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -409,12 +454,76 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER JOB ADDRESS</strong>
+              <strong>MOTHER JOB ADDRESS*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :mother_job_address, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :mother_job_address, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB SECTOR -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER JOB SECTOR*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :mmsct, options_for_select(["Anggota Kesihatan", 
+                                                          "Anggota Keselamatan",
+                                                          "Lain-lain"],
+                                                          selected: @kid.mmsct),
+              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB SECTOR -->
+        <div class="form-group" id="dv-mmosct" style="display:none"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OTHER MOTHER JOB SECTOR*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :mmosct, class: "form-control", placeholder: "", autofocus: true, required: true, style: "display:none", disabled: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER JOB GRED*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :mmgrd, options_for_select(["Gred 41 dan ke atas (dan setaraf)", 
+                                                          "Bawah Gred 41 (dan setaraf)",
+                                                          "Lain-lain"],
+                                                          selected: @kid.mmgrd),
+              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER EMAIL*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.email_field :mmeml, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -471,12 +580,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER IC NO</strong>
+              <strong>FATHER IC NO*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.number_field :fic, class: "form-control", autofocus: true %>
+              <%= f.number_field :fic, class: "form-control", autofocus: true, required: true %>
             </div>
           </div>
           E.G. 870829354321
@@ -486,12 +595,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER PHONE NO</strong>
+              <strong>FATHER PHONE NO*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :father_phone, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :father_phone, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -500,12 +609,12 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER CURRENT JOB</strong>
+              <strong>FATHER JOB POST*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :father_job, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :father_job, class: "form-control", autofocus: true, style: "text-transform:uppercase",required: true %>
             </div>
           </div>
         </div>
@@ -514,12 +623,78 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER JOB ADDRESS</strong>
+              <strong>FATHER JOB ADDRESS*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :father_job_address, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :father_job_address, class: "form-control", autofocus: true, style: "text-transform:uppercase",required: true %>
+            </div>
+          </div>
+        </div>
+        
+        
+
+        <!-- FATHER JOB SECTOR -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER JOB SECTOR*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :ftsct, options_for_select(["Anggota Kesihatan", 
+                                                          "Anggota Keselamatan",
+                                                          "Lain-lain"],
+                                                          selected: @kid.ftsct),
+              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
+        <!-- name -->
+        <div class="form-group" id="dv-ftosct" style="display:none"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OTHER FATHER JOB SECTOR*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :ftosct, class: "form-control", placeholder: "", autofocus: true, required: true, style: "display:none", disabled: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER JOB GRED*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :ftgrd, options_for_select(["Gred 41 dan ke atas (dan setaraf)", 
+                                                          "Bawah Gred 41 (dan setaraf)",
+                                                          "Lain-lain"],
+                                                          selected: @kid.ftgrd),
+              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER EMAIL*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.email_field :fteml, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -564,17 +739,19 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-caret-down"></i><strong> MONTHLY HOUSEHOLD INCOME</strong>
+              <i class="fas fa-caret-down"></i><strong> MONTHLY HOUSEHOLD INCOME*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :income, options_for_select(["Below RM3860",
-                                                        "RM3860 - RM5000",
-                                                        "RM5000 - RM8000",
-                                                        "Above RM8000"],
+              <%= f.select :income, options_for_select(["Below RM2500",
+                                                        "RM2500 - RM4849",
+                                                        "RM4850 - RM7099",
+                                                        "RM7110 - RM10,959",
+                                                        "RM10,960 - RM15,039",
+                                                        "Above RM15,039"],
                                                         selected: @kid.income),
-              {include_blank: "Please Select"},required: true %>          
+              {include_blank: "Please Select"}, {required: true} %>          
             </div>
           </div>
         </div>
@@ -650,3 +827,5 @@
       
     </div>
   </div>
+
+<script type="text/javascript" src="/mus_js/formkid.js"></script>

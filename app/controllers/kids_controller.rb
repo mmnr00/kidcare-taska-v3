@@ -492,10 +492,13 @@ end
 																	:sib,
 																	:mmeml,
 																	:mmsct,
+																	:mmosct,
 																	:mmgrd,
 																	:fteml,
 																	:ftsct,
 																	:ftgrd,
+																	:ftosct,
+																	:oku,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 

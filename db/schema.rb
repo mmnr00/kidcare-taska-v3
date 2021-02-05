@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_05_085557) do
+ActiveRecord::Schema.define(version: 2021_02_05_121634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,9 @@ ActiveRecord::Schema.define(version: 2021_02_05_085557) do
     t.string "fteml"
     t.string "ftsct"
     t.string "ftgrd"
+    t.string "ftosct"
+    t.string "mmosct"
+    t.string "oku"
   end
 
   create_table "kidtsks", force: :cascade do |t|

@@ -13,8 +13,8 @@
 
 
 <br>
-<%if params[:new] == "yes" %>
-  <%= render 'kids/form' %>
+<%if $cakna21.include? params[:taska_id] %>
+  <%= render 'kids/form-ckn21' %>
 <% else %>
   <%= render 'kids/form' %>
 <% end %>
