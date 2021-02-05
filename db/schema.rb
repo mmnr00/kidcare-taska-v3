@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_23_121136) do
+ActiveRecord::Schema.define(version: 2021_02_05_085557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,6 +255,13 @@ ActiveRecord::Schema.define(version: 2021_01_23_121136) do
     t.string "fulladd"
     t.string "prevsc"
     t.string "ckn"
+    t.string "sib"
+    t.string "mmeml"
+    t.string "mmsct"
+    t.string "mmgrd"
+    t.string "fteml"
+    t.string "ftsct"
+    t.string "ftgrd"
   end
 
   create_table "kidtsks", force: :cascade do |t|
@@ -666,6 +673,11 @@ ActiveRecord::Schema.define(version: 2021_01_23_121136) do
     t.datetime "updated_at", null: false
     t.integer "taska_id"
     t.integer "classroom_id"
+    t.string "edu"
+    t.string "marr"
+    t.string "crs"
+    t.string "ocrs"
+    t.string "gender"
   end
 
 end

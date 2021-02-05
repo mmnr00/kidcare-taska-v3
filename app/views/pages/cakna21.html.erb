@@ -2,15 +2,17 @@
 
 <% 
   if params[:volunteer].present?
-    "volunteer"
+    tp="Volunteer"
     link = new_vltr_url
   elsif params[:children].present?
-    "children"
+    tp="Children"
     link = new_kid_url
   end 
   box_clr = ["primary","danger", "success", "info"]
   cnt = 0
 %>
+
+<div class="badge badge-dark" style="font-size: 20px;margin-bottom: 5px"><%=  tp %> Registration</div>
 
 <% Taska.where(id: $cakna21).each do |tsk|  %>
 

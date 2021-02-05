@@ -9,12 +9,15 @@ class VltrsController < ApplicationController
 
 	def crt_vltr
 		@vltr = Vltr.new(vltr_params)
+		crs = params[:vltr][:crs]
 		@taska = @vltr.taska
 
 		if Vltr.where(ic: @vltr.ic).present?
 			flash[:danger] = "Data already exist. Please contact admin"
 			redirect_to cakna21_path(volunteer: 1) and return
 		end
+
+		@vltr.crs = crs
 
 		if @vltr.save
 			flash[:success] = "#{@vltr.name} successfully registered to #{@taska.name}"
@@ -33,6 +36,9 @@ class VltrsController < ApplicationController
 	def upd_vltr
 		@vltr = Vltr.find(params[:vltr][:id])
 		@vltr.update(vltr_params)
+		crs = params[:vltr][:crs]
+		@vltr.crs = crs
+		@vltr.save
 	end
 
 	private
@@ -48,6 +54,11 @@ class VltrsController < ApplicationController
       														 :ph,
       														 :address,
       														 :taska_id,
+      														 :edu,
+      														 :marr,
+      														 :crs,
+      														 :ocrs,
+      														 :gender,
       														 :classroom_id)
   end
 

@@ -77,10 +77,10 @@ class KidsController < ApplicationController
 		@kid = Kid.new(kid_params)
 		kidexs = Kid.where(ic_1: @kid.ic_1,ic_2: @kid.ic_2,ic_3: @kid.ic_3)
 
-		if kidexs.present? && @kid.ckn.blank? #normal situation not cakna
+		if kidexs.present? #&& @kid.ckn.blank? #normal situation not cakna
 			flash[:danger] = "Kid with IC NO: #{@kid.ic_1}-#{@kid.ic_2}-#{@kid.ic_3} already registered under #{@kid.parent.username}"
 			redirect_to request.referrer and return
-		elsif kidexs.present? && @kid.ckn.present? #
+		elsif 1==0 #kidexs.present? && @kid.ckn.present? #
 			if kidexs.count <= 1 && (kidexs.first.taska_id == @kid.taska_id)
 				kid = kidexs.first
 				kid.ckn = 1
@@ -489,6 +489,13 @@ end
 																	:fulladd,
 																	:prevsc,
 																	:ckn,
+																	:sib,
+																	:mmeml,
+																	:mmsct,
+																	:mmgrd,
+																	:fteml,
+																	:ftsct,
+																	:ftgrd,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 

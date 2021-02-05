@@ -19,6 +19,8 @@
     </div>
   </div>
 
+  
+
   <!-- ic -->
   <div class="form-group"> 
     <div class="row">
@@ -29,6 +31,23 @@
     <div class="row">
       <div class="col-sm-8 col-12">
         <%= f.text_field :ic, class: "form-control", placeholder: "eg: 870829356521", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- GENDER -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <i class="fas fa-caret-down"></i><strong> GENDER*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-8">
+        <%= f.select :gender, options_for_select(["MALE",
+                                                  "FEMALE"],
+                                                  selected: @vltr.gender),
+        {include_blank: "Please Select"}, {required: true} %>          
       </div>
     </div>
   </div>
@@ -74,6 +93,82 @@
       </div>
     </div>
   </div>
+
+  <!-- CURRENT ADDRESS -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>ACADEMIC QUALIFICATION*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.select :edu, options_for_select(["PHD", 
+                                                "Master", 
+                                                "Degree",
+                                                "Diploma",
+                                                "STPM",
+                                                "SPM/SPMV/MCE/O-Level",
+                                                "Sijil Kemahiran",
+                                                "Others"],
+                                                  selected: @vltr.edu),
+        {include_blank: "Please Select"}, {required: true} %>  
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRENT ADDRESS -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>MARITAL STATUS*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.select :marr, options_for_select(["Single", 
+                                                "Married", 
+                                                "Others"],
+                                                  selected: @vltr.marr),
+        {include_blank: "Please Select"}, {required: true} %> 
+      </div>
+    </div>
+  </div>
+
+  
+
+  <!-- CURRENT ADDRESS -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong>COURSES ATTENDED*</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.check_box :crs, {multiple: true, checked: (@vltr.crs.include? "1")}, 1, nil %> Kursus Asuhan & Didikan Awal Kanak-Kanak Permata (KAP) / KAAK <br>
+        <%= f.check_box :crs, {multiple: true, checked: (@vltr.crs.include? "2")}, 2, nil %> Kursus Pengendalian Makanan <br>
+        <%= f.check_box :crs, {multiple: true, checked: (@vltr.crs.include? "3")}, 3, nil %> Suntikan Typhoid <br>
+        <%= f.check_box :crs, {multiple: true, checked: (@vltr.crs.include? "4")}, 4, nil %> CPR & First Aid <br>
+      </div>
+    </div>
+  </div>
+
+  <!-- phone -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>OTHER COURSES IF ANY</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.text_field :ocrs, class: "form-control", placeholder: "", autofocus: true %>
+      </div>
+    </div>
+  </div>
+
+  
 
   <%= f.submit :"Submit", class: 'btn btn-success btn-sm'%>
 
