@@ -24,6 +24,19 @@
         </div>
       </div>
 
+      <% if $cakna21.include? @taska.id.to_s %>
+        <div class="col-md-3">
+          <div class="card-counter success">
+            <i class="fa fa-hands-helping"></i>
+            <span class="count-numbers"><%= @taska.vltrs.where(classroom_id: nil).count %></span>
+            <span class="count-name">
+              <a href="/vltrlist?id=<%= @taska.id %>", style="color:#fff">New Volunteers</a>
+              <br><font style="color:#fff">TOTAL: <%= @taska.vltrs.count %></font>
+            </span>
+          </div>
+        </div>
+      <% end %>
+
       <div class="col-md-3">
         <div class="card-counter danger">
           <i class="fa fa-exclamation-circle"></i>
