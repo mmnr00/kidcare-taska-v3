@@ -24,39 +24,31 @@
     </thead>
     <tbody>
 
-      <% Taska.where(id: $cakna21).each do |tsk|  %>
+      <% Taska.where(id: $cakna21).where.not(id: [606,613]).order('othnm ASC').each do |tsk|  %>
+        <tr>
+          <td>
+            <%= link_to "#{tsk.othnm}", "#{link}?taska_id=#{tsk.id}&ckn=1", class: "badge badge-primary", style: "font-size: 12px" %>
+          </td>
+          <td>
+            <b><%= tsk.name %></b><br>
+            <%= "#{tsk.address_1}, #{tsk.address_2}, #{tsk.city}, #{tsk.postcode}, #{tsk.states}" %><br>
+            <i><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></i>
+          </td>
+        </tr>   
+      <% end %>
 
-  <!-- <a href="<%= link %>?taska_id=<%= tsk.id %>&ckn=1" class="text-white">
-  <div class="card bg-<%= box_clr[cnt] %> text-white shadow" style="margin-bottom: 10px">
-    <% cnt<3 ? cnt+=1 : cnt = 0 %>
-    <div class="card-body">
-      
-        <div style="font-size: 20px"><%= tsk.name %></div>
-        <hr style="margin-top: 2px;margin-bottom: 2px;background-color: white">
-      <div class="text-white-50 small" style="font-size: 10px; text-align: justify">
-        <%= "#{tsk.address_1}, #{tsk.address_2}, #{tsk.city}, #{tsk.postcode}, #{tsk.states}" %><br>
-        <i><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></i><br>
-        <i><%= tsk.email %></i>
-        <hr style="margin-top: 2px;margin-bottom: 2px;background-color: white">
-      </div>
-    </div>
-  </div>
-  </a> -->
-      <tr>
-        <td>
-          <%= link_to "#{tsk.othnm}", "#{link}?taska_id=#{tsk.id}&ckn=1", class: "badge badge-primary", style: "font-size: 12px" %>
-        </td>
-        <td>
-          <b><%= tsk.name %></b><br>
-          <%= "#{tsk.address_1}, #{tsk.address_2}, #{tsk.city}, #{tsk.postcode}, #{tsk.states}" %><br>
-          <i><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></i>
-        </td>
-      </tr>
-
-
-    
-
-    <% end %>
+      <% Taska.where(id: $cakna21).where(id: [606,613]).order('othnm ASC').each do |tsk|  %>
+        <tr>
+          <td>
+            <%= link_to "#{tsk.othnm}", "#{link}?taska_id=#{tsk.id}&ckn=1", class: "badge badge-primary", style: "font-size: 12px" %>
+          </td>
+          <td>
+            <b><%= tsk.name %></b><br>
+            <%= "#{tsk.address_1}, #{tsk.address_2}, #{tsk.city}, #{tsk.postcode}, #{tsk.states}" %><br>
+            <i><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></i>
+          </td>
+        </tr>   
+      <% end %>
 
     </tbody>
   </table>
