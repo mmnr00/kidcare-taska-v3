@@ -500,6 +500,7 @@ end
 																	:ftosct,
 																	:oku,
 																	:soku,
+																	:pdpa,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 

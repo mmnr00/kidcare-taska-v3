@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_06_034410) do
+ActiveRecord::Schema.define(version: 2021_02_06_075912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 2021_02_06_034410) do
     t.string "mmosct"
     t.string "oku"
     t.string "soku"
+    t.string "pdpa"
   end
 
   create_table "kidtsks", force: :cascade do |t|

@@ -830,6 +830,23 @@
             </div>
           <% end %>
         <% end %>
+
+        <!-- PDPA CONSENT -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-12">
+              <strong>PDPA CONSENT*</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-12">
+              <%= f.check_box :pdpa, {multiple: false, required: true, checked: @kid.pdpa.present?}, 1, nil %>&nbsp <b>Please Read The Below Clause Before You Submitting</b>
+              <p style="text-align: justify">
+              By submitting this Form, you hereby agree that KidCare may collect, obtain, store and process your personal data that you provide through this platform.For the avoidance of doubt, Personal Data includes all data defined within the <a href="https://www.pdp.gov.my/jpdpv2/akta-709/personal-data-protection-act-2010/" target="_blank">Personal Data Protection Act 2010</a> including all data you had disclosed to KidCare in this Form.
+              </p>
+            </div>
+          </div>
+        </div>
         
         <br>     
         <div class="form-group">
