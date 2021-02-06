@@ -1,6 +1,6 @@
 
 <% if params[:ckn].present? %>
-  <div class="badge badge-info" style="margin-bottom: 10px">Children Registration For <%= @taska.name %></div>
+  <div class="badge badge-info" style="margin-bottom: 10px">Children's Registration For <%= @taska.othnm %></div>
 <% else %>
   <h4>NEW CHILDREN REGISTRATION FOR </h4> 
   <h3><% image = @fotos.where(foto_name: "CENTER LOGO").first %>

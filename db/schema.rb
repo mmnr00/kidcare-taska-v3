@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_05_121634) do
+ActiveRecord::Schema.define(version: 2021_02_06_034410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,6 +265,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_121634) do
     t.string "ftosct"
     t.string "mmosct"
     t.string "oku"
+    t.string "soku"
   end
 
   create_table "kidtsks", force: :cascade do |t|
@@ -543,6 +544,7 @@ ActiveRecord::Schema.define(version: 2021_02_05_121634) do
     t.integer "bldt"
     t.integer "remdt"
     t.integer "psldt"
+    t.string "othnm"
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 

@@ -2451,6 +2451,7 @@ end
                                     :bldt,
                                     :remdt,
                                     :psldt,
+                                    :othnm,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank

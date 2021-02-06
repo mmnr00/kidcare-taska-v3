@@ -68,7 +68,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-cloud-upload-alt"></i><strong> CHILD MYKID</strong>
+              <i class="fas fa-cloud-upload-alt"></i><strong> CHILD'S MYKID</strong>
             </div>
           </div>
           <div class="row">
@@ -194,7 +194,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-cloud-upload-alt"></i><strong> CHILDREN PICTURE</strong>
+              <i class="fas fa-cloud-upload-alt"></i><strong> CHILDREN'S PICTURE</strong>
             </div>
           </div>
           <div class="row">
@@ -345,18 +345,34 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>ADAKAH ANAK MEMPUNYAI MASALAH KELEWATAN PERKEMBANGAN/KEPERLUAN KHAS?*</strong>
+              <strong>IS THE CHILD HAS DEVELOPMENTAL DELAYS/SPECIAL NEED?*</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.select :oku, options_for_select(["Tidak", 
-                                                          "Ya (Mempunyai Kad OKU)",
-                                                          "Ya (Tidak/belum/dalam proses memdapatkan Kad OKU)"],
+              <%= f.select :oku, options_for_select(["No", 
+                                                          "Yes (Has OKU Card/Ada Kad OKU)",
+                                                          "Yes (Pending OKU Card/Dalam proses Mendapatkan Kad OKU)"],
                                                           selected: @kid.oku),
               {include_blank: "Please Select"}, {required: true} %> 
             </div>
           </div>
+          Adakah Anak Mempunyai Masalah Kelewatan Perkembangan/Keperluan Khas?
+        </div>
+
+        <!-- EXTRA OKU -->
+        <div class="form-group" id="dv-soku" style="display:none"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>IF THE ABOVE ANSWER IS YES, PLEASE LIST DOWN CHILD'S DEVELOPMENTAL DELAYS/TYPE OF SPECIAL NEEDS</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :soku, class: "form-control", autofocus: true, style: "", required:true, style: "display:none" %>
+            </div>
+          </div>
+          Jika jawapan di atas adalah Ya, nyatakan jenis kelewatan perkembangan / jenis keperluan khas Anak
         </div>
 
         <!-- IMMUNIZATION RECORD -->
@@ -397,7 +413,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER NAME*</strong>
+              <strong>MOTHER'S NAME*</strong>
             </div>
           </div>
           <div class="row">
@@ -411,7 +427,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER IC NO*</strong>
+              <strong>MOTHER'S IC NO*</strong>
             </div>
           </div>
           <div class="row">
@@ -426,7 +442,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER PHONE NO*</strong>
+              <strong>MOTHER'S PHONE NO*</strong>
             </div>
           </div>
           <div class="row">
@@ -440,7 +456,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER JOB POST*</strong>
+              <strong>MOTHER'S JOB POST*</strong>
             </div>
           </div>
           <div class="row">
@@ -454,7 +470,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER JOB ADDRESS*</strong>
+              <strong>MOTHER'S JOB ADDRESS*</strong>
             </div>
           </div>
           <div class="row">
@@ -468,7 +484,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER JOB SECTOR*</strong>
+              <strong>MOTHER'S JOB SECTOR*</strong>
             </div>
           </div>
           <div class="row">
@@ -486,7 +502,7 @@
         <div class="form-group" id="dv-mmosct" style="display:none"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>OTHER MOTHER JOB SECTOR*</strong>
+              <strong>OTHER MOTHER'S JOB SECTOR*</strong>
             </div>
           </div>
           <div class="row">
@@ -500,7 +516,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER JOB GRED*</strong>
+              <strong>MOTHER'S JOB GRED*</strong>
             </div>
           </div>
           <div class="row">
@@ -518,7 +534,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MOTHER EMAIL*</strong>
+              <strong>MOTHER'S EMAIL*</strong>
             </div>
           </div>
           <div class="row">
@@ -533,7 +549,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-cloud-upload-alt"></i><strong> MOTHER MYKAD</strong>
+              <i class="fas fa-cloud-upload-alt"></i><strong> MOTHER'S MYKAD</strong>
             </div>
           </div>
           <div class="row">
@@ -566,7 +582,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER NAME*</strong>
+              <strong>FATHER'S NAME*</strong>
             </div>
           </div>
           <div class="row">
@@ -580,7 +596,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER IC NO*</strong>
+              <strong>FATHER'S IC NO*</strong>
             </div>
           </div>
           <div class="row">
@@ -595,7 +611,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER PHONE NO*</strong>
+              <strong>FATHER'S PHONE NO*</strong>
             </div>
           </div>
           <div class="row">
@@ -609,7 +625,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER JOB POST*</strong>
+              <strong>FATHER'S JOB POST*</strong>
             </div>
           </div>
           <div class="row">
@@ -623,7 +639,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER JOB ADDRESS*</strong>
+              <strong>FATHER'S JOB ADDRESS*</strong>
             </div>
           </div>
           <div class="row">
@@ -639,7 +655,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER JOB SECTOR*</strong>
+              <strong>FATHER'S JOB SECTOR*</strong>
             </div>
           </div>
           <div class="row">
@@ -657,7 +673,7 @@
         <div class="form-group" id="dv-ftosct" style="display:none"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>OTHER FATHER JOB SECTOR*</strong>
+              <strong>OTHER FATHER'S JOB SECTOR*</strong>
             </div>
           </div>
           <div class="row">
@@ -671,7 +687,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER JOB GRED*</strong>
+              <strong>FATHER'S JOB GRED*</strong>
             </div>
           </div>
           <div class="row">
@@ -689,7 +705,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>FATHER EMAIL*</strong>
+              <strong>FATHER'S EMAIL*</strong>
             </div>
           </div>
           <div class="row">
@@ -704,7 +720,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <i class="fas fa-cloud-upload-alt"></i><strong> FATHER MYKAD</strong>
+              <i class="fas fa-cloud-upload-alt"></i><strong> FATHER'S MYKAD</strong>
             </div>
           </div>
           <div class="row">

@@ -47,3 +47,30 @@ mmsct.addEventListener("change", function() {
   	fmMmsct.disabled = "disabled"
   }
 });
+
+const oku = document.querySelector('#kid_oku')
+const dvSoku = document.querySelector('#dv-soku')
+const fmSoku = document.querySelector('#kid_soku')
+
+if(oku.value != "No" && oku.value != "")
+  {
+    dvSoku.style.display = ""
+    fmSoku.style.display = ""
+    fmSoku.disabled = ""
+  }
+
+oku.addEventListener("change", function() {
+  if(oku.value != "No")
+  {
+    dvSoku.style.display = ""
+    fmSoku.style.display = ""
+    fmSoku.disabled = ""
+  } else {
+    dvSoku.style.display = "none"
+    fmSoku.style.display = "none"
+    fmSoku.disabled = "disabled"
+  }
+});
+
+
+

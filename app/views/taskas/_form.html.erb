@@ -16,6 +16,24 @@
           </div>
         </div>
 
+        <% if @taska.id.present? && ($cakna21.include? @taska.id.to_s) %>
+
+          <!-- taska name -->    
+          <div class="form-group"> 
+            <div class="row">
+              <div class="control-label col-sm-8">
+                <strong>CENTER OTHER NAME</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8 col-12">
+                <%= f.text_field :othnm, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              </div>
+            </div>
+          </div>
+
+        <% end %>
+
         
 
         <!-- TASKA ADDRESS -->

@@ -499,6 +499,7 @@ end
 																	:ftgrd,
 																	:ftosct,
 																	:oku,
+																	:soku,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 
