@@ -760,12 +760,12 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :income, options_for_select(["Below RM2500",
-                                                        "RM2500 - RM4849",
-                                                        "RM4850 - RM7099",
-                                                        "RM7110 - RM10,959",
+              <%= f.select :income, options_for_select(["Below RM2,500",
+                                                        "RM2,500 - RM4,849",
+                                                        "RM4,850 - RM7,099",
+                                                        "RM7,100 - RM10,959",
                                                         "RM10,960 - RM15,039",
-                                                        "Above RM15,039"],
+                                                        "Above RM15,040"],
                                                         selected: @kid.income),
               {include_blank: "Please Select"}, {required: true} %>          
             </div>
