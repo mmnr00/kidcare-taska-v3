@@ -30,7 +30,7 @@
             <i class="fa fa-hands-helping"></i>
             <span class="count-numbers"><%= @taska.vltrs.where(classroom_id: nil).count %></span>
             <span class="count-name">
-              <a href="/vltrlist?id=<%= @taska.id %>", style="color:#fff">New Volunteers</a>
+              <a href="/cknvltr?id=<%= @taska.id %>", style="color:#fff">New Volunteers</a>
               <br><font style="color:#fff">TOTAL: <%= @taska.vltrs.count %></font>
             </span>
           </div>

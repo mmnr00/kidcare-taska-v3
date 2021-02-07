@@ -1,0 +1,102 @@
+
+
+<div class="container">
+  <div class="badge badge-dark" style="font-size: 20px;margin-bottom: 5px">VOLUNTEER'S PROFILE</div>
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title" align="center">
+        <%= @vltr.name %>
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+       <div class=" col-md-12 col-lg-12"> 
+        <div class="table-responsive">
+          <table class="table table-striped" id="" width="100%" cellspacing="0">
+            <tbody>
+
+              <tr>
+                <td><strong>MYKAD NO:</strong></td>
+                <td>
+                  <%= @vltr.ic %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>GENDER:</strong></td>
+                <td>
+                  <%= @vltr.gender %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>PHONE NO:</strong></td>
+                <td>
+                  <%= @vltr.ph %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>EMAIL:</strong></td>
+                <td>
+                  <%= @vltr.email %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>CURRENT ADDRESS:</strong></td>
+                <td>
+                  <%= @vltr.address %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>ACADEMIC QUALIFICATION:</strong></td>
+                <td>
+                  <%= @vltr.edu %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>MARITAL STATUS:</strong></td>
+                <td>
+                  <%= @vltr.marr %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>COURSES ATTENDED:</strong></td>
+                <td>
+                  <%
+                    hash_crs = {
+                                "1" => "Kursus Asuhan & Didikan Awal Kanak-Kanak Permata (KAP) / KAAK",
+                                "2" => "Kursus Pengendalian Makanan",
+                                "3" => "Suntikan Typhoid",
+                                "4" => "CPR & First Aid"
+                               }
+                  %>
+                  <ul style="margin-left: -25px">
+                    <% @vltr.crs.each do |crs|; if hash_crs.key?(crs) %>
+                      <li><%= hash_crs[crs] %></li>
+                    <% end; end %>
+                    
+                  </ul>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>OTHER COURSES ATTENDED:</strong></td>
+                <td>
+                  <%= @vltr.ocrs %>
+                </td>
+              </tr>
+              
+            </tbody>
+
+          </table>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

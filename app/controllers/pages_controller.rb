@@ -3,13 +3,43 @@ class PagesController < ApplicationController
 	 
 	 before_action :set_all
 	 before_action :superadmin, only: [:bank_status]
-	 before_action :checkadmckn, only: [:rptckn]
+	 before_action :checkadmckn, only: [:rptckn,:prfvltr]
 
 	#layout "dsb-admin-eg"
 
+	def prfvltr
+		@vltr = Vltr.find(params[:id])
+	end
+
+	def cknvltr
+		if params[:id].present?
+			@taska = Taska.find(params[:id])
+			@taskas = Taska.where(id: params[:id])
+			@vltrs = @taska.vltrs
+			if params[:sch].present?
+				@vltrs = @vltrs.where(taska_id: params[:taska_id]) unless params[:taska_id].blank?
+				@vltrs = @vltrs.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
+			end
+			render action: "cknvltr", layout: "dsb-admin-overview"
+		else
+			@taskas = Taska.where(id: $cakna21)
+			@vltrs = Vltr.where(taska_id: $cakna21)
+			if params[:sch].present?
+				@vltrs = @vltrs.where(taska_id: params[:taska_id]) unless params[:taska_id].blank?
+				@vltrs = @vltrs.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
+			end
+		end
+
+		# @taska = Taska.find(params[:id])
+		# @vltrs = @taska.vltrs
+	end
+
 	def cknstd
 		@taskas = Taska.where(id: $cakna21)
-		@kids = Kid.where(taska_id: $cakna21).where.not(classroom_id: nil)
+		k = Kid.where(taska_id: $cakna21)
+		k1 = k.where(taska_id: [286,606,592]).where.not(classroom_id: nil) 
+		k2 = k.where.not(taska_id: [286,606,592])
+		@kids = k1.or(k2)
 		if params[:sch].present?
 			@kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
 			@kids = @kids.where(taska_id: params[:taska_id]) unless params[:taska_id].blank?
@@ -22,7 +52,10 @@ class PagesController < ApplicationController
 
 	def rptckn
 		@taskas = Taska.find($cakna21)
-		@kids = Kid.where.not(classroom_id: nil).where(taska_id: $cakna21)
+		k=Kid.where(taska_id: $cakna21)
+		k1 = k.where(taska_id: [286,606,592]).where.not(classroom_id: nil) 
+		k2 = k.where.not(taska_id: [286,606,592])
+		@kids = k1.or(k2)
 		@vltrs = Vltr.where(taska_id: $cakna21)
 	end
 

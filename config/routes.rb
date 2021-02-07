@@ -95,6 +95,8 @@ Rails.application.routes.draw do
   get '/rptckn', to: 'pages#rptckn'
   get '/lsctr', to: 'pages#lsctr'
   get '/cknstd', to: 'pages#cknstd'
+  get '/cknvltr', to: 'pages#cknvltr'
+  get '/prfvltr', to: 'pages#prfvltr'
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
   get '/billplz_reg', to: 'pages#billplz_reg'

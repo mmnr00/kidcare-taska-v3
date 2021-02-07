@@ -1,26 +1,40 @@
+<div class="badge badge-dark" style="font-size: 20px;margin-bottom: 5px">VOLUNTEERS LIST</div>
+
+<%
+
+  disb = true
+  disb = false unless params[:id].present?
+
+%>
 
 
-<div class="badge badge-dark" style="font-size: 20px;margin-bottom: 5px">CHILDREN LIST</div>
+
 <!-- START TABLE -->
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
   <div class="card-header">
     <div class="row">
-      <%= form_tag cknstd_path, method: :get, id: "find_kid" do %>
+      <%= form_tag cknvltr_path, method: :get, id: "find_kid" do %>
         <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here", style: 'text-transform: uppercase' %>
-        <%= select_tag :taska_id, 
-                    options_from_collection_for_select(@taskas.order('othnm ASC'), :id, :othnm, params[:taska_id]), {include_blank: "All Centers"} %>
+        <% if !disb %>
+          <%= select_tag :taska_id, 
+                      options_from_collection_for_select(@taskas.order('othnm ASC'), :id, :othnm, params[:taska_id]), {include_blank: "All Centers"} %>
+        <% end %>
         <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
             <i class="fa fa-search"></i> Search
         <% end %>
 
-        <%= link_to cknstd_path, class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+        <%= link_to cknvltr_path(id: params[:id]), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
             <i class="fa fa-sync"></i> Clear
         <% end %>
-        <%= "#{@kids.count} result(s) found" %>
-        <%= link_to rptckn_path, class: "badge badge-secondary shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
-            <i class="fa fa-arrow-circle-left"></i> Back to Summary
+        <%= "#{@vltrs.count} result(s) found" %>
+
+        <% if !disb %>
+          <%= link_to rptckn_path, class: "badge badge-secondary shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+              <i class="fa fa-arrow-circle-left"></i> Back to Summary
+          <% end %>
         <% end %>
       <% end %>
       <div>
@@ -30,7 +44,7 @@
   </div>
   <div class="card-body">
     
-  <% if @kids.count < 1 %>
+  <% if @vltrs.count < 1 %>
     <br>
     <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
   <% else %>
@@ -45,21 +59,10 @@
             </tr>
           </thead>
           <tbody>
-            <% @kids.order('name ASC').each do |kid| %>
+            <% @vltrs.order('name ASC').each do |vltr| %>
               <tr>
                 <td>
-                  <a href="#"><font style="color: blue">
-                    <%= kid.name %>   
-                  </font></a><br>
-                  <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %><br>
-                  <% Date.today.year - kid.dob.year %>
-                  <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
-                  <% year = diff/12 %>
-                  <% month = diff - year*12 %>
-                  <%= year %> years <%= month %> months 
-                </td>
-                <td>
-                  <%= kid.taska.othnm %>
+                  <%= link_to vltr.name, prfvltr_path(id: vltr.id), target: "_blank" %>
                 </td>
               </tr>
               

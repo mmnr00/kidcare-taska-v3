@@ -18,22 +18,61 @@
           </tr>
         </thead>
         <tbody>
-          <% @taskas.order('name ASC').each do |kuli|%>
+
+          <% @taskas.where.not(id: [606,613]).order('othnm ASC').each do |kuli|%>
             <tr>
               <td>
-                <%= kuli.name.upcase %>
-                <%= link_to "DASHBOARD", taska_path(id: kuli.id) , class: "badge badge-primary"%>
+                <%= kuli.othnm %>
               </td>
-              <td><%= kuli.kids.where.not(classroom_id: nil).count %></td>
-              <td><%= kuli.vltrs.count %></td>
-              <td><%= kuli.address_1 %>&nbsp
+              <td>
+                <a href="/cknstd?taska_id=<%= kuli.id %>&sch=true">
+                  <% if [286,606,592].include? kuli.id %>
+                    <%= kuli.kids.where.not(classroom_id: nil).count %> 
+                  <% else %>
+                    <%= kuli.kids.count %>
+                  <% end %>
+                </a>
+              </td>
+              <td>
+                <a href="/cknstd?taska_id=<%= kuli.id %>&sch=true">
+                  <%= kuli.vltrs.count %>
+                </a>
+              </td>
+              <td>
+                <b><%= kuli.name %></b><br>
+                <%= kuli.address_1 %>&nbsp
                 <%= kuli.address_2 %>&nbsp
                 <%= kuli.city %>&nbsp
                 <%= kuli.postcode %>&nbsp<%= kuli.states %><br>  
-              </td> 
-              
+              </td>  
             </tr>
           <% end %> 
+
+          <% @taskas.where(id: [606,613]).order('othnm ASC').each do |kuli|%>
+            <tr>
+              <td>
+                <%= kuli.othnm %>
+              </td>
+              <td>
+                <a href="/cknstd?taska_id=<%= kuli.id %>&sch=true">
+                  <% if [286,606,592].include? kuli.id %>
+                    <%= kuli.kids.where.not(classroom_id: nil).count %> 
+                  <% else %>
+                    <%= kuli.kids.count %>
+                  <% end %>
+                </a>
+              </td>
+              <td><%= kuli.vltrs.count %></td>
+              <td>
+                <b><%= kuli.name %></b><br>
+                <%= kuli.address_1 %>&nbsp
+                <%= kuli.address_2 %>&nbsp
+                <%= kuli.city %>&nbsp
+                <%= kuli.postcode %>&nbsp<%= kuli.states %><br>  
+              </td>  
+            </tr>
+          <% end %> 
+
         </tbody>
       </table>
     </div>
