@@ -3,7 +3,7 @@ class PagesController < ApplicationController
 	 
 	 before_action :set_all
 	 before_action :superadmin, only: [:bank_status]
-	 before_action :checkadmckn, only: [:rptckn,:prfvltr]
+	 #before_action :checkadmckn, only: [:rptckn,:prfvltr]
 
 	#layout "dsb-admin-eg"
 
@@ -51,12 +51,144 @@ class PagesController < ApplicationController
 	end
 
 	def rptckn
-		@taskas = Taska.find($cakna21)
+		@taskas = Taska.where(id: $cakna21)
 		k=Kid.where(taska_id: $cakna21)
 		k1 = k.where(taska_id: [286,606,592]).where.not(classroom_id: nil) 
 		k2 = k.where.not(taska_id: [286,606,592])
 		@kids = k1.or(k2)
 		@vltrs = Vltr.where(taska_id: $cakna21)
+
+		@parent_arr = []
+		@kid_arr = []
+		@kids.each do |kd|
+			arr_tmp = []
+			arr_tmp << kd.mic unless kd.mic.blank?
+			arr_tmp << kd.fic unless kd.mic.blank?
+			
+			if !(@parent_arr.include? arr_tmp)
+				@parent_arr << arr_tmp
+				@kid_arr << kd.id
+			end
+		end
+
+		## CHART DATA FOR PARENTS ##
+		@kid_parents = Kid.where(id: @kid_arr)
+		#Job Sector
+		mmsct = @kid_parents.group(:mmsct).count
+		ftsct = @kid_parents.group(:ftsct).count
+		parentsct = mmsct.merge!(ftsct) { |k, o, n| o + n }
+		# @parent_sct["Lain-lain"] = @parent_sct["Lain-lain"] + @parent_sct[nil]
+		# @parent_sct = @parent_sct.reject {|k,v| k == nil}
+		parentsct["No Response"] = parentsct.delete nil
+		parentsct = parentsct.sort_by { |key| key }.to_h
+		@parent_sct = {}
+		parentsct.each do |k,v|
+			@parent_sct["#{k} [#{v}]"] = v
+		end
+
+
+		#Job Gred
+		mmgrd = @kid_parents.group(:mmgrd).count
+		ftgrd = @kid_parents.group(:ftgrd).count
+		parentgrd = mmgrd.merge!(ftgrd) { |k, o, n| o + n }
+		# @parent_grd["Lain-lain"] = @parent_grd["Lain-lain"] + @parent_grd[nil]
+		# @parent_grd = @parent_grd.reject {|k,v| k == nil}
+		parentgrd["No Response"] = parentgrd.delete nil
+		parentgrd = parentgrd.sort_by { |key| key }.to_h
+		@parent_grd = {}
+		parentgrd.each do |k,v|
+			@parent_grd["#{k} [#{v}]"] = v
+		end
+
+		#Monthly Household Income
+		parentincome = @kid_parents.group(:income).count
+
+		parent_inc = {
+			"Below RM2,500"=>0, 
+			"RM2,500 - RM4,849"=>0, 
+			"RM4,850 - RM7,099"=>0, 
+			"RM7,100 - RM10,959"=>0,
+			"RM10,960 - RM15,039"=>0, 
+			"Above RM15,040"=>0
+		}
+		parentincome.each do |k,v|
+			parent_inc[k] = v
+		end
+		@parent_income = {}
+		parent_inc.each do |k,v|
+			@parent_income["#{k} [#{v}]"] = v
+		end
+
+
+		## CHART DATA FOR VOLUNTEERS
+		#Gender
+		vltrgender = @vltrs.group(:gender).count
+		# @vltr_gender = {"FEMALE" => 0, "MALE" => 0}
+		# @vltr_gender["FEMALE"] = vltrgender["FEMALE"]
+		# @vltr_gender["MALE"] = vltrgender["MALE"]
+		@vltr_gender = {}
+		vltrgender.each do |k,v|
+			@vltr_gender["#{k} [#{v}]"] = v
+		end
+
+		#Marital Status
+		vltrmarr = @vltrs.group(:marr).count
+		@vltr_marr = {}
+		vltrmarr.each do |k,v|
+			@vltr_marr["#{k} [#{v}]"] = v
+		end
+		#Education
+		vltredu = @vltrs.group(:edu).count
+		@vltr_edu = {}
+		vltredu.each do |k,v|
+			@vltr_edu["#{k} [#{v}]"] = v
+		end
+
+		## CHART DATA FOR KIDS
+		#Gender
+		kidgender = @kids.group(:gender).count
+		@kid_gender = {}
+		kidgender.each do |k,v|
+			@kid_gender["#{k} [#{v}]"] = v
+		end
+
+		#Age
+		kidage = {
+			"Less than 1 year old" => 0,
+			"1 to 3 years old" => 0,
+			"3 to 5 years old" => 0,
+			"5 to 7 years old" => 0,
+			"More than 7 years old" => 0
+		}
+		dt = Date.today
+		@kids.each do |kd|
+			age = ((dt - kd.dob).to_f)/365
+			if age < 1
+				kidage["Less than 1 year old"] += 1
+			elsif (age >= 1) && (age < 3) 
+				kidage["1 to 3 years old"] += 1
+			elsif (age >= 3) && (age < 5) 
+				kidage["3 to 5 years old"] += 1
+			elsif (age >= 5) && (age < 7) 
+				kidage["5 to 7 years old"] += 1
+			elsif age >= 7
+				kidage["More than 7 years old"] += 1
+			end		
+		end
+
+		@kid_age = {}
+		kidage.each do |k,v|
+			@kid_age["#{k} [#{v}]"] = v
+		end
+		
+		#OKU
+		kidoku = @kids.group(:oku).count
+		kidoku["No Response"] = kidoku.delete nil
+		@kid_oku = {}
+		kidoku.each do |k,v|
+			@kid_oku["#{k} [#{v}]"] = v
+		end
+
 	end
 
 	def cakna21
@@ -246,19 +378,19 @@ class PagesController < ApplicationController
 
 	private
 
-	def checkadmckn
-		if ((!current_admin) || (!$admckn.include? current_admin.id.to_s))
-			flash[:danger] = "You dont have access"
-			redirect_to admin_index_path
-		end
-	end
-
 	def set_all
     @teacher = current_teacher
     @parent = current_parent
     @admin = current_admin  
     @owner = current_owner
   end
+
+  def checkadmckn
+		if (!$admckn.include? @admin.id.to_s)
+			flash[:danger] = "You dont have access"
+			redirect_to admin_index_path
+		end
+	end
 
   def superadmin
 		if ((!current_admin) || (current_admin != Admin.first))

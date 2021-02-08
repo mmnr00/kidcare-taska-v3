@@ -17,7 +17,7 @@ development:
   adapter: postgresql
   encoding: unicode
   #database: prod-anis
-  database: prod-bcup1
+  database: ckn21-db #prod-bcup1
   #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
@@ -31,7 +31,7 @@ test:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  database: prod-bcup1
+  database: ckn21-db #prod-bcup1
   #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
