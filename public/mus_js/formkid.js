@@ -1,4 +1,4 @@
-console.log("mus")
+
 
 const ftsct = document.querySelector('#kid_ftsct')
 const dvFtsct = document.querySelector('#dv-ftosct')
@@ -52,12 +52,19 @@ const oku = document.querySelector('#kid_oku')
 const dvSoku = document.querySelector('#dv-soku')
 const fmSoku = document.querySelector('#kid_soku')
 
-if(oku.value != "No" && oku.value != "")
+if(oku.value != "No")
   {
     dvSoku.style.display = ""
     fmSoku.style.display = ""
     fmSoku.disabled = ""
+  } else {
+    dvSoku.style.display = "none"
+    fmSoku.style.display = "none"
+    fmSoku.disabled = "disabled"
   }
+
+console.log(oku.value == "")
+
 
 oku.addEventListener("change", function() {
   if(oku.value != "No")
