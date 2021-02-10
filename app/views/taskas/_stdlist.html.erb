@@ -52,6 +52,7 @@
               <% if $cakna21.include? @taska.id.to_s %>
                 <th style="background-color:#ffb2b2; width: 10%">REGISTRATION DATE</th>
               <% end %>
+              <th style="background-color:#ffb2b2; width: 20%">PARENT'S LOGIN DETAILS</th>
               <th style="background-color:#ffb2b2; width: 20%">BILLING</th>
               <th style="background-color:#ffb2b2">CLASSROOM & CENTER</th>
             </tr>
@@ -78,6 +79,14 @@
                 <% if $cakna21.include? @taska.id.to_s %>
                   <td><%= kid.created_at.strftime('%d-%^b-%y')%></td>
                 <% end %>
+                <td>
+                  <% if kid.parent_id == 1 %>
+                    <b>Registered To Center</b>
+                  <% else %>
+                    <b>Username :</b><%= kid.parent.username %><br>
+                    <b>Email    :</b><%= kid.parent.email %>
+                  <% end %>
+                </td>
                 <td>
                   <% if Time.now < @taska.expire && kid.classroom_id.present? %>
                     <%= link_to "Setting", stgbill_path(id: @taska.id, child: kid.id, stg: true), class: "badge badge-primary", style: "font-size: 13px" %>      
