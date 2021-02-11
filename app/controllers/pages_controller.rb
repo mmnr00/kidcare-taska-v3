@@ -74,31 +74,33 @@ class PagesController < ApplicationController
 		## CHART DATA FOR PARENTS ##
 		@kid_parents = Kid.where(id: @kid_arr)
 		#Job Sector
-		mmsct = @kid_parents.group(:mmsct).count
-		ftsct = @kid_parents.group(:ftsct).count
+		mmsct = @kid_parents.where.not(mmsct: nil).group(:mmsct).count
+		ftsct = @kid_parents.where.not(ftsct: nil).group(:ftsct).count
 		parentsct = mmsct.merge!(ftsct) { |k, o, n| o + n }
 		# @parent_sct["Lain-lain"] = @parent_sct["Lain-lain"] + @parent_sct[nil]
 		# @parent_sct = @parent_sct.reject {|k,v| k == nil}
-		parentsct["No Response"] = parentsct.delete nil
+		# parentsct["No Response"] = parentsct.delete nil
 		parentsct = parentsct.sort_by { |key| key }.to_h
-		@parent_sct = {}
-		parentsct.each do |k,v|
-			@parent_sct["#{k} [#{v}]"] = v
-		end
+		@parent_sct = crtchart(parentsct)
+		# tot = parentsct.values.sum.to_f
+		# parentsct.each do |k,v|
+		# 	@parent_sct["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		# end
 
 
 		#Job Gred
-		mmgrd = @kid_parents.group(:mmgrd).count
-		ftgrd = @kid_parents.group(:ftgrd).count
+		mmgrd = @kid_parents.where.not(mmgrd: nil).group(:mmgrd).count
+		ftgrd = @kid_parents.where.not(ftgrd: nil).group(:ftgrd).count
 		parentgrd = mmgrd.merge!(ftgrd) { |k, o, n| o + n }
 		# @parent_grd["Lain-lain"] = @parent_grd["Lain-lain"] + @parent_grd[nil]
 		# @parent_grd = @parent_grd.reject {|k,v| k == nil}
-		parentgrd["No Response"] = parentgrd.delete nil
+		# parentgrd["No Response"] = parentgrd.delete nil
 		parentgrd = parentgrd.sort_by { |key| key }.to_h
-		@parent_grd = {}
-		parentgrd.each do |k,v|
-			@parent_grd["#{k} [#{v}]"] = v
-		end
+		@parent_grd = crtchart(parentgrd)
+		# tot = parentgrd.values.sum.to_f
+		# parentgrd.each do |k,v|
+		# 	@parent_grd["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		# end
 
 		#Monthly Household Income
 		parentincome = @kid_parents.group(:income).count
@@ -114,10 +116,11 @@ class PagesController < ApplicationController
 		parentincome.each do |k,v|
 			parent_inc[k] = v
 		end
-		@parent_income = {}
-		parent_inc.each do |k,v|
-			@parent_income["#{k} [#{v}]"] = v
-		end
+		@parent_income = crtchart(parentincome)
+		# tot = parent_inc.values.sum.to_f
+		# parent_inc.each do |k,v|
+		# 	@parent_income["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		# end
 
 
 		## CHART DATA FOR VOLUNTEERS
@@ -126,31 +129,33 @@ class PagesController < ApplicationController
 		# @vltr_gender = {"FEMALE" => 0, "MALE" => 0}
 		# @vltr_gender["FEMALE"] = vltrgender["FEMALE"]
 		# @vltr_gender["MALE"] = vltrgender["MALE"]
-		@vltr_gender = {}
-		vltrgender.each do |k,v|
-			@vltr_gender["#{k} [#{v}]"] = v
-		end
+		@vltr_gender = crtchart(vltrgender)
+		# tot = vltrgender.values.sum.to_f
+		# vltrgender.each do |k,v|
+		# 	@vltr_gender["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		# end
 
 		#Marital Status
 		vltrmarr = @vltrs.group(:marr).count
 		@vltr_marr = {}
+		tot = vltrmarr.values.sum.to_f
 		vltrmarr.each do |k,v|
-			@vltr_marr["#{k} [#{v}]"] = v
+			@vltr_marr["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
 		end
 		#Education
 		vltredu = @vltrs.group(:edu).count
-		@vltr_edu = {}
-		vltredu.each do |k,v|
-			@vltr_edu["#{k} [#{v}]"] = v
-		end
+		@vltr_edu = crtchart(vltredu)
+		# vltredu.each do |k,v|
+		# 	@vltr_edu["#{k} [#{v}]"] = v
+		# end
 
 		## CHART DATA FOR KIDS
 		#Gender
 		kidgender = @kids.group(:gender).count
-		@kid_gender = {}
-		kidgender.each do |k,v|
-			@kid_gender["#{k} [#{v}]"] = v
-		end
+		@kid_gender = crtchart(kidgender)
+		# kidgender.each do |k,v|
+		# 	@kid_gender["#{k} [#{v}]"] = v
+		# end
 
 		#Age
 		kidage = {
@@ -176,18 +181,18 @@ class PagesController < ApplicationController
 			end		
 		end
 
-		@kid_age = {}
-		kidage.each do |k,v|
-			@kid_age["#{k} [#{v}]"] = v
-		end
+		@kid_age = crtchart(kidage)
+		# kidage.each do |k,v|
+		# 	@kid_age["#{k} [#{v}]"] = v
+		# end
 		
 		#OKU
-		kidoku = @kids.group(:oku).count
-		kidoku["No Response"] = kidoku.delete nil
-		@kid_oku = {}
-		kidoku.each do |k,v|
-			@kid_oku["#{k} [#{v}]"] = v
-		end
+		kidoku = @kids.where.not(oku: nil).group(:oku).count
+		# kidoku["No Response"] = kidoku.delete nil
+		@kid_oku = crtchart(kidoku)
+		# kidoku.each do |k,v|
+		# 	@kid_oku["#{k} [#{v}]"] = v
+		# end
 
 	end
 
@@ -377,6 +382,15 @@ class PagesController < ApplicationController
 	end
 
 	private
+
+	def crtchart(hash_data)
+		new_hash = {}
+		tot = hash_data.values.sum.to_f
+		hash_data.each do |k,v|
+			new_hash["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		end
+		return new_hash
+	end
 
 	def set_all
     @teacher = current_teacher

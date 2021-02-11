@@ -1,5 +1,5 @@
 
-<%=  %>
+<%= @tot  %>
 
 <%
   if @admin.id == 301
@@ -257,7 +257,7 @@
       <div style="background-color: #a52a2a; margin-top: -15px">
         <h6 style="text-align: center; color: white">Children's Age</i></h6>
       </div> 
-      <%= bar_chart @kid_age, colors: ["#329932"] ,width: "500px", height: "300px" %> 
+      <%= bar_chart @kid_age, colors: ["#329932"] ,width: "500px", height: "400px" %> 
       </div></div>
     </div>
 
@@ -266,7 +266,7 @@
       <div style="background-color: #a52a2a; margin-top: -15px">
         <h6 style="text-align: center; color: white">Children's OKU Status</i></h6>
       </div>  
-      <%= bar_chart @kid_oku, colors: ["#ffa500"], width: "500px", height: "300px"  %> 
+      <%= bar_chart @kid_oku, colors: ["#ffa500"], width: "600px", height: "300px"  %> 
       </div></div>
     </div>
     
@@ -309,7 +309,7 @@
         <h6 style="text-align: center; color: white">Monthly Household Income</i></h6>
       </div>  
 
-      <%= bar_chart @parent_income, colors: ["#8c198c"], width: "500px", height: "300px"  %> 
+      <%= bar_chart @parent_income, colors: ["#8c198c"], width: "500px", height: "400px"  %> 
       </div></div>
     </div>
     
@@ -342,7 +342,7 @@
       <div style="background-color: #a52a2a; margin-top: -15px">
         <h6 style="text-align: center; color: white">Volunteers' Marital Status</i></h6>
       </div> 
-      <%= column_chart @vltr_marr,colors: ["#198c19"], width: "400px", height: "400px" %> 
+      <%= column_chart @vltr_marr,colors: ["#198c19"], width: "600px", height: "400px" %> 
       </div></div>
     </div>
 
