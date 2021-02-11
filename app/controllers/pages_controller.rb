@@ -218,6 +218,21 @@ class PagesController < ApplicationController
 		# 	@kid_oku["#{k} [#{v}]"] = v
 		# end
 
+		if params[:pdf].present?
+			respond_to do |format|
+		 		format.html
+		 		format.pdf do
+			   render pdf: "Report",
+			   template: "pages/rptckn.html.erb",
+			   #disposition: "attachment",
+			   zoom: 0.8,
+			   page_size: "A4",
+			   orientation: "portrait",
+			   layout: 'pdf1.html.erb'
+				end
+			end
+		end
+
 	end
 
 	def cakna21

@@ -1,5 +1,5 @@
 
-<%= @tot  %>
+<% @tot  %>
 
 <%
   if @admin.id == 301
@@ -22,6 +22,8 @@
     </li>
   </ol>
 </div> -->
+
+<% link_to "print", rptckn_path(pdf: 1, format: :pdf) %>
           
 <div style="background-color: red;margin-bottom: -5px">
   <h3 style="text-align: center; color: white">INITIATIF CAKNA ANAK BARISAN HADAPAN</h3>

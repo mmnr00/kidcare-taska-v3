@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>DOWNLOAD</title>
+
+  <%= render 'layouts/page_head' %>
+  <%= wicked_pdf_stylesheet_link_tag "bootstrap/css/bootstrap" %>
+  <% wicked_pdf_stylesheet_link_tag "plugins/bootstrapv3/css/bootstrap-theme.min" %>
+  
+  <%= wicked_pdf_stylesheet_link_tag "fontawesome-free/css/all" %>
+  <%= wicked_pdf_stylesheet_link_tag "application", :media => "all", "data-turbolinks-track" => 'reload' %>
+  <%= wicked_pdf_javascript_include_tag "application", "chartkick" %>
+
+
+</head>
+<body>
+
+  <div class='container'>
+    <%= yield %>
+  </div>
+
+</body>
+</html>
