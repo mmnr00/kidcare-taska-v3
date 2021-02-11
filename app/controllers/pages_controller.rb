@@ -116,7 +116,7 @@ class PagesController < ApplicationController
 		parentincome.each do |k,v|
 			parent_inc[k] = v
 		end
-		@parent_income = crtchart(parentincome)
+		@parent_income = crtchart(parent_inc)
 		# tot = parent_inc.values.sum.to_f
 		# parent_inc.each do |k,v|
 		# 	@parent_income["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
