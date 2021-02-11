@@ -23,15 +23,19 @@
   </ol>
 </div> -->
           
-<div style="background-color: red;margin-bottom: 30px">
-  <h3 style="text-align: center; color: white">REPORTING FOR PROGRAMME <i>CAKNA ANAK 2021</i></h3>
+<div style="background-color: red;margin-bottom: -5px">
+  <h3 style="text-align: center; color: white">INITIATIF CAKNA ANAK BARISAN HADAPAN</h3>
+</div>
+
+<div class="bg-white" style="margin-bottom: 15px; text-align: center" >
+<i>Report as of <%= Time.now.strftime('%d-%^b-%Y %I:%M%p') %></i>
 </div>
 
 <div style="page-break-after: always;margin-bottom: 10px">
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item" style="margin-bottom: -10px">
-      <h5 style="text-align: left; color: black; margin-left: 10px">PROGRAMME SUMMARY</h5>
+      <h5 style="text-align: left; color: black; margin-left: 10px">PROGRAM SUMMARY</h5>
     </li>
   </ol>
 
@@ -236,7 +240,7 @@
 
   <ol class="breadcrumb">
     <li class="breadcrumb-item" style="margin-bottom: -10px">
-      <h5 style="text-align: left; color: black; margin-left: 10px">CHILDREN'S STATISTICS</h5>
+      <h5 style="text-align: left; color: black; margin-left: 10px">CHILDREN'S DEMOGRAPHY</h5>
     </li>
   </ol>
 
@@ -264,7 +268,7 @@
     <div class="col-lg-12 col-md-12" style="margin-bottom: 20px;margin-top: -10px" align="center">
       <div class="card"><div class="card-body">
       <div style="background-color: #a52a2a; margin-top: -15px">
-        <h6 style="text-align: center; color: white">Children's OKU Status</i></h6>
+        <h6 style="text-align: center; color: white">Children's With Special Needs</i></h6>
       </div>  
       <%= bar_chart @kid_oku, colors: ["#ffa500"], width: "600px", height: "300px"  %> 
       </div></div>
@@ -278,7 +282,7 @@
 <div style="page-break-after: always">
   <ol class="breadcrumb">
     <li class="breadcrumb-item" style="margin-bottom: -10px">
-      <h5 style="text-align: left; color: black; margin-left: 10px">PARENT'S STATISTICS</h5>
+      <h5 style="text-align: left; color: black; margin-left: 10px">PARENTS' DEMOGRAPHY</h5>
     </li>
   </ol>
 
@@ -287,9 +291,9 @@
     <div class="col-lg-12 col-md-12" style="margin-bottom: 20px;margin-top: -10px;" align="center">
       <div class="card"><div class="card-body">
       <div style="background-color: #a52a2a; margin-top: -15px">
-        <h6 style="text-align: center; color: white">Parent's Job Sector</i></h6>
+        <h6 style="text-align: center; color: white">Parents' Job Sector</i></h6>
       </div>
-      <%= bar_chart @parent_sct, colors: ["#3232ff"], width: "500px", height: "300px"  %>  
+      <%= bar_chart @parent_sct, colors: ["#3232ff"], width: "800px", height: "300px"  %>  
       </div></div> 
     </div>
     
@@ -297,7 +301,7 @@
     <div class="col-lg-12 col-md-12" style="margin-bottom: 20px;margin-top: -10px" align="center">
       <div class="card"><div class="card-body">
       <div style="background-color: #a52a2a; margin-top: -15px">
-        <h6 style="text-align: center; color: white">Parent's Job Gred</i></h6>
+        <h6 style="text-align: center; color: white">Parents' Job Grade</i></h6>
       </div> 
       <%= pie_chart @parent_grd, width: "400px", height: "400px" %> 
       </div></div>
@@ -321,7 +325,7 @@
 <div style="page-break-after: always">
   <ol class="breadcrumb">
     <li class="breadcrumb-item" style="margin-bottom: -10px">
-      <h5 style="text-align: left; color: black; margin-left: 10px">VOLUNTEERS' STATISTICS</h5>
+      <h5 style="text-align: left; color: black; margin-left: 10px">VOLUNTEERS' DEMOGRAPHY</h5>
     </li>
   </ol>
 
@@ -342,7 +346,7 @@
       <div style="background-color: #a52a2a; margin-top: -15px">
         <h6 style="text-align: center; color: white">Volunteers' Marital Status</i></h6>
       </div> 
-      <%= column_chart @vltr_marr,colors: ["#198c19"], width: "600px", height: "400px" %> 
+      <%= column_chart @vltr_marr,colors: ["#198c19"], width: "600px", height: "350px" %> 
       </div></div>
     </div>
 

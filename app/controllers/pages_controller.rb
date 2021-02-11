@@ -80,8 +80,19 @@ class PagesController < ApplicationController
 		# @parent_sct["Lain-lain"] = @parent_sct["Lain-lain"] + @parent_sct[nil]
 		# @parent_sct = @parent_sct.reject {|k,v| k == nil}
 		# parentsct["No Response"] = parentsct.delete nil
-		parentsct = parentsct.sort_by { |key| key }.to_h
-		@parent_sct = crtchart(parentsct)
+		# parentsct = parentsct.sort_by { |key| key }.to_h
+		parent_sct = {
+			"Anggota Kesihatan" => 0,
+			"Anggota Keselamatan" => 0,
+			"Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)" => 0,
+			"Penjawat Awam" => 0,
+			"Swasta" => 0,
+			"Lain-lain" => 0
+		}
+		parentsct.each do |k,v|
+			parent_sct[k] = v
+		end
+		@parent_sct = crtchart(parent_sct)
 		# tot = parentsct.values.sum.to_f
 		# parentsct.each do |k,v|
 		# 	@parent_sct["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
@@ -144,7 +155,20 @@ class PagesController < ApplicationController
 		end
 		#Education
 		vltredu = @vltrs.group(:edu).count
-		@vltr_edu = crtchart(vltredu)
+		vltr_edu = {
+			"PHD" => 0,
+      "Master" => 0, 
+      "Degree" => 0,
+      "Diploma" => 0,
+      "STPM" => 0,
+      "SPM/SPMV/MCE/O-Level" => 0,
+      "Sijil Kemahiran" => 0,
+      "Others" => 0
+		}
+		vltredu.each do |k,v|
+			vltr_edu[k] = v
+		end
+		@vltr_edu = crtchart(vltr_edu)
 		# vltredu.each do |k,v|
 		# 	@vltr_edu["#{k} [#{v}]"] = v
 		# end

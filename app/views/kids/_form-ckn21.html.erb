@@ -1,3 +1,12 @@
+<% 
+  job_sct = ["Anggota Kesihatan", 
+            "Anggota Keselamatan",
+            "Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)",
+            "Penjawat Awam",
+            "Swasta",
+            "Lain-lain"]
+%>
+
 <div class='row'>
   <div class='col-lg-8 col-12'>
     <%= form_for(@kid, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
@@ -489,10 +498,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.select :mmsct, options_for_select(["Anggota Kesihatan", 
-                                                          "Anggota Keselamatan",
-                                                          "Lain-lain"],
-                                                          selected: @kid.mmsct),
+              <%= f.select :mmsct, options_for_select(job_sct,selected: @kid.mmsct),
               {include_blank: "Please Select"}, {required: true} %> 
             </div>
           </div>
@@ -660,10 +666,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.select :ftsct, options_for_select(["Anggota Kesihatan", 
-                                                          "Anggota Keselamatan",
-                                                          "Lain-lain"],
-                                                          selected: @kid.ftsct),
+              <%= f.select :ftsct, options_for_select(job_sct,selected: @kid.ftsct),
               {include_blank: "Please Select"}, {required: true} %> 
             </div>
           </div>
