@@ -84,13 +84,18 @@ class PagesController < ApplicationController
 		parent_sct = {
 			"Anggota Kesihatan" => 0,
 			"Anggota Keselamatan" => 0,
-			"Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)" => 0,
+			"Perkhidmatan Sokongan" => 0,
 			"Penjawat Awam" => 0,
 			"Swasta" => 0,
 			"Lain-lain" => 0
 		}
 		parentsct.each do |k,v|
-			parent_sct[k] = v
+			if k == "Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)"
+				parent_sct["Perkhidmatan Sokongan"] = v
+			else
+				parent_sct[k] = v
+			end
+			
 		end
 		@parent_sct = crtchart(parent_sct)
 		# tot = parentsct.values.sum.to_f
