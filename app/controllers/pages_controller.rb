@@ -87,11 +87,13 @@ class PagesController < ApplicationController
 			"Perkhidmatan Sokongan" => 0,
 			"Penjawat Awam" => 0,
 			"Swasta" => 0,
-			"Lain-lain" => 0
+			"Bekerja Sendiri/Tidak Bekerja" => 0
 		}
 		parentsct.each do |k,v|
 			if (k == "Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)")
 				parent_sct["Perkhidmatan Sokongan"] = v
+			elsif (k == "Lain-lain")
+				parent_sct["Bekerja Sendiri/Tidak Bekerja"] = v
 			elsif !parent_sct.has_key?(k)
 				parent_sct["Perkhidmatan Sokongan"] += 1
 			else
@@ -114,6 +116,7 @@ class PagesController < ApplicationController
 		# @parent_grd = @parent_grd.reject {|k,v| k == nil}
 		# parentgrd["No Response"] = parentgrd.delete nil
 		parentgrd = parentgrd.sort_by { |key| key }.to_h
+		parentgrd["Bekerja Sendiri/Tidak Bekerja"] = parentgrd.delete "Lain-lain"
 		@parent_grd = crtchart(parentgrd)
 		# tot = parentgrd.values.sum.to_f
 		# parentgrd.each do |k,v|
