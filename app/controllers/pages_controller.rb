@@ -90,8 +90,10 @@ class PagesController < ApplicationController
 			"Lain-lain" => 0
 		}
 		parentsct.each do |k,v|
-			if k == "Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)"
+			if (k == "Perkhidmatan Sokongan(HR/Admin/Kewangan/IT)")
 				parent_sct["Perkhidmatan Sokongan"] = v
+			elsif !parent_sct.has_key?(k)
+				parent_sct["Perkhidmatan Sokongan"] += 1
 			else
 				parent_sct[k] = v
 			end
@@ -130,7 +132,11 @@ class PagesController < ApplicationController
 			"Above RM15,040"=>0
 		}
 		parentincome.each do |k,v|
-			parent_inc[k] = v
+			if parent_inc.has_key?(k)
+				parent_inc[k] = v
+			else
+				parent_inc["RM2,500 - RM4,849"] += 1
+			end
 		end
 		@parent_income = crtchart(parent_inc)
 		# tot = parent_inc.values.sum.to_f
