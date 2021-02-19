@@ -338,15 +338,18 @@ class KidsController < ApplicationController
 				@kid = Kid.find(k)
 				cls_id= v[:classroom_id]
 				tsk_id= v[:taska_id]
-				if pars[:curr_taska] != tsk_id && tsk_id.present?
-					@kid.taska_id = tsk_id unless cls_id.present?
-				end #end new taska
-				if @kid.siblings.present?
-					errmsg << @kid.name
+
+				if (tsk_id.present? && tsk_id != pars[:curr_taska]) || cls_id.blank?
+					if @kid.siblings.present?
+						errmsg << @kid.name
+					else
+						@kid.taska_id = tsk_id 
+						@kid.classroom_id = nil
+					end
 				else
 					@kid.classroom_id = cls_id
-					@kid.save
 				end
+				@kid.save
 				
 			end #end not curr_taska
 		end #end pars loop
