@@ -227,7 +227,12 @@ class PagesController < ApplicationController
 		#OKU
 		kidoku = @kids.where.not(oku: nil).group(:oku).count
 		# kidoku["No Response"] = kidoku.delete nil
-		@kid_oku = crtchart(kidoku)
+		kid_oku = {
+			"No" => kidoku["No"],
+			"Yes (with OKU Card)" => kidoku["Yes (Has OKU Card/Ada Kad OKU)"],
+			"Yes (pending OKU Card)" => kidoku["Yes (Pending OKU Card/Dalam proses Mendapatkan Kad OKU)"]
+		}
+		@kid_oku = crtchart(kid_oku)
 		# kidoku.each do |k,v|
 		# 	@kid_oku["#{k} [#{v}]"] = v
 		# end
