@@ -343,7 +343,7 @@ class KidsController < ApplicationController
 					if @kid.siblings.present?
 						errmsg << @kid.name
 					else
-						@kid.taska_id = tsk_id 
+						@kid.taska_id = tsk_id unless tsk_id.blank?
 						@kid.classroom_id = nil
 					end
 				else
