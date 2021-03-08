@@ -103,7 +103,7 @@ def my_expenses
 			bill_noppm = Payment.where(id: bill_noppm) #all paid bills without partial payment
 
 			all_ppm_curr = []
-			@taska.payments.where(paid: true, name: "KID BILL").each do |pmt|
+			@taska_payments.where(paid: true, name: "KID BILL").each do |pmt|
 				pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).each do |ppm|
 					all_ppm_curr << ppm.id
 				end
@@ -112,6 +112,8 @@ def my_expenses
 			# ppm_curr = Parpaym.where(payment_id: tsk_payments_paid.ids).where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
 			@dummy = all_ppm_curr.count
 			@new_bills_paid = bill_noppm.sum(:amount) + @bills_partial + all_ppm_curr.sum(:amt)
+			@arr = [bill_noppm.sum(:amount),@bills_partial,all_ppm_curr.sum(:amt)]
+			
 			@payments_pie = {
 										"unpaid"=>@tot_unpaid,
 										"paid"=> @new_bills_paid
