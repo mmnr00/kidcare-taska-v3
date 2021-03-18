@@ -15,8 +15,28 @@ wb.styles do |style|
     sheet.add_row [""]
     sheet.add_row ["NO",
                   "NAME",
-                  "MYKID NO",
-                  "CENTER"]
+                  "CENTER",
+                  "GENDER",
+                  "MYKID",
+                  "PHONE NO",
+                  "BIRTHPLACE",
+                  "ARRANGEMENT IN FAMILY",
+                  "ALLERGY",
+                  "FAVOURITE FOOD",
+                  "HOBBY",
+                  "PANEL CLINIC",
+                  "MOTHER'S NAME",
+                  "MOTHER'S IC NO",
+                  "MOTHER'S PHONE",
+                  "MOTHER'S JOB",
+                  "MOTHER'S JOB ADDRESS",
+                  "FATHER'S NAME",
+                  "FATHER'S IC NO",
+                  "FATHER'S PHONE",
+                  "FATHER'S JOB",
+                  "FATHER'S JOB ADDRESS",
+                  "HOUSEHOLD INCOME",
+                  "ALTERNATE PHONE"]
     sheet.rows[0].style = header_1
     sheet.rows[1].style = header_2
     sheet.rows[3].style = highlight_cell
@@ -25,8 +45,28 @@ wb.styles do |style|
     @kids.each do |kid|
       sheet.add_row [counter, 
                     kid.name,
+                    kid.taska.name,
+                    kid.gender, 
                     "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}",
-                    kid.taska.name], style: [nil, border_cell]
+                    "#{kid.ph_1}-#{kid.ph_2}",
+                    kid.birth_place,
+                    kid.arr_infam,
+                    kid.allergy,
+                    kid.fav_food,
+                    kid.hobby,
+                    kid.panel_clinic,
+                    kid.mother_name,
+                    kid.mic,
+                    kid.mother_phone,
+                    kid.mother_job,
+                    kid.mother_job_address,
+                    kid.father_name,
+                    kid.fic,
+                    kid.father_phone,
+                    kid.father_job,
+                    kid.father_job_address,
+                    kid.income,
+                    kid.alt_phone], style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
     end
@@ -39,17 +79,47 @@ wb.styles do |style|
     sheet.add_row ["NO",
                   "NAME",
                   "MYKAD NO",
-                  "CENTER"]
+                  "CENTER",
+                  "GENDER",
+                  "PHONE NO",
+                  "EMAIL",
+                  "ADDRESS",
+                  "EDUCATION",
+                  "MARITAL",
+                  "COURSES"
+                  ]
     sheet.rows[0].style = header_1
     sheet.rows[1].style = header_2
     sheet.rows[3].style = highlight_cell
     counter = 1
     row =3
     @taskas.each do |tsk|; tsk.vltrs.each do |vltr|
+      crs_ls = ""
+      hsh_list = {
+        "1" => "Kursus Asuhan & Didikan Awal Kanak-Kanak Permata (KAP) / KAAK",
+        "2" => "Kursus Pengendalian Makanan",
+        "3" => "Suntikan Typhoid",
+        "4" => "CPR & First Aid"
+      }
+      vltr.crs.each do |num|
+        if crs_ls.blank?
+          crs_ls = hsh_list[num]
+        else
+          crs_ls = crs_ls + ",  " + hsh_list[num]
+        end
+      end
       sheet.add_row [counter, 
                     vltr.name,
                     vltr.ic,
-                    tsk.name], style: [nil, border_cell]
+                    tsk.name,
+                    vltr.gender,
+                    vltr.ph,
+                    vltr.email,
+                    vltr.address,
+                    vltr.edu,
+                    vltr.marr,
+                    crs_ls
+                    ], style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
     end; end
