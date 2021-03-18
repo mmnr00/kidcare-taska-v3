@@ -7,6 +7,22 @@ class PagesController < ApplicationController
 
 	#layout "dsb-admin-eg"
 
+	def cknxls
+		@taskas = Taska.where(id: $cakna21)
+		#kids List
+		k = Kid.where(taska_id: $cakna21)
+		k1 = k.where(taska_id: [286,606,592]).where.not(classroom_id: nil) 
+		k2 = k.where.not(taska_id: [286,606,592])
+		@kids = k1.or(k2)
+
+		respond_to do |format|
+    	#format.html
+    	format.xlsx{
+  								response.headers['Content-Disposition'] = 'attachment; filename="Senarai Program Cakna Anak.xlsx"'
+			}
+  	end
+	end
+
 	def prfvltr
 		@vltr = Vltr.find(params[:id])
 	end

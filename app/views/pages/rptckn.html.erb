@@ -150,6 +150,7 @@
     <div class="card-header">
       <i class="fas fa"></i>
       <b>CENTERS SUMMARY (<%= @taskas.count %>)</b>
+      <%= link_to "Download List", cknxls_path(format: :xlsx), class: "badge badge-pill badge-info", format: :xlsx %>
     </div>
     <div class="card-body">
       <div class="table-responsive">
