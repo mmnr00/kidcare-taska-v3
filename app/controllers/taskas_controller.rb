@@ -1273,29 +1273,27 @@ end
         @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false).where(bill_year: params[:year]).where(bill_month: params[:month])
       end
     else
-      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false)
+      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false).where(fin: true)
     end
     ctr = 0
 
     #init SMS360 params
-    url = "https://sms.360.my/gw/bulk360/v1.4?"
-    usr = "user=admin@kidcare.my&"
-    ps = "pass=#{ENV['SMS360']}&"
+    url = "https://www.isms.com.my/isms_send.php?"
+    usr = "un=admin_kidcare&"
+    ps = "pwd=#{ENV['isms']}&"
+    tp = "type=1&"
+    trm = "agreedterm=YES"
+    data_sms = nil
 
     @kid_unpaid.each do |bill|
       @kid = bill.kids.first
-      if Rails.env.production?
-        to = "to=6#{@kid.ph_1}#{@kid.ph_2}&"
-        txt = "text=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: bill.id)}> to payment"
-        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+      if 1==1#Rails.env.production?
+        to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
+        txt = "msg=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: bill.id)}> to payment&"
         data_sms = nil
 
-        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 120)
+        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+        puts data_sms
 
         if data_sms.blank? #timeout
           mail = SendGrid::Mail.new
