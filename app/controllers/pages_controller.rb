@@ -458,12 +458,13 @@ class PagesController < ApplicationController
 	private
 
 	def crtchart(hash_data)
-		new_hash = {}
-		tot = hash_data.values.sum.to_f
-		hash_data.each do |k,v|
-			new_hash["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
-		end
-		return new_hash
+		# new_hash = {}
+		# tot = 0.00
+		# tot = hash_data.values.sum.to_f
+		# hash_data.each do |k,v|
+		# 	new_hash["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		# end
+		# return new_hash
 	end
 
 	def set_all
