@@ -71,7 +71,7 @@ class PagesController < ApplicationController
 		k=Kid.where(taska_id: $cakna21)
 		k1 = k.where(taska_id: [286,606,592]).where.not(classroom_id: nil) 
 		k2 = k.where.not(taska_id: [286,606,592])
-		@kids = k1.or(k2)
+		@kids = k
 		@vltrs = Vltr.where(taska_id: $cakna21)
 
 		@parent_arr = []
@@ -248,7 +248,9 @@ class PagesController < ApplicationController
 			"Yes (with OKU Card)" => kidoku["Yes (Has OKU Card/Ada Kad OKU)"],
 			"Yes (pending OKU Card)" => kidoku["Yes (Pending OKU Card/Dalam proses Mendapatkan Kad OKU)"]
 		}
-		@kid_oku = crtchart(kid_oku)
+
+		# @kid_oku = crtchart(kid_oku) --> activate balik bila banyak center
+		@kid_oku = kid_oku
 		# kidoku.each do |k,v|
 		# 	@kid_oku["#{k} [#{v}]"] = v
 		# end
@@ -458,13 +460,14 @@ class PagesController < ApplicationController
 	private
 
 	def crtchart(hash_data)
-		# new_hash = {}
-		# tot = 0.00
-		# tot = hash_data.values.sum.to_f
-		# hash_data.each do |k,v|
-		# 	new_hash["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
-		# end
-		# return new_hash
+		puts "This IS ----->>>> #{hash_data}"
+		new_hash = {}
+		tot = 0.00
+		tot = hash_data.values.sum.to_f
+		hash_data.each do |k,v|
+			new_hash["#{k} [#{v}, #{(v/tot*100).round(1)}%]"] = v
+		end
+		return new_hash
 	end
 
 	def set_all
