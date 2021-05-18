@@ -13,7 +13,7 @@ gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 #gem 'devise-bootstrap-views'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'httparty'
 gem 'chartkick'
 gem 'pg', '~>0.11'
