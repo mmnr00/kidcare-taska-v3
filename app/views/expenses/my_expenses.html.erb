@@ -61,6 +61,9 @@
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: false, no_sch: 1) do %>
             <h6 align="center"><font color="white">UNPAID (RM)</font></h6>
              <h5 align="center"><font color="white"><%= number_with_delimiter(@tot_unpaid, :delimiter => ',') %></font></h5>
+             <%= @payments_due.where(paid: false).ids %>
+             <%= @payments_due.where(paid: false).sum(:amount) %>
+             <%= "C1 - #{@c1} &&&&& C2 #{@c3}"%>
           <% end %>
         </div>
       </div>

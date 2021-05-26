@@ -76,7 +76,7 @@ def my_expenses
         if pmt.parpayms.present?
           cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt)
           cdtn_3par += pmt.parpayms.sum(:amt)
-          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
+          #cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
         end
       end
       #CDTN_2 previous months bills paid partially this month
@@ -94,6 +94,8 @@ def my_expenses
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 			@payments_due = curr_pmt
 			@tot_unpaid = @payments_due.where(paid: false).sum(:amount) - cdtn_1par -cdtn_3par
+			@c1 = cdtn_1par
+			@c3 = cdtn_3par
 			
 			#@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
 			bill_noppm = []
