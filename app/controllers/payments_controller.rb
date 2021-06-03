@@ -42,11 +42,12 @@ class PaymentsController < ApplicationController
     else
       desc = @payment.id
     end
+    amt = (@payment.amount*100).round(0)
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => cltid, 
                         :email=> "bill@kidcare.my",
                         :name=> "#{kidname}", 
-                        :amount=>  @payment.amount*100,
+                        :amount=>  amt,
                         :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                         :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                         :description=>desc}.to_json, 
