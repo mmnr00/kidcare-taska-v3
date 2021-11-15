@@ -123,47 +123,42 @@ end %>
           <h3 align="center">&nbsp&nbspSALARY SLIP FOR <%= "#{$month_name[month.to_i]}-#{year}" %></h3>
         </div>
         </span>
-        <table class="table table-hovers table table-bordered">
+        <table class="table table-hover">
           <tbody>
             <tr>
-              <th colspan="2">Items</th>
-              <th class="text-center" colspan="2">Amount (RM)</th>
+              <th>Items</th>
+              <th class="text-right" colspan="2">Amount (RM)</th>
             </tr>
           </tbody>
           <tbody>
             <tr>
-              <td class="" style="width: 30%;"><em>Basic Salary</em></h4></td>
+              <td class="col-md-3"><em>Basic Salary</em></h4></td>
               <td> </td>
-              <td style="width: 40%;"></td>
-              <td class="text-center"><%= amt %></td>
+              <td class="text-center" colspan="2"><%= amt %></td>
             </tr>
             <tr>
               <td class="col-md-3"><em>Allowance</em></h4></td>
               <td> </td>
-              <td></td>
-              <td class="text-center"><%= alwnc %></td>
+              <td class="text-center" colspan="2"><%= alwnc %></td>
             </tr>
             <tr>
               <td class="col-md-3"><em>Fix Deduction</em></h4></td>
               <td> </td>
-              <td> </td>
-              <td class="text-center"><font color="red">(<%= fxddc %>)</font></td>
+              <td class="text-center" colspan="2"><font color="red">(<%= fxddc %>)</font></td>
             </tr>
             <tr>
               <td class="col-md-3">
                 <em>Addition</em>
               </td>
               <td class="col-md-12"><%= desc %></td>
-              <td></td>
-              <td class="text-center"><%= addtn %></td>
+              <td class="text-center" colspan="2"><%= addtn %></td>
             </tr>
             <tr>
               <td class="col-md-3">
                 <em>Deduction</em>
               </td>
-              <td class=""><%= descdc %></td>
-              <td></td>
-              <td class="text-center"><font color="red">(<%= dedc %>)</font></td>
+              <td class="col-md-12"><%= descdc %></td>
+              <td class="text-center" colspan="2"><font color="red">(<%= dedc %>)</font></td>
             </tr>
              <tr>
               <td class="col-md-3">
@@ -174,8 +169,7 @@ end %>
                   <%= xtradesc %><br>
                 <% end %><% end %><% end %>
               </td>
-              <td></td>
-              <td class="text-center">
+              <td class="text-center" colspan="2">
                 <% if xtra.present? %><% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? || xtra["#{n}"]["nstamt"].present? %>
                   <%
                     xtramt = xtra["#{n}"]["nstamt"].to_f
@@ -192,46 +186,27 @@ end %>
               </td>
             </tr>
             <tr>
-              <td class="text-right" colspan="1">
+              <td class="text-right" colspan="2">
                 <p>
-                  <strong> </strong>
-                </p>
-                <p>
-                  <strong>Employer EPF : </strong>
-                </p>
-                <p>
-                  <strong>Employer SOCSO : </strong>
-                </p>
-                <p>
-                  <strong>Employer SIP : </strong>
-                </p>
-              </td>
-              <td class="text-center" colspan="1">
-                <p>
-                  <strong>&nbsp</strong>
-                </p>
-                <p>
-                  <strong><%= epfa %></strong>
-                </p>
-                <p>
-                  <strong><%= socsa %></strong>
-                </p>
-                <p>
-                  <strong><%= sipa %></strong>
-                </p>
-              </td>
-              <td class="text-right" colspan="1">
-                <p class="text-right" style="display: block;">
                   <strong>Gross Income: </strong>
                 </p>
                 <p>
-                  <strong>Your EPF : </strong>
+                  <strong>Your EPF Contribution: </strong>
                 </p>
                 <p>
-                  <strong>Your SOCSO : </strong>
+                  <strong>Employer EPF Contribution: </strong>
                 </p>
                 <p>
-                  <strong>Your SIP : </strong>
+                  <strong>Your SOCSO Contribution: </strong>
+                </p>
+                <p>
+                  <strong>Employer SOCSO Contribution: </strong>
+                </p>
+                <p>
+                  <strong>Your SIP Contribution: </strong>
+                </p>
+                <p>
+                  <strong>Employer SIP Contribution: </strong>
                 </p>
               </td>
               <td class="text-center" colspan="2">
@@ -242,20 +217,6 @@ end %>
                   <strong><font color="red">(<%= epf %>)</font></strong>
                 </p>
                 <p>
-                  <strong><font color="red">(<%= socs %>)</font></strong>
-                </p>
-                <p>
-                  <strong><font color="red">(<%= sip %>)</font></strong>
-                </p>
-              </td>
-              <!-- <td class="text-center" colspan="1">
-                <p>
-                  <strong><%= gross.round(2) %></strong>
-                </p>
-                <p>
-                  <strong><font color="red">(<%= epf %>)</font></strong>
-                </p>
-                <p>
                   <strong><%= epfa %></strong>
                 </p>
                 <p>
@@ -270,7 +231,7 @@ end %>
                 <p>
                   <strong><%= sipa %></strong>
                 </p>
-              </td> -->
+              </td>
             </tr>
             <tr>
               <td class="text-right" colspan="2"><h4><strong>Nett Income: </strong></h4></td>
