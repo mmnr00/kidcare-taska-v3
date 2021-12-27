@@ -6,7 +6,7 @@
     <div class="row">
       <%= form_tag mybill_path, method: :get, id: "find_kid" do %>
         <%
-          yr_s = (Date.today.year) - 3
+          yr_s = 2016
           yr_e = (Date.today.year) + 1
         %>
         <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]), include_blank: "All Year" %>

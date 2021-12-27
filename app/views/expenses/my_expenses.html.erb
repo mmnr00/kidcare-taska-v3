@@ -15,7 +15,7 @@
       </h3></br>
       <%= form_for(:expense, :url => {:controller=>'expenses', :action=>'my_expenses'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
         <%= f.select :month, 1..12, rows: 10, class: "form-control", :selected => month, :include_blank => "ALL" %>&nbspmth
-        <%= f.select :year, 2016..2021, rows: 10, class: "form-control", :selected => year %>&nbspyr
+        <%= f.select :year, 2016..(Date.today.year + 1), rows: 10, class: "form-control", :selected => year %>&nbspyr
           <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
       <% end %><br>
       
