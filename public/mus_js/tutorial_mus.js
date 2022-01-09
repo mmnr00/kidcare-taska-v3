@@ -75,7 +75,7 @@ for (let i = 0; i < btnTute.length; i++){
 		tuteList.classList.add('d-none')
 		tutIfr.src = `https://www.youtube.com/embed/${btnTute[i].id}`	
 		closeBtn.textContent = 'Close X'
-		console.log('click')
+		console.log('clicks')
 
 		// mainBody.insertAdjacentHTML('afterbegin',html)
 		
