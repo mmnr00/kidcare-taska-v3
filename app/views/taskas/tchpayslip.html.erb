@@ -14,7 +14,7 @@
         </div>
         <div class="control-label col-sm-2">
          <strong>YEAR</strong>
-          <%= f.select :year, options_for_select(2018..2021),
+          <%= f.select :year, options_for_select(2018..Date.today.year+1),
               {include_blank: "Please Select"}, {required: true} %>
         </div>
         <%= f.hidden_field :teacher, value: @teacher.id %>
