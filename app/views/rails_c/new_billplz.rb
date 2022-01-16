@@ -44,3 +44,13 @@ taska_hash.each do |k,v|
 	t.save
 end
 
+Taska.all.where(collection_id: "x7w_y71n").each do |tsk|
+tsk.collection_id = "hpeyffel"
+tsk.collection_id2 = "hpeyffel"
+tsk.save
+end
+
+
+
+
+
