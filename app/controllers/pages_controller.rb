@@ -7,18 +7,6 @@ class PagesController < ApplicationController
 
 	#layout "dsb-admin-eg"
 
-	def billplz21
-		@kbl = Payment.where.not(bill_id2: nil).where(name: "KID BILL",paid: false)
-		@kbl.each do |bl|
-			check2_bill(bl.id)
-			sleep 1.0
-		end
-		@kbl2 = Payment.where.not(bill_id2: nil).where(name: "KID BILL",paid: false)
-		@kbl2.each do |bl2|
-			bl2.bill_id2 = nil 
-			bl2.save
-		end
-	end
 
 	def cknxls
 		@taskas = Taska.where(id: $cakna21)

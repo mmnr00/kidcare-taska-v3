@@ -108,7 +108,6 @@ Rails.application.routes.draw do
   get '/ptns_sp/:id/update', to: 'pages#ptns_sp_update'
   get '/ptns_sp/:id/patch', to: 'pages#ptns_sp_patch'
   get '/sms', to: 'pages#sms'
-  get '/billplz21', to: 'pages#billplz21'
 
   #~EXTRAS
   get 'add_kid_extras', to: 'extras#add_kid_extras'

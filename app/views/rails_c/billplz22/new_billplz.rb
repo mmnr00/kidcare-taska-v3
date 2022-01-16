@@ -6,6 +6,7 @@ tsk_id[tsk.id] = [tsk.collection_id, tsk.collection_id2]
 end
 end
 
+
 taska_hash = {277=>["myzsfzp5", "czcx2oaa","739m2rkr","gsfhtmfy"], 
 286=>["6vs70l7u", "pajvgfjy","90ubl9ae","mlty4h3j"], 
 652=>["x7w_y71n", "x7w_y71n","hpeyffel","hpeyffel"], 
@@ -33,7 +34,8 @@ taska_hash = {277=>["myzsfzp5", "czcx2oaa","739m2rkr","gsfhtmfy"],
 574=>["q09wholt", "mw0mkqyy","hekhbe5c","iwsas7lb"], 
 651=>["a5svd6gn", "90m8znk3","lzojkzuq","zy8idbol"], 
 47=>["6e_pr8fb", "nseb_5tl","w38adzhf","6d8nxjfp"], 
-292=>["adblcxjf", "ckwa5mqg","vmzubjzi","hhjl_00l"]}
+292=>["adblcxjf", "ckwa5mqg","vmzubjzi","hhjl_00l"],
+655=>["x7w_y71n", "x7w_y71n","y9dvdcxm","xj_neghq"]}
 
 taska_hash.each do |k,v|
 	puts k 
