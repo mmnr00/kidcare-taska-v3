@@ -286,7 +286,7 @@ class ApplvsController < ApplicationController
 	def date_exist?(teacher_id, start, last)
 		applvs = Teacher.find(teacher_id).applvs
 		applvs.each do |lv|
-			if (start<=lv.end) && (last>=lv.start)
+			if (start<=lv.end) && (last>=lv.start) && (lv.stat != "REJECTED")
 				return true
 				break
 			end
