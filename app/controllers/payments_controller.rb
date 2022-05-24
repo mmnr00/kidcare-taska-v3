@@ -394,7 +394,7 @@ class PaymentsController < ApplicationController
     @taska = Taska.find(params[:taska])
     @kid = Kid.find(params[:child])
     @kid_bills = @kid.payments.where.not(name: "TASKA BOOKING").order('bill_year DESC').order('bill_month DESC')
-    @payments = @kid_bills
+    @payments = @kid_bills.where(taska_id: @taska.id)
     render action: "got_bill", layout: "dsb-admin-student" 
   end
 
