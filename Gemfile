@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '3.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 6.1.7'
 # Use sqlite3 as the database for Active Record
 
 gem 'sass'
@@ -19,7 +19,8 @@ gem 'jquery-rails'
 gem 'puma', '~> 3.11'
 gem 'httparty'
 gem 'chartkick'
-gem 'pg', '~>0.11'
+# gem 'pg', '~>0.11'
+gem 'pg'
 gem 'sinatra', github: 'sinatra/sinatra'
 #new from webarch
 gem 'execjs'
