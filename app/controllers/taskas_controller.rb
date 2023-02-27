@@ -616,7 +616,7 @@ class TaskasController < ApplicationController
         cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
         #CDTN_3 = previous period pay this month
         dt_lp = dt
-        stp_lp = Time.find_zone("Singapore").local(2020,1)
+        stp_lp = Time.find_zone("Singapore").local((Date.today.year -3),1)
         cdtn_3 = nil
         while dt_lp >= stp_lp
           if cdtn_3.blank?    
