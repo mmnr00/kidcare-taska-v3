@@ -194,6 +194,7 @@ class TchdetailsController < ApplicationController
 
   def market_xls
   	@tchdetails = Tchdetail.where.not(ts_phone_1: ["",nil],ts_phone_2: ["",nil])
+  	@taskas = Taska.where.not(expire: nil)
   	respond_to do |format|
       #format.html
       format.xlsx{
@@ -248,6 +249,7 @@ class TchdetailsController < ApplicationController
 	def edit
 		@tchdetail = Tchdetail.find(params[:id])
 		@teacher = @tchdetail.teacher
+		@tchdetail.fotos.build
 
 	
 		
@@ -322,6 +324,13 @@ class TchdetailsController < ApplicationController
       																	:ts_tp,
       																	:biloku,
       																	:expjkm,
+      																	:kapstat,
+    																		:foodstat,
+    																		:typhdt,
+   																			:typhexp,
+    																		:cprstat,
+    																		:cprdt,
+   																			:startwork,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
     def tchdetail_params_exs #tak pakai dah

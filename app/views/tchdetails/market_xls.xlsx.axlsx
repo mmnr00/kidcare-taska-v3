@@ -14,25 +14,50 @@ wb.styles do |style|
                   "TASKA",
                   "OWNER",
                   "PHONE NO",
-                  "TASKA ADDRESS"]
+                  "TASKA ADDRESS",
+                  "STATUS",
+                  "NO OF KIDS",
+                  "DATE JOINED"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
     row =2
     arr=[]
-    @tchdetails.each do |tch|
-      if tch.ts_name.present? && !(arr.include? tch.ts_name.upcase)
-        arr<<tch.ts_name.upcase
-        sheet.add_row [counter,
-                      "#{tch.ts_name}",
-                      tch.ts_owner_name,
-                      "#{tch.ts_phone_1}-#{tch.ts_phone_2}",
-                      "#{tch.ts_address_1},#{tch.ts_address_2},#{tch.ts_city},#{tch.ts_states},#{tch.ts_postcode}"], 
-        style: [nil, border_cell]
-        sheet.rows[row+counter].style = border_cell
-        counter = counter +1
+    if params[:taska].present?
+      @taskas.each do |tsk|
+          if (tsk.expire.to_date - Time.now.to_date).to_i >= -10
+            stat = "active"
+          else
+            stat ="dormant"
+          end
+
+          sheet.add_row [counter,
+                        tsk.name,
+                        tsk.supervisor,
+                        "#{tsk.phone_1}-#{tsk.phone_2}",
+                        "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.states},#{tsk.postcode}",
+                        stat,
+                        tsk.kids.count,
+                        tsk.created_at.strftime('%d-%^b-%Y')], 
+          style: [nil, border_cell]
+          sheet.rows[row+counter].style = border_cell
+          counter = counter +1
       end
-    end 
+    else
+      @tchdetails.each do |tch|
+        if tch.ts_name.present? && !(arr.include? tch.ts_name.upcase)
+          arr<<tch.ts_name.upcase
+          sheet.add_row [counter,
+                        "#{tch.ts_name}",
+                        tch.ts_owner_name,
+                        "#{tch.ts_phone_1}-#{tch.ts_phone_2}",
+                        "#{tch.ts_address_1},#{tch.ts_address_2},#{tch.ts_city},#{tch.ts_states},#{tch.ts_postcode}"], 
+          style: [nil, border_cell]
+          sheet.rows[row+counter].style = border_cell
+          counter = counter +1
+        end
+      end 
+    end
   end
 end
 
