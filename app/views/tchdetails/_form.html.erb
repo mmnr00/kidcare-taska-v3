@@ -64,6 +64,7 @@
                                 {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 start_year: 1950,
+                                end_year: Date.today.year,
                                 selected: @tchdetail.dob}, 
                                 {required: true} %>
             </div>
@@ -319,7 +320,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>THYPOID INJECTION</strong>
+              <strong>TYPHOID INJECTION</strong>
             </div>
           </div>
           <div class="row">
@@ -333,6 +334,8 @@
                                 {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 start_year: 2009,
+                                end_year: Date.today.year,
+                                end_year: Date.today.year,
                                 selected: @tchdetail.typhdt}, 
                                 {required: true} %>
             </div>
@@ -348,6 +351,7 @@
                                 {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 start_year: 2009,
+                                end_year: Date.today.year,
                                 selected: @tchdetail.typhexp}, 
                                 {required: true} %>
             </div>
@@ -415,6 +419,7 @@
                                 {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 start_year: 2009,
+                                end_year: Date.today.year,
                                 selected: @tchdetail.cprdt}, 
                                 {required: true} %>
             </div>
@@ -472,6 +477,7 @@
                                 {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 start_year: 2000,
+                                end_year: Date.today.year,
                                 selected: @tchdetail.startwork}, 
                                 {required: true} %>
             </div>

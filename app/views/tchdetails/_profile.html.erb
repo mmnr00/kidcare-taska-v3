@@ -68,6 +68,87 @@
                 </td>
               </tr>
               <tr>
+                <td><strong>KAAK/KAP DETAILS</strong></td>
+                <td>
+                  <%= "#{@tchdetail.kapstat}" %><br>
+                  <% image = @fotos.where(foto_name: "SIJIL KAP").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No file uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>KURSUS PENGEDALIAN MAKANAN DETAILS</strong></td>
+                <td>
+                  <%= "#{@tchdetail.foodstat}" %><br>
+                  <% image = @fotos.where(foto_name: "KURSUS PENGEDALIAN MAKANAN").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No file uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>TYPHOID INJECTION DETAILS</strong></td>
+                <td>
+                  Injection Date: <%= @tchdetail.typhdt.strftime('%d-%^b-%y') unless @tchdetail.typhdt.blank? %><br>
+                  Expiry Date: <%= @tchdetail.typhexp.strftime('%d-%^b-%y') unless @tchdetail.typhexp.blank? %><br>
+                  <% image = @fotos.where(foto_name: "TYPHOID INJECTION").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No file uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>CPR/FIRST AID DETAILS</strong></td>
+                <td>
+                  Attended: <%= @tchdetail.cprstat %><br>
+                  Date Attended: <%= @tchdetail.cprdt.strftime('%d-%^b-%y') unless @tchdetail.cprdt.blank? %><br>
+                  <% image = @fotos.where(foto_name: "CPR / FIRST AID").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No file uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>START WORK DATE</strong></td>
+                <td>
+                  <%= "#{@tchdetail.startwork.strftime('%d-%^b-%y')}" unless @tchdetail.startwork.blank? %>
+                </td>
+              </tr>
+
+              <tr>
                 <td><strong>IC COPY:</strong></td>
                 <td>
 
@@ -120,49 +201,50 @@
                   </td>
                 </tr>
               <% end %>
-              <!-- START TASKA DETAILS -->
-              <tr>
-                <td><strong>INSTITUTION NAME:</strong></td>
-                <td>
-                  <% if @tchdetail.ts_name.present? %>
-                  <%= "#{@tchdetail.ts_name.upcase}" %>
-                  <% end %>
-                </td>
-              </tr>
-
-              <tr>
-                <td><strong>INSTITUTION OWNER NAME:</strong></td>
-                <td>
-                  <% if @tchdetail.ts_owner_name.present? %>
-                  <%= "#{@tchdetail.ts_owner_name.upcase}" %>
-                  <% end %>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>INSTITUTION OWNER PHONE NO:</strong></td>
-                <td>
-                  <%= "#{@tchdetail.ts_phone_1}-""#{@tchdetail.ts_phone_2}" %>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>INSTITUTION ADDRESS:</strong></td>
-                <td>
-                  <% if @tchdetail.ts_address_1.present? %>
-                  <%= "#{@tchdetail.ts_address_1.upcase}" %><br>
-                  <% end %>
-                  <% if @tchdetail.ts_address_2.present? %>
-                  <%= "#{@tchdetail.ts_address_2.upcase}" %><br>
-                  <% end %>
-                  <% if @tchdetail.ts_city.present? %>
-                  <%= "#{@tchdetail.ts_city.upcase}" %>
-                  <% end %>
-                  <% if @tchdetail.ts_states.present? %>
-                  <%= "#{@tchdetail.ts_states.upcase}" %>
-                  <% end %>
-                  <%= "#{@tchdetail.ts_postcode}" %>
-                </td>
-              </tr>
               <% if @tchdetail.anis == "true" %>
+                <!-- START TASKA DETAILS -->
+                <tr>
+                  <td><strong>INSTITUTION NAME:</strong></td>
+                  <td>
+                    <% if @tchdetail.ts_name.present? %>
+                    <%= "#{@tchdetail.ts_name.upcase}" %>
+                    <% end %>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><strong>INSTITUTION OWNER NAME:</strong></td>
+                  <td>
+                    <% if @tchdetail.ts_owner_name.present? %>
+                    <%= "#{@tchdetail.ts_owner_name.upcase}" %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>INSTITUTION OWNER PHONE NO:</strong></td>
+                  <td>
+                    <%= "#{@tchdetail.ts_phone_1}-""#{@tchdetail.ts_phone_2}" %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>INSTITUTION ADDRESS:</strong></td>
+                  <td>
+                    <% if @tchdetail.ts_address_1.present? %>
+                    <%= "#{@tchdetail.ts_address_1.upcase}" %><br>
+                    <% end %>
+                    <% if @tchdetail.ts_address_2.present? %>
+                    <%= "#{@tchdetail.ts_address_2.upcase}" %><br>
+                    <% end %>
+                    <% if @tchdetail.ts_city.present? %>
+                    <%= "#{@tchdetail.ts_city.upcase}" %>
+                    <% end %>
+                    <% if @tchdetail.ts_states.present? %>
+                    <%= "#{@tchdetail.ts_states.upcase}" %>
+                    <% end %>
+                    <%= "#{@tchdetail.ts_postcode}" %>
+                  </td>
+                </tr>
+              
                 <tr>
                   <td><strong>NO OF OKU CHILDREN</strong></td>
                   <td>
