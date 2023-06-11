@@ -1,7 +1,7 @@
 wb = xlsx_package.workbook
 col_widths= [30,20,20,30,30,30,30,30,30,30,30,30,30]
 col_widths2= [30, 20, 20, 20, 11, 11, 11, 11, 30]
-col_widths3= [30,20,15,20,16,11,20,22,40]
+col_widths3= [30,20,15,20,16,11,20,22,40,40,40,40,40,40]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -127,7 +127,13 @@ wb.styles do |style|
                   "GENDER",
                   "EDUCATION",
                   "MARITAL STATUS",
-                  "ADDRESS"]
+                  "ADDRESS",
+                  "KAAK/KAP DETAILS",
+                  "KURSUS PENGEDALIAN MAKANAN DETAILS",
+                  "TYPHOID INJECTION DATE",
+                  "TYPHOID INJECTION EXPIRY",
+                  "CPR/FIRST AID DETAILS"
+                  ]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -142,7 +148,12 @@ wb.styles do |style|
                     tchd.gender,
                     tchd.education,
                     tchd.marital,
-                    "#{tchd.address_1},#{tchd.address_2},#{tchd.city},#{tchd.postcode},#{tchd.states}"
+                    "#{tchd.address_1},#{tchd.address_2},#{tchd.city},#{tchd.postcode},#{tchd.states}",
+                    tchd.kapstat,
+                    tchd.foodstat,
+                    tchd.typhdt,
+                    tchd.typhexp,
+                    "#{tchd.cprstat} (#{tchd.cprdt})"
                     ], 
                     style: [border_cell,
                             border_cell,

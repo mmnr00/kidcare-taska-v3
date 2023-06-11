@@ -504,6 +504,8 @@ end
 																	:oku,
 																	:soku,
 																	:pdpa,
+																	:okutype,
+																	:okuregno,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 

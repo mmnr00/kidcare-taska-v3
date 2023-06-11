@@ -418,6 +418,49 @@
                     <%= @kid.alt_phone %>
                   </td>
                 </tr>
+                <tr>
+                  <td><strong>TYPE OF OKU</strong></td>
+                  <td>
+                    <%= @kid.okutype %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>OKU REGISTRATION NO</strong></td>
+                  <td>
+                    <%= @kid.okuregno %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>OKU CARD COPY</strong></td>
+                  <td>
+                    <% image = @fotos.where(foto_name: "OKU FRONT").first %>
+                    <% if image.present? && image.picture.present? %>
+                      <a href="<%="#{image.picture.url}"%>" target="_blank">
+                        <% if @pdf %>
+                          <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                        <% else %>
+                          <%= image_tag(image.picture.url, size: "50x50") %>
+                        <% end %>
+                      </a>
+                    <% else %>
+                      No photo uploaded &nbsp
+                    <% end %>
+
+                    <% image = @fotos.where(foto_name: "OKU BACK").first %>
+                    <% if image.present? && image.picture.present? %>
+                      <a href="<%="#{image.picture.url}"%>" target="_blank">
+                        <% if @pdf %>
+                          <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                        <% else %>
+                          <%= image_tag(image.picture.url, size: "50x50") %>
+                        <% end %>
+                      </a>
+                    <% else %>
+                      No photo uploaded &nbsp
+                    <% end %>
+
+                  </td>
+                </tr>
               <% end %>
             </tbody>
 

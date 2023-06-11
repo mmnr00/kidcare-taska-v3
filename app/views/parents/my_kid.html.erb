@@ -6,6 +6,7 @@
       <i class="fas fa-eye"></i>
       ALL REGISTERED CHILDREN
     </div>
+    <% if current_parent.id == 1%>
     <div class="bg-light"><br>
       <!-- Team -->
       <div class="scontainer">
@@ -61,6 +62,7 @@
         </div>
       </div>
     </div>
+    <% end %>
   </div>
 <% else %>
   You have not registered any children. 

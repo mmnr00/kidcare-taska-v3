@@ -593,6 +593,106 @@
           </div>
         </div>
 
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-caret-down"></i><strong> TYPE OF OKU (IF ANY)</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :okutype, options_for_select(["Pendengaran", 
+                                                          "Penglihatan", 
+                                                          "Fizikal",
+                                                          "Pertuturan",
+                                                          "Pembelajaran",
+                                                          "Mental",
+                                                          "Pelbagai"],
+                                                          selected: @kid.okutype),
+              {include_blank: "Please Select"} %>          
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OKU REGISTRATION NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :okuregno, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> OKU CARD (FRONT)</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "OKU FRONT").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "OKU FRONT" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> OKU CARD (BACK)</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "OKU BACK").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "OKU BACK" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+
         
 
         
