@@ -1,0 +1,77 @@
+KIDS CAMPUS MAYBANK
+562106713635
+
+1. Taska mawaddah - [292, "vmzubjzi", "hhjl_00l"]
+2. Hospital serdang - [651, "vmzubjzi", "hhjl_00l"]
+3. Tsp6 - [46, "exlkc5gw", "whdboujp"]
+4. Tsp7 - [47, "exlkc5gw", "whdboujp"]
+
+
+KIDS CAMPUS BANK ISLAM
+
+1. BEBE HAUZ - [650, "lzojkzuq", "zy8idbol"] 
+2. LITTLE PEOPLE - [592, "ausdnupf", "nhk5oofy"]
+
+arr = []
+[292,651,46,47,650,592].each do |ts|
+t=Taska.find(ts)
+arr<<[ts,t.collection_id,t.collection_id2]
+end
+
+old = [[292, "vmzubjzi", "hhjl_00l"], [651, "vmzubjzi", "hhjl_00l"], [46, "exlkc5gw", "whdboujp"], [47, "exlkc5gw", "whdboujp"], [650, "lzojkzuq", "zy8idbol"], [592, "ausdnupf", "nhk5oofy"]]
+
+new = [[292, "h79outs_, "drunzlqa"], [651, "h79outs_, "drunzlqa"], [46, "h79outs_, "drunzlqa"], [47, "h79outs_, "drunzlqa"], [650, "y48ubkex", "qfpgbstv"], [592, "y48ubkex", "qfpgbstv"]]
+
+----------------------------
+"vmzubjzi", "hhjl_00l", "lzojkzuq", "zy8idbol"
+Bank Name
+Maybank / Malayan Banking Berhad
+
+Bank Account Number
+562106713635
+
+Bank Account Holder Name
+KIDS CAMPUS CHILDCARE SDN BHD
+
+292@kidcare.my
+
+---------------------------
+"exlkc5gw", "whdboujp"
+Bank Name
+Bank Islam Malaysia Berhad
+
+Bank Account Number
+12038010144812
+
+Bank Account Holder Name
+LITTLE LEADERS CHILDCARE CENTRE
+
+----------------------------------
+
+"ausdnupf", "nhk5oofy"
+Bank Name
+Bank Islam Malaysia Berhad
+
+Bank Account Number
+12038010141913
+
+Bank Account Holder Name
+KIDS CAMPUS CHILDCARE SDN BHD
+
+592_3@kidcare.my
+
+------
+
+new = [[292, "h79outs_", "drunzlqa"], [651, "h79outs_", "drunzlqa"], [46, "h79outs_", "drunzlqa"], [47, "h79outs_", "drunzlqa"], [650, "y48ubkex", "qfpgbstv"], [592, "y48ubkex", "qfpgbstv"]]
+
+new.each do |itm|
+t=Taska.find(itm[0])
+t.collection_id = itm[1]
+t.collection_id2 = itm[2]
+t.save
+end
+
+
+
+
+
