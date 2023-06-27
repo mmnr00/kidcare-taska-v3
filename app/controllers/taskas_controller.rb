@@ -31,6 +31,26 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def updtskcollection
+    taska = Taska.find(params[:id])
+    taska.collection_id = params[:id1]
+    taska.collection_id2 = params[:id2]
+    id1 = check_collection(params[:id1])
+    id2 = check_collection(params[:id2])
+    puts id1
+    puts id2
+    if id1 && id2
+      taska.collection_name1 = id1["title"]
+      taska.collection_name2 = id2["title"]
+      taska.save
+      flash[:success] = "Update Successful"
+    else 
+      flash[:danger] = "Update Not Successful. Please check the collection ID"
+    end
+    redirect_to request.referrer
+
+  end
+
   def vltrlist
     @vltrs = @taska.vltrs
     render action: "vltrlist", layout: "dsb-admin-overview"

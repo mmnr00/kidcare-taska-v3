@@ -8,6 +8,22 @@ class ApplicationController < ActionController::Base
 	 	#@current_taska ||= Taska.find(session[:Taska_id])
 	 #end
 
+	 def check_collection(id)
+	 	url_bill = "#{"https://www.billplz.com/api/v3/"}collections/#{id}"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => { }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => "#{"7aadab0d-b925-4444-aeb9-c3b328b144dd"}" },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["id"].present?
+      	return data
+      else
+      	return false
+      end
+	 end
+
 	 def check2_bill(pmt)
 	 	payment = Payment.find(pmt) 
 		#check payment status

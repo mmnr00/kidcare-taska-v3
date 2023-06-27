@@ -224,6 +224,7 @@ Rails.application.routes.draw do
   get '/chdt_lgbk', to: 'parents#chdt_lgbk', as: 'chdt_lgbk'
 
   #~TASKAS
+  get 'updtskcollection', to: 'taskas#updtskcollection'
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
   get '/taska/:id/tchinfo_new', to: 'taskas#tchinfo_new', as: 'tchinfo_new'
   get '/taska/:id/tchinfo_save', to: 'taskas#tchinfo_save', as: 'tchinfo_save'

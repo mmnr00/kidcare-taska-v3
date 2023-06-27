@@ -101,9 +101,9 @@
           <th style="background-color:#d8b2d8"> NAME </th>
           <th style="background-color:#d8b2d8"> BILL </th>
           <th style="background-color:#d8b2d8"> DATE </th>
-          <th style="background-color:#d8b2d8"> ADM </th>
-          <th style="background-color:#d8b2d8"> BANK </th>
-          <th style="background-color:#d8b2d8"> BILLPLZ </th>
+          <th style="background-color:#d8b2d8"> ADMIN </th>
+          <th style="background-color:#d8b2d8"> COLLECTION ID </th>
+          <th style="background-color:#d8b2d8"> COLLECTION NAME </th>
         </tr>
       </thead>
       <tbody>
@@ -157,13 +157,29 @@
                 <%= "#{tsk.phone_1}-#{tsk.phone_2}" %><br>
                 <%= tsk.email %>
               </td>
-              <td><%= tsk.bank_name %><br><br>
-                  <%= tsk.acc_name %><br><br>
-                  <%= tsk.acc_no %><br><br>
-                  <%= tsk.ssm_no %>
+              <td>
+                  <%= form_tag updtskcollection_path, method: :get do %> 
+                        ID1 <%= text_field_tag :id1, tsk.collection_id,
+                            placeholder: "Example: 01162801556",
+                            class: "form-control search-box",
+                            style: "font-size: 12px"%>
+                        ID2 = <%= text_field_tag :id2, tsk.collection_id2,
+                            placeholder: "Example: 01162801556",
+                            class: "form-control search-box",
+                            style: "font-size: 12px"%>  
+                        <%= hidden_field_tag :id, tsk.id %>
+                      
+                      <div class="col-md-0">
+                        <%= button_tag(type: :submit, class: "badge badge-secondary badge-pill",style: "font-size: 10px", id: "submit_expense") do %>
+                          <i class="fa fa-check"></i> UPDATE
+                        <% end %>
+                      </div>
+                    
+                  <% end %>
               </td>
-              <td>ID1= <%= tsk.collection_id %><br>
-                  ID2= <%= tsk.collection_id2 %>
+              <td>
+                Name 1 = <%= tsk.collection_name1 %><br>
+                Name 2 = <%= tsk.collection_name2 %>
               </td>
             </tr>
           <% end %>

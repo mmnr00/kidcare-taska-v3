@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_10_081831) do
+ActiveRecord::Schema.define(version: 2023_06_27_123542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -520,6 +520,8 @@ ActiveRecord::Schema.define(version: 2023_06_10_081831) do
     t.integer "remdt"
     t.integer "psldt"
     t.string "othnm"
+    t.string "collection_name1"
+    t.string "collection_name2"
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 
