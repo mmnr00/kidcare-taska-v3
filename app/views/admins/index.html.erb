@@ -6,11 +6,12 @@
   <% else %>
     <%= link_to "SHOW OVERALL", admin_index_path(ovrl: true) , class: "btn btn-xs btn-success active"%>
   <% end %><% end %>
+  <%= link_to "SUPERADMIN VIEW", admin_index_path(kcadm: "MUS123"), class: "btn btn-sm btn-danger active" unless current_admin.id != 4 %>
   
 <% end %>
 
 <% if $admckn.include? @admin.id.to_s %>
-  <%= link_to "Program Cakna Anak", rptckn_path , class: "btn btn-sm btn-info"%>
+  <% link_to "Program Cakna Anak", rptckn_path , class: "btn btn-sm btn-info"%>
 <% end %>
 
 <br>
@@ -93,6 +94,7 @@
 <% if params[:kcadm] == "MUS123" %>
 <%= link_to "MARKET", market_xls_path(format: :xlsx), class: "btn btn-sm btn-info active" %>
 <%= link_to "MARKET TASKA REG", market_xls_path(format: :xlsx, taska: true), class: "btn btn-sm btn-info active" %>
+<%= link_to "SHOW INACTIVE CENTERS", admin_index_path(kcadm: "MUS123",showexpire: true), class: "btn btn-sm btn-info active" %>
   <div class="table-responsive">
     <table class="table table-striped table-bordered" width="100%" cellspacing="0">
       <thead>
@@ -114,8 +116,16 @@
           tot_payovr = 0.00
           ctr = 0
         %>
+        <% if params[:showexpire].present? 
+          expr = (Date.today - (Date.today + 10.years)).to_i 
+        else
+          expr = -15
+        end
+        
+        %>
+
         <% @admin_taska.order('created_at DESC').each do |tsk|%>
-          <% if (tsk.expire.to_date - Date.today).to_i > -15 %>
+          <% if (tsk.expire.to_date - Date.today).to_i > expr %>
             <%
               num_kid = tsk.kids.where.not(classroom_id: nil).count              
               unpaid_plan = tsk.payments.where(name: "TASKA PLAN", paid: false).present?
