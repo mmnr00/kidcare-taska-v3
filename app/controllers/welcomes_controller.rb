@@ -4,6 +4,11 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def webarch01
+		@admin = current_admin
+		render action: "webarch01", layout: "blank"
+	end
+
 	def caknafeedback
 		redirect_to "https://forms.gle/EE7LbsekSA8MHDK7A"
 	end
