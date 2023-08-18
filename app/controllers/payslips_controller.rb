@@ -8,7 +8,7 @@ class PayslipsController < ApplicationController
     tch = @payslip.teacher
     tchd = tch.tchdetail
 		@payslip.notf = 1
-		#@payslip.save
+		@payslip.save
 		#sent email
 		mail = SendGrid::Mail.new
     mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'KidCare')
