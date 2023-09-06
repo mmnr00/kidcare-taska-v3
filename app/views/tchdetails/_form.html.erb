@@ -46,7 +46,7 @@
               <%= f.select :gender, options_for_select(["MALE",
                                                         "FEMALE"],
                                                         selected: @tchdetail.gender),
-              {include_blank: "Please Select"}, {required: true} %>          
+              {include_blank: "Please Select"}, {required: false} %>          
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
                                 start_year: 1950,
                                 end_year: Date.today.year,
                                 selected: @tchdetail.dob}, 
-                                {required: true} %>
+                                {required: false} %>
             </div>
           </div>
         </div>
@@ -79,11 +79,11 @@
           </div>
           <div class="row">
             <div class="col-sm-2 col-3">
-             <%= f.text_field  :phone_1, maxlength: 3, class: "form-control", autofocus: true, required: true %><font size="2"> Area </font> 
+             <%= f.text_field  :phone_1, maxlength: 3, class: "form-control", autofocus: true, required: false %><font size="2"> Area </font> 
             </div>
             -
             <div class="col-sm-3 col-5">
-              <%= f.text_field  :phone_2, maxlength: 8, class: "form-control", autofocus: true, required: true %><font size="2"> Phone Number </font> 
+              <%= f.text_field  :phone_2, maxlength: 8, class: "form-control", autofocus: true, required: false %><font size="2"> Phone Number </font> 
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@
                                                         "Single",
                                                         "Others"],
                                                         selected: @tchdetail.marital),
-              {include_blank: "Please Select"}, {required: true} %>          
+              {include_blank: "Please Select"}, {required: false} %>          
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@
                                                         "Principal",
                                                         "Others"],
                                                         selected: @tchdetail.category),
-              {include_blank: "Please Select"}, {required: true} %>          
+              {include_blank: "Please Select"}, {required: false} %>          
             </div>
           </div>
         </div>
@@ -133,7 +133,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true %> <font size="2"> &nbsp </font>
+             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: false %> <font size="2"> &nbsp </font>
             </div>
             <div class="col-sm-8 col-12">
              <%= f.text_field :address_2, class: "form-control", autofocus: true %> <font size="2"> &nbsp </font>
@@ -141,13 +141,13 @@
           </div>
           <div class="row">
             <div class="col-sm-3 col-6">
-             <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> City </font>
+             <%= f.text_field :city, class: "form-control", autofocus: true, required: false %> <font size="2"> City </font>
             </div>
             <div class="col-sm-3 col-5">
-             <%= f.text_field :states, class: "form-control", autofocus: true, required: true %> <font size="2"> States </font>
+             <%= f.text_field :states, class: "form-control", autofocus: true, required: false %> <font size="2"> States </font>
             </div>
             <div class="col-sm-2 col-4">
-             <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Postcode </font>
+             <%= f.number_field :postcode, class: "form-control", autofocus: true, required: false %> <font size="2"> Postcode </font>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@
                                                         "Others"
                                                         ], 
                                                         selected: @tchdetail.education), 
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Please Select"}, {required: false} %>
               <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
             </div>
           </div>
@@ -225,7 +225,7 @@
                                                         "In Progress"
                                                         ], 
                                                         selected: @tchdetail.kapstat), 
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Please Select"}, {required: false} %>
               <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
             </div>
           </div>
@@ -277,7 +277,7 @@
                                                         "No"
                                                         ], 
                                                         selected: @tchdetail.foodstat), 
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Please Select"}, {required: false} %>
               <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
             </div>
           </div>
@@ -336,7 +336,7 @@
                                 start_year: 2009,
                                 end_year: Date.today.year,
                                 selected: @tchdetail.typhdt}, 
-                                {required: true} %>
+                                {required: false} %>
             </div>
           </div>
           <div class="row">
@@ -352,7 +352,7 @@
                                 start_year: 2009,
                                 end_year: Date.today.year + 5,
                                 selected: @tchdetail.typhexp}, 
-                                {required: true} %>
+                                {required: false} %>
             </div>
           </div>
           
@@ -403,7 +403,7 @@
                                                         "No"
                                                         ], 
                                                         selected: @tchdetail.cprstat), 
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Please Select"}, {required: false} %>
               <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
             </div>
           </div>
@@ -420,7 +420,7 @@
                                 start_year: 2009,
                                 end_year: Date.today.year,
                                 selected: @tchdetail.cprdt}, 
-                                {required: true} %>
+                                {required: false} %>
             </div>
           </div>
           
@@ -478,7 +478,7 @@
                                 start_year: 2000,
                                 end_year: Date.today.year,
                                 selected: @tchdetail.startwork}, 
-                                {required: true} %>
+                                {required: false} %>
             </div>
           </div>
         </div>
@@ -602,7 +602,7 @@
                                                         "RM5,001 to RM10,000", 
                                                         "RM5,000 and below"],
                                                         selected: @tchdetail.income),
-              {include_blank: "Please Select"}, {required: true} %>          
+              {include_blank: "Please Select"}, {required: false} %>          
             </div>
           </div>
         </div>
@@ -615,7 +615,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.email_field :email, required: true %>
+              <%= f.email_field :email, required: false %>
             </div>
           </div>
         </div>
@@ -628,7 +628,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :ts_name, class: "form-control",required: true, autofocus: true %>
+              <%= f.text_field :ts_name, class: "form-control",required: false, autofocus: true %>
             </div>
           </div>
         </div>
@@ -709,7 +709,7 @@
                                                       "OTHERS"
                                                         ], 
                                                         selected: @tchdetail.ts_tp), 
-              {include_blank: "Please Select"}, {required: true} %>              
+              {include_blank: "Please Select"}, {required: false} %>              
             </div>
           </div>
         </div>
@@ -754,7 +754,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.number_field :biloku, class: "form-control", autofocus: true,required: true, value: @tchdetail.biloku %>
+              <%= f.number_field :biloku, class: "form-control", autofocus: true,required: false, value: @tchdetail.biloku %>
             </div>
           </div>
         </div>
@@ -769,7 +769,7 @@
             <div class="col-sm-8 col-8">
               <%= f.select :dun, options_for_select($sel_dun, 
                                                     selected: @tchdetail.dun), 
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Please Select"}, {required: false} %>
               <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
             </div>
           </div>
@@ -784,7 +784,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :jkm, class: "form-control", placeholder: "", autofocus: true, required: true %>
+              <%= f.text_field :jkm, class: "form-control", placeholder: "", autofocus: true, required: false %>
             </div>
           </div>
         </div>
@@ -803,7 +803,7 @@
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 start_year: (Time.now - 2.year).year,
                                 selected: @tchdetail.expjkm}, 
-                                {required: true} %>
+                                {required: false} %>
             </div>
           </div>
         </div>
@@ -821,7 +821,7 @@
                                                       "CHILDCARE PROVIDER"
                                                         ], 
                                                         selected: @tchdetail.post), 
-              {include_blank: "Please Select"}, {required: true} %>              
+              {include_blank: "Please Select"}, {required: false} %>              
             </div>
           </div>
         </div>
