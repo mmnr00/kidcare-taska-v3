@@ -26,6 +26,80 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%= f.label :Terms_and_Conditions %><br />
+    <div style="height:200px;border:1px solid #ccc; overflow:auto; text-align: justify;" class="col-12">
+      <b>Subscription Services</b><br>
+      1.1 Subscriber acknowledges and agrees to the subscription of KidCare's Software-as-a-Service (SaaS)
+      platform, which provides child care management solutions.<br>
+      1.2 KidCare will provide access to the subscribed services, including but not limited to registration, billing, payment, staff leave and payslip, logbook and cashflow entry subject to the terms of this Agreement.<br><br>
+      <b>Subscription Fees and Payments</b><br>
+      2.1 Subscriber agrees to pay the subscription fees as specified in the agreed-upon pricing plan or as
+      otherwise communicated by KidCare.<br>
+      2.2 Payment shall be made by the Subscriber within the agreed-upon payment terms.<br>
+      2.3 KidCare reserves the right to modify the subscription fees upon providing reasonable notice to the Subscriber.<br><br>
+      <b>Intellectual Property Rights</b><br>
+      3.1 The KidCare SaaS platform, including all associated software, trademarks, logos, and content, remains
+      the exclusive property of KidCare.<br>
+      3.2 Subscriber shall not reproduce, distribute, modify, or create derivative works based on KidCare's
+      intellectual property without prior written consent from KidCare.<br><br>
+      <b>Subscriber's Responsibilities</b><br>
+      4.1 Subscriber agrees to provide accurate and up-to-date information, including but not limited to all the
+      information as per Appendix 1.<br>
+      4.2 Subscriber agrees to promptly inform KidCare in writing, through email, of any changes to the center
+      details as specified in Appendix 2. Notification of such changes shall be sent to support@kidcare.my.
+      Subscriber acknowledges that the verification and approval process for changes, particularly in the case of a
+      change in the bank account number, may take 3-5 business days. It is understood that only the person
+      designated as the authorized representative or person in charge of the subscriber's organization has the
+      authority to request changes to the bank account details.<br>
+      4.3 Subscriber is responsible for maintaining the confidentiality and security of their login credentials and
+      shall not share or disclose them to any unauthorized third parties.<br>
+      4.4 Subscriber agrees to comply with all applicable laws and regulations while using the KidCare SaaS
+      platform.<br><br>
+      <b>Support and Maintenance</b><br>
+      5.1 KidCare will provide reasonable technical support to Subscriber during the term of this Agreement.<br>
+      5.2 KidCare may perform routine maintenance or updates to the SaaS platform, and reasonable efforts will
+      be made to minimize any service disruptions.<br><br>
+      <b>Term and Termination</b><br>
+      6.1 This Agreement shall commence on the date of Subscriber's acceptance and shall remain in effect until
+      terminated by either party.<br>
+      6.2 Either party may terminate this Agreement upon providing written notice to the other party’s registered
+      email address.<br>
+      6.3 In the event of non-payment by the Subscriber, if the amount due remains unpaid by the end of the
+      monthly period, KidCare reserves the right to suspend the Subscriber's access to the system until payment
+      is received.<br>
+      6.4 If the Subscriber continuously fails to make payment within a period of three (3) consecutive months,
+      KidCare reserves the right to de-register the Subscriber and terminate their access to the system. In such
+      cases, the Subscriber will be required to pay a new registration fee to re-activate their account.<br>
+      6.5 Termination of this Agreement shall not relieve the Subscriber of their obligation to pay any outstanding fees or charges accrued prior to termination.<br><br>
+      <b>Limitation of Liability</b><br>
+      7.1 KidCare shall not be liable for any indirect, consequential, incidental, or punitive damages arising out of or related to the use or inability to use the KidCare SaaS platform.<br>
+      7.2 KidCare's liability, if any, for direct damages arising out of this Agreement shall be limited to the total amount paid by Subscriber during the twelve (12) months preceding the event giving rise to the liability.<br><br>
+      <b>Governing Law and Jurisdiction</b><br>
+      8.1 This Agreement shall be governed by and construed in accordance with the laws of Malaysia.<br>
+      8.2 Any disputes arising out of or in connection with this Agreement shall be submitted to the exclusive
+      jurisdiction of the courts of Malaysia.<br><br>
+      <b>Data Usage and Consent</b><br>
+      9.1 By subscribing to KidCare's SaaS platform, Subscriber acknowledges and provides explicit consent to
+      KidCare to use the information provided, including but not limited to Centre Name, Company Name, SSM
+      Registration Number, Address, Email, Bank Account Details, Account Holder’s Name, Account Number,
+      Bank Name, Bank Address, Name of Person in Charge, and Contact Number of Person in Charge
+      (collectively referred to as "Subscriber Information"), for the purposes of providing the subscribed services,communication, marketing, and data analysis.<br>
+      9.2 Subscriber understands and agrees that KidCare may use Subscriber Information to improve its services,
+      analyze usage patterns, and enhance user experience. <br>
+      9.3 KidCare is committed to maintaining the confidentiality and security of Subscriber Information and will not share or sell this information to third parties without obtaining explicit consent from the Subscriber.<br>
+      9.4 Subscriber may, at any time, withdraw their consent for the use of their information for marketing or data analysis purposes by notifying KidCare in writing. However, such withdrawal of consent may impact certain services and functionalities provided by KidCare.<br><br>
+      <b>Entire Agreement</b><br>
+      10.1 This Agreement constitutes the entire understanding between the Parties and supersedes any prior
+      agreements or understandings, whether written or oral, relating to the subject matter herein.<br>
+
+
+    </div>
+  </div>
+  <div style="margin-top: 5px; margin-bottom: 5px;">
+    <%= f.check_box :tnc, value: 1, required: true %> By checking the box, Subscriber acknowledges that they have read, understood, and agree to be bound by the terms and conditions outlined above.
+  </div>
+
   <%= f.hidden_field  :college_id, value: params[:college_id] %>
   <%= f.hidden_field  :course_id, value: params[:course_id] %>
 
