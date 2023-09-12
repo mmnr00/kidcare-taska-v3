@@ -31,10 +31,13 @@
   </div>
   <div class="card-body">
     <div style="margin-bottom: -20px"></div>
-    <%= link_to "DOWNLOAD EXCEL", childlist_xls_path(@taska, cls: params[:cls_id], sch_str: params[:sch_str], format: :xlsx), class: "badge badge-pill badge-info" %>
+    <%= link_to "DOWNLOAD STUDENT LIST", childlist_xls_path(@taska, cls: params[:cls_id], sch_str: params[:sch_str], format: :xlsx), class: "badge badge-pill badge-info" %>
     <%= link_to "REGISTER CHILDREN", new_kid_path(taska_id: @taska.id), class: "badge badge-pill badge-primary" %>
     <% if @admin.id == 4 %>
       <%= link_to "UPLOAD EXCEL", xlskid_path(@taska), class: "badge badge-pill badge-warning" %>
+    <% else %>
+      <%= link_to "EXCEL TEMPLATE", tempkidxls_path(@taska, format: :xlsx), class: "badge badge-pill badge-warning" %>
+      
     <% end %>
   <% if @kids.count < 1 %>
     <br>
