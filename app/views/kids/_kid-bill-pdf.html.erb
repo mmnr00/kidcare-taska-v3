@@ -72,7 +72,11 @@
           <div class="clearfix"></div><br>
             <div class="col-md-12">
               <h4 class="semi-bold">
-                EN <%= @kid.father_name.upcase %> / PN <%= @kid.mother_name.upcase %></h4>
+                <% if @taska.id == 673 %>
+                  <%= @kid.father_name.upcase %>
+                <% else %>
+                  EN <%= @kid.father_name.upcase %> / PN <%= @kid.mother_name.upcase %></h4>
+                <% end %>
               <address>
                 <%= @kid.father_phone %><br>
                 <%= @kid.mother_phone %><br>
