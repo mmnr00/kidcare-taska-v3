@@ -31,6 +31,20 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def qrcenter
+    @taska = Taska.find(params[:id])
+    qrcode = RQRCode::QRCode.new(taska_page_url(id: @taska.id))
+    @svg = qrcode.as_svg(
+      offset: 0,
+      color: '000',
+      backgroundcolor: 'white',
+      shape_rendering: 'crispEdges',
+      module_size: 10,
+      standalone: true
+    )
+    render action: "qrcenter", layout: "eip" 
+  end
+
   def updtskcollection
     taska = Taska.find(params[:id])
     taska.collection_id = params[:id1]
@@ -2107,7 +2121,8 @@ end
     @taska.collection_id = $clt
     @taska.collection_id2 = $clt
     @taska.name = @taska.name.upcase
-    @taska.plan = "PAY PER USE"
+    #@taska.plan = "PAY PER USE"
+    @taska.plan = "MONTHLY FIX"
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       annlv = Tsklv.create(taska_id: @taska.id, 

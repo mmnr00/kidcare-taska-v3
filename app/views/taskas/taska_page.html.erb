@@ -39,7 +39,7 @@
                 <li><i class="fa fa-road" aria-hidden="true"></i> <%= @taska.address_2.upcase %></li>
                 <li><i class="fa fa-building" aria-hidden="true"></i> <%= @taska.city.upcase %></li>
                 <li><i class="fa fa-globe" aria-hidden="true"></i> <%= @taska.states.upcase %>,<%= @taska.postcode %> </li>
-                <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li>
+                <!-- <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li> -->
                 <li><i class="fa fa-envelope" aria-hidden="true"></i> <%= @taska.email %> </li>
                 <% hbook = @taska.fotos.where(foto_name: "CENTER HANDBOOK").first %>
                 <% if hbook.picture.present? %>

@@ -41,7 +41,8 @@ $package_price = 	{ "BASIC"=>80,
 										"PREMIUM"=>200,
 										"PLATINUM"=>240,
 										"PAY PER USE"=>3,
-                                                            "PAY PER USE N"=>3,
+                    "PAY PER USE N"=>3,
+                    "MONTHLY FIX" => 50,
 									}
 #taska discount = percentage(how much they have to pay i.e 40% == t.discount = 0.6)
 

@@ -7,6 +7,7 @@ ruby '3.0.0'
 gem 'rails', '~> 6.1.7'
 # Use sqlite3 as the database for Active Record
 
+gem 'rqrcode'
 gem 'sass'
 gem 'roo'
 #gem 'sass-rails', '~> 5.0.7'
