@@ -2,16 +2,20 @@
   <div class="col-4"></div>
 
   <div class="col-4">
-    <div class="row container" style="margin-bottom: 10px;">
-      <div class="pull-right">
-        <% image = @taska.fotos.where(foto_name: "CENTER LOGO").first %>
-        <% if image.present? && image.picture.present? %>
-          <%= image_tag(image.picture.url, size: "50x50") %>
-        <% end %>
-      </div>&nbsp&nbsp&nbsp&nbsp<br><br>
-      <h6 align="center"><%= @taska.name %></h6>
-      <br>
+
+    <div class="container" style="margin-bottom: 10px;">
+      <div class="copyright text-center my-auto">
+        <span>
+          <% image = @taska.fotos.where(foto_name: "CENTER LOGO").first %>
+          <% if !image.present? && image.picture.present? %>
+            <img src="<%= image.picture.url %>" class="" alt="" data-src="<%= image_path('kidcare_logo/kidcare_logo_only.png') %>" data-src-retina="<%= image_path('kidcare_logo/kidcare_logo_only.png') %>" width="50" height="50" /> 
+          <% end %> 
+
+         &nbsp&nbsp<strong> <%= @taska.name %></strong> 
+        </span>
+      </div>
     </div>
+
     <%= @svg.html_safe %><br><br>
   </div>
 
