@@ -38,8 +38,8 @@
                 <li> <i class="fa fa-home" aria-hidden="true"></i>  <%= @taska.address_1.upcase %></li>
                 <li><i class="fa fa-road" aria-hidden="true"></i> <%= @taska.address_2.upcase %></li>
                 <li><i class="fa fa-building" aria-hidden="true"></i> <%= @taska.city.upcase %></li>
-                <li><i class="fa fa-globe" aria-hidden="true"></i> <%= @taska.states.upcase %>,<%= @taska.postcode %> </li>
-                <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li>
+                <li><i class="fa fa-globe" aria-hidden="true"></i> <%= @taska.states.upcase %>,<%= @taska.postcode %> </li><!-- 
+                <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li> -->
                 <li><i class="fa fa-envelope" aria-hidden="true"></i> <%= @taska.email %> </li>
                 <% hbook = @taska.fotos.where(foto_name: "CENTER HANDBOOK").first %>
                 <% if hbook.picture.present? %>
@@ -52,8 +52,8 @@
               </ul>
               </address>
               <hr>
-             <p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
-             <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p>
+             <a href="https://wa.me/6<%= "#{@taska.phone_1}#{@taska.phone_2}" %>?text=<%= @taska.name %>"><p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
+             <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p></a>
              <hr>
              <% if 1==1 #@taska.kids.count < $package_child["#{@taska.plan}"].to_i %>
               <% if current_admin %>
@@ -68,7 +68,7 @@
              <% end %>
             </div>
             <hr>
-            <p class="lower-case">  RATINGS</p>
+            <!-- <p class="lower-case">  RATINGS</p>
             <div class="ratings">
               <ul class="list-inline">
                   <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
@@ -79,7 +79,7 @@
 
               </ul>
             </div>
-            <hr>
+            <hr> -->
               <p class="lower-case ">  OUR LOCATION</p>
             <iframe
               width="100%"
