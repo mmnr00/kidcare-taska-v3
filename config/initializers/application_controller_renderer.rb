@@ -12,6 +12,7 @@
 #   $undiptns = ENV['UNDIPTNS'].split(/\n/)
 # end
 
+$taska_old = ENV['TASKA_OLD'].split(',')
 $cakna21 = ENV['cakna21'].split(',')
 $admckn = ENV['admckn'].split(',')
 
