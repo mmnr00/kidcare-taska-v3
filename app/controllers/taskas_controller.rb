@@ -490,6 +490,17 @@ class TaskasController < ApplicationController
   def taska_page
     @taska = Taska.find(params[:id])
     @fotos = @taska.fotos
+    if @taska.linkreg.present?
+      qrcode = RQRCode::QRCode.new(@taska.linkreg)
+      @svg = qrcode.as_svg(
+        offset: 0,
+        color: '000',
+        backgroundcolor: 'white',
+        shape_rendering: 'crispEdges',
+        module_size: 6,
+        standalone: true
+      )
+    end
   end
 
   def unreg_kids
@@ -2486,6 +2497,7 @@ end
                                     :remdt,
                                     :psldt,
                                     :othnm,
+                                    :linkreg,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank
