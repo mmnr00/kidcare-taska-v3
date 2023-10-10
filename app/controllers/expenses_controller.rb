@@ -121,7 +121,11 @@ def my_expenses
 										"paid"=> @new_bills_paid
 											}
 		#TASKA BILLS END
-
+		if !$taska_old.include? @taska.id.to_s
+			@pmt_gateway = @taska_payments.where(paid: true, mtd: "BILLPLZ").count*3.00
+		else
+			@pmt_gateway = 0
+		end
 		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', mth).where('extract(year from updated_at) = ?', year)
 	else #yearly report
 		@taska_payslips = @taska.payslips.where(year: params[:expense][:year])

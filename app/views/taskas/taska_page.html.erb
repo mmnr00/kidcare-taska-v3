@@ -39,8 +39,14 @@
                 <li><i class="fa fa-road" aria-hidden="true"></i> <%= @taska.address_2.upcase %></li>
                 <li><i class="fa fa-building" aria-hidden="true"></i> <%= @taska.city.upcase %></li>
                 <li><i class="fa fa-globe" aria-hidden="true"></i> <%= @taska.states.upcase %>,<%= @taska.postcode %> </li><!-- 
-                <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li> -->
+                <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li>  -->
                 <li><i class="fa fa-envelope" aria-hidden="true"></i> <%= @taska.email %> </li>
+                <% if @svg.present? %>
+                  <li>
+                    Registration Link<br><br>
+                    <a href="<%= @taska.linkreg %>" target="_blank"><%= @svg.html_safe %></a>
+                  </li>
+                <% end %>
                 <% hbook = @taska.fotos.where(foto_name: "CENTER HANDBOOK").first %>
                 <% if hbook.picture.present? %>
                   <li>
@@ -52,6 +58,7 @@
               </ul>
               </address>
               <hr>
+
              <a href="https://wa.me/6<%= "#{@taska.phone_1}#{@taska.phone_2}" %>?text=<%= @taska.name %>"><p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
              <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p></a>
              <hr>
@@ -67,8 +74,10 @@
                </a>
              <% end %>
             </div>
-            <hr>
-            <!-- <p class="lower-case">  RATINGS</p>
+
+            <!-- <hr>
+            <p class="lower-case">  RATINGS</p>
+
             <div class="ratings">
               <ul class="list-inline">
                   <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
@@ -78,8 +87,10 @@
                   <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
 
               </ul>
+
             </div>
             <hr> -->
+
               <p class="lower-case ">  OUR LOCATION</p>
             <iframe
               width="100%"

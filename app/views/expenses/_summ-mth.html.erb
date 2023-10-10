@@ -85,6 +85,26 @@
             <td>NA</td>
             <td>NA</td>
           </tr>
+          <% if !$taska_old.include? @taska.id.to_s %>
+          <tr style="background-color:#cce5cc"> 
+            <td>PAYMENT GATEWAY CHARGES</td>
+            <td>
+            </td>
+            <td>
+              <%= @pmt_gateway %>
+            </td>
+            <td>
+              <%= link_to bill_account_path(@taska, month: month, year: year, paid: true), 
+              class: "btn btn-sm active", target: '_blank',style: "color:blue" do %>
+                <i class="fa fa-eye"></i> DETAILS
+              <% end %>
+            </td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
+          </tr>
+          <% end %>
           <% @taska_expense.order('dt DESC').each do |exp| %>
             <tr>
               <td><%= exp.name %></td>

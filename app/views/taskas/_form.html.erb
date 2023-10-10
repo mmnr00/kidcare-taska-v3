@@ -329,6 +329,20 @@
           </div>
         </div>
 
+        <!-- SSM NO -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>REGISTRATION LINK</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :linkreg, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
         <%= f.hidden_field :plan, value: params[:plan] %>
 
         <!-- START PHOTO UPLOAD -->

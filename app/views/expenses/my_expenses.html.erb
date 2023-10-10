@@ -14,7 +14,9 @@
       <% end %>
       </h3></br>
       <%= form_for(:expense, :url => {:controller=>'expenses', :action=>'my_expenses'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-        <%= f.select :month, 1..12, rows: 10, class: "form-control", :selected => month, :include_blank => "ALL" %>&nbspmth
+        <% #f.select :month, 1..12, rows: 10, class: "form-control", :selected => month, :include_blank => "ALL" %>
+        <%= f.select :month, 1..12, rows: 10, class: "form-control", :selected => month %>&nbspmth
+
         <%= f.select :year, 2016..(Date.today.year + 1), rows: 10, class: "form-control", :selected => year %>&nbspyr
           <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
       <% end %><br>
@@ -80,7 +82,7 @@
       <% psltot = @taska_payslips.sum(:amtepfa).round(2) %>
       <% plntot = @taska_plan.sum(:amount).round(2) %>
       <div style="background-color:BLUE"><h2 align="center"><font color="white">
-        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) - @taska_payslips.sum(:amtepfa).round(2) - plntot + @new_bills_paid.round(2) %>
+        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) - @taska_payslips.sum(:amtepfa).round(2) - plntot + @new_bills_paid.round(2) - @pmt_gateway %>
         NETT: RM <%= number_with_delimiter(nett.round(2), :delimiter => ',') %>
       </div></font></h2>
       <div class="bg-white">
@@ -90,9 +92,9 @@
         <% end %>
         <% exp["INCOME"] = exp["INCOME"] + @new_bills_paid.round(2) %>
         <% if exp["EXPENSE"] == nil %>
-          <% exp["EXPENSE"] = psltot + plntot %>
+          <% exp["EXPENSE"] = psltot + plntot + @pmt_gateway  %>
         <% else %>
-          <% exp["EXPENSE"] = exp["EXPENSE"] + psltot + plntot %>
+          <% exp["EXPENSE"] = exp["EXPENSE"] + psltot + plntot + @pmt_gateway  %>
         <% end %>
         <%= bar_chart exp, colors: ["brown"]%>
       </div><br>
@@ -100,7 +102,7 @@
         INCOME: RM <%= number_with_delimiter((@taska_expense.where(kind: "INCOME").sum(:cost)+@new_bills_paid.round(2)), :delimiter => ',') %>
       </div></font></h4>
       <div style="background-color:red"><h4 align="center"><font color="white">
-        EXPENSE: RM <%= number_with_delimiter(((@taska_expense.where(kind: "EXPENSE").sum(:cost)+ psltot + plntot).round(2)), :delimiter => ',') %>
+        EXPENSE: RM <%= number_with_delimiter(((@taska_expense.where(kind: "EXPENSE").sum(:cost)+ psltot + plntot + @pmt_gateway).round(2)), :delimiter => ',') %>
       </div></font></h4><br>
       
       <% if month == 0 %>
