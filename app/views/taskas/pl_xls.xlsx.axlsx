@@ -140,6 +140,21 @@ wb.styles do |style|
       expense = expense + exp.cost
       end
     end
+
+    if !$taska_old.include? @taska.id.to_s
+      pmt_gateway = @taska_bills.where(paid: true).where(paid: true, mtd: "BILLPLZ").count*3.00
+      sheet.add_row ["PAYMENT GATEWAY CHARGES",
+                        params[:month],
+                        params[:year],
+                        "NA",
+                        "NA",
+                        "NA",
+                        "",
+                        pmt_gateway], style: [nil, border_cell]
+            sheet.rows[row+counter].style = bill_cell           
+            counter = counter +1
+            expense = expense + pmt_gateway
+    end
     
     sheet.add_row ["TOTAL","","","","","",income,expense]
     sheet.rows[counter+row].style = total_cell
