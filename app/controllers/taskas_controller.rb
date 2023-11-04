@@ -1388,6 +1388,18 @@ end
 
   def unpaid_xls
     @taska = Taska.find(params[:id])
+    paid = params[:paid]
+    @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="Unpaid Bill List.xlsx"'
+      }
+    end
+  end
+
+  def unpaid_xls_old_new
+    @taska = Taska.find(params[:id])
     mth = params[:month].to_i
     year = params[:year].to_i
     paid = params[:paid]
@@ -1572,7 +1584,7 @@ end
       end
       #END EVERY MONTH
       #@bills = @bills.order('bill_year ASC').order('bill_month ASC')
-      @bills = @bills.order('updated_at ASC')
+      #@bills = @bills.order('updated_at ASC')
       @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_year: params[:year]).order('bill_month ASC')
       #@bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year, paid: paid).order('bill_month ASC')
       #@unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_year: params[:year]).order('updated_at DESC')
