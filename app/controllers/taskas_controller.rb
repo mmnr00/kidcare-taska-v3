@@ -727,7 +727,7 @@ class TaskasController < ApplicationController
       url = "https://www.isms.com.my/isms_send.php?"
       usr = "un=admin_kidcare&"
       ps = "pwd=#{ENV['isms']}&"
-      txt = "msg=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: @payment.id)}> to payment&"
+      txt = "msg=Reminder from #{@taska.name.upcase}. Please click #{billview_url(pmt: @payment.id)} to pay&"
       to = "dstno=6#{phk}&"
       tp = "type=1&"
       trm = "agreedterm=YES"
@@ -758,6 +758,7 @@ class TaskasController < ApplicationController
         
           
         end
+        puts data_sms
     end
     if params[:xtrarem].present? && nufcred
       @taska.hiscred << [-0.5,Time.now,phk,@payment.bill_id]
