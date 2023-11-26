@@ -31,6 +31,19 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def bill_list_xls
+    @taska = Taska.find(params[:id])
+    paid = params[:paid]
+    @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
+    bill_account_common()
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="Bills List.xlsx"'
+      }
+    end
+  end
+
   def qrcenter
     @taska = Taska.find(params[:id])
     qrcode = RQRCode::QRCode.new(taska_page_url(id: @taska.id))
@@ -785,199 +798,10 @@ class TaskasController < ApplicationController
   end
 
   def bill_account
-  @taska = Taska.find(params[:id])
+    bill_account_common()
 
-  if params[:month].present? && params[:year].blank?
-    flash[:danger] = "Please Choose Year"
-    redirect_to bill_account_path(id: @taska.id, year: Date.today.year, month: Date.today.month) and return      
+    render action: "bill_account", layout: "dsb-admin-account" 
   end
-  
-  params[:month] = "0" unless params[:month].present?
-  paid = params[:paid]
-  params[:paid] = [true,false] unless params[:paid].present?
-  mth = params[:month].to_i
-  year = params[:year].to_i
-  if params[:month] == "0"
-    if paid == "true"
-      @payments = nil
-      @w=[]
-      (1..12).each do |m|
-        dt = Time.find_zone("Singapore").local(year,m)
-        payment = @taska.payments.where.not(name: "TASKA PLAN")
-        curr_pmt = payment.where(bill_month: m).where(bill_year: year)
-        curr_pmt_paid = curr_pmt.where(paid: true)
-        curr_pmt_unpaid = curr_pmt.where(paid: false)
-        #CDTN_1 = current period pay early
-        @cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
-        #CDTN_2 = current period pay this month
-        @cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
-        #CDTN_3 = previous period pay this month
-        dt_lp = dt
-        stp_lp = Time.find_zone("Singapore").local(2016,1)
-        @cdtn_3 = nil
-        while dt_lp >= stp_lp
-          if @cdtn_3.blank?    
-            @cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
-          else
-            tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
-            @cdtn_3 = @cdtn_3.or(tmp)
-          end
-          dt_lp = dt_lp - 1.months
-        end
-        if @payments.blank?
-          @payments = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
-        else
-          tmp = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
-          @payments = @payments.or(tmp)
-        end
-
-        #start for partial
-        #CDTN_1 All partials paid this month or previous month for current month bill
-        cdtn_1par = nil
-        cdtn_2par = nil
-        
-        curr_pmt_unpaid.each do |pmt|
-          if pmt.parpayms.present?
-            tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)) 
-            if tmp.ids.present?
-              tmp.ids.each do |k|
-                @w<<k
-              end
-            end
-            
-          end
-        end
-        #CDTN_2 previous months bills paid partially this month
-        #cdtn_2par = 0.00
-        dt_lp=dt-1.months
-        while dt_lp >= stp_lp
-          payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
-            tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)
-            if tmp.ids.present?
-              tmp.ids.each do |k|
-                @w<<k
-              end
-            end
-          end
-          dt_lp -= 1.months
-        end
-        #END PARTIAL 
-
-        @w.each do |w|
-          tmp = Parpaym.find(w)
-          if @payments.present?
-            @payments = @payments.or(Payment.where(id: tmp.payment.id))
-          else
-            @payments = Payment.where(id: tmp.payment.id)
-          end
-        end
-      end
-      @payments = @payments.order('updated_at DESC')
-      #@payments = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
-      #@payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
-    else
-      @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
-    end
-  else
-    dt = Time.find_zone("Singapore").local(year,mth)
-    if paid == "true"
-      payment = @taska.payments.where.not(name: "TASKA PLAN")
-      curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
-      curr_pmt_paid = curr_pmt.where(paid: true)
-      curr_pmt_unpaid = curr_pmt.where(paid: false)
-      #CDTN_1 = current period pay early
-      cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
-      #CDTN_2 = current period pay this month
-      cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
-      #CDTN_3 = previous period pay this month
-      dt_lp = dt
-      stp_lp = Time.find_zone("Singapore").local(2016,1)
-      cdtn_3 = nil
-      while dt_lp >= stp_lp
-        if cdtn_3.blank?    
-          cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
-        else
-          tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
-          cdtn_3 = cdtn_3.or(tmp)
-        end
-        dt_lp = dt_lp - 1.months
-      end
-
-      #start for partial
-      #CDTN_1 All partials paid this month or previous month for current month bill
-      cdtn_1par = nil
-      cdtn_2par = nil
-      @all_par = nil
-      @w=[]
-      curr_pmt_unpaid.each do |pmt|
-        if pmt.parpayms.present?
-          tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
-          if cdtn_1par.blank?
-            cdtn_1par = tmp unless tmp.blank?
-          else
-            cdtn_1par = cdtn_1par.or(tmp) unless tmp.blank?
-          end
-          if tmp.ids.present?
-            tmp.ids.each do |k|
-              @w<<k
-            end
-          end
-          @cdtn = cdtn_1par
-          #cdtn_1par = cdtn_1par.or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
-        end
-      end
-      #CDTN_2 previous months bills paid partially this month
-      #cdtn_2par = 0.00
-      dt_lp=dt-1.months
-      while dt_lp >= stp_lp
-        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
-          tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
-          if cdtn_2par.blank?
-            cdtn_2par = tmp unless tmp.blank?
-          else
-            cdtn_2par = cdtn_2par.or(tmp) unless tmp.blank?
-          end
-          if tmp.ids.present?
-            tmp.ids.each do |k|
-              @w<<k
-            end
-          end
-        end
-        dt_lp -= 1.months
-      end
-      #END PARTIAL 
-
-      @payments = cdtn_1.or(cdtn_2.or(cdtn_3))
-      @w.each do |w|
-        tmp = Parpaym.find(w)
-        if @payments.present?
-          @payments = @payments.or(Payment.where(id: tmp.payment.id))
-        else
-          @payments = Payment.where(id: tmp.payment.id)
-        end
-      end
-      #all parpayms this months that bill fully paid
-      @taska.payments.where(name: "KID BILL", paid: params[:paid]).each do |pmt|
-        if pmt.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).present?
-          if @payments.present?
-            @payments = @payments.or(Payment.where(id: pmt.id))
-          else
-            @payments = Payment.where(id: pmt.id)
-          end
-        end
-        
-      end
-
-      @payments = @payments.order('updated_at DESC')
-    else
-      @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
-    end
-    
-    #@kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
-  end
-
-  render action: "bill_account", layout: "dsb-admin-account" 
-end
 
   def bill_account_old
     @taska = Taska.find(params[:id])
@@ -2393,6 +2217,313 @@ end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def bill_account_common
+      @taska = Taska.find(params[:id])
+
+      if params[:month].present? && params[:year].blank?
+        flash[:danger] = "Please Choose Year"
+        redirect_to bill_account_path(id: @taska.id, year: Date.today.year, month: Date.today.month) and return      
+      end
+      
+      params[:month] = "0" unless params[:month].present?
+      paid = params[:paid]
+      #params[:paid] = [true,false] unless params[:paid].present?
+      mth = params[:month].to_i
+      year = params[:year].to_i
+      
+      dt = Time.find_zone("Singapore").local(year,mth)
+      if paid == "true"
+        payment = @taska.payments.where.not(name: "TASKA PLAN")
+        curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
+        curr_pmt_paid = curr_pmt.where(paid: true)
+        curr_pmt_unpaid = curr_pmt.where(paid: false)
+        #CDTN_1 = current period pay early
+        cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+        #CDTN_2 = current period pay this month
+        cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+        #CDTN_3 = previous period pay this month
+        dt_lp = dt
+        stp_lp = Time.find_zone("Singapore").local(2016,1)
+        cdtn_3 = nil
+        while dt_lp >= stp_lp
+          if cdtn_3.blank?    
+            cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+          else
+            tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+            cdtn_3 = cdtn_3.or(tmp)
+          end
+          dt_lp = dt_lp - 1.months
+        end
+
+        #start for partial
+        #CDTN_1 All partials paid this month or previous month for current month bill
+        cdtn_1par = nil
+        cdtn_2par = nil
+        @all_par = nil
+        @w=[]
+        curr_pmt_unpaid.each do |pmt|
+          if pmt.parpayms.present?
+            tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+            if cdtn_1par.blank?
+              cdtn_1par = tmp unless tmp.blank?
+            else
+              cdtn_1par = cdtn_1par.or(tmp) unless tmp.blank?
+            end
+            if tmp.ids.present?
+              tmp.ids.each do |k|
+                @w<<k
+              end
+            end
+            @cdtn = cdtn_1par
+            #cdtn_1par = cdtn_1par.or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+          end
+        end
+        #CDTN_2 previous months bills paid partially this month
+        #cdtn_2par = 0.00
+        dt_lp=dt-1.months
+        while dt_lp >= stp_lp
+          payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+            tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
+            if cdtn_2par.blank?
+              cdtn_2par = tmp unless tmp.blank?
+            else
+              cdtn_2par = cdtn_2par.or(tmp) unless tmp.blank?
+            end
+            if tmp.ids.present?
+              tmp.ids.each do |k|
+                @w<<k
+              end
+            end
+          end
+          dt_lp -= 1.months
+        end
+        #END PARTIAL 
+
+        @payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+        @w.each do |w|
+          tmp = Parpaym.find(w)
+          if @payments.present?
+            @payments = @payments.or(Payment.where(id: tmp.payment.id))
+          else
+            @payments = Payment.where(id: tmp.payment.id)
+          end
+        end
+        #all parpayms this months that bill fully paid
+        @taska.payments.where(name: "KID BILL", paid: params[:paid]).each do |pmt|
+          if pmt.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).present?
+            if @payments.present?
+              @payments = @payments.or(Payment.where(id: pmt.id))
+            else
+              @payments = Payment.where(id: pmt.id)
+            end
+          end
+          
+        end
+
+        @payments = @payments.order('updated_at DESC')
+      else
+        @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
+      end
+        
+  
+      
+    end
+
+    # def bill_account_old (id,month,year,paid,no_sch)
+    #   @taska = Taska.find(params[:id])
+
+    #   if params[:month].present? && params[:year].blank?
+    #     flash[:danger] = "Please Choose Year"
+    #     redirect_to bill_account_path(id: @taska.id, year: Date.today.year, month: Date.today.month) and return      
+    #   end
+      
+    #   params[:month] = "0" unless params[:month].present?
+    #   paid = params[:paid]
+    #   #params[:paid] = [true,false] unless params[:paid].present?
+    #   mth = params[:month].to_i
+    #   year = params[:year].to_i
+    #   if params[:month] == "0"
+    #     if paid == "true"
+    #       @payments = nil
+    #       @w=[]
+    #       (1..12).each do |m|
+    #         dt = Time.find_zone("Singapore").local(year,m)
+    #         payment = @taska.payments.where.not(name: "TASKA PLAN")
+    #         curr_pmt = payment.where(bill_month: m).where(bill_year: year)
+    #         curr_pmt_paid = curr_pmt.where(paid: true)
+    #         curr_pmt_unpaid = curr_pmt.where(paid: false)
+    #         #CDTN_1 = current period pay early
+    #         @cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+    #         #CDTN_2 = current period pay this month
+    #         @cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
+    #         #CDTN_3 = previous period pay this month
+    #         dt_lp = dt
+    #         stp_lp = Time.find_zone("Singapore").local(2016,1)
+    #         @cdtn_3 = nil
+    #         while dt_lp >= stp_lp
+    #           if @cdtn_3.blank?    
+    #             @cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
+    #           else
+    #             tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', m)
+    #             @cdtn_3 = @cdtn_3.or(tmp)
+    #           end
+    #           dt_lp = dt_lp - 1.months
+    #         end
+    #         if @payments.blank?
+    #           @payments = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
+    #         else
+    #           tmp = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
+    #           @payments = @payments.or(tmp)
+    #         end
+
+    #         #start for partial
+    #         #CDTN_1 All partials paid this month or previous month for current month bill
+    #         cdtn_1par = nil
+    #         cdtn_2par = nil
+            
+    #         curr_pmt_unpaid.each do |pmt|
+    #           if pmt.parpayms.present?
+    #             tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)) 
+    #             if tmp.ids.present?
+    #               tmp.ids.each do |k|
+    #                 @w<<k
+    #               end
+    #             end
+                
+    #           end
+    #         end
+    #         #CDTN_2 previous months bills paid partially this month
+    #         #cdtn_2par = 0.00
+    #         dt_lp=dt-1.months
+    #         while dt_lp >= stp_lp
+    #           payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+    #             tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)
+    #             if tmp.ids.present?
+    #               tmp.ids.each do |k|
+    #                 @w<<k
+    #               end
+    #             end
+    #           end
+    #           dt_lp -= 1.months
+    #         end
+    #         #END PARTIAL 
+
+    #         @w.each do |w|
+    #           tmp = Parpaym.find(w)
+    #           if @payments.present?
+    #             @payments = @payments.or(Payment.where(id: tmp.payment.id))
+    #           else
+    #             @payments = Payment.where(id: tmp.payment.id)
+    #           end
+    #         end
+    #       end
+    #       @payments = @payments.order('updated_at DESC')
+    #       #@payments = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
+    #       #@payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
+    #     else
+    #       @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
+    #     end
+    #   else
+    #     dt = Time.find_zone("Singapore").local(year,mth)
+    #     if paid == "true"
+    #       payment = @taska.payments.where.not(name: "TASKA PLAN")
+    #       curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
+    #       curr_pmt_paid = curr_pmt.where(paid: true)
+    #       curr_pmt_unpaid = curr_pmt.where(paid: false)
+    #       #CDTN_1 = current period pay early
+    #       cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+    #       #CDTN_2 = current period pay this month
+    #       cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+    #       #CDTN_3 = previous period pay this month
+    #       dt_lp = dt
+    #       stp_lp = Time.find_zone("Singapore").local(2016,1)
+    #       cdtn_3 = nil
+    #       while dt_lp >= stp_lp
+    #         if cdtn_3.blank?    
+    #           cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+    #         else
+    #           tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+    #           cdtn_3 = cdtn_3.or(tmp)
+    #         end
+    #         dt_lp = dt_lp - 1.months
+    #       end
+
+    #       #start for partial
+    #       #CDTN_1 All partials paid this month or previous month for current month bill
+    #       cdtn_1par = nil
+    #       cdtn_2par = nil
+    #       @all_par = nil
+    #       @w=[]
+    #       curr_pmt_unpaid.each do |pmt|
+    #         if pmt.parpayms.present?
+    #           tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+    #           if cdtn_1par.blank?
+    #             cdtn_1par = tmp unless tmp.blank?
+    #           else
+    #             cdtn_1par = cdtn_1par.or(tmp) unless tmp.blank?
+    #           end
+    #           if tmp.ids.present?
+    #             tmp.ids.each do |k|
+    #               @w<<k
+    #             end
+    #           end
+    #           @cdtn = cdtn_1par
+    #           #cdtn_1par = cdtn_1par.or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+    #         end
+    #       end
+    #       #CDTN_2 previous months bills paid partially this month
+    #       #cdtn_2par = 0.00
+    #       dt_lp=dt-1.months
+    #       while dt_lp >= stp_lp
+    #         payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+    #           tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
+    #           if cdtn_2par.blank?
+    #             cdtn_2par = tmp unless tmp.blank?
+    #           else
+    #             cdtn_2par = cdtn_2par.or(tmp) unless tmp.blank?
+    #           end
+    #           if tmp.ids.present?
+    #             tmp.ids.each do |k|
+    #               @w<<k
+    #             end
+    #           end
+    #         end
+    #         dt_lp -= 1.months
+    #       end
+    #       #END PARTIAL 
+
+    #       @payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+    #       @w.each do |w|
+    #         tmp = Parpaym.find(w)
+    #         if @payments.present?
+    #           @payments = @payments.or(Payment.where(id: tmp.payment.id))
+    #         else
+    #           @payments = Payment.where(id: tmp.payment.id)
+    #         end
+    #       end
+    #       #all parpayms this months that bill fully paid
+    #       @taska.payments.where(name: "KID BILL", paid: params[:paid]).each do |pmt|
+    #         if pmt.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).present?
+    #           if @payments.present?
+    #             @payments = @payments.or(Payment.where(id: pmt.id))
+    #           else
+    #             @payments = Payment.where(id: pmt.id)
+    #           end
+    #         end
+            
+    #       end
+
+    #       @payments = @payments.order('updated_at DESC')
+    #     else
+    #       @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
+    #     end
+        
+    #     #@kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+    #   end
+    # end
+
+
     def updtskplan
       @taska = Taska.find(params[:id])
       tskpln = @taska.payments.where(name: "TASKA PLAN", paid: false)

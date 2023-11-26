@@ -250,6 +250,7 @@ Rails.application.routes.draw do
   get '/sms_reminder', to: 'taskas#sms_reminder'
   get '/sms_reminder_all', to: 'taskas#sms_reminder_all'
   get '/taska/:id/unpaid_xls', to: 'taskas#unpaid_xls', as: 'unpaid_xls' 
+  get '/taska/:id/bill_list_xls', to: 'taskas#bill_list_xls', as: 'bill_list_xls' 
   get '/taska/:id/pl_xls', to: 'taskas#pl_xls', as: 'pl_xls'
   get '/taska/:id/add_subdomain', to: 'taskas#add_subdomain' 
   get '/taska/:id/bill_account', to: 'taskas#bill_account', as: 'bill_account'
