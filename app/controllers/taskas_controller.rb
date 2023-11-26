@@ -2066,7 +2066,7 @@ end
         tchd = tch.tchdetail
         #SEND EMAIL
         mail = SendGrid::Mail.new
-        mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
+        mail.from = SendGrid::Email.new(email: 'kidcare@kidcare.my', name: 'KidCare Admin')
         mail.subject = "NEW PAYSLIP FOR #{$month_name[mth]}-#{yr}"
         #Personalisation, add cc
         personalization = SendGrid::Personalization.new
