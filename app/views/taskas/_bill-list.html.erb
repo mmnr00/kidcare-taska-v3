@@ -1,4 +1,4 @@
-<% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
+<% status = (@taska.expire.to_date - Time.now.to_date).to_i; dummy_paid = 0.00 %>
 <!-- START TABLE -->
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -171,6 +171,7 @@
                 <b>Total : </b><%= number_with_delimiter(tot_pmt.round(2), :delimiter => ',')  %><br>
                 <b>Paid : </b><%= number_with_delimiter(paid_pmt.round(2), :delimiter => ',')  %><br>
                 <b>Balance : </b><%= number_with_delimiter(bal_pmt.round(2), :delimiter => ',')  %><br>
+                <% dummy_paid = dummy_paid + paid_pmt.round(2) %>
               </td>
               <td>
                 <% if pmt.paid %>
@@ -189,6 +190,7 @@
           
         </tbody>
       </table>
+      <% dummy_paid %>
     </div>
   </div>
   <% end %>

@@ -23,7 +23,7 @@ wb.styles do |style|
     sheet.rows[2].style = highlight_cell
     counter = 1
     row =2
-    @payments.where(paid: true).each do |bill|
+    @payments.each do |bill|
       if bill.parpayms.blank?
         a= ""
         bill.kid_bills.each do |kb|
@@ -39,6 +39,45 @@ wb.styles do |style|
                       bill.amount,
                       chrg,
                       "#{bill.amount-chrg}",
+                      bill.updated_at.strftime('%d-%m-%y'),
+                      bill.mtd,
+                      a], style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cell
+        counter = counter +1
+        sheet.column_widths *col_widths
+      end
+    end
+  
+  end
+
+  wb.add_worksheet(name: "PARTIAL BILLS") do |sheet|
+    sheet.add_row ["PARTIAL BILL LIST FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "PERIOD",
+                  "ID",
+                  "TOTAL(RM)",
+                  "PAID IN #{$month_name[params[:month].to_i]}-#{params[:year]}(RM)",
+                  "BALANCE(RM)",
+                  "PAYMENT DATE",
+                  "METHOD",
+                  "CHILDREN"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    @payments.each do |bill|
+      if !bill.parpayms.blank?
+        a= ""
+        bill.kid_bills.each do |kb|
+          a=a+"\n"+"; "+kb.kid.name
+        end
+        sheet.add_row [counter,
+                      "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
+                      bill.bill_id,
+                      bill.amount,
+                      bill.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).sum(:amt),
+                      bill.amount - bill.parpayms.sum(:amt),
                       bill.updated_at.strftime('%d-%m-%y'),
                       bill.mtd,
                       a], style: [nil, border_cell]

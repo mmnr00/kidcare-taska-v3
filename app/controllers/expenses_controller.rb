@@ -88,7 +88,7 @@ def my_expenses
         end
       dt_lp -= 1.months
       end
-      @bills_partial = cdtn_1par + cdtn_2par
+      @bills_partial = cdtn_1par + cdtn_2par +cdtn_3par
       #END PARTIAL
 
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
