@@ -102,10 +102,9 @@
           <th style="background-color:#d8b2d8"> ID </th>
           <th style="background-color:#d8b2d8"> NAME </th>
           <th style="background-color:#d8b2d8"> BILL </th>
-          <th style="background-color:#d8b2d8"> DATE </th>
+          <th style="background-color:#d8b2d8"> EXPIRY DATE </th>
           <th style="background-color:#d8b2d8"> ADMIN </th>
           <th style="background-color:#d8b2d8"> COLLECTION ID </th>
-          <th style="background-color:#d8b2d8"> COLLECTION NAME </th>
         </tr>
       </thead>
       <tbody>
@@ -162,18 +161,35 @@
                 <%= "#{(tsk.expire.to_date - Time.now.to_date).to_i} DAYS" %><br>
                 <%= link_to "CREATE BILL", bill_taska1_monthly_path(id:tsk.id), class: "btn btn-sm btn-primary", target: "_blank" %>
               </td>
-              <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
+              <td>
+                <%= form_tag updtskexpiry_path, method: :get do %> 
+                  <%= date_field_tag :dtexp, tsk.expire.to_date,
+                            placeholder: "Example: 01162801556",
+                            class: "form-control search-box",
+                            style: "font-size: 12px"%>
+                  <%= hidden_field_tag :id, tsk.id %>
+                  <div class="col-md-0">
+                    <%= button_tag(type: :submit, class: "badge badge-secondary badge-pill",style: "font-size: 10px", id: "submit_expense") do %>
+                      <i class="fa fa-check"></i> UPDATE
+                    <% end %>
+                  </div>
+                    
+                <% end %>
+                
+              </td>
               <td><%= tsk.supervisor %><br>
                 <%= "#{tsk.phone_1}-#{tsk.phone_2}" %><br>
                 <%= tsk.email %>
               </td>
               <td>
                   <%= form_tag updtskcollection_path, method: :get do %> 
-                        ID1 <%= text_field_tag :id1, tsk.collection_id,
+                        ID1 = <%= tsk.collection_name1 %><br>
+                        <%= text_field_tag :id1, tsk.collection_id,
                             placeholder: "Example: 01162801556",
                             class: "form-control search-box",
                             style: "font-size: 12px"%>
-                        ID2 = <%= text_field_tag :id2, tsk.collection_id2,
+                        ID2 = <%= tsk.collection_name2 %><br>
+                         <%= text_field_tag :id2, tsk.collection_id2,
                             placeholder: "Example: 01162801556",
                             class: "form-control search-box",
                             style: "font-size: 12px"%>  
@@ -186,10 +202,6 @@
                       </div>
                     
                   <% end %>
-              </td>
-              <td>
-                Name 1 = <%= tsk.collection_name1 %><br>
-                Name 2 = <%= tsk.collection_name2 %>
               </td>
             </tr>
           <% end %>

@@ -58,6 +58,18 @@ class TaskasController < ApplicationController
     render action: "qrcenter", layout: "eip" 
   end
 
+  def updtskexpiry
+    taska = Taska.find(params[:id])
+    taska.expire = params[:dtexp]
+    
+    if taska.save
+      flash[:success] = "Update Successful for #{taska.name} (#{taska.id}). New expiry #{taska.expire.strftime('%d-%^b-%Y')}"
+    else 
+      flash[:danger] = "Update Not Successful. Please check the collection ID"
+    end
+    redirect_to request.referrer
+  end
+
   def updtskcollection
     taska = Taska.find(params[:id])
     taska.collection_id = params[:id1]
