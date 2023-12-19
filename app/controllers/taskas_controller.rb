@@ -415,6 +415,7 @@ class TaskasController < ApplicationController
   end
 
   def upldkid
+    kid_fail = 0
     xlsx = Roo::Spreadsheet.open(params[:file])
     header = xlsx.row(xlsx.first_row+2)
     ((xlsx.first_row+4)..(xlsx.last_row)).each do |n|
@@ -430,7 +431,8 @@ class TaskasController < ApplicationController
         ic1= row["MYKID"][0..5]
         ic2= row["MYKID"][7..8]
         ic3= row["MYKID"][10..13]
-        if !@taska.kids.where(ic_1: ic1, ic_2: ic2, ic_3: ic3).present?
+        #if !@taska.kids.where(ic_1: ic1, ic_2: ic2, ic_3: ic3).present?
+        if !Kid.where(ic_1: ic1, ic_2: ic2, ic_3: ic3).present?
           kid=Kid.create(name: row["NAMA"], 
                     parent_id: 1, 
                     taska_id: @taska.id,
@@ -449,11 +451,18 @@ class TaskasController < ApplicationController
           Foto.create(foto_name:"IMMUNIZATION RECORD", kid_id: kid.id)
           Foto.create(foto_name:"FATHER MYKAD", kid_id: kid.id)
           Foto.create(foto_name:"MOTHER MYKAD", kid_id: kid.id)
+        else
+          kid_fail = kid_fail + 1
         end
       end
 
     end
-    flash[:success] = "FILE UPLOADED"
+    
+    if kid_fail > 0
+      flash[:danger] = "#{kid_fail} pelajar tidak berjaya didaftarkan. Sila hubungi Admin Kidcare untuk semakan"
+    else
+      flash[:success] = "Semua Pelajar Berjaya Didaftarkan"
+    end
     #redirect_to taska_path(@taska)
     redirect_to mystudent_path(id: @taska.id)
   end
