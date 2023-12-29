@@ -85,7 +85,7 @@
             <div class="col-md-12"><br>
               BILL ID : <%= @payment.bill_id %><br>
               BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %><br>
-              PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %><br>
+              PAYMENT DATE : <%= @payment.updated_at.in_time_zone("Kuala Lumpur").strftime("%b %d, %Y") %><br>
               PAYMENT METHOD: 
               <% if (mtd =@payment.mtd).present? %>
                 <%= mtd %>

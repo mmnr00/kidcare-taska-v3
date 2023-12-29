@@ -116,7 +116,7 @@
               </div>
               <div>
                 <% if @payment.paid %>
-                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
+                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.in_time_zone("Kuala Lumpur").strftime("%b %d, %Y") %></div><br>
                 <div class="pull-left"> PAYMENT METHOD : 
                   <% if (mtd =@payment.mtd).present? %>
                     <%= mtd %>

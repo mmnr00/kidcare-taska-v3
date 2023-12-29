@@ -176,7 +176,7 @@
               <td>
                 <% if pmt.paid %>
                   Made using <b><%= pmt.mtd %></b><br>
-                  On <b><%= pmt.updated_at.strftime('%d-%b-%y') %></b>
+                  On <b><%= pmt.updated_at.in_time_zone("Kuala Lumpur").strftime('%d-%b-%y') %></b>
                 <% elsif pmt.parpayms.present? %>
                  Please refer to 
                  <a href="<%= billview_url(pmt: pmt.id)%>" target="_blank">HERE</a>
