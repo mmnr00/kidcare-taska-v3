@@ -2,7 +2,8 @@
 
 <%if (@kid.taska_id.present?) && ($cakna21.include? @kid.taska_id.to_s) %>
   <%= render 'kids/form-ckn21' %>
-
+<% elsif current_admin.present? %>
+  <%= render 'kids/form-admin-new' %>
 <% else %>
   <%= render 'kids/form' %>
 <% end %>
