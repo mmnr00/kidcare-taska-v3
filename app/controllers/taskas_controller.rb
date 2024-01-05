@@ -431,6 +431,14 @@ class TaskasController < ApplicationController
         ic1= row["MYKID"][0..5]
         ic2= row["MYKID"][7..8]
         ic3= row["MYKID"][10..13]
+        curr_yr = Date.today.year.to_s[2..3].to_i
+        yr_ic = ic1[0..1].to_i 
+        if yr_ic <= curr_yr
+          yr_bday = "20#{ic1[0..1]}"
+        else
+          yr_bday = "19#{ic1[0..1]}"
+        end
+        dob_dt = Date.new(yr_bday.to_i,ic1[2..3].to_i,ic1[4..5].to_i)
         #if !@taska.kids.where(ic_1: ic1, ic_2: ic2, ic_3: ic3).present?
         if !Kid.where(ic_1: ic1, ic_2: ic2, ic_3: ic3).present?
           kid=Kid.create(name: row["NAMA"], 
@@ -440,7 +448,7 @@ class TaskasController < ApplicationController
                     ic_1: row["MYKID"][0..5],
                     ic_2: row["MYKID"][7..8],
                     ic_3: row["MYKID"][10..13],
-                    dob: row["TARIKH LAHIR"].to_date,
+                    dob: dob_dt,
                     ph_1: row["NO TELEFON"][0..2],
                     ph_2: row["NO TELEFON"][4..11],
                     father_name: row["NAMA BAPA"],

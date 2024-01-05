@@ -31,7 +31,6 @@ wb.styles do |style|
                   "NO",
                   "NAMA",
                   "MYKID",
-                  "TARIKH LAHIR",
                   "NO TELEFON",
                   "NAMA BAPA",
                   "NAMA IBU",
@@ -40,7 +39,7 @@ wb.styles do |style|
     sheet.rows[0].style = header_1
     #sheet.rows[2].style = highlight_cell
     sheet.rows[2].cells[1].style = dlt_cell
-    (2..10).each do |n|
+    (2..9).each do |n|
       sheet.rows[2].cells[n].style = highlight_cell
     end
     counter = 1
@@ -51,7 +50,6 @@ wb.styles do |style|
                     "cth", 
                     "Fattah Amin bin Ahmad", 
                     "930201-02-4432",
-                    "01/02/1993",
                     "011-62801556",
                     "Ahmad bin Harun",
                     "Siti Malika binti Majid",
@@ -59,7 +57,7 @@ wb.styles do |style|
                     "113",
                     "*sila rujuk di tab 'Senarai Kelas' untuk mendapatkan ID Kelas"]
     sheet.rows[row+counter].cells[1].style = dlt_cell
-    (2..10).each do |n1|
+    (2..9).each do |n1|
       sheet.rows[row+counter].cells[n1].style = border_cell_eg
     end
     counter += 1
@@ -76,7 +74,7 @@ wb.styles do |style|
                     "",
                     ""]
     sheet.rows[row+counter].cells[1].style = inp_cell
-    (2..10).each do |n1|
+    (2..9).each do |n1|
       sheet.rows[row+counter].cells[n1].style = border_cell
     end
     counter += 1
@@ -93,7 +91,7 @@ wb.styles do |style|
                     "",
                     "",
                     ""]
-      (2..10).each do |n2|
+      (2..9).each do |n2|
         sheet.rows[row+counter].cells[n2].style = border_cell
       end
       counter = counter +1
