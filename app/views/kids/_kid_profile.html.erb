@@ -41,6 +41,12 @@
                 </td>
               </tr>
               <tr>
+                <td><strong>BIRTH CERT NO</strong></td>
+                <td>
+                  <%= @kid.birthcert %>
+                </td>
+              </tr>
+              <tr>
                 <td><strong>MAIN CONTACT NO:</strong></td>
                 <td>
                   <%= "#{@kid.ph_1}-""#{@kid.ph_2}" %>
@@ -286,9 +292,15 @@
                   </td>
                 </tr>
                 <tr>
-                  <td><strong>ALTERNATE CONTACT NO</strong></td>
+                  <td><strong>EMERGENCY CONTACT NO</strong></td>
                   <td>
                     <%= @kid.alt_phone %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>NAME OF EMERGENCY CONTACT</strong></td>
+                  <td>
+                    <%= @kid.emerctc %>
                   </td>
                 </tr>
               <% else %>
@@ -413,9 +425,15 @@
                   </td>
                 </tr>
                 <tr>
-                  <td><strong>ALTERNATE CONTACT NO</strong></td>
+                  <td><strong>EMERGENCY CONTACT NO</strong></td>
                   <td>
                     <%= @kid.alt_phone %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>NAME OF EMERGENCY CONTACT</strong></td>
+                  <td>
+                    <%= @kid.emerctc %>
                   </td>
                 </tr>
                 <tr>

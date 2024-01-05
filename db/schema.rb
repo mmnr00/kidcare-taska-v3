@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_09_124033) do
+ActiveRecord::Schema.define(version: 2024_01_05_115226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -242,6 +242,8 @@ ActiveRecord::Schema.define(version: 2023_10_09_124033) do
     t.string "pdpa"
     t.string "okutype"
     t.string "okuregno"
+    t.string "emerctc"
+    t.string "birthcert"
   end
 
   create_table "kidtsks", force: :cascade do |t|

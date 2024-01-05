@@ -506,6 +506,8 @@ end
 																	:pdpa,
 																	:okutype,
 																	:okuregno,
+																	:emerctc,
+																	:birthcert,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 

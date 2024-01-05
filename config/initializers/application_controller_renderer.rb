@@ -12,6 +12,37 @@
 #   $undiptns = ENV['UNDIPTNS'].split(/\n/)
 # end
 
+$catgtsk = ["Bahan/ Bekalan/ Inventori",
+            "Barang Keperluan Pejabat",
+            "Barangan Runcit",
+            "Belanjawan Hiburan Awal",
+            "Cukai Harta Tanah",
+            "Gaji Pekerja",
+            "Hutang Lapuk",
+            "Iklan dan Pemasaran",
+            "Insurans",
+            "Kebajikan Pekerja",
+            "KWSP Pekerja",
+            "Lesen/ Yuran/ Permit",
+            "Mainan/ Barangan Pelajar",
+            "Pajakan",
+            "Pelbagai",
+            "Pembaikan dan Penyelengaraan",
+            "Pembayaran Balik Pekerja",
+            "Pembelian Perabot",
+            "Pembelian Peralatan",
+            "Penambahbaikan Harta Benda",
+            "Penambahbaikan Pegangan Pajakan",
+            "Pengangkutan",
+            "PERKESO Pekerja",
+            "Sewa Hartanah",
+            "Sistem Keselamatan",
+            "Susut Nilai",
+            "Utiliti/ Telefon",
+            "Yuran Langganan dan Keahlian",
+            "Yuran Perundangan/ Professional/ Perundingan"
+            ]
+
 $taska_old = ENV['TASKA_OLD'].split(',')
 $cakna21 = ENV['cakna21'].split(',')
 $admckn = ENV['admckn'].split(',')
