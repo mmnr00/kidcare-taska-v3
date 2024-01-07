@@ -24,7 +24,7 @@ class ApplvsController < ApplicationController
 			ph = 0
 			(start..last).each do |dt|
 				dayname = dt.strftime("%a")
-				if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
+				if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (@applv.taska.weekend.split(",").include? dayname)#(dayname == "Sun" || dayname == "Sat" ) 
 					ph = ph - 1
 				end
 			end
@@ -129,7 +129,7 @@ class ApplvsController < ApplicationController
 			ph = 0
 			(start..last).each do |dt|
 				dayname = dt.strftime("%a")
-				if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
+				if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (@applv.taska.weekend.split(",").include? dayname) #(dayname == "Sun" || dayname == "Sat" ) 
 					ph = ph - 1
 				end
 			end

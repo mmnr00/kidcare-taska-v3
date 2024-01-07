@@ -2671,6 +2671,7 @@ class TaskasController < ApplicationController
                                     :psldt,
                                     :othnm,
                                     :linkreg,
+                                    :weekend,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_05_115226) do
+ActiveRecord::Schema.define(version: 2024_01_07_122929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -527,6 +527,7 @@ ActiveRecord::Schema.define(version: 2024_01_05_115226) do
     t.string "collection_name1"
     t.string "collection_name2"
     t.string "linkreg"
+    t.string "weekend"
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 
