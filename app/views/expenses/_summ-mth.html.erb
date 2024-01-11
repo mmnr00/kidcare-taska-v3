@@ -31,7 +31,7 @@
             </td>
             <td>
               <% dt = Date.new(year, month) %>
-              <% psldt = dt - 1.months %>
+              <% psldt = dt - (@taska.pslm).months %>
               <%= link_to taskateachers_path(id: params[:id],
                                             mthpsl: psldt.month,
                                             yrpsl: psldt.year,

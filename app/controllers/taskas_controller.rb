@@ -2078,6 +2078,8 @@ class TaskasController < ApplicationController
   # PATCH/PUT /taskas/1.json
   def update
       if @taska.update(taska_params)
+        @taska.name = @taska.name.upcase
+        @taska.save
         flash[:success] = "#{@taska.name} was successfully updated"
         #if @taska.bank_status == nil 
           #redirect_to create_billplz_bank_path(id: @taska.id)
