@@ -412,6 +412,23 @@
                         <% psl.socsa.present? ? socsa = psl.socsa : socsa = 0.00 %>
                         <% psl.sip.present? ? sip = psl.sip : sip = 0.00 %>
                         <% psl.sipa.present? ? sipa = psl.sipa : sipa = 0.00 %>
+                        <% 
+                          xtraval = 0.00
+                          xtra = psl.xtra
+                          xtra = eval(xtra)
+                          if xtra.present?
+                            xtrah = eval(xtra.to_s)
+                            (1..5).each do |n|
+                              xtraval += xtrah["#{n}"]["nstamt"].to_f
+                            end
+                          end
+                        %>
+
+                        <!-- START Balik kt sini -->
+                        <%= #gross = psl.amt.to_f + psl.alwnc.to_f - psl.fxddc.to_f + psl.addtn.to_f - psl.dedc.to_f + xtraval %>
+                        <%= #nett = gross - psl.epf.to_f - psl.socs.to_f - psl.sip.to_f %>
+
+
                         <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
                         <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
                         <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
