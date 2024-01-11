@@ -425,8 +425,8 @@
                         %>
 
                         <!-- START Balik kt sini -->
-                        <%= #gross = psl.amt.to_f + psl.alwnc.to_f - psl.fxddc.to_f + psl.addtn.to_f - psl.dedc.to_f + xtraval %>
-                        <%= #nett = gross - psl.epf.to_f - psl.socs.to_f - psl.sip.to_f %>
+                        <% #gross = psl.amt.to_f + psl.alwnc.to_f - psl.fxddc.to_f + psl.addtn.to_f - psl.dedc.to_f + xtraval %>
+                        <% #nett = gross - psl.epf.to_f - psl.socs.to_f - psl.sip.to_f %>
 
 
                         <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
