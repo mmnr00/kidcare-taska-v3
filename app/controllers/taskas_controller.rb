@@ -492,10 +492,8 @@ class TaskasController < ApplicationController
     if adm.taskas.where(id: @taska.id).present?
       flash[:danger] = "Role already assigned to #{@taska.name}"
     else
-      TaskaAdmin.create(taska_id: @taska.id, admin_id: adm.id)
-      if params[:spv] == "1"
-        adm.spv = true
-        adm.save
+      tsanew = TaskaAdmin.create(taska_id: @taska.id, admin_id: adm.id, spv: params[:spv])
+      if tsanew.spv
         role = "Supervisor"
       else
         role = "Admin"
@@ -509,10 +507,10 @@ class TaskasController < ApplicationController
     adm = Admin.find(params[:adm])
     tskadm = TaskaAdmin.where(taska_id: @taska.id, admin_id: adm.id)
     tskadm.delete_all
-    if adm.taskas.count < 1
-      adm.spv = nil
-      adm.save
-    end
+    # if adm.taskas.count < 1
+    #   adm.spv = nil
+    #   adm.save
+    # end
     flash[:success] = "#{adm.username} successfully removed"
     redirect_to taska_path(@taska)
   end
@@ -651,6 +649,7 @@ class TaskasController < ApplicationController
       updtskplan()
       @admin_taska = current_admin.taskas
       @admintsk = @taska.admins.where.not(id: 4)
+      @taskaadm = TaskaAdmin.where(taska_id: @taska.id).where.not(admin_id: 4)
       @unregistered_no = @taska.kids.where(classroom_id: nil).count
       # #check payment status
       # all_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
@@ -2597,7 +2596,10 @@ class TaskasController < ApplicationController
       @parent = current_parent
       @admin = current_admin  
       if @admin.present?
-        @spv = @admin.spv
+        #@spv = @admin.spv
+        if @taska.present? && (tsadm = TaskaAdmin.where(admin_id: @admin.id, taska_id: @taska.id)).present?
+          @spv = tsadm.last.spv
+        end
       end
       @owner = current_owner
     end

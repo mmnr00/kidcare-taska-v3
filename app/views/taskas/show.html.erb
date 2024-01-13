@@ -149,11 +149,11 @@
       <div style="background-color:#6599FF"><h4 align="center"><font color="white">
        ADMIN(S)
       </font></h4></div>
-      <% @admintsk.where(spv: nil).each do |adm| %>
+      <% @taskaadm.where(spv: [nil,false]).each do |adm| %>
         <div class="notice notice-info">
-          <strong><%= adm.username %></strong><br><%= adm.email %>
+          <strong><%= adm.admin.username %></strong><br><%= adm.admin.email %>
           <% if adm != current_admin %>
-          <a data-confirm="Are you sure" href="/rmv_role/<%= "#{@taska.id}?adm=#{adm.id}" %>">
+          <a data-confirm="Are you sure" href="/rmv_role/<%= "#{@taska.id}?adm=#{adm.admin.id}" %>">
             <span class="pull-right text-danger">
              <i class="fa fa-trash"></i>
             </span>
@@ -166,11 +166,11 @@
       <div style="background-color:#FF9900"><h4 align="center"><font color="white">
        SUPERVISOR(S)
       </font></h4></div>
-      <% @admintsk.where(spv: true).each do |adm| %>
+      <% @taskaadm.where(spv: true).each do |adm| %>
         <div class="notice notice-warning">
-          <strong><%= adm.username %></strong><br><%= adm.email %>
+          <strong><%= adm.admin.username %></strong><br><%= adm.admin.email %>
           <% if adm != current_admin %>
-          <a data-confirm="Are you sure" href="/rmv_role/<%= "#{@taska.id}?adm=#{adm.id}" %>">
+          <a data-confirm="Are you sure" href="/rmv_role/<%= "#{@taska.id}?adm=#{adm.admin.id}" %>">
             <span class="pull-right text-danger">
              <i class="fa fa-trash"></i>
             </span>
