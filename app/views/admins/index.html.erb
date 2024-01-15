@@ -152,6 +152,7 @@
               <td>
                 <%= link_to "#{tsk.name}", taska_path(tsk), target: "_blank" %><br>
                 <%= link_to "EDIT", edit_taska_path(tsk, plan: tsk.plan), class: "btn btn-sm btn-success", target: "_blank" %>
+                <%= link_to "DELETE", taska_path(tsk), class: "btn btn-sm btn-danger", method: :delete,:data => {:confirm => 'Are you sure? This action cant be reversed.'} %>
               </td>
               <td>
                 <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>

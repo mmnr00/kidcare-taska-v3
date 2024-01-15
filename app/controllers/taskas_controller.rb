@@ -2096,14 +2096,29 @@ class TaskasController < ApplicationController
     
   end
 
-  # DELETE /taskas/1
-  # DELETE /taskas/1.json
+  
   def destroy
-    @taska.destroy
-    # respond_to do |format|
-    #   format.html { redirect_to taskas_url, notice: 'Taska was successfully destroyed.' }
-    #   format.json { head :no_content }
-    # end
+    if @taska.destroy
+      TaskaAdmin.where(taska_id: params[:id]).delete_all
+      Expense.where(taska_id: params[:id]).delete_all
+      Payment.where(taska_id: params[:id]).delete_all
+      TaskaTeacher.where(taska_id: params[:id]).delete_all
+      Classroom.where(taska_id: params[:id]).delete_all
+      Foto.where(taska_id: params[:id]).delete_all
+      Extra.where(taska_id: params[:id]).delete_all
+      Tsklv.where(taska_id: params[:id]).delete_all
+      Tchlv.where(taska_id: params[:id]).delete_all
+      Applv.where(taska_id: params[:id]).delete_all
+      Payslip.where(taska_id: params[:id]).delete_all
+      Payinfo.where(taska_id: params[:id]).delete_all
+      Lgbk.where(taska_id: params[:id]).delete_all
+      Vltr.where(taska_id: params[:id]).delete_all
+      flash[:success] = "Center Deleted Successful"
+    else
+      flash[:danger] = "Center Deleted Not Successful"
+    end
+    redirect_to request.referrer
+   
   end
 
   #START ANSYS
