@@ -355,6 +355,7 @@ Rails.application.routes.draw do
   get '/classrooms/:id/xls', to: 'classrooms#classroom_xls', as: 'classroom_xls' 
 
   #~payments
+  get 'revertbillunpaid', to: 'payments#revertbillunpaid'
   get 'bill_check', to: 'payments#bill_check', as: 'bill_check'
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'
   get '/taska/:id/create_collection', to: 'payments#create_collection', as: 'create_collection'

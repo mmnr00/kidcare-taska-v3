@@ -164,6 +164,11 @@
                 <% if !pmt.paid && pmt.fin != false %>
                 <%= link_to "Update", tsk_manupdbill_path(taska: @taska.id, bill: pmt.id, id: @taska.id), class: "badge badge-secondary",target: "_blank", style: "font-size: 10px" %>
                 <%= link_to "Check Status", bill_check_path(payment: pmt.id), class: "badge badge-light", style: "font-size: 10px" %>
+                <% else %>
+                  <% if $admckn.include? current_admin.id.to_s %>
+
+                    <%= link_to "Revert to Unpaid", revertbillunpaid_path(pmt: pmt.id), class: "badge badge-danger", style: "font-size: 10px",:data => {:confirm => 'Are you sure? This action cant be reversed.'} %>
+                  <% end %>
                 <% end %>
 
               </td>

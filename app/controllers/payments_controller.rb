@@ -6,6 +6,18 @@ class PaymentsController < ApplicationController
   before_action :set_all
   #before_action :check_bill, only: [:edit_bill,:crt_billplz]
 
+  def revertbillunpaid
+    @pmt = Payment.find(params[:pmt])
+    @pmt.paid = false
+    @pmt.parpayms.delete_all
+    if @pmt.save 
+      flash[:success] = "Update Successful" 
+    else
+      flash[:danger] = "Update Not Successful" 
+    end
+    redirect_to request.referrer
+  end
+
   def bill_check
     check2_bill(params[:payment])
     redirect_to request.referrer
