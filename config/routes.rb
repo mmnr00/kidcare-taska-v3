@@ -137,6 +137,7 @@ Rails.application.routes.draw do
   get 'print_payment_course', to: 'pdfs#print_payment_course'
 
   #~ADMINS
+  get 'studentlist_adm', to: 'admins#studentlist_adm'
   get 'admin_index_old', to: 'admins#index_old'
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'

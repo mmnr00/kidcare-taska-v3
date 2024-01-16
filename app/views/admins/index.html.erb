@@ -1,12 +1,15 @@
 
 <% if !@spv %>
   <%= link_to "REGISTER NEW CENTER", "#{root_url}taskas/new?plan=PAY+PER+USE" , class: "btn btn-xs btn-primary active"%>
-  <% if @admin_taska.count > 1 %><% if params[:ovrl].present? %>
+  <% if @admin_taska.count > 1 && 1==0 %><% if params[:ovrl].present? %>
     <%= link_to "HIDE OVERALL", admin_index_path , class: "btn btn-xs btn-danger active"%>
   <% else %>
     <%= link_to "SHOW OVERALL", admin_index_path(ovrl: true) , class: "btn btn-xs btn-success active"%>
   <% end %><% end %>
-  <%= link_to "SUPERADMIN VIEW", admin_index_path(kcadm: "MUS123"), class: "btn btn-sm btn-danger active" unless current_admin.id != 4 %>
+  <% if $admckn.include? @admin.id.to_s %>
+    <%= link_to "SUPERADMIN VIEW", admin_index_path(kcadm: "MUS123"), class: "btn btn-sm btn-danger active" %>
+    <%= link_to "STUDENT LIST", studentlist_adm_path, class: "btn btn-sm btn-warning active" %>
+  <% end %>
   
 <% end %>
 

@@ -1,6 +1,15 @@
 class AdminsController < ApplicationController
 	before_action :authenticate_admin!
 
+	def studentlist_adm
+		@admin = current_admin
+		if $admckn.include? current_admin.id.to_s
+			flash[:danger] = "You dont have access"
+			redirect_to request.referer and return
+		end
+		@kids = Kid.all
+	end
+
 	def index
 		@admin = current_admin
 		if @admin.id == 301
