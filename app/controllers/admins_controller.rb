@@ -3,11 +3,15 @@ class AdminsController < ApplicationController
 
 	def studentlist_adm
 		@admin = current_admin
-		if $admckn.include? current_admin.id.to_s
+		if !$admckn.include? current_admin.id.to_s
 			flash[:danger] = "You dont have access"
 			redirect_to request.referer and return
 		end
 		@kids = Kid.all
+		if params[:sch].present?
+			ic = params[:sch_str]
+			@kids = Kid.where(ic_1: ic[0..5], ic_2: ic[6..7], ic_3: ic[8..11] )
+		end
 	end
 
 	def index
