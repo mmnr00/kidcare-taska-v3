@@ -11,7 +11,17 @@ class KidsController < ApplicationController
 	#before_action :authenticate_parent! || :authenticate_admin!
 
 	def destroy
-		flash[:success] = "Children successfully deleted"
+		if @kid.destroy
+			Foto.where(kid_id: params[:id]).delete_all
+			Sibling.where(kid_id: params[:id]).delete_all
+			KidBill.where(kid_id: params[:id]).delete_all
+			KidExtra.where(kid_id: params[:id]).delete_all
+			Otkid.where(kid_id: params[:id]).delete_all
+			Lgbk.where(kid_id: params[:id]).delete_all
+			flash[:success] = "#{@kid.name} successfully deleted"
+		else
+			flash[:danger] = "#{@kid.name} not successfully deleted"
+		end
 		redirect_to request.referrer
 	end
 
