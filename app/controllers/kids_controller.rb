@@ -1,7 +1,7 @@
 class KidsController < ApplicationController
 
 	require 'json'
-	before_action :set_kid, only: [:show, :kid_pdf]
+	before_action :set_kid, only: [:show, :kid_pdf, :destroy]
 	#before_action :set_kid_bill, only: [:bill_view]
 	before_action :set_all
 	before_action :authenticate_parent!, only: [:new], unless: -> {current_admin.present? || params[:ckn].present?}
@@ -9,6 +9,11 @@ class KidsController < ApplicationController
 	#before_action	:authenticate!, only: [:bill_view]
 	#before_action :rep_responsible, only: [:bill_view]
 	#before_action :authenticate_parent! || :authenticate_admin!
+
+	def destroy
+		flash[:success] = "Children successfully deleted"
+		redirect_to request.referrer
+	end
 
 	def stgbill
 		@taska = Taska.find(params[:id])

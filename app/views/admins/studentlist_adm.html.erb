@@ -62,7 +62,7 @@
                   <% if kid.date_enter.present? %>
                     <br><%= kid.date_enter.strftime('%d-%^b-%y') %>
                   <% end %>  <br>
-                  <%= link_to "DELETE", root_path, class: "badge badge-danger", style: "font-size: 13px", method: :delete,:data => {:confirm => 'Are you sure? This action cant be reversed. All data will be remove permanently'} %>
+                  <%= link_to "DELETE", kid_path(kid), class: "badge badge-danger", style: "font-size: 13px", method: :delete,:data => {:confirm => 'Are you sure? This action cant be reversed. All data will be remove permanently'} %>
                 </td>
                 <td>
                   <% if kid.parent_id == 1 %>
