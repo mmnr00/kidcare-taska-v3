@@ -10,7 +10,7 @@ git checkout 0-stg
 git merge 0-dev
 git push
 
-git checkout production_n
+git checkout 10-prod
 git merge 0-stg
 git push
 
