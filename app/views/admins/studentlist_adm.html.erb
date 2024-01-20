@@ -33,7 +33,7 @@
     
     
     <div class="table table-responsive border" style="font-size:13px">
-      <%= form_for(:cls, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+      <%= form_for(:cls, :url => {:controller=>'admins', :action=>'addtskcls_adm'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr class="shadow">
@@ -74,14 +74,20 @@
                 </td>
                 <td><%= kid.created_at.strftime('%d-%^b-%y')%></td>
                 <td>
-                  <%= h.select :classroom_id, 
-                    options_from_collection_for_select(kid.taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kid.classroom_id), {include_blank: "No Classroom"} %>
-                  <% if kid.classroom_id.blank? %>
-                    <%= h.select :taska_id, 
-                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id) %><br>
-                    <%= link_to remove_taska_path(kid: kid), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal", :data => {:confirm => 'Are you sure?'} do %>
-                      <i class="fa fa-trash"></i> Remove from Center
+                  <% if kid.taska_id.present? %>
+                    <%= h.select :classroom_id, 
+                      options_from_collection_for_select(kid.taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kid.classroom_id), {include_blank: "No Classroom"} %>
+                      <%= h.select :taska_id, 
+                      options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id), {include_blank: "No Classroom"} %><br>
+                    <% if kid.classroom_id.blank? %>
+                      
+                      <%= link_to remove_taska_path(kid: kid), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal", :data => {:confirm => 'Are you sure?'} do %>
+                        <i class="fa fa-trash"></i> Remove from Center
+                      <% end %>
                     <% end %>
+                  <% else %>
+                    <%= h.select :taska_id, 
+                      options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id), {include_blank: "Please Select Center"} %>
                   <% end %>
                 </td>
 

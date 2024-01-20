@@ -1,6 +1,50 @@
 class AdminsController < ApplicationController
 	before_action :authenticate_admin!
 
+	def addtskcls_adm
+		pars = params[:cls]
+		errmsg = []
+
+		pars.each do |k,v|
+			if k != "curr_taska"
+
+				@kid = Kid.find(k)
+				cls_id= v[:classroom_id]
+				tsk_id= v[:taska_id]
+				if tsk_id.present?
+					@taska = Taska.find(tsk_id)
+
+					if (cls_id.present?) && (!@taska.classrooms.ids.include? cls_id.to_i)
+						flash[:danger] = "Classrom assigned not belong to the center"
+						redirect_to request.referrer and return
+					end
+				end
+
+				if cls_id.blank?
+
+					if @kid.siblings.present?
+
+						errmsg << @kid.name
+					else
+						puts "masuk"
+						@kid.taska_id = tsk_id unless tsk_id.blank?
+						@kid.classroom_id = nil
+					end
+				else
+					@kid.classroom_id = cls_id
+				end
+				@kid.save
+				
+			end #end not curr_taska
+		end #end pars loop
+		if errmsg.present?
+			flash[:danger] = "#{@kid.name }cannot be remove from classroom. Please clear any siblings attachment."
+		else
+			flash[:success] = "Children details updated"
+		end
+		redirect_to request.referrer
+	end
+
 	def studentlist_adm
 		@admin = current_admin
 		if !$admckn.include? current_admin.id.to_s
