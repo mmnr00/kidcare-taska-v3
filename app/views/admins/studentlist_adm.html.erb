@@ -39,8 +39,10 @@
             <tr class="shadow">
               <th style="background-color:#ffb2b2">NAME</th>
               <th style="background-color:#ffb2b2; width: 20%">PARENT'S LOGIN DETAILS</th>
-              <th style="background-color:#ffb2b2; width: 20%">BILLING</th>
+              <th style="background-color:#ffb2b2; width: 15%">REGISTERED ON</th>
               <th style="background-color:#ffb2b2">CLASSROOM & CENTER</th>
+              
+              
             </tr>
           </thead>
           <tbody>
@@ -59,10 +61,9 @@
                   <%= year %> years <%= month %> months
                   <% if kid.date_enter.present? %>
                     <br><%= kid.date_enter.strftime('%d-%^b-%y') %>
-                  <% end %>  
+                  <% end %>  <br>
+                  <%= link_to "DELETE", root_path, class: "badge badge-danger", style: "font-size: 13px", method: :delete,:data => {:confirm => 'Are you sure? This action cant be reversed. All data will be remove permanently'} %>
                 </td>
-                  <td><%= kid.created_at.strftime('%d-%^b-%y')%></td>
-                
                 <td>
                   <% if kid.parent_id == 1 %>
                     <b>Registered To Center</b>
@@ -71,8 +72,23 @@
                     <b>Email    :</b><%= kid.parent.email %>
                   <% end %>
                 </td>
+                <td><%= kid.created_at.strftime('%d-%^b-%y')%></td>
                 <td>
+                  <%= h.select :classroom_id, 
+                    options_from_collection_for_select(kid.taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, kid.classroom_id), {include_blank: "No Classroom"} %>
+                  <% if kid.classroom_id.blank? %>
+                    <%= h.select :taska_id, 
+                    options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name, kid.taska_id) %><br>
+                    <%= link_to remove_taska_path(kid: kid), class: "badge badge-danger shadow-sm", style: "font-size: 10px; font-weight: normal", :data => {:confirm => 'Are you sure?'} do %>
+                      <i class="fa fa-trash"></i> Remove from Center
+                    <% end %>
+                  <% end %>
                 </td>
+
+                
+                
+                
+                
                 
               </tr>
               
