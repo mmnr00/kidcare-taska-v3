@@ -31,13 +31,11 @@
             <td>
               <b>Time : </b><%= lg.cin[0].strftime("%l:%M %P") %><br>
               <b>Temp : </b><%= lg.cin[2] %>&#8451<br>
-              <b>Log by: </b><%= Teacher.find(lg.cin[1]).tchdetail.name %><br>
             </td>
             <td>
               <% if lg.cout.present? %>
                 <b>Time : </b><%= lg.cout[0].strftime("%l:%M %P") %><br>
                 <b>Temp : </b><%= lg.cout[2] %>&#8451<br>
-                <b>Log by: </b><%= Teacher.find(lg.cin[1]).tchdetail.name %><br>
               <% end %>
             </td>
           </tr>
