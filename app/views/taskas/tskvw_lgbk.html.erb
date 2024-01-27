@@ -8,12 +8,38 @@
       <thead>
         <tr class="shadow">
           <th style="background-color:#ffb2b2; width: 10%">DATE</th>
-          <th style="background-color:#ffb2b2;width: 50%" >ATTENDANCE INFO</th>
-          <th style="background-color:#ffb2b2; width:">UPDATED BY</th>
+          <th style="background-color:#ffb2b2;width: 30%" >ATTENDANCE INFO</th>
+          <th style="background-color:#ffb2b2; width:">ADMIN UPDATE</th>
+          <th style="background-color:#ffb2b2; width:">TEACHER UPDATE</th>
           <th style="background-color:#ffb2b2; width:">ACTIONS</th>
         </tr>
       </thead>
       <tbody>
+        <% now_curr = Time.now %>
+        <% if @lgbks.where('created_at > ?', Date.today).blank?;
+          lgbk = @kid.lgbks.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).where.not(cin: nil);
+          lg_curr = lgbk.last
+         %>
+          <tr>
+            <td><%= now_curr.strftime('%d-%^b-%y') %></td>
+            <td>
+              <% if lgbk.blank? %> <!-- not yet check in -->
+
+                <%= form_tag std_checkin_path, method: :get, id: "find_kid" do %>
+                  <%= hidden_field_tag :kid, params[:kid], value: @kid.id %>
+                  <%= number_field_tag :tmpi, params[:tmpi], placeholder: "Temperature", :step=>0.1, value: 36.5 %>
+                  <%= button_tag(type: :submit, class: "badge badge-primary", style: "font-size: 10px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+                      <b>Check In</b>
+                  <% end %>
+                <% end %>
+
+                <br>
+              <% end %>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
         <% @lgbks.order('created_at desc').each do |lg| %>
           <tr>
             <td>
@@ -29,17 +55,35 @@
               <% if lg.cout.present? %>
                 <%= lg.cout[0].strftime("%l:%M %P") %>
                 (<%= lg.cout[2] %>&#8451)
+              <% else %>
+                <%= form_tag std_checkout_path, method: :get, id: "find_kid" do %>
+                  <%= hidden_field_tag :lgbk, params[:lgbk], value: lg.id %>
+                  <%= number_field_tag :tmpo, params[:tmpo], placeholder: "Temperature",:step=>0.1, value: 36.5 %>
+                  <%= button_tag(type: :submit, class: "badge badge-danger", style: "font-size: 10px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+                      <b>Check Out</b>
+                  <% end %>
+                <% end %>
               <% end %><br>
             </td>
             <td>
-              <% lg.tchid.each do |k,v| %>
+              <% if lg.admid.present?; lg.admid.each do |k,v| %>
+                <%= Admin.find(k).username %>
+                (
+                  <% v.each do |tm| %>
+                    <%= tm.strftime("%l:%M %P") %>,
+                  <% end %>
+                )
+              <% end; end %>
+            </td>
+            <td>
+              <% if lg.tchid.present?; lg.tchid.each do |k,v| %>
                 <%= Teacher.find(k).tchdetail.name %>
                 (
                   <% v.each do |tm| %>
                     <%= tm.strftime("%l:%M %P") %>,
                   <% end %>
                 )
-              <% end %>
+              <% end; end %>
             </td>
             <td>
               <%= link_to "View", view_lgbk_path(lgbk: lg.id, tsk: @taska.id), class: "badge badge-success", style: "font-size: 12px", target: "_blank" %>

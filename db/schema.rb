@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_01_13_000040) do
+ActiveRecord::Schema.define(version: 2024_01_27_082619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(version: 2024_01_13_000040) do
     t.string "othdc"
     t.text "tchid"
     t.text "temp"
+    t.text "admid"
   end
 
   create_table "otkids", force: :cascade do |t|

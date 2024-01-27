@@ -14,6 +14,7 @@ class Lgbk < ApplicationRecord
 	serialize :mnd,Array
 	serialize :tdur,Array
 	serialize :tchid,Hash
+	serialize :admid,Hash
 	belongs_to :kid
 	belongs_to :taska
 end
