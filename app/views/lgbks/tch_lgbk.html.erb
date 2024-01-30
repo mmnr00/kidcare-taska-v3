@@ -2,8 +2,12 @@
 <div style="margin-right: 0px;margin-left: -10px;margin-right: -10px;margin-top: -10px">
 
   <div style="text-align: left; margin-bottom: 10px">
-    <%= link_to "BACK", tch_std_path(@teacher, taska: @taska.id), class: "badge badge-warning" %>
-    <%= link_to "PARENT NOTE", view_lgbk_path(tch: @teacher.id,lgbk: @lgbk.id, note:true), class: "badge badge-primary", target: "_blank" %>
+    <% if current_admin.present? %>
+    <% else %>
+      <%= link_to "BACK", tch_std_path(@teacher, taska: @taska.id), class: "badge badge-warning" %>
+      <%= link_to "PARENT NOTE", view_lgbk_path(tch: @teacher.id,lgbk: @lgbk.id, note:true), class: "badge badge-primary", target: "_blank" %>
+    <% end %>
+    
   </div>
 
   <div style="background-color:#ccccff; text-align: center">
@@ -172,7 +176,11 @@
     </div>
 
     <%= hidden_field_tag :kid_id, @lgbk.kid.id %>
-    <%= hidden_field_tag :tchid, @teacher.id %>
+    <% if current_admin.present? %>
+      <%= hidden_field_tag :admid, @admin.id %>
+    <% else %>
+      <%= hidden_field_tag :tchid, @teacher.id %>
+    <% end %>
     <%= hidden_field_tag :lgbk, @lgbk.id %>
 
     <%= button_tag(type: :submit, class: "btn btn-success btn-block", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>

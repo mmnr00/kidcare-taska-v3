@@ -87,6 +87,7 @@
             </td>
             <td>
               <%= link_to "View", view_lgbk_path(lgbk: lg.id, tsk: @taska.id), class: "badge badge-success", style: "font-size: 12px", target: "_blank" %>
+              <%= link_to "Edit", tch_lgbk_path(kid_id: @kid.id,lgbk: lg.id), class: "badge badge-info", style: "font-size: 12px", target: "_blank" %>
             </td>
           </tr>
         <% end %>

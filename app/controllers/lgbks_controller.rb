@@ -44,11 +44,20 @@ class LgbksController < ApplicationController
 		#tingkah laku
 		@lgbk.othdc = params[:othdc]
 
-		if @lgbk.tchid[params[:tchid]].present?
-			@lgbk.tchid[params[:tchid]] << Time.now
-		else	
-			@lgbk.tchid[params[:tchid]] = [Time.now]
-		end		
+		if params[:tchid].present? 
+
+			if @lgbk.tchid[params[:tchid]].present?
+				@lgbk.tchid[params[:tchid]] << Time.now
+			else	
+				@lgbk.tchid[params[:tchid]] = [Time.now]
+			end		
+		elsif params[:admid].present?
+			if @lgbk.admid[params[:admid]].present?
+				@lgbk.admid[params[:admid]] << Time.now
+			else	
+				@lgbk.admid[params[:admid]] = [Time.now]
+			end	
+		end
 
 		#temperature
 		@lgbk.temp[Time.now] = params[:temp] unless params[:temp].blank?
