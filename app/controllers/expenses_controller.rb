@@ -93,7 +93,7 @@ def my_expenses
 
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 			@payments_due = curr_pmt
-			@tot_unpaid = @payments_due.where(paid: false).sum(:amount) - cdtn_1par -cdtn_3par
+			@tot_unpaid = @payments_due.where(paid: false, fin: true).sum(:amount) - cdtn_1par -cdtn_3par
 			@c1 = cdtn_1par
 			@c3 = cdtn_3par
 			

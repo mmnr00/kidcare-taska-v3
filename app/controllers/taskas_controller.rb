@@ -2369,6 +2369,9 @@ class TaskasController < ApplicationController
         @payments = @payments.order('updated_at DESC')
       else
         @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
+        if params[:fin].present?
+          @payments = @payments.where(fin: params[:fin])
+        end
       end
         
   
