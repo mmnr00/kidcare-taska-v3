@@ -675,7 +675,7 @@ class TaskasController < ApplicationController
       psldt = time - @taska.pslm.months
       #calculate unpaid - partial
       upd_par = 0.00
-      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false, fin: true)
       @kid_unpaid.each do |pm|
         upd_par += pm.parpayms.sum(:amt)
       end
@@ -1018,7 +1018,7 @@ class TaskasController < ApplicationController
     @taska = Taska.find(params[:id])
     #check all unpaid bills with billplz
     
-    @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false, fin: params[:fin]).order('bill_year ASC').order('bill_month ASC')
     @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
   end
@@ -1989,6 +1989,7 @@ class TaskasController < ApplicationController
     @taska = Taska.new(taska_params)
     @taska.expire = Time.now + 1.months
     @taska.cred = 0.00
+    @taska.blgt = true
     # if Rails.env.development?
     #   @taska.collection_id = "andkymil"
     # elsif Rails.env.production?
