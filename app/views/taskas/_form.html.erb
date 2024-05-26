@@ -184,8 +184,10 @@
           <div class="row">
             <div class="col-sm-8 col-8">
               <%= f.select :weekend,
-                            options_for_select(["Fri,Sat",
-                              "Sat,Sun"],
+                            options_for_select(["Fri",
+                              "Fri,Sat",
+                              "Sat,Sun",
+                              "Sun"],
                               selected: @taska.weekend,), 
                               {include_blank: "Please Select"}, {required: true} %> 
                       
