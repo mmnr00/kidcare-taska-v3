@@ -1,0 +1,60 @@
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active"><strong><%= @taska.name.upcase %></strong></li>
+</ol>
+
+<% if params[:sch].blank? %>
+
+<div style="background-color:BLUE"><h5 align="center"><font color="white">
+    MASUKKAN NO MYKID ANAK
+  </font></h5>
+</div>
+
+<%= form_tag update_email_path, method: :get do %>
+  <div class="form-group text-center col-md-12">
+    <div class="row">
+
+      <div class="col-sm-9 col-9">
+        <%= text_field_tag :ic, params[:ic], maxlength: 12 ,class: "form-control", autofocus: true, placeholder: "Tiada -", required: true %>
+      </div>
+        <%= hidden_field_tag :ctrid, params[:ctrid], value: params[:ctrid] %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+
+      <br><br>              
+      <div class="col-md-3">
+        <%= button_tag(type: :submit, class: "btn btn-m btn-success active", id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Cari
+        <% end %>
+      </div>
+    </div><br>
+  </div>
+<%end%>
+
+<% else %>
+  <div style="background-color:GREEN"><h4 align="center"><font color="white">
+    <%= @kid.name %>
+  </font></h4>
+</div>
+  
+  <%= form_tag update_email_path, method: :get do %>
+  <div class="form-group text-center col-md-12">
+    <div class="row">
+
+      <div class="col-sm-9 col-9">
+        <%= email_field_tag :email, @kid.email ,class: "form-control", autofocus: true, placeholder: "Sila masukkan email anda", required: true %>
+      </div>
+        <%= hidden_field_tag :ctrid, params[:ctrid], value: params[:ctrid] %>
+        <%= hidden_field_tag :kid, params[:kid], value: @kid.id %>
+        <%= hidden_field_tag :upd, params[:upd], value: true %>
+
+      <br><br>              
+      <div class="col-md-3">
+        <%= button_tag(type: :submit, class: "btn btn-m btn-primary active", id: "submit_expense") do %>
+             Kemaskini
+        <% end %>
+      </div>
+    </div><br>
+  </div>
+<%end%>
+
+
+<% end %>

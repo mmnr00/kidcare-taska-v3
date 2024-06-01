@@ -31,6 +31,24 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def update_email
+    @taska = Taska.find(params[:ctrid])
+    if !params[:sch].blank?
+      @kid = @taska.kids.where(ic_1: params[:ic][0..5],ic_2:params[:ic][6..7] ,ic_3:params[:ic][8..11]).last
+      if @kid.blank?
+        flash[:danger] = "No MYKID anak tiada dalam rekod"
+        redirect_to update_email_path(ctrid: @taska.id) and return
+      end
+    end
+    if params[:upd].present?
+      @kid = Kid.find(params[:kid])
+      @kid.email = params[:email]
+      @kid.save 
+      flash[:success] = "Kemasikini Berjaya untuk #{@kid.name}"
+      redirect_to update_email_path(ctrid: @taska.id) and return
+    end
+  end
+
   def bill_list_xls
     @taska = Taska.find(params[:id])
     paid = params[:paid]

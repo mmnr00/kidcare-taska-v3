@@ -353,6 +353,7 @@ class KidsController < ApplicationController
 				@kid = Kid.find(k)
 				cls_id= v[:classroom_id]
 				tsk_id= v[:taska_id]
+				email = v[:email]
 
 				if (tsk_id.present? && tsk_id != pars[:curr_taska]) || cls_id.blank?
 					if @kid.siblings.present?
@@ -364,6 +365,7 @@ class KidsController < ApplicationController
 				else
 					@kid.classroom_id = cls_id
 				end
+				@kid.email = email
 				@kid.save
 				
 			end #end not curr_taska
