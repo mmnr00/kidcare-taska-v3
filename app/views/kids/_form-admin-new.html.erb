@@ -81,6 +81,20 @@
             The main phone number to contact and send bill
         </div>
 
+         <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BILLING EMAIL</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-4">
+             <%= f.email_field :email, class: "form-control", placeholder: "", autofocus: true, required: true %>
+             </div>    
+          </div>
+            To be used for billing purposes 
+        </div>
+
          <!-- DOB -->
         <div class="form-group"> 
           <div class="row">

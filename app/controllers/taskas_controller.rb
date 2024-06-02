@@ -469,6 +469,7 @@ class TaskasController < ApplicationController
                     dob: dob_dt,
                     ph_1: row["NO TELEFON"][0..2],
                     ph_2: row["NO TELEFON"][4..11],
+                    email: row["EMAIL"],
                     father_name: row["NAMA BAPA"],
                     mother_name: row["NAMA IBU"],
                     gender: row["JANTINA"])

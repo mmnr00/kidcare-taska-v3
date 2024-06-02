@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [5,20,5,29,18,20,18,29,29,14,15]
+col_widths= [5,20,5,29,18,20,18,29,29,14,15,15]
 col_widths2= [5,5,30,30,20]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20, b: true)
@@ -32,6 +32,7 @@ wb.styles do |style|
                   "NAMA",
                   "MYKID",
                   "NO TELEFON",
+                  "EMAIL",
                   "NAMA BAPA",
                   "NAMA IBU",
                   "JANTINA",
@@ -39,7 +40,7 @@ wb.styles do |style|
     sheet.rows[0].style = header_1
     #sheet.rows[2].style = highlight_cell
     sheet.rows[2].cells[1].style = dlt_cell
-    (2..9).each do |n|
+    (2..10).each do |n|
       sheet.rows[2].cells[n].style = highlight_cell
     end
     counter = 1
@@ -51,13 +52,14 @@ wb.styles do |style|
                     "Fattah Amin bin Ahmad", 
                     "930201-02-4432",
                     "011-62801556",
+                    "ahmad@gmail.com",
                     "Ahmad bin Harun",
                     "Siti Malika binti Majid",
                     "MALE/FEMALE",
                     "113",
                     "*sila rujuk di tab 'Senarai Kelas' untuk mendapatkan ID Kelas"]
     sheet.rows[row+counter].cells[1].style = dlt_cell
-    (2..9).each do |n1|
+    (2..10).each do |n1|
       sheet.rows[row+counter].cells[n1].style = border_cell_eg
     end
     counter += 1
@@ -74,7 +76,7 @@ wb.styles do |style|
                     "",
                     ""]
     sheet.rows[row+counter].cells[1].style = inp_cell
-    (2..9).each do |n1|
+    (2..10).each do |n1|
       sheet.rows[row+counter].cells[n1].style = border_cell
     end
     counter += 1
@@ -91,7 +93,7 @@ wb.styles do |style|
                     "",
                     "",
                     ""]
-      (2..9).each do |n2|
+      (2..10).each do |n2|
         sheet.rows[row+counter].cells[n2].style = border_cell
       end
       counter = counter +1
