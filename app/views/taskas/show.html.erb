@@ -115,7 +115,9 @@
     <% end %><br><br>
   <% end %><% end %><br>
 
-  <a href="<%= taska_page_url(@taska.id)%>" target="_blank"><%= taska_page_url(@taska.id)%></a>
+  <a href="<%= taska_page_url(@taska.id)%>" target="_blank"><%= taska_page_url(@taska.id)%></a><br>
+  <a href="<%= update_email_url(ctrid: @taska.id)%>" target="_blank"><%= update_email_url(ctrid: @taska.id)%></a>
+
 
   <!-- ADD SUPERVISOR -->
   <% if !@spv %><div class="row">
