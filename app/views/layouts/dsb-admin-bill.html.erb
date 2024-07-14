@@ -18,7 +18,7 @@
         <li class="nav-item active">
           <a class="nav-link" href="/mybill?id=<%= @taska.id %>&sch=true&sch_yr=<%= Date.today.year %>&sch_mth=<%= Date.today.month %>">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
-            <span>My Bills </span>
+            <span>My Bill</span>
           </a>
         </li>
         <li class="nav-item">
@@ -27,7 +27,7 @@
             <span>My Classrooms </span>
           </a>
         </li>
-        <% if !@admin.spv %>
+        <% if !@spv %>
           <li class="nav-item">
             <a class="nav-link" href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= $my_time.month%>&expense%5Byear%5D=<%=$my_time.year%>&commit=SELECT">
               <i class="fas fa-fw fa-chart-bar"></i>

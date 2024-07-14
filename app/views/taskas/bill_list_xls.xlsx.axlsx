@@ -18,7 +18,7 @@ wb.styles do |style|
                   "NETT(RM)",
                   "PAYMENT DATE",
                   "METHOD",
-                  "CHILDREN"]
+                  "CHILDREN (CLASSROOM)"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -27,7 +27,7 @@ wb.styles do |style|
       if bill.parpayms.blank?
         a= ""
         bill.kid_bills.each do |kb|
-          a=a+"\n"+"; "+kb.kid.name
+          a=a+"\n"+"; "+"#{kb.kidname} (#{kb.clsname})"
         end
         chrg = 0.00
         if bill.mtd == "BILLPLZ" && (bill.cltid == @taska.collection_id2 || (!$taska_old.include? @taska.id.to_s))
@@ -61,7 +61,7 @@ wb.styles do |style|
                   "BALANCE(RM)",
                   "PAYMENT DATE",
                   "METHOD",
-                  "CHILDREN"]
+                  "CHILDREN (CLASSROOM)"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -70,7 +70,7 @@ wb.styles do |style|
       if !bill.parpayms.blank?
         a= ""
         bill.kid_bills.each do |kb|
-          a=a+"\n"+"; "+kb.kid.name
+          a=a+"\n"+"; "+"#{kb.kidname} (#{kb.clsname})"
         end
         sheet.add_row [counter,
                       "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
