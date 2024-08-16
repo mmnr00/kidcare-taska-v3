@@ -1,0 +1,26 @@
+
+<div class="stepz">
+<h3>
+   HOW TO UPLOAD TEACHER LIST
+
+</h3><br>
+<ol>
+  <li>
+    Download the file here &nbsp
+    <%= link_to temptchxls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+      <i class="fa fa-file-excel"></i> TEACHER UPLOAD FORM
+    <% end %>
+  </li>
+  <li>
+    <strong>PLEASE FOLLOW THE TEMPLATE.</strong> Save the file that you had fully filled in. 
+  </li>
+  <li>
+    Choose the file that you had save and click 'Upload' <br><br>
+    <%= form_tag upldtch_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= hidden_field_tag :id, value: @taska.id %>
+      <%= submit_tag "Upload" %>
+    <% end %>
+  </li>
+</ol>
+</div>

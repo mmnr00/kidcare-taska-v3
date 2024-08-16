@@ -125,6 +125,12 @@
           <div class="tab-pane fade <%= "#{params[:tb2_d]}" %>" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><br>
             <%= form_for(:cls, :url => {:controller=>'taskas', :action=>'tchchgtsk'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
             <%= f.hidden_field :id, value: params[:id] %>
+            <% if @admin.id == 4 %>
+              <%= link_to "UPLOAD EXCEL", xlstch_path(@taska), class: "badge badge-pill badge-warning" %>
+            <% else %>
+              <%= link_to "EXCEL TEMPLATE", temptchxls_path(@taska, format: :xlsx), class: "badge badge-pill badge-warning" %>
+              
+            <% end %>
             <div class="table-responsive" style="font-size:13px">
               <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>

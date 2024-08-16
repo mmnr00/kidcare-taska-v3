@@ -23,7 +23,8 @@ class TaskasController < ApplicationController
                                   :rmv_role,
                                   :xlsclsrm,
                                   :xlskid,
-                                  :upldclsrm,
+                                  :xlstch,
+                                  :upldclsrm, :upldtch,
                                   :upldkid,:rptatt,:att_xls,
                                   :hiscrdt,:tskvw_lgbk, :stdatt,
                                   :topcred,:mybill,:mystudent,:vltrlist]
@@ -422,12 +423,26 @@ class TaskasController < ApplicationController
     render action: "xlskid", layout: "dsb-admin-student"
   end
 
+  def xlstch
+    render action: "xlstch", layout: "dsb-admin-teacher"
+  end
+
   def tempkidxls
     @taska = Taska.find(params[:id])
     respond_to do |format|
       #format.html
       format.xlsx{
                   response.headers['Content-Disposition'] = 'attachment; filename="Borang Tambah Pelajar.xlsx"'
+      }
+    end
+  end
+
+  def temptchxls
+    @taska = Taska.find(params[:id])
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Borang Tambah Pekerja.xlsx"'
       }
     end
   end
@@ -492,6 +507,63 @@ class TaskasController < ApplicationController
     end
     #redirect_to taska_path(@taska)
     redirect_to mystudent_path(id: @taska.id)
+  end
+
+  def upldtch
+    kid_fail = 0
+    xlsx = Roo::Spreadsheet.open(params[:file])
+    header = xlsx.row(xlsx.first_row+2)
+    ((xlsx.first_row+4)..(xlsx.last_row)).each do |n|
+      
+      xlsx.row(n)
+      row = Hash[[header, xlsx.row(n)].transpose]
+      if row["NAMA"].present? && row["NO KP"].present? && row["EMAIL"].present?
+      
+        ic1= row["NO KP"][0..5]
+        ic2= row["NO KP"][7..8]
+        ic3= row["NO KP"][10..13]
+        #arr_dt = row["TARIKH MULA BEKERJA"].split('/')
+        #startwork= Date.new(arr_dt[2],arr_dt[1],arr_dt[0])
+
+        teacher = Teacher.new(username: row["EMAIL"],email: row["EMAIL"], password: "abc1234")
+        teacher.save 
+        TaskaTeacher.create(teacher_id: teacher.id,taska_id: @taska.id, stat: true)
+
+        tchdetail = Tchdetail.new(teacher_id: teacher.id, 
+                                ic_1: ic1, 
+                                ic_2: ic2, 
+                                ic_3: ic3,
+                                name: row["NAMA"],
+                                address_1: row["ALAMAT"],
+                                marital: row["STATUS PERKAHWINAN"],
+                                education: row["TAHAP PENDIDIKAN"],
+                                startwork: row["TARIKH MULA BEKERJA"],
+                                phone_1: row["NO TELEFON"].split('-')[0],
+                                phone_2: row["NO TELEFON"].split('-')[1])
+        tchdetail.save
+        Foto.create(foto_name:"SIJIL KAP", tchdetail_id: tchdetail.id)
+        Foto.create(foto_name:"KURSUS PENGEDALIAN MAKANAN", tchdetail_id: tchdetail.id)
+        Foto.create(foto_name:"TYPHOID INJECTION", tchdetail_id: tchdetail.id)
+        Foto.create(foto_name:"CPR / FIRST AID", tchdetail_id: tchdetail.id)
+        Foto.create(foto_name:"IC FRONT", tchdetail_id: tchdetail.id)
+        Foto.create(foto_name:"IC BACK", tchdetail_id: tchdetail.id)
+        Foto.create(foto_name:"PROFILE PIC", tchdetail_id: tchdetail.id)
+                
+        else
+          kid_fail = kid_fail + 1
+        end
+      end
+
+      flash[:success] = "Upload berjaya. Sila semak senarai kakitangan"
+    
+    
+    # if kid_fail > 0
+    #   flash[:danger] = "#{kid_fail} pelajar tidak berjaya didaftarkan. Sila hubungi Admin Kidcare untuk semakan"
+    # else
+    #   flash[:success] = "Semua Pelajar Berjaya Didaftarkan"
+    # end
+    #redirect_to taska_path(@taska)
+    redirect_to xlstch_path(id: @taska.id)
   end
 
   def find_spv
