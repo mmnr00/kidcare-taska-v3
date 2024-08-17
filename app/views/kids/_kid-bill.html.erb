@@ -154,7 +154,14 @@
                   </td>
                   <tr class="noBorder">
                     <% if kb.clsname.present? && kb.clsfee.present? %>
-                      <td>FEE FOR CLASSROOM <%= kb.clsname.upcase %></td>
+                      <td>FEE FOR 
+                        <% if !ENV['TASKABIZ'].include? @taska.id.to_s %>
+                        CLASSROOM 
+                        <% end %>
+                        
+                        <%= kb.clsname.upcase %>
+                          
+                      </td>
                       <td></td>
                       <td class="text-right"><%= kb.clsfee %></td>
                       </tr>

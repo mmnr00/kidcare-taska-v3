@@ -46,6 +46,7 @@ $catgtsk = ["Bahan/ Bekalan/ Inventori",
             ]
 
 $taska_old = ENV['TASKA_OLD'].split(',')
+$taskabiz = ENV['TASKABIZ']
 $cakna21 = ENV['cakna21'].split(',')
 $admckn = ENV['admckn'].split(',')
 

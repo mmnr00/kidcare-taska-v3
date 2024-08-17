@@ -22,7 +22,7 @@ wb.styles do |style|
                                   bg_color: "cce5cc",
                                   i: true)       
   wb.add_worksheet(name: "BORANG") do |sheet|
-    sheet.add_row ["","BORANG MENAMBAH PEKERJA UNTUK #{@taska.name.upcase}"]
+    sheet.add_row ["","BORANG MENAMBAH KAKITANGAN UNTUK #{@taska.name.upcase}"]
 
     #start header
     sheet.add_row [""]

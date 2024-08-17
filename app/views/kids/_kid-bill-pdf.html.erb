@@ -108,7 +108,11 @@
                     <td>
                       <strong><%= kb.kid.name %></strong><br>
                       <% if kb.clsname.present? && kb.clsfee.present? %>
-                        FEE FOR CLASSROOM <%= kb.clsname.upcase %>
+                        FEE FOR <% if !ENV['TASKABIZ'].include? @taska.id.to_s %>
+                        CLASSROOM 
+                        <% end %>
+                        
+                        <%= kb.clsname.upcase %>
                       <% elsif @payment.name == "TASKA BOOKING" %>
                         BOOKING FEE FOR <%= @taska.name.upcase %>
                       <% end %>
