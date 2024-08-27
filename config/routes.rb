@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   # For dtails on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
    #WELCOME
+  get 'trywasap', to: 'welcomes#trywasap'
   get 'cmbr19', to: 'welcomes#cmbr19'
   get 'cmbr19pdf', to: 'welcomes#cmbr19pdf'
   get 'login', to: 'welcomes#login'

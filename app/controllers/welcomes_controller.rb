@@ -4,6 +4,29 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def trywasap
+
+		#@admin = current_admin
+
+		data_billplz = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
+		              :body=> { :AppId => ENV['WABA_APPID'], 
+		              :AppSecret=> ENV['WABA_APP_SECRET'],
+		              :un=> "kidcarewaba", 
+		              :pwd=> ENV['WABA_PWD'],
+		              :agreedterm=> "YES",
+		              :Type=> "template",
+		              :TemplateCode=> ENV['WABA_TMP_BILL'],
+		              :TemplateParams=> {:billurl => "https://www.kidcare.my ",:centername => "Kid Care Kuala Lumpur"},
+		              :Language=> "en",
+		              :From=> ENV['WABA_PH'],
+		              :To=> "60174151556"}.to_json,
+		              :basic_auth => {},
+		    :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+		data = JSON.parse(data_billplz.to_s)
+		puts data
+
+	end
+
 	def caknafeedback
 		redirect_to "https://forms.gle/EE7LbsekSA8MHDK7A"
 	end
