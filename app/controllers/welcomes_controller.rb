@@ -8,7 +8,7 @@ class WelcomesController < ApplicationController
 
 		#@admin = current_admin
 
-		data_billplz = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
+		data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
 		              :body=> { :AppId => ENV['WABA_APPID'], 
 		              :AppSecret=> ENV['WABA_APP_SECRET'],
 		              :un=> "kidcarewaba", 
@@ -16,13 +16,13 @@ class WelcomesController < ApplicationController
 		              :agreedterm=> "YES",
 		              :Type=> "template",
 		              :TemplateCode=> ENV['WABA_TMP_BILL'],
-		              :TemplateParams=> {:billurl => "https://www.kidcare.my ",:centername => "Kid Care Kuala Lumpur"},
+		              :TemplateParams=> {:billurl => "https://www.kidcare.my/bill_view?payment=68014 ",:centername => "#{Taska.find(52).name}"},
 		              :Language=> "en",
 		              :From=> ENV['WABA_PH'],
-		              :To=> "60174151556"}.to_json,
+		              :To=> "60126694296"}.to_json,
 		              :basic_auth => {},
 		    :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-		data = JSON.parse(data_billplz.to_s)
+		data = JSON.parse(data_isms_waba.to_s)
 		puts data
 
 	end

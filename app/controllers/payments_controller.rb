@@ -590,22 +590,41 @@ class PaymentsController < ApplicationController
         end
 
       end
-      flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
+      flash[:success] = "Bills created successfully and whatsapp send to #{@kid.ph_1}#{@kid.ph_2}"
       # start send sms to parents
-      url = "https://www.isms.com.my/isms_send.php?"
-      usr = "un=admin_kidcare&"
-      ps = "pwd=#{ENV['isms']}&"
-      tp = "type=1&"
-      trm = "agreedterm=YES"
-      txt = "msg=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment&"
+      # url = "https://www.isms.com.my/isms_send.php?"
+      # usr = "un=admin_kidcare&"
+      # ps = "pwd=#{ENV['isms']}&"
+      # tp = "type=1&"
+      # trm = "agreedterm=YES"
+      # txt = "msg=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: @payment.id)}> to make payment&"
 
-      if 1==1 && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
-        to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
-        data_sms = nil
 
-        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
-        if data_sms.blank? #timeout
+      if 1==1 #&& Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+        to = "6#{@kid.ph_1}#{@kid.ph_2}"
+        #data_sms = nil
+
+        #data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+
+        data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
+                  :body=> { :AppId => ENV['WABA_APPID'], 
+                  :AppSecret=> ENV['WABA_APP_SECRET'],
+                  :un=> "kidcarewaba", 
+                  :pwd=> ENV['WABA_PWD'],
+                  :agreedterm=> "YES",
+                  :Type=> "template",
+                  :TemplateCode=> ENV['WABA_TMP_BILL'],
+                  :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{@payment.id}",:centername => "#{@taska.name}"},
+                  :Language=> "en",
+                  :From=> ENV['WABA_PH'],
+                  :To=> to}.to_json,
+                  :basic_auth => {},
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        data = JSON.parse(data_isms_waba.to_s)
+        puts data
+
+        if data_isms_waba.blank? #timeout
           mail = SendGrid::Mail.new
           mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
           mail.subject = "SMS Sent Failure"
