@@ -38,15 +38,17 @@ class TaskasController < ApplicationController
       @kid = @taska.kids.where(ic_1: params[:ic][0..5],ic_2:params[:ic][6..7] ,ic_3:params[:ic][8..11]).last
       if @kid.blank?
         flash[:danger] = "No MYKID anak tiada dalam rekod"
-        redirect_to update_email_path(ctrid: @taska.id) and return
+        redirect_to update_contact_path(ctrid: @taska.id) and return
       end
     end
     if params[:upd].present?
       @kid = Kid.find(params[:kid])
       @kid.email = params[:email]
+      @kid.ph_1 = params[:ph][0..2]
+      @kid.ph_2 = params[:ph][3..10]
       @kid.save 
       flash[:success] = "Kemasikini Berjaya untuk #{@kid.name}"
-      redirect_to update_email_path(ctrid: @taska.id) and return
+      redirect_to update_contact_path(ctrid: @taska.id) and return
     end
   end
 

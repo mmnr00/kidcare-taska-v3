@@ -9,7 +9,7 @@
   </font></h5>
 </div>
 
-<%= form_tag update_email_path, method: :get do %>
+<%= form_tag update_contact_path, method: :get do %>
   <div class="form-group text-center col-md-12">
     <div class="row">
 
@@ -35,12 +35,12 @@
   </font></h4>
 </div>
   
-  <%= form_tag update_email_path, method: :get do %>
+  <%= form_tag update_contact_path, method: :get do %>
   <div class="form-group text-center col-md-12">
     <div class="row">
 
       <div class="col-sm-9 col-9">
-        <%= email_field_tag :email, @kid.email ,class: "form-control", autofocus: true, placeholder: "Sila masukkan email anda", required: true %>
+        <%= number_field_tag :ph, "#{@kid.ph_1}#{@kid.ph_2}" ,class: "form-control", autofocus: true, placeholder: "Sila masukkan no telefon yang mempunyai whatsapp", required: true %>
       </div>
         <%= hidden_field_tag :ctrid, params[:ctrid], value: params[:ctrid] %>
         <%= hidden_field_tag :kid, params[:kid], value: @kid.id %>
@@ -52,6 +52,7 @@
              Kemaskini
         <% end %>
       </div>
+      *Sila masukkan no telefon yang mempunyai whatsapp
     </div><br>
   </div>
 <%end%>
