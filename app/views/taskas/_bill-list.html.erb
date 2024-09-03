@@ -79,7 +79,7 @@
                   <% if status >=0 %>
                     <% if !pmt.reminder %>
                       <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: pmt.id), class: "btn btn-sm active", style: "color:blue" do %>
-                        <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                        <i class="fa fa-mobile"></i> SEND WHATSAPP REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
                       <% end %>
                     <% else %>
                       <button class="btn btn-sm active">
