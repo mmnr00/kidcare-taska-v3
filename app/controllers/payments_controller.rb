@@ -602,7 +602,12 @@ class PaymentsController < ApplicationController
 
 
       if 1==1 #&& Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
-        to = "6#{@kid.ph_1}#{@kid.ph_2}"
+        if @kid.ph_1.include? "+"
+          to = "#{@kid.ph_1.delete! '+'}#{@kid.ph_2}"
+        else
+          to = "6#{@kid.ph_1}#{@kid.ph_2}"
+        end
+        
         #data_sms = nil
 
         #data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)

@@ -200,7 +200,12 @@ class TaskasController < ApplicationController
 
         # data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
-        to = "6#{kid.ph_1}#{kid.ph_2}"
+        if kid.ph_1.include? "+"
+          to = "#{kid.ph_1.delete! '+'}#{kid.ph_2}"
+        else
+          to = "6#{kid.ph_1}#{kid.ph_2}"
+        end
+
         data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
                   :body=> { :AppId => ENV['WABA_APPID'], 
                   :AppSecret=> ENV['WABA_APP_SECRET'],
@@ -887,7 +892,12 @@ class TaskasController < ApplicationController
 
       # data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
-      to = "6#{phk}"
+      if phk.include? "+"
+          to = "#{phk.delete! '+'}"
+        else
+          to = "6#{phk}"
+        end
+
       data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
                 :body=> { :AppId => ENV['WABA_APPID'], 
                 :AppSecret=> ENV['WABA_APP_SECRET'],

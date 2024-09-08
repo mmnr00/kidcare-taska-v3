@@ -40,24 +40,51 @@ task rem_bill: :environment do
 
 			unpaid_remd.each do |pmt|; if pmt.parpayms.blank?
 				kd = pmt.kids.first
-				ph = "#{kd.ph_1}#{kd.ph_2}"
-				to = "dstno=6#{ph}&"
-				log = [ph,kd.id,pmt.id]
-	      txt = "msg=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay&"
-				# puts "#{ph}-#{kd.id}"
-				# puts txt
-				data_sms = nil
-				data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-	    	puts data_sms
+				# ph = "#{kd.ph_1}#{kd.ph_2}"
+				# to = "dstno=6#{ph}&"
+				# log = [ph,kd.id,pmt.id]
+	   #    txt = "msg=Reminder from #{tsk.name.upcase}. Please click here <https://www.kidcare.my/billview?pmt=#{pmt.id}> to pay&"
+				# # puts "#{ph}-#{kd.id}"
+				# # puts txt
+				# data_sms = nil
+				# data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+	   #  	puts data_sms
 
-				pmt.reminder = true unless data_sms.blank?
+	   		if kd.ph_1.include? "+"
+          to = "#{kd.ph_1.delete! '+'}#{kd.ph_2}"
+        else
+          to = "6#{kd.ph_1}#{kd.ph_2}"
+        end
+        
+        #data_sms = nil
+
+        #data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+
+        data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
+                  :body=> { :AppId => ENV['WABA_APPID'], 
+                  :AppSecret=> ENV['WABA_APP_SECRET'],
+                  :un=> "kidcarewaba", 
+                  :pwd=> ENV['WABA_PWD'],
+                  :agreedterm=> "YES",
+                  :Type=> "template",
+                  :TemplateCode=> ENV['WABA_TMP_REMD'],
+                  :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{pmt.id}",:centername => "#{tsk.name}"},
+                  :Language=> "en",
+                  :From=> ENV['WABA_PH'],
+                  :To=> to}.to_json,
+                  :basic_auth => {},
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        data = JSON.parse(data_isms_waba.to_s)
+        puts data
+
+				pmt.reminder = true unless data.blank?
 				pmt.save
-				if data_sms.present?
-					stat = data_sms.parsed_response[0..2]
+				if data_isms_waba.present?
+					stat = data_isms_waba.parsed_response[0..2]
 				else
 					stat = "not sent"
 				end
-				log = [ph,kd.id,pmt.id,stat]
+				log = [to,kd.id,pmt.id,stat]
 				email_par[tsk.id] << log
 			end; end #payment
 
@@ -65,13 +92,7 @@ task rem_bill: :environment do
 			to = "to=6#{tsk.phone_1}#{tsk.phone_2}&"
 	    txt = "text=[KIDCARE] #{email_par[tsk.id].count} SMS reminders successfully sent for #{tsk.name.upcase} on #{Time.now.strftime('%d-%^b-%y')} at #{Time.now.strftime('%I:%m %p')}"
 			# puts txt
-			data_sms = HTTParty.get(
-	                      "#{url}#{usr}#{ps}#{to}#{txt}",
-	                      http_proxyaddr: fixie.host,
-	                      http_proxyport: fixie.port,
-	                      http_proxyuser: fixie.user,
-	                      http_proxypass: fixie.password,
-	                      timeout: 120)
+			#data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",http_proxyaddr: fixie.host,http_proxyport: fixie.port,http_proxyuser: fixie.user,http_proxypass: fixie.password,timeout: 120)
 		end #expire
 	end #taska
 

@@ -123,10 +123,11 @@
              <%= f.text_field :ph_1, maxlength: 3, class: "form-control", placeholder: "", autofocus: true, required: true %>
             </div> <strong>-</strong>
             <div class="col-sm-3 col-4">
-              <%= f.text_field :ph_2, maxlength: 8, class: "form-control", placeholder: "", autofocus: true, required: true %>
+              <%= f.text_field :ph_2, maxlength: 30, class: "form-control", placeholder: "", autofocus: true, required: true %>
             </div>      
           </div>
-            The main phone number to contact and send bill
+            *The main phone number to contact and send bill<br>
+            **If international number, please enter country code with + in the first field
         </div>
 
         <div class="form-group"> 
