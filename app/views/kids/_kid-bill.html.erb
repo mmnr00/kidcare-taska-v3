@@ -95,7 +95,7 @@
           <div class="clearfix"></div><br>
             <div class="col-md-12">
               <h4 class="semi-bold">
-                <% if @taska.id == 673 %>
+                <% if ENV['TASKABIZ'].include? @taska.id.to_s %>
                   <%= @kid.father_name.upcase %>
                 <% else %>
                   EN <%= @kid.father_name.upcase %> / PN <%= @kid.mother_name.upcase %></h4>
