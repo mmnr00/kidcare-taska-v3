@@ -17,4 +17,6 @@ class Lgbk < ApplicationRecord
 	serialize :admid,Hash
 	belongs_to :kid
 	belongs_to :taska
+	has_many :fotos, :dependent => :delete_all
+	accepts_nested_attributes_for :fotos
 end

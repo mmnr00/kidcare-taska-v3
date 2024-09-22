@@ -20,22 +20,21 @@
         <td style="background-color:#ffedcc; text-align:center; font-size:20px" colspan="2">
           <b><%= @lgbk.kid.name %></b>
           <p style="font-size: 14px;margin-bottom: -10px;margin-top: -5px">
-            <%= (@lgbk.created_at + 8.hours).strftime('%d-%^b-%y') %>
+            <%= (@lgbk.created_at + 8.hours).strftime('%d-%^b-%y %l:%M%p') %>
           </p>
           <p style="font-size: 12px;margin-bottom: -10px;margin-top: 5px">
             <i><%= @lgbk.taska.name %></i>
           </p>
         </td>
       </tr>
-      <% if params[:note].blank? %>
-        <%= render 'lgbks/tsklg'%>
-      <% end %>
 
-      <%= render 'lgbks/prtlg'%>
+<% if ENV['TADIKALGBK'].include? @lgbk.kid.taska.id.to_s %>
+  <%= render 'lgbks/view_lgbk_tdk'%>
+<% else %>
+  <%= render 'lgbks/view_lgbk_tmp'%>
+<% end %>
 
-
-      
-    </tbody>
+</tbody>
   </table>
 </div>
 <% if params[:pdf].blank? %>
@@ -43,6 +42,3 @@
 <% end %>
 
 </div>
-
-
-

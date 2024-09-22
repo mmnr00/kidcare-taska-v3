@@ -3,66 +3,93 @@ class LgbksController < ApplicationController
 	before_action :set_all
 
 	def tch_upd
-		@lgbk = Lgbk.find(params[:lgbk])
+		if params[:lgbk][:tdk].present?
+			arrlgbk = params[:lgbk]
+			@lgbk = Lgbk.find(arrlgbk[:lgbk])
+			@lgbk.update(lgbk_params)
+			if arrlgbk[:tchid].present? 
 
-		#start for susu
-		susu_n = params[:susu_n].to_i
-		@lgbk.susu = nil
-		(0..susu_n).each do |n|
-			if params[:"st#{n}"].present? && params[:"sk#{n}"].present?
-				@lgbk.susu[n] = [params[:"st#{n}"],params[:"sk#{n}"]]
-			elsif @lgbk.susu[n].present?
-				@lgbk.susu.delete_at(n)
+				if @lgbk.tchid[arrlgbk[:tchid]].present?
+					@lgbk.tchid[arrlgbk[:tchid]] << Time.now
+				else	
+					@lgbk.tchid[arrlgbk[:tchid]] = [Time.now]
+				end		
+			elsif arrlgbk[:admid].present?
+				if @lgbk.admid[arrlgbk[:admid]].present?
+					@lgbk.admid[arrlgbk[:admid]] << Time.now
+				else	
+					@lgbk.admid[arrlgbk[:admid]] = [Time.now]
+				end	
 			end
-		end 
-		ind = 0
-		@lgbk.susu.each do |n|
-			@lgbk.susu.delete_at(ind) unless n.present?
-			ind += 1
+			@lgbk.save
+		else
+			@lgbk = Lgbk.find(params[:lgbk])
+
+			#start for susu
+			susu_n = params[:susu_n].to_i
+			@lgbk.susu = nil
+			(0..susu_n).each do |n|
+				if params[:"st#{n}"].present? && params[:"sk#{n}"].present?
+					@lgbk.susu[n] = [params[:"st#{n}"],params[:"sk#{n}"]]
+				elsif @lgbk.susu[n].present?
+					@lgbk.susu.delete_at(n)
+				end
+			end 
+			ind = 0
+			@lgbk.susu.each do |n|
+				@lgbk.susu.delete_at(ind) unless n.present?
+				ind += 1
+			end
+			@lgbk.susudc = params[:susudc]
+			#end for susu
+
+			#makan
+			@lgbk.mkn = [params[:mknpg],params[:mkntg],params[:mknpt],params[:mkndc]]
+			#circle time
+			@lgbk.ctm = [params[:ctmm],params[:ctmdc]]
+			#aktiviti luar
+			@lgbk.aktl = [params[:aktlm],params[:aktldc]]
+			#aktiviti permata
+			@lgbk.aktp = [params[:aktpm],params[:aktpdc]]
+			#lampin/tandas
+			@lgbk.lmpn = [params[:lmpm],params[:lmpt],params[:lmpp],params[:lmpn],params[:lmpw],params[:lmpdc]]
+			#gigi
+			@lgbk.gigi = [params[:ggm],params[:ggt],params[:ggp],params[:ggdc]]
+			#mandi
+			@lgbk.mnd = [params[:mndm],params[:mndt],params[:mndp],params[:mnddc]]
+			#tidur
+			@lgbk.tdur = [params[:tdrm],params[:tdrt],params[:tdrp],params[:tdrdc]]
+			#aktiviti bebas
+			@lgbk.aktb = params[:aktb]
+			#tingkah laku
+			@lgbk.othdc = params[:othdc]
+
+			##TADIKA
+			#@lgbk.nmaktdk = params[:nmaktdk]
+			#@lgbk.rfpltdk = params[:rfpltdk]
+			#create gambar tadika
+
+
+			if params[:tchid].present? 
+
+				if @lgbk.tchid[params[:tchid]].present?
+					@lgbk.tchid[params[:tchid]] << Time.now
+				else	
+					@lgbk.tchid[params[:tchid]] = [Time.now]
+				end		
+			elsif params[:admid].present?
+				if @lgbk.admid[params[:admid]].present?
+					@lgbk.admid[params[:admid]] << Time.now
+				else	
+					@lgbk.admid[params[:admid]] = [Time.now]
+				end	
+			end
+
+			#temperature
+			@lgbk.temp[Time.now] = params[:temp] unless params[:temp].blank?
+
+			@lgbk.save
 		end
-		@lgbk.susudc = params[:susudc]
-		#end for susu
-
-		#makan
-		@lgbk.mkn = [params[:mknpg],params[:mkntg],params[:mknpt],params[:mkndc]]
-		#circle time
-		@lgbk.ctm = [params[:ctmm],params[:ctmdc]]
-		#aktiviti luar
-		@lgbk.aktl = [params[:aktlm],params[:aktldc]]
-		#aktiviti permata
-		@lgbk.aktp = [params[:aktpm],params[:aktpdc]]
-		#lampin/tandas
-		@lgbk.lmpn = [params[:lmpm],params[:lmpt],params[:lmpp],params[:lmpn],params[:lmpw],params[:lmpdc]]
-		#gigi
-		@lgbk.gigi = [params[:ggm],params[:ggt],params[:ggp],params[:ggdc]]
-		#mandi
-		@lgbk.mnd = [params[:mndm],params[:mndt],params[:mndp],params[:mnddc]]
-		#tidur
-		@lgbk.tdur = [params[:tdrm],params[:tdrt],params[:tdrp],params[:tdrdc]]
-		#aktiviti bebas
-		@lgbk.aktb = params[:aktb]
-		#tingkah laku
-		@lgbk.othdc = params[:othdc]
-
-		if params[:tchid].present? 
-
-			if @lgbk.tchid[params[:tchid]].present?
-				@lgbk.tchid[params[:tchid]] << Time.now
-			else	
-				@lgbk.tchid[params[:tchid]] = [Time.now]
-			end		
-		elsif params[:admid].present?
-			if @lgbk.admid[params[:admid]].present?
-				@lgbk.admid[params[:admid]] << Time.now
-			else	
-				@lgbk.admid[params[:admid]] = [Time.now]
-			end	
-		end
-
-		#temperature
-		@lgbk.temp[Time.now] = params[:temp] unless params[:temp].blank?
-
-		@lgbk.save
 		flash[:notice] = "Logbook updated successfully"
 		redirect_to request.referrer
 	end
@@ -72,6 +99,7 @@ class LgbksController < ApplicationController
 		@kid = @lgbk.kid
 		@tm = Time.now
 		@taska = @lgbk.taska
+		@lgbk.fotos.build
 		if @admin
 		elsif @teacher
 			render action: "tch_lgbk", layout: "dsb-teacher-tsk-nosb"
@@ -194,10 +222,12 @@ class LgbksController < ApplicationController
 	end
 
 	def lgbk_params
-		params.permit(:bank_name,
-                  :acc_no,
-                  :acc_name,
-                  :ssm_no)
+      params.require(:lgbk).permit(:nmaktdk,
+      														 :rfpltdk,
+      														 #:kid_id,
+      														 #:admid,
+      														 #:tchid,
+                                   fotos_attributes: [:foto, :picture, :foto_name])
 	end
 
 end

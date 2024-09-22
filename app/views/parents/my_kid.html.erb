@@ -41,7 +41,9 @@
                       <% if kid.classroom.present? %>
                         <%= kid.classroom.classroom_name %><br>
                         <% link_to " NEW LOGBOOK", prt_lgbk_path(kid_id: kid.id), class: "badge badge-success" %>
-                        <%= link_to " NEW LOGBOOK", chdt_lgbk_path(kid: kid.id), class: "badge badge-success" %><br>
+                        <% if !ENV['TADIKALGBK'].include? kid.taska.id.to_s %>
+                          <%= link_to " NEW LOGBOOK", chdt_lgbk_path(kid: kid.id), class: "badge badge-success" %><br>
+                        <% end %>
                         <%= link_to "VIEW LOGBOOK", ls_lgbk_path(@parent,kid: kid.id), class: "badge badge-info" %>
                       <% else %>
                          AWAITING CONFIRMATION FROM CENTER <br><br>

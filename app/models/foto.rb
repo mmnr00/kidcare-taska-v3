@@ -8,5 +8,6 @@ class Foto < ApplicationRecord
 	belongs_to :applv, optional: true
 	belongs_to :payment, optional: true
 	belongs_to :parpaym, optional: true
+	belongs_to :lgbk, optional: true
 	mount_uploader :picture, PictureUploader
 end
