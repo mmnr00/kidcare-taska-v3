@@ -1,4 +1,4 @@
-<%= form_for(:lgbk, :url => {:controller=>'lgbks', :action=>'tch_upd'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+<%= form_for(@lgbk, :url => {:controller=>'lgbks', :action=>'tch_upd'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
 
   <div class="col-12" style="margin-left: 0px;margin-top: 10px;margin-right: 0px;">
     <div class="table table-responsive border" style="font-size:12px">
@@ -15,6 +15,7 @@
               <%= f.text_area :nmaktdk, autofocus: true, value: @lgbk.nmaktdk, style: "width: 100%; height: 100px" %>
 
               <% ["GAMBAR 1","GAMBAR 2","GAMBAR 3","GAMBAR 4"].each do |fotonm| %>
+                <% m = 0 %> <!-- Stop loop at 1 -->
                 <div class="form-group"> 
                   <div class="row">
                     <div class="control-label col-sm-8">
@@ -22,26 +23,28 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-sm-8 col-12">
-                      <% image = @lgbk.fotos.where(foto_name: "#{fotonm}").first %>
-                      <%  if image.present? %>
-                        <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+                  <div class="col-sm-8 col-5">
+                  <% image = @lgbk.fotos.where(foto_name: "#{fotonm}").first %>
+                  <% if image.present? %>
+                    <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+                      <div class="row">
+                      <div class="col-sm-8 col-5">
+                        <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+                      </div>
+                      </div>  
+                  <% else %>
+                    <%= f.fields_for :fotos do |h| %>
+                      <% break if m==1 %>
                         <div class="row">
-                          <div class="col-sm-8 col-5">
-                            <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+                          <div class="col-sm-8 col-8">
+                            <%= h.hidden_field :foto_name, value: "#{fotonm}" %>
+                            <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                           </div>
-                        </div>  
-                      <% else %>
-                        <%= f.fields_for :fotos do |h| %>
-                          <div class="row">
-                            <div class="col-sm-8 col-8">
-                              <%= h.hidden_field :foto_name, value: "#{fotonm}" %>
-                              <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf'%>
-                            </div>
-                          </div>
-                        <% end %>
+                        </div>
+                        <% m = 1 %>
                       <% end %>
-                    </div>
+                    <% end %>
+                  </div>
                   </div>
                 </div>
               <% end %>

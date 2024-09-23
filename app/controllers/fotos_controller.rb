@@ -29,6 +29,9 @@ class FotosController < ApplicationController
         elsif @foto.ptns_mmb.present?
           @ptns_mmb = @foto.ptns_mmb
           redirect_to edit_ptns_mmb_path(@ptns_mmb)
+        elsif @foto.lgbk.present?
+          @lgbk = @foto.lgbk
+          redirect_to tch_lgbk_path(kid_id: @lgbk.kid.id, lgbk: @lgbk.id)
         end
       end
     else
