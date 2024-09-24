@@ -3,7 +3,7 @@ class LgbksController < ApplicationController
 	before_action :set_all
 
 	def tch_upd
-		if params[:lgbk][:tdk].present?
+		if params[:lgbk].class != String && params[:lgbk][:tdk].present?
 			arrlgbk = params[:lgbk]
 			@lgbk = Lgbk.find(arrlgbk[:lgbk])
 			@lgbk.update(lgbk_params)
