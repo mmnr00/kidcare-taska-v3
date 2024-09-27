@@ -9,45 +9,48 @@
             <th style="background-color:#ffb2b2">Maklumat</th>
         </thead>
         <tbody>
-          <tr>
-            <td>Nama & Aktiviti</td>
-            <td>
-              <%= f.text_area :nmaktdk, autofocus: true, value: @lgbk.nmaktdk, style: "width: 100%; height: 100px" %>
+          
 
-              <% ["GAMBAR 1","GAMBAR 2","GAMBAR 3","GAMBAR 4"].each do |fotonm| %>
-                <% m = 0 %> <!-- Stop loop at 1 -->
-                <div class="form-group"> 
-                  <div class="row">
-                    <div class="control-label col-sm-8">
-                      <i class="fas fa-cloud-upload-alt"></i><strong><%= fotonm %></strong>
-                    </div>
-                  </div>
-                  <div class="row">
-                  <div class="col-sm-8 col-5">
-                  <% image = @lgbk.fotos.where(foto_name: "#{fotonm}").first %>
-                  <% if image.present? %>
-                    <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
-                      <div class="row">
-                      <div class="col-sm-8 col-5">
-                        <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
-                      </div>
-                      </div>  
-                  <% else %>
-                    <%= f.fields_for :fotos do |h| %>
-                      <% break if m==1 %>
-                        <div class="row">
-                          <div class="col-sm-8 col-8">
-                            <%= h.hidden_field :foto_name, value: "#{fotonm}" %>
-                            <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
-                          </div>
-                        </div>
-                        <% m = 1 %>
-                      <% end %>
-                    <% end %>
-                  </div>
+        <% [["1",@lgbk.nmaktdk1],["2",@lgbk.nmaktdk2],["3",@lgbk.nmaktdk3],["4",@lgbk.nmaktdk4]].each do |fotonm| %>
+          <tr>
+            <td>Nama & Aktiviti <%= "#{fotonm[0]}"%></td>
+            <td>
+              <%= f.text_area :"nmaktdk#{fotonm[0]}", autofocus: true, value: fotonm[1], style: "width: 100%; height: 100px" %>
+              <% m = 0 %> <!-- Stop loop at 1 -->
+              <div class="form-group"> 
+                <div class="row">
+                  <div class="control-label col-sm-8">
+                    <i class="fas fa-cloud-upload-alt"></i><strong><%= "GAMBAR #{fotonm[0]}" %></strong>
                   </div>
                 </div>
-              <% end %>
+                <div class="row">
+                <div class="col-sm-8 col-5">
+                <% image = @lgbk.fotos.where(foto_name: "GAMBAR #{fotonm[0]}").first %>
+                <% if image.present? %>
+                  <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+                    <div class="row">
+                    <div class="col-sm-8 col-5">
+                      <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+                    </div>
+                    </div>  
+                <% else %>
+                  <%= f.fields_for :fotos do |h| %>
+                    <% break if m==1 %>
+                      <div class="row">
+                        <div class="col-sm-8 col-8">
+                          <%= h.hidden_field :foto_name, value: "GAMBAR #{fotonm[0]}" %>
+                          <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                        </div>
+                      </div>
+                      <% m = 1 %>
+                    <% end %>
+                  <% end %>
+                </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
 
             </td>
 

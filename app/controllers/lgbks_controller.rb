@@ -223,6 +223,10 @@ class LgbksController < ApplicationController
 
 	def lgbk_params
       params.require(:lgbk).permit(:nmaktdk,
+      														 :nmaktdk1,
+      														 :nmaktdk2,
+      														 :nmaktdk3,
+      														 :nmaktdk4,
       														 :rfpltdk,
       														 #:kid_id,
       														 #:admid,

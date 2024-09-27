@@ -14,6 +14,8 @@
     <h5><%= "#{@tm.strftime("%d-%^b-%y")} (#{@tm.strftime("%A")})" %></h5>
   </div>
 
+
+
 <% if ENV['TADIKALGBK'].include? @kid.taska.id.to_s %>
   <%= render 'lgbks/tch_lgbk_tdk'%>
 <% else %>
