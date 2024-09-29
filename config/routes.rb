@@ -227,6 +227,7 @@ Rails.application.routes.draw do
   get '/chdt_lgbk', to: 'parents#chdt_lgbk', as: 'chdt_lgbk'
 
   #~TASKAS
+  get 'adm_crt_bill', to: 'taskas#adm_crt_bill'
   get 'update_contact', to: 'taskas#update_email'
   get 'qrcenter', to: 'taskas#qrcenter'
   get 'updtskexpiry', to: 'taskas#updtskexpiry'

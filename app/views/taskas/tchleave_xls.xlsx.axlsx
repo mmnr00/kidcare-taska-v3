@@ -1,7 +1,7 @@
 wb = xlsx_package.workbook
 col_widths= [30,20,20,30,30,30,30,30,30,30,30,30,30]
 col_widths2= [30, 20, 20, 20, 11, 11, 11, 11, 30]
-col_widths3= [30,20,15,20,16,11,20,22,40,40,40,40,40,40]
+col_widths3= [12,30,20,15,20,16,11,20,22,40,40,40,40,40,40]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -64,7 +64,8 @@ wb.styles do |style|
   wb.add_worksheet(name: "LEAVES DETAILS") do |sheet|
     sheet.add_row ["LEAVE DETAILS FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
-    sheet.add_row ["NAME",
+    sheet.add_row ["NO",
+                  "NAME",
                   "NRIC",
                   "CLASSROOM",
                   "TYPE",
@@ -119,7 +120,8 @@ wb.styles do |style|
   wb.add_worksheet(name: "TEACHERS DETAILS") do |sheet|
     sheet.add_row ["TEACHER DETAILS FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
-    sheet.add_row ["NAME",
+    sheet.add_row ["NO",
+                  "NAME",
                   "NRIC",
                   "DOB",
                   "CLASSROOM",
@@ -140,7 +142,8 @@ wb.styles do |style|
     row =2
     
     @tchdetails.each do |tchd|
-      sheet.add_row [tchd.name,
+      sheet.add_row [counter,
+                    tchd.name,
                     "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}",
                     tchd.dob,
                     tchd.teacher.classrooms.first.classroom_name,

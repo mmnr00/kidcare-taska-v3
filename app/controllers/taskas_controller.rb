@@ -27,10 +27,94 @@ class TaskasController < ApplicationController
                                   :upldclsrm, :upldtch,
                                   :upldkid,:rptatt,:att_xls,
                                   :hiscrdt,:tskvw_lgbk, :stdatt,
-                                  :topcred,:mybill,:mystudent,:vltrlist]
+                                  :topcred,:mybill,:mystudent,:vltrlist,:adm_crt_bill]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
+
+  def adm_crt_bill
+    mth = params[:sch_mth]
+    yr = params[:sch_yr]
+
+
+    if @taska.expire > (Date.today - 1.days)
+      #init create Bill
+      kids = @taska.kids.where.not(classroom_id: nil)
+
+      #check if bill already exist
+      kids.each do |kd|
+        if kd.payments.where(bill_month: mth,bill_year: yr).blank?
+
+          #init payment details
+          amount = 0.00
+          amount = amount + kd.classroom.base_fee
+          kd.extras.each do |ext|
+            amount += ext.price
+          end 
+          kd.beradik.each do |sb|
+            amount = amount + sb.classroom.base_fee
+            sb.extras.each do |ext|
+              amount += ext.price
+            end 
+          end
+
+          unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
+          while Payment.where(bill_id: unq).present?
+            unq = [*('A'..'Z'),*('0'..'9')].shuffle[0,8].join
+          end
+
+          #create payment 
+          pmt = Payment.new(amount: amount,
+                            description: "NA",
+                            bill_month: mth,
+                            bill_year: yr,
+                            discount: 0,
+                            discdx: "",
+                            parent_id: kd.parent.id,
+                            taska_id: @taska.id,
+                            state: "due",
+                            paid: false,
+                            fin: false,
+                            bill_id: unq,
+                            reminder: false,
+                            name: "KID BILL",
+                            cltid: @taska.collection_id)
+          pmt.save
+
+          #create addition
+          Addtn.create(desc: "",
+                          amount: 0,
+                          payment_id: pmt.id)
+
+          #create kidbill
+          kid_id = [kd.id]
+          kd.beradik.each do |sb|
+            kid_id << sb.id
+          end
+          Kid.where(id: kid_id).each do |kd|
+            kb = KidBill.new(kid_id: kd.id,
+                            payment_id: pmt.id,
+                            kidname: kd.name,
+                            kidic: "#{kd.ic_1}-#{kd.ic_2}-#{kd.ic_3}",
+                            classroom_id: kd.classroom.id,
+                            clsname: kd.classroom.classroom_name,
+                            clsfee: kd.classroom.base_fee)
+            cnt = 1
+            kd.extras.each do |ext|
+              kb.extra << ext.id
+              extra = Extra.find(ext.id)
+              kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
+              cnt = cnt + 1
+            end
+            kb.save
+          end
+          
+        end #no existing payment    
+      end #kid
+    end 
+
+    redirect_to request.referrer
+  end
 
   def update_email
     @taska = Taska.find(params[:ctrid])
