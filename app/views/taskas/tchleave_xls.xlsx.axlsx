@@ -12,108 +12,110 @@ wb.styles do |style|
   date_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
                                 :format_code => 'dd-mm-yy')
 
-  #LEAVES BALANCE
-  wb.add_worksheet(name: "LEAVES BALANCE") do |sheet|
-    sheet.add_row ["TEACHER LEAVE BALANCE FOR #{@taska.name.upcase}"]
-    sheet.add_row [""]
-    top = Array.new(["NAME","NRIC","CLASSROOM"])
-    @tsklvs.each do |lv|
-      top << "TOTAL #{lv.name}"
-      top << "USED #{lv.name}"
-      top << "BALANCE #{lv.name}"
-    end
-    sheet.add_row( top )
-    sheet.rows[0].style = header_1
-    sheet.rows[2].style = highlight_cell
-    counter = 1
-    row =2
-    @tchdetails.each do |tch|
-      tcharr = Array.new([tch.name,
-                    "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
-                    tch.teacher.classrooms.first.classroom_name])
-      teacher = tch.teacher
+  if params[:spvadm].blank?
+    #LEAVES BALANCE
+    wb.add_worksheet(name: "LEAVES BALANCE") do |sheet|
+      sheet.add_row ["TEACHER LEAVE BALANCE FOR #{@taska.name.upcase}"]
+      sheet.add_row [""]
+      top = Array.new(["NAME","NRIC","CLASSROOM"])
       @tsklvs.each do |lv|
-        if (tchlv = teacher.tchlvs.where(tsklv_id: lv.id).first).present?
-          tcharr << tchlv.day #total leave
+        top << "TOTAL #{lv.name}"
+        top << "USED #{lv.name}"
+        top << "BALANCE #{lv.name}"
+      end
+      sheet.add_row( top )
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+      @tchdetails.each do |tch|
+        tcharr = Array.new([tch.name,
+                      "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                      tch.teacher.classrooms.first.classroom_name])
+        teacher = tch.teacher
+        @tsklvs.each do |lv|
+          if (tchlv = teacher.tchlvs.where(tsklv_id: lv.id).first).present?
+            tcharr << tchlv.day #total leave
 
-          #used leave
-          util = 0
-          teacher.applvs.where.not(stat: "REJECTED").each do |tlv|
-            if tlv.kind.to_i == tchlv.tsklv.id
-              util = util + tlv.tot
-            elsif (tlv.kind == "HALF DAY AM" || tlv.kind == "HALF DAY PM") && lv.name == "ANNUAL LEAVE"
-              util = util + tlv.tot
+            #used leave
+            util = 0
+            teacher.applvs.where.not(stat: "REJECTED").each do |tlv|
+              if tlv.kind.to_i == tchlv.tsklv.id
+                util = util + tlv.tot
+              elsif (tlv.kind == "HALF DAY AM" || tlv.kind == "HALF DAY PM") && lv.name == "ANNUAL LEAVE"
+                util = util + tlv.tot
+              end 
             end 
-          end 
-          tcharr << util
+            tcharr << util
 
-          #balance leave
-          bel = tchlv.day - util
-          tcharr << bel
+            #balance leave
+            bel = tchlv.day - util
+            tcharr << bel
 
+          end
         end
+        sheet.add_row( tcharr )
+        sheet.rows[row+counter].style = border_cell
+        counter = counter + 1
       end
-      sheet.add_row( tcharr )
-      sheet.rows[row+counter].style = border_cell
-      counter = counter + 1
+      sheet.column_widths *col_widths
     end
-    sheet.column_widths *col_widths
-  end
 
-  #LEAVE DETAILS
-  wb.add_worksheet(name: "LEAVES DETAILS") do |sheet|
-    sheet.add_row ["LEAVE DETAILS FOR #{@taska.name.upcase}"]
-    sheet.add_row [""]
-    sheet.add_row ["NO",
-                  "NAME",
-                  "NRIC",
-                  "CLASSROOM",
-                  "TYPE",
-                  "STATUS",
-                  "START",
-                  "END",
-                  "TOTAL",
-                  "DOCUMENT"]
-    sheet.rows[0].style = header_1
-    sheet.rows[2].style = highlight_cell
-    counter = 1
-    row =2
-    
-    @applvs.each do |lv|
-      tchd = lv.teacher.tchdetail
-      kind = lv.kind
-      image = lv.fotos.first
-      if image.present? && image.picture.present?
-        url = image.picture.url
-      else
-        url = ""
+    #LEAVE DETAILS
+    wb.add_worksheet(name: "LEAVES DETAILS") do |sheet|
+      sheet.add_row ["LEAVE DETAILS FOR #{@taska.name.upcase}"]
+      sheet.add_row [""]
+      sheet.add_row ["NO",
+                    "NAME",
+                    "NRIC",
+                    "CLASSROOM",
+                    "TYPE",
+                    "STATUS",
+                    "START",
+                    "END",
+                    "TOTAL",
+                    "DOCUMENT"]
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+      
+      @applvs.each do |lv|
+        tchd = lv.teacher.tchdetail
+        kind = lv.kind
+        image = lv.fotos.first
+        if image.present? && image.picture.present?
+          url = image.picture.url
+        else
+          url = ""
+        end
+        if kind == "HALF DAY AM" || kind == "HALF DAY PM" 
+          lvname = kind
+        else
+          lvname = @tsklvs.where(id: kind).first.name
+        end
+        sheet.add_row [tchd.name,
+                      "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}",
+                      lv.teacher.classrooms.first.classroom_name,
+                      lvname,
+                      lv.stat,
+                      Date.new(lv.start.year, lv.start.month, lv.start.day),
+                      Date.new(lv.end.year, lv.end.month, lv.end.day),
+                      lv.tot,
+                      url], style: [border_cell,
+                                    border_cell,
+                                    border_cell,
+                                    border_cell,
+                                    border_cell,
+                                    date_cell,
+                                    date_cell,
+                                    border_cell,
+                                    border_cell]
+        #sheet.rows[row+counter].style = border_cell
+        counter = counter + 1
       end
-      if kind == "HALF DAY AM" || kind == "HALF DAY PM" 
-        lvname = kind
-      else
-        lvname = @tsklvs.where(id: kind).first.name
-      end
-      sheet.add_row [tchd.name,
-                    "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}",
-                    lv.teacher.classrooms.first.classroom_name,
-                    lvname,
-                    lv.stat,
-                    Date.new(lv.start.year, lv.start.month, lv.start.day),
-                    Date.new(lv.end.year, lv.end.month, lv.end.day),
-                    lv.tot,
-                    url], style: [border_cell,
-                                  border_cell,
-                                  border_cell,
-                                  border_cell,
-                                  border_cell,
-                                  date_cell,
-                                  date_cell,
-                                  border_cell,
-                                  border_cell]
-      #sheet.rows[row+counter].style = border_cell
-      counter = counter + 1
+      sheet.column_widths *col_widths2
     end
-    sheet.column_widths *col_widths2
   end
 
   #TEACHER DETAILS
