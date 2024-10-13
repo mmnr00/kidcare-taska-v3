@@ -63,6 +63,7 @@ class LgbksController < ApplicationController
 			@lgbk.aktb = params[:aktb]
 			#tingkah laku
 			@lgbk.othdc = params[:othdc]
+			@lgbk.incd = params[:incd]
 
 			##TADIKA
 			#@lgbk.nmaktdk = params[:nmaktdk]
@@ -228,6 +229,7 @@ class LgbksController < ApplicationController
       														 :nmaktdk3,
       														 :nmaktdk4,
       														 :rfpltdk,
+      														 :incd,
       														 #:kid_id,
       														 #:admid,
       														 #:tchid,
