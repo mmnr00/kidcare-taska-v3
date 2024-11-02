@@ -9,6 +9,32 @@ class ApplicationController < ActionController::Base
 	 	#@current_taska ||= Taska.find(session[:Taska_id])
 	 #end
 
+   def send_waba(to,notftype,pmt,tsk,type)
+    payment = Payment.find(pmt)
+    msgtype = {"remd" => ENV['WABA_TMP_REMD'], "new" => ENV['WABA_TMP_BILL']}
+    data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
+                  :body=> { :AppId => ENV['WABA_APPID'], 
+                  :AppSecret=> ENV['WABA_APP_SECRET'],
+                  :un=> "kidcarewaba", 
+                  :pwd=> ENV['WABA_PWD'],
+                  :agreedterm=> "YES",
+                  :Type=> "template",
+                  :TemplateCode=> msgtype[type],
+                  :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{pmt}",:centername => "#{tsk}"},
+                  :Language=> "en",
+                  :From=> ENV['WABA_PH'],
+                  :To=> to}.to_json,
+                  :basic_auth => {},
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        data = JSON.parse(data_isms_waba.to_s)
+        puts data
+        
+        payment.waba << [Time.now,notftype,data["messageId"],to]
+        payment.fin = true
+        payment.save
+      return data_isms_waba
+   end
+
 	 def check_collection(id)
 	 	url_bill = "#{ENV['BILLPLZ_API']}collections/#{id}"
       data_billplz = HTTParty.get(url_bill.to_str,

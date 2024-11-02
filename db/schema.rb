@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_13_123314) do
+ActiveRecord::Schema.define(version: 2024_11_02_064347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -389,6 +389,7 @@ ActiveRecord::Schema.define(version: 2024_10_13_123314) do
     t.boolean "fin"
     t.boolean "exs"
     t.string "discdx"
+    t.text "waba"
   end
 
   create_table "payslips", force: :cascade do |t|

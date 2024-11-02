@@ -9,6 +9,7 @@ task rem_bill: :environment do
   fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
   email_par = {} #{Taska ID => [[ph1,kid_id1,payment_id,stat],[ph2,kid_id2,payment_id2,stat]]}
 
+  #Taska.where(id: 52).each do |tsk|
 	Taska.where(remdt: dy).each do |tsk|
 		if tsk.expire > (Date.today - 1.days)
 			email_par[tsk.id] = []
@@ -60,6 +61,7 @@ task rem_bill: :environment do
 
         #data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
+
         data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
                   :body=> { :AppId => ENV['WABA_APPID'], 
                   :AppSecret=> ENV['WABA_APP_SECRET'],
@@ -78,6 +80,7 @@ task rem_bill: :environment do
         puts data
 
 				pmt.reminder = true unless data.blank?
+				pmt.waba << [Time.now,"Auto Reminder Bills",data["messageId"],to]
 				pmt.save
 				if data_isms_waba.present?
 					stat = data_isms_waba.parsed_response[0..2]

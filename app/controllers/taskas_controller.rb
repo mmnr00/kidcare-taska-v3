@@ -267,8 +267,7 @@ class TaskasController < ApplicationController
     @payments = Payment.where(id: params[:pmt_ids])
     @taska = @payments.last.taska
     @payments.each do |pmt|
-      pmt.fin = true
-      pmt.save
+      
       kid = pmt.kids.first
 
       #START SMS
@@ -290,22 +289,13 @@ class TaskasController < ApplicationController
           to = "6#{kid.ph_1}#{kid.ph_2}"
         end
 
-        data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
-                  :body=> { :AppId => ENV['WABA_APPID'], 
-                  :AppSecret=> ENV['WABA_APP_SECRET'],
-                  :un=> "kidcarewaba", 
-                  :pwd=> ENV['WABA_PWD'],
-                  :agreedterm=> "YES",
-                  :Type=> "template",
-                  :TemplateCode=> ENV['WABA_TMP_BILL'],
-                  :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{pmt.id}",:centername => "#{@taska.name}"},
-                  :Language=> "en",
-                  :From=> ENV['WABA_PH'],
-                  :To=> to}.to_json,
-                  :basic_auth => {},
-            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-        data = JSON.parse(data_isms_waba.to_s)
-        puts data
+        if @payments.count > 1
+          notftype = "Bulk Bills Confirmation"
+        else
+          notftype = "Single Bill Confirmation"
+        end
+
+        data_isms_waba = send_waba(to,notftype,pmt.id,@taska.name,"new")
 
         if data_isms_waba.blank? #timeout
           mail = SendGrid::Mail.new
@@ -982,22 +972,24 @@ class TaskasController < ApplicationController
           to = "6#{phk}"
         end
 
-      data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
-                :body=> { :AppId => ENV['WABA_APPID'], 
-                :AppSecret=> ENV['WABA_APP_SECRET'],
-                :un=> "kidcarewaba", 
-                :pwd=> ENV['WABA_PWD'],
-                :agreedterm=> "YES",
-                :Type=> "template",
-                :TemplateCode=> ENV['WABA_TMP_REMD'],
-                :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{@payment.id}",:centername => "#{@taska.name}"},
-                :Language=> "en",
-                :From=> ENV['WABA_PH'],
-                :To=> to}.to_json,
-                :basic_auth => {},
-          :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-      data = JSON.parse(data_isms_waba.to_s)
-      puts data
+      data_isms_waba = send_waba(to,"Single Bill Reminder",@payment.id,@taska.name,"remd")
+
+      # data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
+      #           :body=> { :AppId => ENV['WABA_APPID'], 
+      #           :AppSecret=> ENV['WABA_APP_SECRET'],
+      #           :un=> "kidcarewaba", 
+      #           :pwd=> ENV['WABA_PWD'],
+      #           :agreedterm=> "YES",
+      #           :Type=> "template",
+      #           :TemplateCode=> ENV['WABA_TMP_REMD'],
+      #           :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{@payment.id}",:centername => "#{@taska.name}"},
+      #           :Language=> "en",
+      #           :From=> ENV['WABA_PH'],
+      #           :To=> to}.to_json,
+      #           :basic_auth => {},
+      #     :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      # data = JSON.parse(data_isms_waba.to_s)
+      # puts data
 
         if data_isms_waba.blank? #timeout
           mail = SendGrid::Mail.new
@@ -1410,14 +1402,20 @@ class TaskasController < ApplicationController
     @kid_unpaid.each do |bill|
       @kid = bill.kids.first
       if 1==1#Rails.env.production?
-        to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
-        txt = "msg=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: bill.id)}> to payment&"
-        data_sms = nil
+        if @kid.ph_1.include? "+"
+          to = "#{@kid.ph_1.delete! '+'}#{@kid.ph_2}"
+        else
+          to = "6#{@kid.ph_1}#{@kid.ph_2}"
+        end
+        data_isms_waba = send_waba(to,"Bulk Bills Reminder",bill.id,@taska.name,"remd")
+        # to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
+        # txt = "msg=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: bill.id)}> to payment&"
+        # data_sms = nil
 
-        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-        puts data_sms
+        # data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+        # puts data_sms
 
-        if data_sms.blank? #timeout
+        if data_sms.blank? && 1==0 #timeout
           mail = SendGrid::Mail.new
           mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
           mail.subject = "SMS Sent Failure"
@@ -1450,7 +1448,7 @@ class TaskasController < ApplicationController
       bill.save
       ctr = ctr + 1
     end
-    flash[:success] = "SMS reminders sent to #{ctr} parents"
+    flash[:success] = "Whatsapp reminders sent to #{ctr} parents"
     if params[:account].present?
       redirect_to bill_account_path(@kid.taska, 
                                     month: params[:month],

@@ -195,6 +195,10 @@
                  <a href="<%= billview_url(pmt: pmt.id)%>" target="_blank">HERE</a>
                  for details
                 <% end %>
+
+                <% if pmt.waba.present? %>
+                  <br><%= link_to "Whatsapp History", whatsapp_history_path(pmt: pmt.id), target: "_blank" %>
+                <% end %>
               </td>
             </tr>
             

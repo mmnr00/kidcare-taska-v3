@@ -6,6 +6,12 @@ class PaymentsController < ApplicationController
   before_action :set_all
   #before_action :check_bill, only: [:edit_bill,:crt_billplz]
 
+  def whatsapp_history
+    @payment = Payment.find(params[:pmt])
+    @taska = @payment.taska
+    render action: "whatsapp_history", layout: "dsb-admin-bill"
+  end
+
   def revertbillunpaid
     @pmt = Payment.find(params[:pmt])
     @pmt.paid = false
@@ -133,14 +139,14 @@ class PaymentsController < ApplicationController
       @pmt.discount = pars[:discount]
       @pmt.discdx = pars[:descdx]
       @pmt.amount = tot_bill
-      @pmt.fin = true
+      #@pmt.fin = true
       @pmt.bill_id2 = nil
       @pmt.save
       @taska = @pmt.taska
       kid = @pmt.kids.first
 
       #START SMS
-      if 1==1 && sms && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
+      if 1==0 && sms && Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
         url = "https://www.isms.com.my/isms_send.php?"
         usr = "un=admin_kidcare&"
         ps = "pwd=#{ENV['isms']}&"
@@ -179,7 +185,7 @@ class PaymentsController < ApplicationController
 
         end
         
-        if @pmt.s2ph && kid.sph_1.present? && kid.sph_2.present?
+        if @pmt.s2ph && kid.sph_1.present? && kid.sph_2.present? && 1==0
           if @taska.cred >= 0.5
             to = "dstno=6#{kid.sph_1}#{kid.sph_2}&"
             data_sms = nil
@@ -612,20 +618,8 @@ class PaymentsController < ApplicationController
 
         #data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 
-        data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
-                  :body=> { :AppId => ENV['WABA_APPID'], 
-                  :AppSecret=> ENV['WABA_APP_SECRET'],
-                  :un=> "kidcarewaba", 
-                  :pwd=> ENV['WABA_PWD'],
-                  :agreedterm=> "YES",
-                  :Type=> "template",
-                  :TemplateCode=> ENV['WABA_TMP_BILL'],
-                  :TemplateParams=> {:billurl => "https://www.kidcare.my/billview?pmt=#{@payment.id}",:centername => "#{@taska.name}"},
-                  :Language=> "en",
-                  :From=> ENV['WABA_PH'],
-                  :To=> to}.to_json,
-                  :basic_auth => {},
-            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        data_isms_waba = send_waba(to,"New Bill Creation",@payment.id,@taska.name,"new")
+
         data = JSON.parse(data_isms_waba.to_s)
         puts data
 
