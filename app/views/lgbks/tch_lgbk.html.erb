@@ -18,6 +18,9 @@
 
 <% if ENV['TADIKALGBK'].include? @kid.taska.id.to_s %>
   <%= render 'lgbks/tch_lgbk_tdk'%>
+<% elsif ENV['TADIKALGBK2'].include? @kid.taska.id.to_s %>
+  <%= render 'lgbks/tch_lgbk_tdk2'%>
+  <% render 'lgbks/tch_lgbk_tmp'%>
 <% else %>
   <%= render 'lgbks/tch_lgbk_tmp'%>
 <% end %>

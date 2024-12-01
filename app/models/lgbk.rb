@@ -15,6 +15,10 @@ class Lgbk < ApplicationRecord
 	serialize :tdur,Array
 	serialize :tchid,Hash
 	serialize :admid,Hash
+	serialize :bm,Array
+	serialize :bi,Array
+	serialize :mt,Array
+	serialize :pi,Array
 	belongs_to :kid
 	belongs_to :taska
 	has_many :fotos, :dependent => :delete_all

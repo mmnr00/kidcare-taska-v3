@@ -65,6 +65,12 @@ class LgbksController < ApplicationController
 			@lgbk.othdc = params[:othdc]
 			@lgbk.incd = params[:incd]
 
+			#Subjek
+			@lgbk.bm = [params[:bm1],params[:bm2],params[:bm3]]
+			@lgbk.bi = [params[:bi1],params[:bi2],params[:bi3]]
+			@lgbk.mt = [params[:mt1],params[:mt2],params[:mt3]]
+			@lgbk.pi = [params[:pi1],params[:pi2]]
+
 			##TADIKA
 			#@lgbk.nmaktdk = params[:nmaktdk]
 			#@lgbk.rfpltdk = params[:rfpltdk]

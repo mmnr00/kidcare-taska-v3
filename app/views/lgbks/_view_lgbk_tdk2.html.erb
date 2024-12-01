@@ -1,0 +1,95 @@
+
+<div class="col-12" style="margin-left: 0px;margin-top: 10px;margin-right: 0px;">
+  <div class="table table-responsive border" style="font-size:12px">
+    <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr class="shadow">
+          <th style="background-color:#7f7fff; width: 20%; text-align: center" colspan="3">REKOD PENILAIAN PELAJAR PEMANTAUAN </th>
+        </tr>
+      </thead>
+      <thead>
+        <tr class="shadow">
+          <th style="background-color:#7fbf7f; width: 20%">TAHAP PENGUASAAN</th>
+          <th style="background-color:#7fbf7f; width: 10%">SKOR</th>
+          <th style="background-color:#7fbf7f; width: %">KRITERIA</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<tr>
+      		<td>Menguasai</td>
+      		<td>A</td>
+      		<td>Boleh melaksanakan aktiviti dengan betul sehingga selesai</td>
+      	</tr>
+      	<tr>
+      		<td>Sedang Menguasai</td>
+      		<td>B</td>
+      		<td>Memerlukan bimbingan dari semasa apabila melakukan aktiviti namun masih boleh melakukannya sehingga selesai</td>
+      	</tr>
+      	<tr>
+      		<td>Perlu Banyak Bimbingan</td>
+      		<td>C</td>
+      		<td>Sukar memahami arahan untuk menjalan aktiviti dan seintiasa memerlukan bimbingan</td>
+      	</tr>
+      </tbody>
+     </table>
+  </div>
+</div>
+
+
+
+<div class="col-12" style="margin-left: 0px;margin-top: 10px;margin-right: 0px;">
+  <div class="table table-responsive border" style="font-size:12px">
+    <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr class="shadow">
+          <th style="background-color:#ffb2b2; width: 20%">PERKARA</th>
+          <th style="background-color:#ffb2b2; width: %">MAKLUMAT</th>
+        </tr>
+      </thead>
+      <tbody>
+      	<tr>
+      		<td>Bahasa Melayu</td>
+      		<td><b>Oral</b><br>
+            <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bm[0] %></button><br><br>
+              <b>Sukukata</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bm[1] %></button><br><br>
+              <b>Bacaan</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bm[2] %></button><br><br>
+          </td>
+      	</tr>
+      	<tr>
+      		<td>Bahasa Inggeris</td>
+      		<td><b>Oral</b><br>
+            <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bi[0] %></button><br><br>
+              <b>Read</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bi[1] %></button><br><br>
+              <b>Phonic</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bm[2] %></button><br><br> 
+          </td>
+      	</tr>
+      	<tr>
+      		<td>Matematik</td>
+      		<td><b>Read</b><br>
+            <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.mt[0] %></button><br><br>
+              <b>Plus</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.mt[1] %></button><br><br>
+              <b>Count</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.bm[2] %></button><br><br></td>
+      	</tr>
+      	<tr>
+      		<td>Pendidikan Islam</td>
+      		<td><b>Jawi</b><br>
+            <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.pi[0] %></button><br><br>
+              <b>Hafazan</b><br>
+              <button class="badge badge-success", style="font-size: 12px"><%= @lgbk.pi[1] %></button><br><br>
+            
+          </td>
+      	</tr>
+      	<tr>
+      		<td>Rumusan</td>
+      		<td><%= @lgbk.incd %></td>
+      	</tr>
+      </tbody>
+     </table>
+  </div>
+</div>
