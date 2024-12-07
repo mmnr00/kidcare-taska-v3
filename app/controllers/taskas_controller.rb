@@ -272,17 +272,7 @@ class TaskasController < ApplicationController
 
       #START SMS
       if 1==1 #&& Rails.env.production? # && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#
-        # url = "https://www.isms.com.my/isms_send.php?"
-        # usr = "un=admin_kidcare&"
-        # ps = "pwd=#{ENV['isms']}&"
-        # txt = "msg=New bill from #{@taska.name} . Please click at this link <#{billview_url(pmt: pmt.id)}> to make payment&"
-        # to = "dstno=6#{kid.ph_1}#{kid.ph_2}&"
-        # tp = "type=1&"
-        # trm = "agreedterm=YES"
-        # data_sms = nil
-
-        # data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-
+        
         if kid.ph_1.include? "+"
           to = "#{kid.ph_1.delete! '+'}#{kid.ph_2}"
         else
@@ -295,71 +285,15 @@ class TaskasController < ApplicationController
           notftype = "Single Bill Confirmation"
         end
 
-        data_isms_waba = send_waba(to,notftype,pmt.id,@taska.name,"new")
-
-        if data_isms_waba.blank? #timeout
-          mail = SendGrid::Mail.new
-          mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
-          mail.subject = "SMS Sent Failure"
-          #Personalisation, add cc
-          personalization = SendGrid::Personalization.new
-          personalization.add_to(SendGrid::Email.new(email: "mmnr00@gmail.com"))
-          mail.add_personalization(personalization)
-          #add content
-          msg = "<html>
-                  <body>
-                    PMT ID: #{pmt.id} (#{to})
-                  </body>
-                </html>"
-          #sending email
-          mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
-          sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-          @response = sg.client.mail._('send').post(request_body: mail.to_json)
-
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
-        end
-
-
+        #data_isms_waba = send_waba(to,notftype,pmt.id,@taska.name,"new")
+        @taska.waba << [to,notftype,pmt.id,@taska.name,"new"]
+        @taska.save
+        pmt.fin = true 
+        pmt.save
         
-        if pmt.s2ph && kid.sph_1.present? && kid.sph_2.present?
-          if @taska.cred >= 0.5
-            to = "dstno=6#{kid.sph_1}#{kid.sph_2}&"
-            data_sms = nil
-
-            data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-
-            if data_sms.blank? #timeout
-              mail = SendGrid::Mail.new
-              mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
-              mail.subject = "SMS Sent Failure"
-              #Personalisation, add cc
-              personalization = SendGrid::Personalization.new
-              personalization.add_to(SendGrid::Email.new(email: "mmnr00@gmail.com"))
-              mail.add_personalization(personalization)
-              #add content
-              msg = "<html>
-                      <body>
-                        PMT ID: #{pmt.id} (#{to})
-                      </body>
-                    </html>"
-              #sending email
-              mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
-              sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-              @response = sg.client.mail._('send').post(request_body: mail.to_json)
-              data_sms = nil
-
-              data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-              
-            end
-
-            @taska.cred -= 0.5
-            @taska.hiscred << [-0.5,Time.now,"#{kid.sph_1}#{kid.sph_2}",pmt.bill_id]
-            @taska.save
-          end
-        end
       end
       #END SMS
-      puts data_sms
+      #puts data_sms
     end #END LOOP
     flash[:success] = "Payments confirmed and whatsapp notification sent"
     redirect_to request.referrer
@@ -1407,42 +1341,10 @@ class TaskasController < ApplicationController
         else
           to = "6#{@kid.ph_1}#{@kid.ph_2}"
         end
-        data_isms_waba = send_waba(to,"Bulk Bills Reminder",bill.id,@taska.name,"remd")
-        # to = "dstno=6#{@kid.ph_1}#{@kid.ph_2}&"
-        # txt = "msg=Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(pmt: bill.id)}> to payment&"
-        # data_sms = nil
+        #data_isms_waba = send_waba(to,"Bulk Bills Reminder",bill.id,@taska.name,"remd")
+        @taska.waba << [to,"Bulk Bills Reminder",bill.id,@taska.name,"remd"]
+        @taska.save
 
-        # data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
-        # puts data_sms
-
-        if data_sms.blank? && 1==0 #timeout
-          mail = SendGrid::Mail.new
-          mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
-          mail.subject = "SMS Sent Failure"
-          #Personalisation, add cc
-          personalization = SendGrid::Personalization.new
-          personalization.add_to(SendGrid::Email.new(email: "mmnr00@gmail.com"))
-          mail.add_personalization(personalization)
-          #add content
-          msg = "<html>
-                  <body>
-                    PMT ID: #{bill.id} (#{to})
-                  </body>
-                </html>"
-          #sending email
-          mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
-          sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-          @response = sg.client.mail._('send').post(request_body: mail.to_json)
-          
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}",
-                                http_proxyaddr: fixie.host,
-                                http_proxyport: fixie.port,
-                                http_proxyuser: fixie.user,
-                                http_proxypass: fixie.password,
-                                timeout: 500)
-        
-          
-        end
       end
       bill.reminder = true
       bill.save
