@@ -2003,7 +2003,7 @@ class TaskasController < ApplicationController
         mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
         sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
         @response = sg.client.mail._('send').post(request_body: mail.to_json)
-        flash[:success] = "PAYSLIP CREATION SUCCESSFULL AND NOTIFICATION EMAIL SENT TO STAFF"
+        flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
       else
         flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
       end   
@@ -2068,7 +2068,7 @@ class TaskasController < ApplicationController
         mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
         sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
         @response = sg.client.mail._('send').post(request_body: mail.to_json)
-        flash[:success] = "PAYSLIP UPDATE SUCCESSFULL AND NOTIFICATION EMAIL SENT TO STAFF"
+        flash[:success] = "PAYSLIP UPDATE SUCCESSFULL"
       else
         flash[:success] = "PAYSLIP UPDATE SUCCESSFULL"
       end
