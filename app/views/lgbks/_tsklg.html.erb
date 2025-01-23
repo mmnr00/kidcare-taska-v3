@@ -67,7 +67,14 @@
 <tr>
   <td>
     AKTIVITI LUAR <br>
-    <i>Catatan : <%= @lgbk.aktl[1] %></i>
+    <i>Catatan : <% strakt = @lgbk.aktl[1] %>
+      <% if strakt.include? "htt" %>
+        <a href="<%= strakt %>" target="_blank"><%= strakt %></a>
+      <% else %>
+        <%= strakt %>
+      <% end %>
+      
+    </i>
   </td>
   <td>
     <b>Masa & Senarai Aktiviti : </b><br><%= @lgbk.aktl[0] %>
