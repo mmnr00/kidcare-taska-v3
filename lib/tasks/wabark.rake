@@ -7,7 +7,8 @@ task wabark: :environment do
 			pmt = v[2]
 			tsk = v[3]
 			type = v[4]
-			if (payment = Payment.find(pmt)).present?
+			payment = Payment.find(pmt)
+			if payment.present?
 			  msgtype = {"remd" => ENV['WABA_TMP_REMD'], "new" => ENV['WABA_TMP_BILL']}
 			  data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
 			                :body=> { :AppId => ENV['WABA_APPID'], 
