@@ -49,7 +49,6 @@ $taska_old = ENV['TASKA_OLD'].split(',')
 $taskabiz = ENV['TASKABIZ']
 $cakna21 = ENV['cakna21'].split(',')
 $admckn = ENV['admckn'].split(',')
-
 $anisf = [8,46,50,51,54,55,57,60,63,69,71,82,84,90]
 $anis2 = [64,66,73,74,75,79,85,87,91,93]
 $anis2f = [65,67,76,77,78,80,86,88,92]
