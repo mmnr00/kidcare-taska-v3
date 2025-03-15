@@ -243,6 +243,12 @@ GEM
       less (~> 2.6.0)
       sprockets (~> 3.0)
     libv8 (3.16.14.19)
+    libv8 (3.16.14.19-amd64-freebsd-10)
+    libv8 (3.16.14.19-amd64-freebsd-11)
+    libv8 (3.16.14.19-arm-linux)
+    libv8 (3.16.14.19-armv7l-linux)
+    libv8 (3.16.14.19-universal.x86_64-darwin-15)
+    libv8 (3.16.14.19-universal.x86_64-darwin-16)
     libv8 (3.16.14.19-x86_64-linux)
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -432,7 +438,12 @@ GEM
     zeitwerk (2.6.6)
 
 PLATFORMS
-  x86_64-darwin-22
+  amd64-freebsd
+  arm-linux
+  armv7l-linux
+  ruby
+  universal.x86_64-darwin
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
