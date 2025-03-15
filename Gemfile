@@ -34,7 +34,7 @@ gem 'sinatra', github: 'sinatra/sinatra'
 #new from webarch
 gem 'execjs'
 #gem 'therubyracer'
-gem "less-rails"
+#gem "less-rails"
 #from wicked_pdf
 gem 'wicked_pdf'
 
