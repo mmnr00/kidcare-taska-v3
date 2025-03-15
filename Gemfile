@@ -1,12 +1,20 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.4.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.7'
+gem 'rails'#, '~> 7.2'
 # Use sqlite3 as the database for Active Record
 
+# neww
+
+gem 'fog-aws'
+gem 'mutex_m'
+gem 'bigdecimal'
+gem 'csv'
+
+#neww
 gem 'rqrcode'
 gem 'sass'
 gem 'roo'
@@ -33,7 +41,7 @@ gem 'wicked_pdf'
 #for image upload
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'fog'
+#gem 'fog'
 
 gem 'rubyzip', '>= 1.2.1'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
