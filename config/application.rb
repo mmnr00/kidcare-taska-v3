@@ -12,6 +12,7 @@ module KidcareTaskaV3
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
     config.active_record.use_yaml_unsafe_load = true
     config.autoloader = :classic
+    config.autoload_paths += %W(#{config.root}/app/services/)
     #config.assets.paths << File.join(Rails.root, '/vendor/webarch_core')
     #config.assets.paths << File.join(Rails.root, '/vendor/agency')
     #config.assets.enabled = true
