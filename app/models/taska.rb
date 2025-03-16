@@ -17,8 +17,8 @@ class Taska < ApplicationRecord
 	has_many :payinfos
 	has_many :lgbks
 	has_many :vltrs
-	serialize :hiscred,Array
-	serialize :waba,Array
+	serialize :hiscred, type: Array
+	serialize :waba, type: Array
 	#before_save :save_taskas
 	accepts_nested_attributes_for :fotos
 	include HTTParty

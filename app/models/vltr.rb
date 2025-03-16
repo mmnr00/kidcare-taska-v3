@@ -1,5 +1,5 @@
 class Vltr < ApplicationRecord
-	serialize :crs,Array
+	serialize :crs, type: Array
 	belongs_to :taska, optional: true
 	belongs_to :classroom, optional: true
 	before_save :save_vltrs

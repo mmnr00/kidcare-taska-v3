@@ -12,7 +12,7 @@ class Payment < ApplicationRecord
 	has_many :otkids, dependent: :destroy
 	accepts_nested_attributes_for :addtns
 	accepts_nested_attributes_for :fotos
-	serialize :waba,Array
+	serialize :waba, type: Array
 	include HTTParty
 
 	
