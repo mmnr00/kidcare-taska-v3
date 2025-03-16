@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module KidcareTaskaV3
   class Application < Rails::Application
-    config.load_defaults 6.1
+    config.load_defaults 7.2
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
     config.active_record.use_yaml_unsafe_load = true
     config.autoloader = :classic
