@@ -1,5 +1,5 @@
 #!/bin/bash
-git checkout 0-dev
+git checkout 0-0dev
 git add -A
 git commit -m "tsk"
 git push
@@ -16,5 +16,5 @@ git push
 
 git diff HEAD 0-stg
 git diff HEAD 0-dev
-git checkout 0-dev
+git checkout 0-0dev
 
