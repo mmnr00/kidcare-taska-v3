@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <% now_curr = $my_time %>
+        <% now_curr = Time.now.in_time_zone('Singapore') %>
         <% if @lgbks.where('created_at > ?', Date.today).blank?;
           lgbk = @kid.lgbks.where(created_at: now_curr.beginning_of_day..now_curr.end_of_day).where.not(cin: nil);
           lg_curr = lgbk.last

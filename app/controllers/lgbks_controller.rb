@@ -194,13 +194,14 @@ class LgbksController < ApplicationController
 	def std_checkin
 		kid = Kid.find(params[:kid])
 		#tch = Teacher.find(params[:tch])
-		lgbk = kid.lgbks.where(created_at: $my_time.beginning_of_day..$my_time.end_of_day)
+		mytime = Time.now.in_time_zone('Singapore')
+		lgbk = kid.lgbks.where(created_at: mytime.beginning_of_day..mytime.end_of_day)
 		if lgbk.blank?
 			lg_curr = Lgbk.new(kid_id: kid.id, taska_id: kid.taska.id)
 		else
 			lg_curr = lgbk.last
 		end
-		lg_curr.cin << $my_time
+		lg_curr.cin << mytime
 		lg_curr.cin << "tch.id"
 		lg_curr.cin << params[:tmpi]
 		lg_curr.save
@@ -212,7 +213,8 @@ class LgbksController < ApplicationController
 		lg_curr = Lgbk.find(params[:lgbk])
 		kid = lg_curr.kid
 		#tch = Teacher.find(params[:tch])
-		lg_curr.cout << $my_time
+		mytime = Time.now.in_time_zone('Singapore')
+		lg_curr.cout << mytime
 		lg_curr.cout << "tch.id"
 		lg_curr.cout << params[:tmpo]
 		lg_curr.save
