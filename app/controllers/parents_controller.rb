@@ -44,8 +44,12 @@ class ParentsController < ApplicationController
 
 	def sch_kid
 		@exs_kids = Kid.where(ic_1: params[:ic_1],ic_2:params[:ic_2],ic_3:params[:ic_3] )
+		
+
 		respond_to do |format|
-      format.js { render partial: 'parents/rstkid' } 
+      format.js { render 'parents/rstkid' } 
+      puts @exs_kids.present?
+      
     end
 	end
 

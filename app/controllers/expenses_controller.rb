@@ -75,7 +75,7 @@ def my_expenses
       curr_pmt_unpaid.each do |pmt|
         if pmt.parpayms.present?
           cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt)
-          cdtn_3par += pmt.parpayms.sum(:amt)
+          cdtn_3par += pmt.parpayms.where("upd >= ?", dt).sum(:amt)
           #cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
         end
       end
