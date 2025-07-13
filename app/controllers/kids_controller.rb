@@ -232,11 +232,13 @@ class KidsController < ApplicationController
 	 		format.html
 	 		format.pdf do
 		   render pdf: "Receipt for #{@kid.name} from #{@taska.name}",
-		   template: "kids/bill_pdf.html.erb",
+		   template: "kids/bill_pdf",
+		   formats: [:html],
+		   handlers: [:erb],
 		   #disposition: "attachment",
 		   #page_size: "A6",
 		   #orientation: "landscape",
-		   layout: 'pdf.html.erb'
+		   layout: 'pdf'
 			end
 		end
 	end

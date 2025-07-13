@@ -60,12 +60,14 @@ class PayslipsController < ApplicationController
 	 		format.html
 	 		format.pdf do
 		   render pdf: "Payslip",
-		   template: "payslips/pdfpsl.html.erb",
+		   template: "payslips/pdfpsl",
+		   formats: [:html],
+		   handlers: [:erb],
 		   #disposition: "attachment",
 		   page_size: "A4",
 		   zoom: 0.8,
 		   #orientation: "landscape",
-		   layout: 'pdf.html.erb',
+		   layout: 'pdf',
 		   encoding: "UTF-8"
 			end
 		end
