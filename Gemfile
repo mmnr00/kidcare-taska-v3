@@ -120,7 +120,8 @@ group :production do
   #gem 'pg', '~>0.11' 
   #gem 'sqlite3'
   #gem 'wkhtmltopdf-heroku'
-  gem 'wkhtmltopdf-heroku', '2.12.5.0'
+  #gem 'wkhtmltopdf-heroku', '2.12.5.0'
+  gem 'wkhtmltopdf-heroku', '3.0.0'
 end
 
 
