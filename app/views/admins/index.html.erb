@@ -213,6 +213,8 @@
       </tbody>
     </table>
   </div>
+<% elsif @admin.id == 4 && params[:kcadm] != "MUS123"%>
+  <%= render 'admins/admin-master'%>
 <% else %>
   <% if @admin_taska.count > 0 %>
     <div class="container">

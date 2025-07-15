@@ -10,15 +10,15 @@ class LgbksController < ApplicationController
 			if arrlgbk[:tchid].present? 
 
 				if @lgbk.tchid[arrlgbk[:tchid]].present?
-					@lgbk.tchid[arrlgbk[:tchid]] << Time.now
+					@lgbk.tchid[arrlgbk[:tchid]] << Time.now.in_time_zone('Singapore')
 				else	
-					@lgbk.tchid[arrlgbk[:tchid]] = [Time.now]
+					@lgbk.tchid[arrlgbk[:tchid]] = [Time.now.in_time_zone('Singapore')]
 				end		
 			elsif arrlgbk[:admid].present?
 				if @lgbk.admid[arrlgbk[:admid]].present?
-					@lgbk.admid[arrlgbk[:admid]] << Time.now
+					@lgbk.admid[arrlgbk[:admid]] << Time.now.in_time_zone('Singapore')
 				else	
-					@lgbk.admid[arrlgbk[:admid]] = [Time.now]
+					@lgbk.admid[arrlgbk[:admid]] = [Time.now.in_time_zone('Singapore')]
 				end	
 			end
 			@lgbk.save
@@ -80,20 +80,20 @@ class LgbksController < ApplicationController
 			if params[:tchid].present? 
 
 				if @lgbk.tchid[params[:tchid]].present?
-					@lgbk.tchid[params[:tchid]] << Time.now
+					@lgbk.tchid[params[:tchid]] << Time.now.in_time_zone('Singapore')
 				else	
-					@lgbk.tchid[params[:tchid]] = [Time.now]
+					@lgbk.tchid[params[:tchid]] = [Time.now.in_time_zone('Singapore')]
 				end		
 			elsif params[:admid].present?
 				if @lgbk.admid[params[:admid]].present?
-					@lgbk.admid[params[:admid]] << Time.now
+					@lgbk.admid[params[:admid]] << Time.now.in_time_zone('Singapore')
 				else	
-					@lgbk.admid[params[:admid]] = [Time.now]
+					@lgbk.admid[params[:admid]] = [Time.now.in_time_zone('Singapore')]
 				end	
 			end
 
 			#temperature
-			@lgbk.temp[Time.now] = params[:temp] unless params[:temp].blank?
+			@lgbk.temp[Time.now.in_time_zone('Singapore')] = params[:temp] unless params[:temp].blank?
 
 			@lgbk.save
 		end
@@ -160,7 +160,7 @@ class LgbksController < ApplicationController
 
 	def prt_upd
 		@kid = Kid.find(params[:kid_id])
-		@tm = Time.now
+		@tm = Time.now.in_time_zone('Singapore')
 		@tm = @tm + 1.days unless params[:tomm].blank?
 		if params[:lgbk].present?
 			@lgbk = Lgbk.find(params[:lgbk])
