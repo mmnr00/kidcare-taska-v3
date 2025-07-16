@@ -6,6 +6,20 @@ class PaymentsController < ApplicationController
   before_action :set_all
   #before_action :check_bill, only: [:edit_bill,:crt_billplz]
 
+  def updmthbill
+    @payment = Payment.find(params[:pmtid])
+    dt = @payment.updated_at
+    period = params[:billperiod].split('-')
+    @payment.bill_month = period[0]
+    @payment.bill_year = period[1]
+    @payment.save
+    @payment.updated_at = dt 
+    @payment.save
+
+    flash[:success] = "Bill Period Updated"
+    redirect_to request.referrer
+  end
+
   def whatsapp_history
     @payment = Payment.find(params[:pmt])
     @taska = @payment.taska
