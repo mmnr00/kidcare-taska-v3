@@ -69,25 +69,28 @@
             <% kbls = pmt.kid_bills %>
             <tr>
               <td>
-                <% "#{pmt.bill_month}-#{pmt.bill_year}" %>
-                <div style="margin-left: -25px">
-                  <%= form_tag updmthbill_path, method: :get do %>
-                    
-                    <div class="row">
-                      <div class="col-md-1"></div>
-                      <div class="col-md-8">
-                        <%= text_field_tag :billperiod, "#{pmt.bill_month}-#{pmt.bill_year}",
-                            class: "form-control search-box",
-                            style: "font-size: 12px"%>
-                            <%= hidden_field_tag :pmtid, pmt.id %>
-                      <div class="col-md-0">
-                        <%= button_tag(type: :submit, class: "badge badge-secondary badge-pill",style: "font-size: 10px", id: "submit_expense") do %>
-                          <i class=""></i> UPDATE
-                        <% end %>
+                <% if @admin.id == 4 %>
+                  <%= "#{pmt.bill_month}-#{pmt.bill_year}" %>
+                <% else %>
+                  <div style="margin-left: -25px">
+                    <%= form_tag updmthbill_path, method: :get do %>
+                      
+                      <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-8">
+                          <%= text_field_tag :billperiod, "#{pmt.bill_month}-#{pmt.bill_year}",
+                              class: "form-control search-box",
+                              style: "font-size: 12px"%>
+                              <%= hidden_field_tag :pmtid, pmt.id %>
+                        <div class="col-md-0">
+                          <%= button_tag(type: :submit, class: "badge badge-secondary badge-pill",style: "font-size: 10px", id: "submit_expense") do %>
+                            <i class=""></i> UPDATE
+                          <% end %>
+                        </div>
                       </div>
-                    </div>
-                  <% end %>
-                </div>
+                    <% end %>
+                  </div>
+                <% end %>
                 
               </td>
               <td>
