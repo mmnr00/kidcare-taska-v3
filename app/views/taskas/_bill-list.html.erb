@@ -69,7 +69,7 @@
             <% kbls = pmt.kid_bills %>
             <tr>
               <td>
-                <% if @admin.id == 4 %>
+                <% if @admin.id != 4 %>
                   <%= "#{pmt.bill_month}-#{pmt.bill_year}" %>
                 <% else %>
                   <div style="margin-left: -25px">
