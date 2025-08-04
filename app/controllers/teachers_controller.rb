@@ -77,14 +77,17 @@ class TeachersController < ApplicationController
       flash.now[:danger] = "Blank Input Received"
     else
     	if !params[:name].blank?
-    		@taska_find = Admin.first.taskas.where("name like?", "%#{params[:name].upcase}%").where.not(plan: "mbr19")
+    		@taska_find = Admin.first.taskas.where("name LIKE ?", "%#{params[:name].upcase}%").where.not(plan: "mbr19")
     	else
     		@taska_find = Taska.where(subdomain: params[:dom])
     	end
       flash.now[:danger] = "No record found" unless @taska_find.present?
     end
+    # respond_to do |format|
+    #   format.js { render partial: 'teachers/resulttsk' } 
+    # end
     respond_to do |format|
-      format.js { render partial: 'teachers/resulttsk' } 
+      format.js { render 'teachers/resulttsk' } 
     end
 	end
 

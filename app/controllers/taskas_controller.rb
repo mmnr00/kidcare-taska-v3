@@ -906,7 +906,9 @@ class TaskasController < ApplicationController
           to = "6#{phk}"
         end
 
-      data_isms_waba = send_waba(to,"Single Bill Reminder",@payment.id,@taska.name,"remd")
+      #data_isms_waba = send_waba(to,"Single Bill Reminder",@payment.id,@taska.name,"remd")
+      @taska.waba << [to,"Single Bill Reminder",@payment.id,@taska.name,"remd"]
+      @taska.save
 
       # data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
       #           :body=> { :AppId => ENV['WABA_APPID'], 
@@ -925,30 +927,30 @@ class TaskasController < ApplicationController
       # data = JSON.parse(data_isms_waba.to_s)
       # puts data
 
-        if data_isms_waba.blank? #timeout
-          mail = SendGrid::Mail.new
-          mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
-          mail.subject = "SMS Sent Failure"
-          #Personalisation, add cc
-          personalization = SendGrid::Personalization.new
-          personalization.add_to(SendGrid::Email.new(email: "mmnr00@gmail.com"))
-          mail.add_personalization(personalization)
-          #add content
-          msg = "<html>
-                  <body>
-                    PMT ID: #{@payment.id} (#{to})
-                  </body>
-                </html>"
-          #sending email
-          mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
-          sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-          @response = sg.client.mail._('send').post(request_body: mail.to_json)
+        # if data_isms_waba.blank? #timeout
+        #   mail = SendGrid::Mail.new
+        #   mail.from = SendGrid::Email.new(email: 'notification@kidcare.my', name: 'SMS Fail KidCare')
+        #   mail.subject = "SMS Sent Failure"
+        #   #Personalisation, add cc
+        #   personalization = SendGrid::Personalization.new
+        #   personalization.add_to(SendGrid::Email.new(email: "mmnr00@gmail.com"))
+        #   mail.add_personalization(personalization)
+        #   #add content
+        #   msg = "<html>
+        #           <body>
+        #             PMT ID: #{@payment.id} (#{to})
+        #           </body>
+        #         </html>"
+        #   #sending email
+        #   mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+        #   sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+        #   @response = sg.client.mail._('send').post(request_body: mail.to_json)
 
-          data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
+        #   data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 500)
         
           
-        end
-        puts data_sms
+        # end
+        # puts data_sms
     end
     if params[:xtrarem].present? && nufcred
       @taska.hiscred << [-0.5,Time.now,phk,@payment.bill_id]
