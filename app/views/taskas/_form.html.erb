@@ -197,6 +197,23 @@
           </div>
         </div>
 
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PARENT ACCESS TO LOGBOOK</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :tskvw,
+                            options_for_select(["Yes","No"],
+                              selected: @taska.tskvw,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+                      
+            </div>
+          </div>
+        </div>
+
         <hr>
         <h4> Automation Settings </h4>
 

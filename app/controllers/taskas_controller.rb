@@ -607,7 +607,7 @@ class TaskasController < ApplicationController
     end
     flash.now[:danger] = "NO RECORD FOUND" unless @admin_list.present?
     respond_to do |format|
-      format.js { render partial: 'taskas/resultspv' } 
+      format.js { render 'taskas/resultspv' } 
     end
   end
 
@@ -2820,6 +2820,7 @@ class TaskasController < ApplicationController
                                     :othnm,
                                     :linkreg,
                                     :weekend,
+                                    :tskvw,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank

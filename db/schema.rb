@@ -10,28 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_07_064536) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_15_120727) do
+  create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
-  enable_extension "plpgsql"
 
   create_table "addtns", force: :cascade do |t|
     t.string "desc"
     t.float "amount"
     t.integer "payment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "username"
     t.boolean "spv"
     t.string "tnc"
@@ -44,8 +45,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.integer "course_id"
     t.integer "tchdetail_id"
     t.boolean "att"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "anisprog_id"
   end
 
@@ -55,15 +56,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "good"
     t.integer "course_id"
     t.integer "tchdetail_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "anisprogs", force: :cascade do |t|
     t.string "name"
     t.string "lec"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "course_id"
     t.time "start"
     t.time "end"
@@ -77,16 +78,16 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "tchdesc"
     t.string "tskdesc"
     t.string "stat"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "kind"
     t.float "tot"
   end
 
   create_table "classrooms", force: :cascade do |t|
     t.string "classroom_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "taska_id"
     t.string "description"
     t.float "base_fee"
@@ -96,13 +97,13 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "name"
     t.string "address"
     t.string "collection_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.date "start"
     t.date "end"
     t.string "thm"
     t.boolean "acv"
-    t.datetime "clse"
+    t.datetime "clse", precision: nil
     t.boolean "appl"
     t.index ["collection_id"], name: "index_colleges_on_collection_id", unique: true
     t.index ["name"], name: "index_colleges_on_name", unique: true
@@ -110,8 +111,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "college_id"
     t.float "base_fee"
     t.string "description"
@@ -122,8 +123,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "expenses", force: :cascade do |t|
     t.string "name"
     t.decimal "cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "taska_id"
     t.integer "month"
     t.integer "year"
@@ -137,15 +138,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "name"
     t.float "price"
     t.integer "taska_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "feedbacks", force: :cascade do |t|
     t.integer "rating"
     t.string "review"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "taska_id"
     t.integer "classroom_id"
     t.integer "course_id"
@@ -156,8 +157,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "fotos", force: :cascade do |t|
     t.string "picture"
     t.integer "course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "tchdetail_id"
     t.string "foto_name"
     t.integer "kid_id"
@@ -173,8 +174,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "kid_bills", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "payment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "classroom_id"
     t.text "extra"
     t.string "kidname"
@@ -187,15 +188,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "kid_extras", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "extra_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "kids", force: :cascade do |t|
     t.string "name"
     t.integer "parent_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "ic_1"
     t.string "ic_2"
     t.string "ic_3"
@@ -251,15 +252,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "kidtsks", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "taska_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "lgbks", force: :cascade do |t|
     t.text "cin"
     t.text "cout"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "kid_id"
     t.string "tdo"
     t.string "sih"
@@ -301,26 +302,26 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.integer "kid_id"
     t.integer "payment_id"
     t.float "amt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "descotk"
   end
 
   create_table "owner_colleges", force: :cascade do |t|
     t.integer "owner_id"
     t.integer "college_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "owners", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "username"
     t.index ["email"], name: "index_owners_on_email", unique: true
     t.index ["reset_password_token"], name: "index_owners_on_reset_password_token", unique: true
@@ -331,10 +332,10 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "username"
     t.string "tnc"
     t.index ["email"], name: "index_parents_on_email", unique: true
@@ -347,8 +348,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.float "amt"
     t.integer "payment_id"
     t.date "upd"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "mtd"
   end
 
@@ -358,8 +359,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.float "epf"
     t.integer "teacher_id"
     t.integer "taska_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.float "epfa"
     t.float "socs"
     t.float "socsa"
@@ -369,8 +370,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "bill_month"
     t.integer "bill_year"
     t.string "bill_id"
@@ -406,8 +407,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "desc"
     t.integer "teacher_id"
     t.integer "taska_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.float "epfa"
     t.float "amtepfa"
     t.string "psl_id"
@@ -434,15 +435,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "city"
     t.string "states"
     t.string "postcode"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "parent_id"
   end
 
   create_table "ptns_mmbs", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.date "dob"
     t.string "ic1"
     t.string "ic2"
@@ -480,15 +481,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "wkns"
     t.string "opp"
     t.string "thr"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "siblings", force: :cascade do |t|
     t.bigint "kid_id"
     t.bigint "beradik_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["beradik_id"], name: "index_siblings_on_beradik_id"
     t.index ["kid_id"], name: "index_siblings_on_kid_id"
   end
@@ -506,8 +507,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   end
 
   create_table "taskas", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "email"
     t.string "phone_1"
     t.string "phone_2"
@@ -526,7 +527,7 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "plan"
     t.string "bank_status"
     t.string "billplz_reg"
-    t.datetime "expire"
+    t.datetime "expire", precision: nil
     t.float "booking"
     t.string "subdomain"
     t.float "discount"
@@ -545,14 +546,15 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "linkreg"
     t.string "weekend"
     t.text "waba"
+    t.string "tskvw"
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 
   create_table "tchdetail_colleges", force: :cascade do |t|
     t.integer "tchdetail_id"
     t.integer "college_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "tp"
   end
 
@@ -563,8 +565,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "ic_3"
     t.string "phone_1"
     t.string "phone_2"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "marital"
     t.string "address_1"
     t.string "address_2"
@@ -595,7 +597,7 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "aku"
     t.string "ts_tp"
     t.string "biloku"
-    t.datetime "expjkm"
+    t.datetime "expjkm", precision: nil
     t.boolean "akun"
     t.string "ands"
     t.string "stat"
@@ -612,8 +614,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "tchlvs", force: :cascade do |t|
     t.string "name"
     t.float "day"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "taska_id"
     t.integer "teacher_id"
     t.integer "tsklv_id"
@@ -622,30 +624,30 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
   create_table "teacher_colleges", force: :cascade do |t|
     t.integer "teacher_id"
     t.integer "college_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "tp"
   end
 
   create_table "teacher_courses", force: :cascade do |t|
     t.integer "teacher_id"
     t.integer "course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "teachers", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "username"
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
     t.string "tnc"
     t.index ["email"], name: "index_teachers_on_email", unique: true
@@ -662,8 +664,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.float "real"
     t.float "disc"
     t.integer "payment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.float "stp"
   end
 
@@ -672,8 +674,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "desc"
     t.integer "day"
     t.integer "taska_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "vltrs", force: :cascade do |t|
@@ -682,8 +684,8 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "email"
     t.string "ph"
     t.string "address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "taska_id"
     t.integer "classroom_id"
     t.string "edu"
@@ -692,5 +694,4 @@ ActiveRecord::Schema.define(version: 2024_12_07_064536) do
     t.string "ocrs"
     t.string "gender"
   end
-
 end
