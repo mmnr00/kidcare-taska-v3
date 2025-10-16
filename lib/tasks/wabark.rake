@@ -26,8 +26,10 @@ task wabark: :environment do
 			                :basic_auth => {},
 			          :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
 			  data = JSON.parse(data_isms_waba.to_s)
-			  puts data
-			  sleep 0.5
+			  #puts data
+			  # sleep 0.5
+			  sleep 1.0
+
 			  
 			  payment.waba << [Time.now,notftype,data["messageId"],to]
 			  payment.fin = true
