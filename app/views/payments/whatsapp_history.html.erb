@@ -14,7 +14,7 @@
       <tbody>
         <% @payment.waba.reverse.each do |wb|%>
         <tr>
-        <td><%= wb[0].strftime('%d-%^b-%Y %l:%M%p') %></td>
+        <td><%= (wb[0] + 8.hours).strftime('%d-%^b-%Y %l:%M%p') %></td>
         <td><%= wb[1] %></td>
         <td><%= wb[2] %></td>
         <td><%= wb[3] %></td>
