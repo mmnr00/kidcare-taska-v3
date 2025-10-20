@@ -132,7 +132,8 @@
                           <%= text_field_tag :phk, secph,
                               placeholder: "Example: 01162801556",
                               class: "form-control search-box",
-                              style: "font-size: 12px"%>
+                              style: "font-size: 12px",
+                              required: true%>
                           <i>Additional SMS (RM 0.50)</i>
                           <%= hidden_field_tag :id, @taska.id %>
                           <%= hidden_field_tag :kid, @kid.id %>
