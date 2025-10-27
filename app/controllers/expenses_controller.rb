@@ -17,6 +17,7 @@ end
 
 
 def my_expenses
+	redirect_to mystudent_path(id: params[:id]) and return
 	@taska = Taska.find(params[:id])
 	@admin = current_admin
 	@data = Hash.new
