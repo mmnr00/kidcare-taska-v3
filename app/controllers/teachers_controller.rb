@@ -12,7 +12,10 @@ class TeachersController < ApplicationController
 	def tch_std
 		@taska = Taska.find(params[:taska])
 		@kids = @taska.kids.where.not(classroom: nil)
+		@lgbks = Lgbk.where(kid_id: @kids.ids).to_a
+		@disp_sch = true
 		if params[:sch].present?
+			@disp_sch = true
 			@kids = @kids.where('name LIKE ?', "%#{params[:sch_str].upcase}%") unless params[:sch_str].blank?
 		end
 		render action: "tch_std", layout: "dsb-teacher-tsk-nosb"

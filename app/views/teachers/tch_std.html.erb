@@ -33,22 +33,38 @@
         <th style="background-color:#ffb2b2">LOGBOOK</th>
       </tr>
     </thead>
-      <% lg_all = Lgbk.all %>
+
+
     <tbody>
       <% @kids.order('name ASC').each do |kid|;  %>
 
-      <% if params[:sch] == "true";
+      <% if @disp_sch;
         mytime = Time.now.in_time_zone('Singapore');
-        lgbk = lg_all.where(kid_id: kid.id, created_at: mytime.beginning_of_day..mytime.end_of_day).where.not(cin: nil);
+        #lgbk = kid.lgbks.where(created_at: mytime.beginning_of_day..mytime.end_of_day).where.not(cin: nil).to_a;
+        target_kid_id = kid.id
+        target_range = mytime.beginning_of_day..mytime.end_of_day
+        lgbk = @lgbks.select do |lgbk|
+          # 1. Check kid_id
+          kid_match = (lgbk.kid_id == target_kid_id)
+
+          # 2. Check created_at range
+          time_match = target_range.cover?(lgbk.created_at)
+
+          # 3. Check for not null (cin: nil)
+          cin_not_null = !lgbk.cin.nil?
+
+          # Combine all conditions
+          kid_match && time_match && cin_not_null
+        end
+        #lgbk = @lgbks.where(kid_id: kid.id, created_at: mytime.beginning_of_day..mytime.end_of_day).where.not(cin: nil);
         lg_curr = lgbk.last
        end %>
-
         <tr>
           <td>
             <b><a href="<%= tch_std_url(taska: params[:taska], sch: true, sch_str: kid.name) %>"><%= kid.name %></a></b><br>
 
-            <% if params[:sch] == "true" %><% if lgbk.blank? %> <!-- not yet check in -->
-
+            <% if @disp_sch %><% if lgbk.blank? %> <!-- not yet check in -->
+                
               <%= form_tag std_checkin_path, method: :get, id: "find_kid" do %>
                 <%= hidden_field_tag :kid, params[:kid], value: kid.id %>
                 <%= hidden_field_tag :tch, params[:tch], value: @teacher.id %>
@@ -93,7 +109,7 @@
 
           </td>
           <td>
-            <% if params[:sch] == "true" %>%><% if lgbk.present? %>
+            <% if @disp_sch %><% if lgbk.present? %>
               <%= link_to "Update", tch_lgbk_path(lgbk: lg_curr.id), class: "badge badge-info", style: "font-size: 10px" %><br>
               <%= lg_curr.updated_at.in_time_zone("Singapore").strftime("%l:%M %P") %> <br>
             <% end %><% end %>
