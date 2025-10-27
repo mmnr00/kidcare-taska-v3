@@ -33,21 +33,18 @@
         <th style="background-color:#ffb2b2">LOGBOOK</th>
       </tr>
     </thead>
-      <% lg_all = Lgbk.all %>
+      <%= lg_all = Lgbk.includes(:kid).all %>
     <tbody>
-      <% @kids.order('name ASC').each do |kid|;  %>
-
-      <% if params[:sch] == "true";
-        mytime = Time.now.in_time_zone('Singapore');
+      <% @kids.order('name ASC').each do |kid|; 
+        mytime = Time.now.in_time_zone('Singapore')
         lgbk = lg_all.where(kid_id: kid.id, created_at: mytime.beginning_of_day..mytime.end_of_day).where.not(cin: nil);
         lg_curr = lgbk.last
-       end %>
+       %>
 
         <tr>
           <td>
-            <b><a href="<%= tch_std_url(taska: params[:taska], sch: true, sch_str: kid.name) %>"><%= kid.name %></a></b><br>
-
-            <% if params[:sch] == "true" %><% if lgbk.blank? %> <!-- not yet check in -->
+            <b><%= kid.name %></b><br>
+            <% if lgbk.blank? %> <!-- not yet check in -->
 
               <%= form_tag std_checkin_path, method: :get, id: "find_kid" do %>
                 <%= hidden_field_tag :kid, params[:kid], value: kid.id %>
@@ -89,14 +86,13 @@
                 (<%= lg_curr.cout[2] %>&#8451)
               <% end %>
               <br>
-            <% end %><% end %>
-
+            <% end %>
           </td>
           <td>
-            <% if params[:sch] == "true" %>%><% if lgbk.present? %>
+            <% if lgbk.present? %>
               <%= link_to "Update", tch_lgbk_path(lgbk: lg_curr.id), class: "badge badge-info", style: "font-size: 10px" %><br>
               <%= lg_curr.updated_at.in_time_zone("Singapore").strftime("%l:%M %P") %> <br>
-            <% end %><% end %>
+            <% end %>
             <%= link_to "History", tch_ls_lgbk_path(@teacher, kid: kid.id), class: "badge badge-success", style: "font-size: 10px" %>
             
           </td>
