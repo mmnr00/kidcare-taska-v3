@@ -801,8 +801,10 @@ class TaskasController < ApplicationController
       #calculate unpaid - partial
       upd_par = 0.00
       @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false, fin: true)
-      @kid_unpaid.each do |pm|
-        upd_par += pm.parpayms.sum(:amt)
+      #@kid_unpaid_arr = @kid_unpaid.to_a
+      @all_parpayms = Parpaym.where(payment_id: @kid_unpaid.ids).to_a
+      @all_parpayms.each do |pm|
+        upd_par += pm.amt 
       end
       @totkid_unpaid = @kid_unpaid.sum(:amount) - upd_par
 
@@ -830,8 +832,9 @@ class TaskasController < ApplicationController
         min_yr = (Date.today - 3.years).year
         stp_lp = Time.find_zone("Singapore").local(min_yr,1)
         cdtn_3 = nil
+        cdtn_3_par = cdtn_3
         while dt_lp >= stp_lp
-          if cdtn_3.blank?    
+          if cdtn_3_par == nil #cdtn_3.blank?    
             cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
           else
             tmp = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
@@ -854,8 +857,9 @@ class TaskasController < ApplicationController
         #CDTN_2 previous months bills paid partially this month
         cdtn_2par = 0.00
         dt_lp=dt-1.months
+        payment_arr = payment.where(paid: false).to_a
         while dt_lp >= stp_lp
-          payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+          payment_arr.select { |p| p.bill_month == dt_lp.month && p.bill_year == dt_lp.year }.each do |pmt|
             cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt)
           end
         dt_lp -= 1.months
