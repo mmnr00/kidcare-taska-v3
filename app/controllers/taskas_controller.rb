@@ -340,10 +340,10 @@ class TaskasController < ApplicationController
       end #end sch_str
     end
 
-    @bill_paid = @payments.where(paid: true)
-    @bill_due = @payments.where(paid: false)
-    @amt_paid = @bill_paid.sum(:amount)
-    @amt_due = @bill_due.sum(:amount)
+    # @bill_paid = @payments.where(paid: true)
+    # @bill_due = @payments.where(paid: false)
+    # @amt_paid = @bill_paid.sum(:amount)
+    # @amt_due = @bill_due.sum(:amount)
     render action: "mybill", layout: "dsb-admin-bill"
   end
 

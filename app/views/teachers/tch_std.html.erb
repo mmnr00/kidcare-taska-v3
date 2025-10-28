@@ -62,8 +62,8 @@
         <tr>
           <td>
             <b><a href="<%= tch_std_url(taska: params[:taska], sch: true, sch_str: kid.name) %>"><%= kid.name %></a></b><br>
-
-            <% if @disp_sch %><% if lgbk.blank? %> <!-- not yet check in -->
+            <% lg_curr.blank? %>
+          <% if @disp_sch %><% if lgbk.blank? || lg_curr.cin.blank? %> <!-- not yet check in -->
                 
               <%= form_tag std_checkin_path, method: :get, id: "find_kid" do %>
                 <%= hidden_field_tag :kid, params[:kid], value: kid.id %>
@@ -105,7 +105,7 @@
                 (<%= lg_curr.cout[2] %>&#8451)
               <% end %>
               <br>
-            <% end %><% end %>
+          <% end %><% end %>
 
           </td>
           <td>

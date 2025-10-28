@@ -65,8 +65,10 @@
           </tr>
         </thead>
         <tbody>
+          <% kbls_all = KidBill.where(payment_id: @payments.ids).to_a %>
           <% @payments.order('bill_year DESC').order('bill_month DESC').each do |pmt| %>
-            <% kbls = pmt.kid_bills %>
+            <% kbls = kbls_all.select { |kbl| kbl.payment_id == pmt.id }; %>
+            <% @kid = kbls.first.kid %>
             <tr>
               <td>
                 <% if @admin.id != 4 %>
@@ -104,7 +106,6 @@
 
                 <!-- SEND SMS -->
                 <% if !pmt.paid && pmt.fin != false %>
-                  <% @kid = pmt.kids.first %>
                   <% if status >=0 %>
                     <% if !pmt.reminder %>
                       <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: pmt.id), class: "btn btn-sm active", style: "color:blue" do %>
