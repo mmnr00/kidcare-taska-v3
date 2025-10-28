@@ -77,6 +77,7 @@
             <% elsif lg_curr.cout.blank? %> <!-- check in, not checkout -->
 
               <% lg_curr = lgbk.last %>
+              <!-- <%="IN: #{lg_curr.cin[0].strftime("%l:%M %P")} "%> -->
               <%="IN: #{lg_curr.cin[0]} "%>
               <% if lg_curr.cin[2].present? %>
                 (<%= lg_curr.cin[2] %>&#8451)

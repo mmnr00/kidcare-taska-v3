@@ -12,7 +12,8 @@ class TeachersController < ApplicationController
 	def tch_std
 		@taska = Taska.find(params[:taska])
 		@kids = @taska.kids.where.not(classroom: nil)
-		@lgbks = Lgbk.where(kid_id: @kids.ids).to_a
+		mytime = Time.now.in_time_zone('Singapore');
+		@lgbks = Lgbk.where(kid_id: @kids.ids, created_at: mytime.beginning_of_day..mytime.end_of_day).to_a
 		@disp_sch = true
 		if params[:sch].present?
 			@disp_sch = true
