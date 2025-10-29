@@ -104,7 +104,7 @@ class LgbksController < ApplicationController
 	def tch_lgbk
 		@lgbk = Lgbk.find(params[:lgbk])
 		@kid = @lgbk.kid
-		@tm = Time.now
+		@tm = Time.now.in_time_zone('Singapore');
 		@taska = @lgbk.taska
 		@lgbk.fotos.build
 		if @admin
