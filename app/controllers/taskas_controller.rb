@@ -2422,8 +2422,9 @@ class TaskasController < ApplicationController
         dt_lp = dt
         stp_lp = Time.find_zone("Singapore").local(2016,1)
         cdtn_3 = nil
+        cdtn_3_par = cdtn_3
         while dt_lp >= stp_lp
-          if cdtn_3.blank?    
+          if cdtn_3_par == nil  
             cdtn_3 = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
           else
             tmp = payment.where(paid: true).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
@@ -2458,8 +2459,9 @@ class TaskasController < ApplicationController
         #CDTN_2 previous months bills paid partially this month
         #cdtn_2par = 0.00
         dt_lp=dt-1.months
+        payment_arr = payment.where(paid: false).to_a
         while dt_lp >= stp_lp
-          payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+          payment_arr.select { |p| p.bill_month == dt_lp.month && p.bill_year == dt_lp.year }.each do |pmt|
             tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
             if cdtn_2par.blank?
               cdtn_2par = tmp unless tmp.blank?

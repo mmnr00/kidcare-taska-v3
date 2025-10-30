@@ -100,10 +100,11 @@ wb.styles do |style|
     sheet.rows[2].style = highlight_cell
     counter = 1
     row =2
+    kb_arr = KidBill.where(payment_id: @unpaid_bills.ids).to_a
     @unpaid_bills.each do |bill|
       amt = bill.amount - bill.parpayms.sum(:amt)
       a=""
-      bill.kid_bills.each do |kb|
+      kb_arr.select { |item| item.payment_id == bill.id }.each do |kb|
         a=a+"\n"+kb.kid.name
       end
       sheet.add_row [counter,
