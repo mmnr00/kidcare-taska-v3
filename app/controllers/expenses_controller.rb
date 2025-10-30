@@ -76,7 +76,7 @@ def my_expenses
       cdtn_3par = 0.00 #To remove unpaid payment that already have partial
       parpayms_arr = Parpaym.where(payment_id: curr_pmt_unpaid).to_a
       curr_pmt_unpaid.each do |pmt|
-        if pmt.parpayms.present?
+        if parpayms_arr.any? { |item| item.payment_id == pmt.id }
           cdtn_1par += parpayms_arr.select { |p| p.upd < dt }.sum(&:amt)
           cdtn_3par += parpayms_arr.select { |p| p.upd >= dt }.sum(&:amt)
           #cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
