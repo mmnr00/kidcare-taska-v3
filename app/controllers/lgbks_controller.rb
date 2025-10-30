@@ -121,13 +121,15 @@ class LgbksController < ApplicationController
 		 		format.html
 		 		format.pdf do
 			   render pdf: "#{@lgbk.kid.name}",
-			   template: "lgbks/view_lgbk.html.erb",
+			   template: "lgbks/view_lgbk",
+			   formats: [:html],
+		   	 handlers: [:erb],
 			   #disposition: "attachment",
 			   #save_to_file: Rails.root.join('pdfs', "#{filename}.pdf"),
 	       #save_only: true, 
 			   #page_size: "A6",
 			   orientation: "portrait",
-			   layout: 'pdf.html.erb'
+			   layout: 'pdf'
 				end
 			end
 		else

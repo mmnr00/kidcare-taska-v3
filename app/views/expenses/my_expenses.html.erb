@@ -39,9 +39,13 @@
                 <% if params[:expense][:month].present? %>
                   <% 
                     tsk_pmt = @taska.payments.where(name: "KID BILL", paid: true)
+                    par_parpayms = Parpaym.where(payment_id: tsk_pmt.ids).to_a
                     partial_missing_plus = 0.00
                     tsk_pmt.each do |pmt|
-                      partial_missing_plus += pmt.parpayms.where('extract(year  from upd) = ?', params[:expense][:year]).where('extract(month  from upd) = ?', params[:expense][:month]).sum(:amt)
+                      #partial_missing_plus += pmt.parpayms.where('extract(year  from upd) = ?', params[:expense][:year]).where('extract(month  from upd) = ?', params[:expense][:month]).sum(:amt)
+                      partial_missing_plus += par_parpayms
+  .select { |p| p.upd.year == params[:expense][:year].to_i && p.upd.month == params[:expense][:month].to_i }
+  .sum(&:amt)
                     end
 
                     pay = @new_bills_paid# + partial_missing_plus

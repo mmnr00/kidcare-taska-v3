@@ -17,7 +17,7 @@ end
 
 
 def my_expenses
-	redirect_to mystudent_path(id: params[:id]) and return
+	#redirect_to mystudent_path(id: params[:id]) and return
 	@taska = Taska.find(params[:id])
 	@admin = current_admin
 	@data = Hash.new
@@ -58,8 +58,9 @@ def my_expenses
 			dt_lp = dt
 			stp_lp = Time.find_zone("Singapore").local(2016,1)
 			cdtn_3 = Payment.where(name: "Dummy Kaw Kaw")#nil
+			cdtn_3_par = cdtn_3
 			while dt_lp >= stp_lp
-				if cdtn_3.blank?		
+				if cdtn_3_par == nil	
 					cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 				else
 					tmp = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
@@ -73,18 +74,20 @@ def my_expenses
       #CDTN_1 All partials paid this month or previous month for current month bill
       cdtn_1par = 0.00
       cdtn_3par = 0.00 #To remove unpaid payment that already have partial
+      parpayms_arr = Parpaym.where(payment_id: curr_pmt_unpaid).to_a
       curr_pmt_unpaid.each do |pmt|
         if pmt.parpayms.present?
-          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt)
-          cdtn_3par += pmt.parpayms.where("upd >= ?", dt).sum(:amt)
+          cdtn_1par += parpayms_arr.select { |p| p.upd < dt }.sum(&:amt)
+          cdtn_3par += parpayms_arr.select { |p| p.upd >= dt }.sum(&:amt)
           #cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
         end
       end
       #CDTN_2 previous months bills paid partially this month
       cdtn_2par = 0.00
       dt_lp=dt-1.months
+      payment_arr = payment.where(paid: false).to_a
       while dt_lp >= stp_lp
-        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+        payment_arr.select { |p| p.bill_month == dt_lp.month && p.bill_year == dt_lp.year }.each do |pmt|
           cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
         end
       dt_lp -= 1.months
