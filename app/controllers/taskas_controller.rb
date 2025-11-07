@@ -761,7 +761,9 @@ class TaskasController < ApplicationController
   # GET /taskas/1.json
   def show
     # ada kt bawah func set_taska
-    redirect_to mystudent_path(id: @taska.id) and return
+    if !ENV['OVERVIEWCTR'].include? @taska.id.to_s
+      redirect_to mystudent_path(id: @taska.id) and return
+    end
     if 1==0 #@taska.bldt.blank? || @taska.remdt.blank? || @taska.psldt.blank?
       flash[:notice] = "Please Complete and Update Your Center Details to Proceed"
       redirect_to edit_taska_path(id: @taska.id, plan: @taska.plan) and return
