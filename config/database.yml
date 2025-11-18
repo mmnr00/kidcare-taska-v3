@@ -17,7 +17,7 @@ development:
   adapter: postgresql
   encoding: unicode
   #database: prod-anis
-  database: kcr-waba201025-1 #kcr-waba201025 #kcr25prd-v2 #kcr25prd-v1 #prod25-db #ckn21-db #prod-bcup1
+  database: kcr-11-25 #kcr-waba201025-1 #kcr-waba201025 #kcr25prd-v2 #kcr25prd-v1 #prod25-db #ckn21-db #prod-bcup1
   #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
@@ -31,7 +31,7 @@ test:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  database: kcr-waba201025-1 #kcr-waba201025 #kcr25prd-v2 #kcr25prd-v1 #prod25-db #ckn21-db #prod-bcup1
+  database: kcr-11-25 #kcr-waba201025-1 #kcr-waba201025 #kcr25prd-v2 #kcr25prd-v1 #prod25-db #ckn21-db #prod-bcup1
   #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1

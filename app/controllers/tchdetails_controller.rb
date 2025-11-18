@@ -41,11 +41,13 @@ class TchdetailsController < ApplicationController
 	 		format.html
 	 		format.pdf do
 		   render pdf: "(#{@tchdetail.name})",
-		   template: "tchdetails/show_pdf.html.erb",
+		   template: "tchdetails/show_pdf",
+		   formats: [:html],
+		   handlers: [:erb],
 		   #disposition: "attachment",
 		   #page_size: "A6",
 		   orientation: "portrait",
-		   layout: 'pdf.html.erb'
+		   layout: 'pdf'
 			end
 		end
 	end
