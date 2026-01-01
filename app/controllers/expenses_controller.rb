@@ -14,9 +14,136 @@ def new
 	@expense = Expense.new
 end
 
-
-
 def my_expenses
+	#redirect_to mystudent_path(id: params[:id]) and return
+	@taska = Taska.find(params[:id])
+	@admin = current_admin
+	@data = Hash.new
+	@expense = Expense.new
+	@expense.fotos.build
+	mth = params[:expense][:month].to_i
+	year = params[:expense][:year].to_i
+	if params[:expense][:month].present?
+		dt = Time.find_zone("Singapore").local(year,mth)
+		psldt = dt - @taska.pslm.months
+		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
+		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
+		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year])
+
+		#TASKA BILLS START
+			payment = @taska.payments.where.not(name: "TASKA PLAN")
+			curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
+			curr_pmt_paid = curr_pmt.where(paid: true)
+			curr_pmt_unpaid = curr_pmt.where(paid: false)
+
+			# arr_curr_pmt_paid =[]
+			# arr_curr_pmt_unpaid =[]
+			# curr_pmt.each do |pmt|
+			# 	if pmt.paid && pmt.parpayms.blank?
+			# 		arr_curr_pmt_paid << pmt.id
+			# 	else
+			# 		arr_curr_pmt_unpaid << pmt.id
+			# 	end
+			# end
+			# curr_pmt_paid = Payment.where(id: arr_curr_pmt_paid)
+			# curr_pmt_unpaid = Payment.where(id: arr_curr_pmt_unpaid)
+
+			#CDTN_1 = current period pay early
+			cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+			#CDTN_2 = current period pay this month
+			cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+			#CDTN_3 = previous period pay this month
+			dt_lp = dt
+			stp_lp = Time.find_zone("Singapore").local(2016,1)
+			cdtn_3 = Payment.where(name: "Dummy Kaw Kaw")#nil
+			cdtn_3_par = cdtn_3
+			while dt_lp >= stp_lp
+				if cdtn_3_par == nil	
+					cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+				else
+					tmp = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+					cdtn_3 = cdtn_3.or(tmp)
+				end
+				dt_lp = dt_lp - 1.months
+			end
+			@taska_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+
+			#start for partial
+      #CDTN_1 All partials paid this month or previous month for current month bill
+      cdtn_1par = 0.00
+      cdtn_3par = 0.00 #To remove unpaid payment that already have partial
+      @curr_pmt_unpaid = curr_pmt_unpaid
+      parpayms_arr = Parpaym.where(payment_id: curr_pmt_unpaid).to_a
+      cdtn_1par += parpayms_arr.select { |p| p.upd < dt }.sum(&:amt)
+      cdtn_3par += parpayms_arr.select { |p| p.upd >= dt }.sum(&:amt)
+      # curr_pmt_unpaid.each do |pmt|
+      #   if parpayms_arr.any? { |item| item.payment_id == pmt.id }
+      #   	@c1_arr << [pmt.id, parpayms_arr.select { |p| p.upd < dt }.sum(&:amt)]
+      #     cdtn_1par += parpayms_arr.select { |p| p.upd < dt }.sum(&:amt)
+      #     cdtn_3par += parpayms_arr.select { |p| p.upd >= dt }.sum(&:amt)
+      #     #cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
+      #   end
+      # end
+      #CDTN_2 previous months bills paid partially this month
+      cdtn_2par = 0.00
+      dt_lp=dt-1.months
+      payment_arr = payment.where(paid: false).to_a
+      while dt_lp >= stp_lp
+        payment_arr.select { |p| p.bill_month == dt_lp.month && p.bill_year == dt_lp.year }.each do |pmt|
+          cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
+        end
+      dt_lp -= 1.months
+      end
+      @bills_partial = cdtn_1par + cdtn_2par +cdtn_3par
+      #END PARTIAL
+
+			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
+			@payments_due = curr_pmt
+			@tot_unpaid = @payments_due.where(paid: false, fin: true).sum(:amount) - cdtn_1par -cdtn_3par
+			@c1 = cdtn_1par
+			@c3 = cdtn_3par
+			
+			#@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
+			bill_noppm = []
+			@taska_payments.where(paid: true).each do |pmt|
+				bill_noppm << pmt.id unless pmt.parpayms.present?
+			end
+			bill_noppm = Payment.where(id: bill_noppm) #all paid bills without partial payment
+
+			all_ppm_curr = []
+			@taska_payments.where(paid: true, name: "KID BILL").each do |pmt|
+				pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).each do |ppm|
+					all_ppm_curr << ppm.id
+				end
+			end
+			all_ppm_curr = Parpaym.where(id: all_ppm_curr)
+			# ppm_curr = Parpaym.where(payment_id: tsk_payments_paid.ids).where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
+			@dummy = all_ppm_curr.count
+			@new_bills_paid = bill_noppm.sum(:amount) + @bills_partial + all_ppm_curr.sum(:amt)
+			@arr = [bill_noppm.sum(:amount),@bills_partial,all_ppm_curr.sum(:amt)]
+			
+			@payments_pie = {
+										"unpaid"=>@tot_unpaid,
+										"paid"=> @new_bills_paid
+											}
+		#TASKA BILLS END
+		if !$taska_old.include? @taska.id.to_s
+			@pmt_gateway = @taska_payments.where(paid: true, mtd: "BILLPLZ").count*3.00
+		else
+			@pmt_gateway = 0
+		end
+		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', mth).where('extract(year from updated_at) = ?', year)
+	
+	else #yearly report
+		#nothing here refer to my_expenses_with_year_old
+
+	end
+	render action: "my_expenses", layout: "dsb-admin-account" 
+end
+
+
+
+def my_expenses_with_year_old
 	#redirect_to mystudent_path(id: params[:id]) and return
 	@taska = Taska.find(params[:id])
 	@admin = current_admin
