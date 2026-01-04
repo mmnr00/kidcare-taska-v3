@@ -147,7 +147,7 @@ class LgbksController < ApplicationController
 
 	def prt_lgbk
 		@kid = Kid.find(params[:kid_id])
-		@tm = Time.now
+		@tm = Time.now.in_time_zone('Singapore')
 		@tm = @tm + 1.days unless params[:tomm].blank?
 		if params[:lgbk].present?
 			@lgbk = Lgbk.find(params[:lgbk])
