@@ -1,5 +1,5 @@
 <div style="background-color:#ccccff; text-align: center">
-  <%= "#{Time.now.strftime("%d-%^b-%y")} (#{Date.today.strftime("%A")})" %>
+  <%= "#{Time.now.in_time_zone('Singapore').strftime("%d-%^b-%y")} (#{Date.today.in_time_zone('Singapore').strftime("%A")})" %>
 </div>
 
     
