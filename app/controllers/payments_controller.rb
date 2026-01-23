@@ -403,14 +403,17 @@ class PaymentsController < ApplicationController
       format.html
       format.pdf do
        render pdf: "Receipt for #{@taska.name}",
-       template: "payments/pdf_invoice_taska.html.erb",
+       template: "payments/pdf_invoice_taska",
+       formats: [:html],
+       handlers: [:erb],
        #disposition: "attachment",
        #page_size: "A6",
        #orientation: "landscape",
-       layout: 'pdf.html.erb'
+       layout: 'pdf'
       end
     end
   end
+
 
 
 
