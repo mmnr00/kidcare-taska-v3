@@ -70,6 +70,9 @@ class ApplicationController < ActionController::Base
       	payment.save
       end
 		end
+    # for testing
+    # payment.paid = true 
+    # payment.save
 	 end
 
 	 
