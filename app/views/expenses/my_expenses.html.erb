@@ -57,6 +57,7 @@
                     end
                   %>
                 <% end %>
+                <% pay = @taska.payments.where(name: "KID BILL", paid: true, bill_month: params[:expense][:month], bill_year: params[:expense][:year]).sum(:amount) %> <!-- New billing to cater for tele with graph, refer to above -->
                 <%= number_with_delimiter(pay.round(2), :delimiter => ',') %>
               </font>
              </h5>

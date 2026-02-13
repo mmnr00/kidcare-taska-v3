@@ -141,6 +141,7 @@ class TaskasController < ApplicationController
     paid = params[:paid]
     @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
     bill_account_common()
+    @payments = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
     respond_to do |format|
       #format.html
       format.xlsx{
