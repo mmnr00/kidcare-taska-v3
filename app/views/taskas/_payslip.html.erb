@@ -216,7 +216,13 @@ end %>
                   <strong>Employer SOCSO : </strong>
                 </p>
                 <p>
-                  <strong>Employer SIP : </strong>
+                  <strong>Employer EIS : </strong>
+                </p>
+                <p>
+                  <strong>Employer NEIS : </strong>
+                </p>
+                <p>
+                  <strong>Employer PCB : </strong>
                 </p>
               </td>
               <td class="text-left" colspan="1">
@@ -232,6 +238,12 @@ end %>
                 <p>
                   <strong><%= sipa %></strong>
                 </p>
+                <p>
+                  <strong><%= neisa %></strong>
+                </p>
+                <p>
+                  <strong><%= pcb %></strong>
+                </p>
               </td>
               <td class="text-right" colspan="1">
                 <p class="text-right" style="display: block;">
@@ -244,7 +256,7 @@ end %>
                   <strong>Your SOCSO : </strong>
                 </p>
                 <p>
-                  <strong>Your SIP : </strong>
+                  <strong>Your EIS : </strong>
                 </p>
               </td>
               <td class="text-center" colspan="2">
@@ -288,7 +300,7 @@ end %>
             <!-- START TOTAL -->
             <tr>
               <td class="text-right" colspan=""><h4><strong>Employer Contribution: </strong></h4></td>
-              <td class="text-left text-success"><h4><strong><%= (epfa.to_f + socsa.to_f + sipa.to_f).round(2) %></strong></h4></td>
+              <td class="text-left text-success"><h4><strong><%= (epfa.to_f + socsa.to_f + sipa.to_f + neisa.to_f + pcb.to_f).round(2) %></strong></h4></td>
               <td class="text-right" colspan=""><h4><strong>Nett Income: </strong></h4></td>
               <td class="text-center text-success"><h4><strong><%= nett.round(2) %></strong></h4></td>
             </tr>

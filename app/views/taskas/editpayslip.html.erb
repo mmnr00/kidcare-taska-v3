@@ -14,6 +14,8 @@ if params[:upd] == "true"
   socsa = params[:socsa]
   sip = params[:sip]
   sipa = params[:sipa]
+  neisa = params[:neisa]
+  pcb = params[:pcb]
   dedc = params[:dedc]
   descdc = params[:descdc]
   xtra = params[:xtra]
@@ -36,6 +38,8 @@ else
   socsa = @payslip.socsa
   sip = @payslip.sip
   sipa = @payslip.sipa
+  neisa = @payslip.neisa
+  pcb = @payslip.pcb
   dedc = @payslip.dedc
   descdc = @payslip.descdc
   xtra = @payslip.xtra
@@ -57,7 +61,7 @@ end %>
   <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
   <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
   <% psl_id = @payslip.psl_id %>
-  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa, xtra: xtra %>
+  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa, xtra: xtra, neisa: neisa, pcb: pcb %>
   <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
       <!-- FORM ENTRY CREATION -->
@@ -78,6 +82,8 @@ end %>
       <%= f.hidden_field :socsa, value: socsa %>
       <%= f.hidden_field :sip, value: sip %>
       <%= f.hidden_field :sipa, value: sipa %>
+      <%= f.hidden_field :neisa, value: neisa %>
+      <%= f.hidden_field :pcb, value: pcb %>
       <%= f.hidden_field :amtepfa, value: total %>
       <%= f.hidden_field :psl_id, value: psl_id %>
       <%= f.hidden_field :xtra, value: xtraf %>
@@ -192,8 +198,24 @@ end %>
                   class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
         </div>
         <div class="col-md-12">
-          <strong>OWNER SIP (RM)</strong>
+          <strong>OWNER EIS (RM)</strong>
           <%= number_field_tag :sipa, sipa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div><br><br><br><br>
+        <div class="col-md-12">
+          <strong>OWNER NEIS (RM)</strong>
+          <%= number_field_tag :neisa, neisa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>OWNER PCB (RM)</strong>
+          <%= number_field_tag :pcb, pcb, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,

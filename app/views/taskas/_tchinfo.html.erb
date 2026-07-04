@@ -69,6 +69,8 @@
   <% socsa = 0 %>
   <% sip = 0 %>
   <% sipa = 0 %>
+  <% neisa = 0 %>
+  <% pcb = 0 %>
   <% if (pinfo = @teacher.payinfos.where(taska_id: @taska.id)).present? %>
     <% amt = pinfo.last.amt %>
     <% alwnc = pinfo.last.alwnc %>
@@ -79,6 +81,8 @@
     <% socsa = pinfo.last.socsa %>
     <% sip = pinfo.last.sip %>
     <% sipa = pinfo.last.sipa %>
+    <% neisa = pinfo.last.neisa %>
+    <% pcb = pinfo.last.pcb %>
   <% end %>
   <div class="form-group"> <!-- name -->
     <div class="row">
@@ -161,7 +165,7 @@
   </div><br>
   <div class="row">
     <div class="col-sm-2 col-5">
-      <strong>STAFF SIP (RM) :</strong>
+      <strong>STAFF EIS (RM) :</strong>
     </div>
     <div class="col-sm-4 col-12">
      <%= f.number_field :sip, class: "form-control", :step => 0.01, autofocus: true, required: true, value: sip %>
@@ -173,7 +177,7 @@
   </div><br>
   <div class="row">
     <div class="col-sm-2 col-5">
-      <strong>OWNER SIP (RM) :</strong>
+      <strong>OWNER EIS (RM) :</strong>
     </div>
     <div class="col-sm-4 col-12">
      <%= f.number_field :sipa, class: "form-control", :step => 0.01, autofocus: true, required: true, value: sipa %>
@@ -181,6 +185,24 @@
      <a href="https://www.perkeso.gov.my/en/rate-of-contribution.html" target="_blank">
       <font color="blue">REFER TO SIP TABLE</font>
      </a>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>OWNER NEIS (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :neisa, class: "form-control", :step => 0.01, autofocus: true, required: true, value: neisa %>
+     Please put 0 if not applicable<br>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>OWNER PCB (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :pcb, class: "form-control", :step => 0.01, autofocus: true, required: true, value: pcb %>
+     Please put 0 if not applicable<br>
     </div>
   </div><br>
 

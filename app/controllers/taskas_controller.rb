@@ -2773,6 +2773,8 @@ class TaskasController < ApplicationController
                                   :socsa,
                                   :sip,
                                   :sipa,
+                                  :neisa,
+                                  :pcb,
                                   :teacher_id,
                                   :taska_id)
     end
@@ -2798,7 +2800,9 @@ class TaskasController < ApplicationController
                                       :dedc,
                                       :descdc,
                                       :notf,
-                                      :xtra)
+                                      :xtra,
+                                      :neisa,
+                                      :pcb)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
