@@ -59,7 +59,7 @@ end %>
   <div style="background-color:#ccccff"><h4 align="center">UPDATE PAYSLIP</h4></div>
   <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f + xtraval %>
   <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
-  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
+  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f + neisa.to_f + pcb.to_f %>
   <% psl_id = @payslip.psl_id %>
   <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa, xtra: xtra, neisa: neisa, pcb: pcb %>
   <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
