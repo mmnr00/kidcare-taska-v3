@@ -50,8 +50,8 @@
 
     
     <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f + xtraval %>
-    <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
-    <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f + neisa.to_f + pcb.to_f %>
+    <% nett = gross - epf.to_f - socs.to_f - sip.to_f -  neisa.to_f - pcb.to_f  %>
+    <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f  %>
     <% ctr = @taska.payslips.where(mth: params[:month], year: params[:year]).count %>
     <% psl_id = "#{@taska.subdomain}-#{params[:month]}-#{params[:year].last(2)}-#{ctr+1}" %>
     <% xtraf=xtra.to_s %>
