@@ -10,6 +10,10 @@ class TsklvsController < ApplicationController
 	def create
 		@admin = current_admin
 		@tsklv = Tsklv.new(tsklv_params)
+		if @tsklv.name == "ANNUAL LEAVE" || @tsklv.name == "UNPAID LEAVE"
+			flash[:danger] = "Jenis cuti tidak dibenarkan"
+			redirect_to request.referrer and return
+		end
 		if @tsklv.save
 				@taska = Taska.find(@tsklv.taska_id)
 				@taska.taska_teachers.where(stat: true).each do |tch|
