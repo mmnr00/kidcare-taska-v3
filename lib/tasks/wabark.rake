@@ -1,6 +1,7 @@
 desc "Send waba rake"
 task wabark: :environment do
 	Taska.where.not(waba: nil).each do |t|
+		arr = []
 		t.waba.each do |v|
 			to = v[0]
 			notftype = v[1]
@@ -8,7 +9,7 @@ task wabark: :environment do
 			tsk = v[3]
 			type = v[4]
 			
-			if Payment.where(id: pmt, paid: false).present?
+			if (Payment.where(id: pmt, paid: false).present?) && (!arr.include? [to,notftype,pmt,tsk,type])
 				payment = Payment.find(pmt)
 			  msgtype = {"remd" => ENV['WABA_TMP_REMD'], "new" => ENV['WABA_TMP_BILL']}
 			  data_isms_waba = HTTParty.post("https://ww3.isms.com.my/isms_send_waba.php",
@@ -25,6 +26,7 @@ task wabark: :environment do
 			                :To=> to}.to_json,
 			                :basic_auth => {},
 			          :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+			  sleep 1.0
 			  # data = JSON.parse(data_isms_waba.to_s)
 			  # puts data
 			  # sleep 0.5
@@ -36,9 +38,11 @@ task wabark: :environment do
 				  puts data
 				  # sleep 0.5
 				  sleep 1.0
-				  payment.waba << [Time.now,notftype,data["messageId"],to]
+				  payment.waba << [Time.now,notftype,"#{data["messageId"]} AND #{data["requestId"]} ",to]
 				  payment.fin = true
 				  payment.save
+				  arr << [to,notftype,pmt,tsk,type]
+				  puts arr
 				  puts "complete"
 				rescue JSON::ParserError => e
 					puts "Skipping #{e.message}"
